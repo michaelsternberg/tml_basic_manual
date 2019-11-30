@@ -1,0 +1,205 @@
+CHAPITRE 4
+----------
+L'EDITION AVANCEE DE PROGRAMME
+------------------------------
+Dans les chapitres 2 et 3, nous avons vu les principes pour ouvrir, fermer, compiler et exécuter des programmes. Dans ce chapitre nous allons voir d'autres caractéristiques, qui vous montrerons les commandes d'édition puissantes du TML BASIC. De plus, on etudiera les techniques pour imprimer un fichier et enfin, vous apprendrez trois commandes prodos, que vous pourrez ordonner depuis TML BASIC.
+
+CREER UNE NOUVELLE FENETRE D'EDITION
+------------------------------------
+
+Figure 4-1
+Tiled windows
+Se reporter à la documentation papier
+
+Une fois encore, bootez votre IIGS en utilisant la copie de travail de TML BASIC, et lancez TML BASIC. Installez votre environnement d'edition, en ouvrant tout d'abord le programme exemple HELLOWORLD.BAS, puis choisissez la commande NEW dans le menu FILE. Terminez le processus d'installation en choisissant la commande Tiled Windows, dans le menu Windows. La figure 4-1 montre l'apparence de l'écran que vous devrez obtenir après avoir installé votre environnement de travail.
+<page-footer>
+
+
+
+Page 42
+Plutot que d'utiliser un programme exemple tout seul pour décrire chacune des caractéristiques de l'éditeur que vous pouvez utiliser en TML BASIC, nous allons créer un nouveau programme en utilisant la fenetre vide que vous venez juste de créer. Le résultat sera un programme complet, écrit entièrement en empruntant du code source qui se trouve dans le programme exemple HELLOWORLD.BAS
+
+L'UTILISATION DU PRESSE PAPIER (CLIPBOARD)
+------------------------------------------
+TML BASIC gère une caractéristique d'édition appelée Clipboard (presse papier). Le clipboard est une ère de stockage temporaire pour le texte et est utilisé pour y ranger des mots, des lignes ou des portions entières de code source de programme. L'idée fondamentale du clipboard est de vous permettre d'emprunter du texte à un code source de programme existant, pour l'utiliser dans un autre endroit, soit à l'intérieur du meme programme, soit dans un programme différent.
+
+TML BASIC vous permets de placer des portions de texte sur le clipboard en utilisant une de ses commandes d'édition - cut (couper), copy (copier), paste (coller), clear (effacer) et select all (tout sélectionner) - que l'on trouve dans le menu EDIT, et dont nous allons parler dans les sections suivantes. Avant d'utiliser l'une de ces quatre commandes, il faut d'abord choisir la partie du texte que l'on doit placer dans le clipboard. On a trois méthodes pour choisir du texte : tirer (dragging), chiffre-cliquer (shift-clicking) et double-click (double clicking). Une méthode peut etre plus appropriée qu'une autre suivant la gamme de texte que l'on a à choisir.
+
+Avant d'étudier les trois moyens de choisir du texte, nous allons définir le point d'insertion en cours. Le point d'insertion en cours est localisé à l'endroit o| le curseur apparait et que l'on ait cliqué une fois la souris dans la fenetre active. En utilisant la localisation du point d'insertion en cours, vous pouvez commencert à entrer ou à effacer des caractères, ou vous pouvez utiliser la localisation pour marquer le début du texte qui doit etre choisi.
+
+Dragging (tirer) est la façon la plus facile de choisir du texte, et peut etre accomplie en déplaçant le curseur sur l'écran vers le début du texte que vous voulez choisir, puis en cliquant et en maintenant le bouton appuyé et en tirant le curseur vers la fin du texte que vous voulez choisir. Vous noterez que le texte choisi apparait en type noir (inversé). Dragging vous permets d'etre extremement précis sur le texte que vous choisissez.
+
+Deuxièmement, vous pouvez choisir du texte en shift-clicking (chiffre-cliquer). Pour chiffre-cliquer, placez le curseur au début du texte que vous souhaitez choisir et cliquez sur la souris une première fois. Ensuite, déplacez le curseur à la fin du texte désiré, gardez appuyée la touche chiffre et appuyez sur le bouton de la souris une nouvelle fois pour sélectionner ainsi tout le texte compris entre le premier et le dernier click. Cette méthode est la meilleure pour sélectionner une grande partie du code source d'un programme pour le placer sur le clipboard.
+
+Troisièmement, pour choisir du texte en cliquant deux fois, positionnez la souris sur le texte que vous voulez choisir et appuyez rapidement deux fois sur le bouton de la souris. Double-click sélectionnera le mot entier qui apparait sous le curseur. Le double-click est le plus utile quand on doit placer un seul mot sur le clipboard.
+<page-footer>
+
+
+
+Page 43
+LES COMMANDES D'EDITION
+-----------------------
+Au coeur du TML BASIC, se trouve la possibilité de vous aider à écrire des programmes. D'une façon différente des éditeurs conventionnels, TML BASIC vous fournit un environnement d'édition plein écran permettant en meme temps d'écrire des programmes plus rapidement et de faire des changements nécessaires au code source avec très peu de difficulté. 
+
+En ayant choisi HELLOWORLD.BAS comme la fenetre active, lancez la commande SELECT.ALL du menu EDIT. Notez que le contenu entier de la fenetre HELLOWORLD.BAS est inversé et passé en caractères noires. Souvenez vous que le type de caractères inversés représente le texte choisi. Maintenant, lancez la commande COPY du menu EDIT. Vous ne verrez aucun changement à l'écran, mais soyen certain que le texte choisi éxiste maintenant dans le clipboard du TML BASIC et peut etre utilisé pour vous aider à créer un nouveau programme.
+
+Positionnez le curseur n'importe o| dans la fenetre UNTITLED et cliquez la souris une fois. Cela activera la fenetre UNTITLED. Maintenant, déplacez le curseur sur la première ligne de la fenetre UNTITLED et cliquez la souris une fois pour créer le point d'insertion en cours. En sélectionnant la commande PASTE du menu EDIT, cela vous collera le contenu présent du clipboard dans la fenetre d'édition UNTITLED, en commancant au point d'insertion en cours. La figure 4-2 illustre le résultat de la commande SELECT ALL/COPY/PASTE.
+
+Figure 4-2
+Source code collé
+Se reporter à la documentation papier
+<page-footer>
+
+
+
+Page 44
+Contrairement à la commande COPY, la commande CUT fait que le texte choisi est complètement enlevé de l'endroit ou il se trouvait dans le code source d'un programme et est placé dans le clipboard pour etre utilisé à un autre endroit en utilisant la commande PASTE. Si vous aviez lancé la commande CUT au lieu de la commande COPY dans le dernier exemple, la fenetre d'édition HELOWORLD.BAS apparaitrait vide et tout son contenu serait placé dans le clipboard TML BASIC. 
+
+Ceci amène à l'esprit une dernière commande d'édition, la commande CLEAR. Lancez la commande CLEAR après avoir choisi tout le texte d'un programme provoque l'effacement du contenu de la fenetre active. Le code source du programme n'est pas placé dans le clipboard, et il serait necessaire de lancer la commande REVERT du menu FILE, afin de restaurer le code source du programme. La commande clear est utile quand vous souhaitez effacer une partie choisie de texte, ou tout le contenu texte d'une fenetre, sans déranger le contenu du clipboard. 
+
+Evidemment, les commandes d'édition TML BASIC ne sont pas limités au choix du code source tout entier d'un programme. L'utilisation d'une des trois techniques dont nous avons discuté dans les sections précédentes pour choisir du texte (dragging, shift-clicking et double-clicking) vous permets de couper, copier, coller et/ou effacer n'importe quelle portion de texte à l'intérieur d'un programme.
+
+Notez que le clipboard ne peut contenir qu'un seul élément d'information à la fois, de sorte qu'à chaque fois que vous coupez ou copiez dans une fenetre, toute information précedemment dans le clipboard est remplacée. Par contre, à chaque fois que vous collez à partir du clipboard, une copie de l'élément d'information reste dans le clipboard.
+
+CHERCHER ET CHANGER (find and change)
+-------------------------------------
+Après avoir collé le code source tout entier du programme HELLOWORLD.BAS, dans la fenetre UNTITLED, la partie suivante de notre exercice consistera à changer chaque occurence de la chaine de caractères "Hello World" en "First Attempt" dans la fenetre UNTITLED. Evidemment, une façon de faire cette opération serait de déplacer le curseur à la fin de chaque occurence de la chaine "Hello World", puis de revenir sur chaque chaine "Hello World" et de retaper "First Attempt". Ceci peut etre extremement ennuyeux et prendre beaucoup de temps. Nous allons donc examiner la possibilité de TML BASIC pour trouver des chaines de texte, et les remplacer avec d'autres chaines de texte.
+
+Le menu SEARCH de TML BASIC contient trois commandes pour trouver et changer du texte dans une fenetre active. La première commande est l'élement de menu WHAT TO FIND... Si vous choisissez cette commande vous aurez la boite de dialogue TML BASIC Find, montrée dans la figure 4-3. La boite de dialogue Find vous demande 2 entrées, FIND WHAT (trouver quoi) et CHANGE TO, (changer en) . Les trois boutons, Find (trouver), Cancel (annuler) et Change All (changer tout).
+<page-footer>
+
+
+
+Page 45
+Figure 4-3
+Boite de dialogue Find (chercher)
+Se reporter à la documentation papier
+
+L'élément FIND WHAT est l'endroit o| l'on spécifie la chaine que l'on désire rechercher. Pour notre exemple, il faut entrer la chaine Hello World. Si tout ce que vous désirez est de trouver la prochaine occurence de cette chaine de caractères, alors appuyez sur le bouton FIND, dans la boite de dialogue FIND. La boite de dialogue va disparaitre et TML BASIC rechercher dans le programme contenu dans la fenetre active, en commançant au point d'insertion en cours, la prochaine occurence de Hello World. Toutefois, dans notre exemple, vous avez également besoin de changer la chaine Hello World, en une chaine First Attempt, une fois qu'elle est trouvée. Donc, vous devez rentrer la chaine First Attempt dans l'élément d'édition de texte CHANGE TO , puis appuyer sur le bouton FIND.
+
+Après avoir appuyé sur le bouton FIND, la chaine Hello World est trouvée et automatiquement affichée en inverse vidéo. Pour changer la chaine Hello World en First Attempt, comme spécifié dans l'élément d'édition de texte CHANGE TO de la boite de dialogue FIND, vous n'avez qu'à lancer la commande CHANGE THEN FIND (changer puis trouver) du menu SEARCH. Après avoir changé la chaine, TML BASIC recherche la prochaine occurence de Hello World. Une fois que chaque occurence de la chaine Hello World a été changée en utilisant cette méthode, TML BASIC vous rapporte dans une boite de dialogue d'erreur, que l'on ne peut plus trouver la chaine. 
+
+Vous auriez pu vous épargner le temps pour trouver et changer chaque occurence de la chaine Hello World, en appuyant sur le bouton CHANGE ALL de la boite de dialogue FIND
+
+Une dernière modification que vous devriez faire, serait de sauvegarder le programme sur disque, sous le nouveau nom FIRSTATTEMPT.BAS. En choisissant la commande SAVE AS (sauvegarder sous) du menu FILE, vous aurez sur votre écran, affiché une boite de dialogue SAVE FILE.
+<page-footer>
+
+
+
+Page 46
+La boite de dialogue SAVE FILE, contient des boutons vous permettant de déterminer le disque et le dossier o| vous désirez sauvegarder votre nouveau programme, aussi bien que le nom que l'on lui donnera pour un usage futur.
+
+Le disque et le dossier seront déjà identifiés respectivement comme étant la disquette TML BASIC, et le dossier PART1.EXAMPLES. Ainsi tout ce que vous avez besoin de faire est de rentrer le nom FIRTSATTEMPT.BAS au point d'insertion Save Document as, de la boite de dialogue.
+
+Le résultat de ces changements, aussi bien que le résultat des commandes copier et coller que l'on a éxécuté, est un nouveau programme, qui, pour sa plus grande partie, fait exactement ce que fait le programme HELLOWORLD.BAS. La figure 4-4 illustre l'apparence de l'écran après que l'on ait crée le nouveau programme FIRSTATTEMPT.BAS
+
+Figure 4-4
+Nouveau fichier FIRTSATTEMPT.BAS
+Se reporter à la documentation papier
+
+IMPRIMER
+--------
+TML BASIC peut imprimer le contenu de la fenetre d'édition active, en utilisant la commande PRINT (imprimer) du menu FILE. En choisissant cette commande, le text qui se trouve dans la fenetre la plus en haut est imprimé sur l'imprimante, en utilisant les options d'impression en cours. TML BASIC imprime directement sur l'un des ports série (slots 1 et 2). Ainsi TML BASIC peut imprimer sur une imprimante série quelconque, telle que l'imagewriter, ou sur toute imprimante parallèle, connectée à une carte interface qui se trouve soit dans le slot 1, soit dans le slot 2. TML BASIC fournit trois commandes dans le menu FILE pour controller la façon dont un fichier est imprimé : PRINT OPTIONS (options d'impression), PAGE SETUP (mise en page) et CHOOSER (choix de l'imprimante).
+<page-footer>
+
+
+
+Page 47
+La commande options d'impression (PRINT OPTIONS) est utilisée pour définir l'information imprimée sur une page. Quand on sélectionne cette commande, on obtient une boite de dialogue Print Options, comme celle montrée dans la figure 4-5
+
+Figure 4-5
+Boite de dialogue options d'impression
+Se reporter à la documentation papier
+
+Quand TML BASIC imprime un fichier sur l'imprimante, il imprime de façon optionnelle, une en-tete en haut de chaque page. L'en tete peut inclure le nom du fichier (Print Title), la date en cours et l'heure (Print Date/Time), et les numéros de page (Print Page Numbers). Si une option est cochée, TML BASIC imprime l'information correspondante dans l'en tete. Si aucune des options n'est choisie, il n'est pas imprimé d'en tete.
+
+La commande PAGE SETUP donne l'affichage d'une boite de dialoge Page Setup (Figure 4-6). Cette boite de dialogue est utilisée pour configurer la façon dont TML BASIC imprime une page. Il y a deux options: CONTINUOUS (continu) et CUT SHEET (saut de page). Si on choisi CONTINUOUS, un en tete n'est imprimé que sur la première page, et il n'y a pas de ligne blanche imprimée à la fin, ou au début d'une nouvelle pagre. Cette option permets d'imprimer un nombre maximum de ligne sur chaque page. Toutefois, si le papier n'est pas bien aligné, il se peut qu'une ligne de texte soit imprimée sur la séparation de deux pages.
+
+Si on utilise l'option CUT SHEET, un en tete est imprimé au début de chaque page et des lignes blanches sont imprimées à la fin et au début de chaque page. Quand on a choisi cette option, il faut choisir le nombre de lignes par page. Le réglage par défaut est pour du papier standard de 8 Pouces 1/ 2 sur 11 Pouces.
+<page-footer>
+
+
+
+Page 48
+Finallement, la boite de dialogue Page Setup vous permets de rentrer une séquence de caractères spéciale, représentant une commande d'imprimante. Cette séquence de caractères est envoyée à l'imprimante avant l'impression de tout fichier. La commande d'imprimante peut etre utilisée pour dire à une imprimante d'utiliser une fonte incorporée spéciale de caractères, ou une taille de fontes, ou la taille d'une page etc.... Afin d'envoyer un caractère de controle à l'imprimante, utilisez le caractère ^ (accent circonflexe) suivi de la lettre appropriée qui définit le caractère de controle. Exemple, ^? renvoie en ASCII ?? (un caractère escape). Voir l'appendice E pour ces codes.
+
+Figure 4-6
+Boite de dialogue mise en page (Page Setup)
+Se reporter à la documentation papier
+
+L'élément de menu CHOOSER (sélecteur) vous permet de spécifier à TML BASIC auquel des deux ports série (port imprimante ou port modem) votre imprimante est connectée. Si vous avez modifié le panneau de controle de votre IIGS, de telle façon que soit le slot 1, soit le slot 2 n'utilise pas le port incorporé, mais au lieu de cela, une carte dans ce slot, TML BASIC obeira à cette modification, de sorte que vous puissiez utiliser une imprimante parallèle avec sa carte appropriée.
+
+Cette commande de menu provoque l'affichage d'une boite de dialogue Choose Printer Connection (choix de connection d'imprimante), comme montré dans la figure 4-7. L'icone imprimante indique le port imprimante incorporé, ou slot 1 et l'icone téléphone indique le port modem incorporé, ou slot 2. Cliquez la souris sur l'icone à laquelle est reliée l'imprimante.
+<page-footer>
+
+
+
+Page 49
+Figure 4-7
+Boite de dialogue Choose Printer Connection (choix de connection d'imprimante)
+Se reporter à la documentation papier
+
+De plus, après avoir choisi le port imprimante, vous devriez également vous assurer que le port choisi est configuré correctement pour le type d'imprimante que vous utilisez. Vous pouvez changer la configuration des ports série en utilisant le panneau de controle du IIGS. Si vous n'etes pas familier avec ce type d'opération, reportez vous à l'appendice A de votre manuel de l'utilisateur du IIGS.
+
+Tous vos choix concernant les configurations d'imprimante sont sauvegardés dans le fichier TMLBASIC.OPTS, de telle façon que vous n'avez pas besoin de spécifier vos choix, à chaque fois que vous utilisez TML BASIC.
+
+Après avoir choisi la configuration d'imprimante correcte, cliquez la souris une fois sur le programme FIRSTATTEMPT.BAS en activant ainsi la fenetre, si ce n'était pas déjà fait, puis choisissez la commande PRINT du menu FILE.
+
+Pendant que TML BASIC imprime le contenu de la fenetre active, une petite boite de dialogue Print est affichée au milieu de l'écran d'édition. Avant de lancer une commande PRINT, assurez vous que votre imprimante est en service et qu'elle a été choisie. Pour annuller une impression à tout moment, appuyez sur le bouton de la souris, ou sur n'importe quelle touche du clavier.
+
+LES DIALOGUES DE PREFERENCES (PREFERENCES DIALOG)
+-------------------------------------------------
+Les commandes PREFERENCES que l'on trouve dans le menu COMPILE, vous permettent de modifier la façon dont vous utilisez TML BASIC.
+<page-footer>
+
+
+
+Page 50
+Les Preferences dialog contiennent les informations importantes vous permettant de modifier les fonctionnalités du TML BASIC selon vos propres besoins. L'information contenue dans le dialogue est extremement importante et va de l'ajustement des taquets de tabulation du TML BASIC, jusqu'à la libération d'espace mémoire. Le chapitre 6 inclus une description détaillée de chaque élément que l'on trouve dans les Preferences dialog et devrait etre étudié soigneusement, avant de commencer à programmer.
+
+LES COMMANDES PRODOS EN TML BASIC
+---------------------------------
+TML BASIC vous donne l'accès à trois commandes prodos sans avoir à quitter l'environnement TML BASIC. Pour voir ces commandes, déroulez le menu PRODOS. Vous verrez les éléments de menu RENAME (renommer), DELETE (effacer) et TRANSFER. L'utilisation de ces trois commandes prodos pendant que vous travaillez sous TML BASIC vous permettra d'économiser beaucoup de temps de programmation, car vous n'aurez pas besoin de quitter TML BASIC, à chaque fois que vous voudrez utiliser l'une de ces commandes. 
+
+Choisir l'une de ces trois commandes PRODOS provoque l'affichage d'une version modifiée d'une boite de dialogue  Get File. Le bouton OPEN de la boite de dialogue Get File sera changé avec le titre approprié, correspondant à la commande que l'on dédire éxécuter. 
+
+Choisissez la commande DELETE du menu PRODOS. La boite de dialogue GET FILE est affichée comme montré dans la figure 4-8 et vous permet de choisir le fichier que vous désirez effacer. Choisissez le fichier FIRSTATTEMPT.BAS, crée précédemment dans ce chapitre, et effacez le.
+
+Figure 4-8
+Boite de dialogue Get File - Delete
+Se reporter à la documentation papier
+<page-footer>
+
+
+
+Page 51
+Avant que TML BASIC n'efface le fichier sur le disque, il affiche la boite de dialogue delete confirmation (confirmation de suppression) (figure 4-9). Cette boite de dialogue vous donne une dernière chance pour empecher l'effacement d'un fichier que vous ne désirez pas effacer. Dans ce cas particulier, nous sommes sur que le fichier FIRSTATTEMPT.BAS doit etre effacé. Donc, cliquez la souris sur le bouton YES, afin d'effacer le fichier de votre disquette de travail TML BASIC.
+
+Figure 4-9
+Boite de dialogue de confirmation de suppression
+Se reporter à la documentation papier
+
+La seconde commande prodos disponible en TML BASIC vous permet de renommer un fichier depuis TML BASIC. Après avoir sélectionné le fichier que vous désirez renommer, TML BASIC fait apparaitre une boite de dialogue RENAME, vous permettant de changer le nom en cours du fichier choisi. De ce point de vue, chacune des trois commandes prodos se ressemble. On vous donne toujours une seconde opportunité d'empecher par inadvertance les conséquences d'un effacement ou d'un renommement de fichier, ou de transfer de controle de programme.
+
+La troisième commande prodos disponible en TML BASIC est la commande TRANSFER. La commande TRANSFER est utilisée pour quitter TML BASIC de façon permanente et transférer le controle à une autre application Prodos. (meme à une application que vous auriez pu avoir crée en utilisant TML BASIC) Après avoir transféré le controle à une application choisie, vous ne pouvez retourner dans TML BASIC qu'en quittant l'application que vous venez de choisir, puis en relancant TML BASIC depuis le finder du IIGS.
+
+Le chapitre 6 donne une référence complète à toutes les commandes du TML BASIC, ainsi que toutes ses caractéristiques, et on devrait s'y référer pour plus d'informations, sur chacune des trois commandes prodos disponibles depuis TML BASIC.
+<page-footer>
+
+
+
+Page 52
+Dans ce chapitre, nous avons expliqué certaines des commandes d'édition avancées disponibles pour créer un nouveau programme similaire au programme HELLOWORLD.BAS utilisé au travers des chapitre 2 à 4. Vous avez également appris à imprimer des listings de programme et comment utiliser les trois commandes prodos puissantes sans quitter TML BASIC. On a également eu un aperçu de la modification de l'environnement TML BASIC par l'intermédiaire de la boite de dialogue preferences, en discutant un peu de ce que l'on verra plus tard dans le chapitre 6.
+
+Comme toujours, assurez vous de fermer toutes les fenetres d'édition ouvertes utilisées dans ce chapitre et quittez TML BASIC en utilisant la commande QUIT.
+
+Le chapitre suivant introduit quelques unes des instructions fondamentales qui font partie du langage TML BASIC. Une grande comprehension de l'environnement de travail TML BASIC comme on en a parlé jusqu'à présent permettra d'augmenter vos performances au clavier quand vous étudierez le chapitre 5.
+
+Le chapitre 6 inclus une brève description de chacune des caractéristiques du TML BASIC et devrait etre utilisé comme une référence quand vous programmerez.
+
+Fin du chapitre 4
+
+
+
+
+Page 53

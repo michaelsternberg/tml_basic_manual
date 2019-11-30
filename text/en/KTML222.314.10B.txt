@@ -1,0 +1,2129 @@
+
+
+
+
+Page 222
+LEFT$ Function
+---------------
+
+Syntax
+
+  LEFT$ (StringExpression, NumericExpression)
+
+Action
+
+The LEFT$ function returns a string with a number of characters equal to DigitalExpression, this string being the leftmost string in the string ExpressionChaine
+
+ExpressionString can be any string variable, string constant, or string expression. If NumericExpression is a real value, it is rounded up to the nearest whole number. The value of DigitalExpression can be an integer in the range 1 to 255, otherwise we will get the error: "illegal quantity error". To find the number of characters in the chain, use the LEN function.
+
+See as well
+   LEN
+   MID$
+   RIGHT$
+
+Example
+PRINT LEFT$ ("TML BASIC IS GREAT", 9)
+
+obtained result
+TML BASIC
+<Page-footer>
+<Page-break>
+
+Page 223
+LEN Function
+-------------
+
+Syntax
+
+   LEN (ExpressionChaine)
+
+Action
+
+The LEN function returns an integer, which is the number of characters in ExpressionChaine.
+
+Example
+Name$ = "TML BASIC"
+PRINT LEN (Name$)
+
+obtained result
+9
+<Page-footer>
+<Page-break>
+
+Page 224
+LET Instruction
+
+Syntax
+   <LET> VariableName = AnyExpression
+
+Action
+The LET statement, also known as the assignment statement, assigns the value of AnyExpression to the VariableName variable. VariableName can be a simple variable or an element of an array. Only one affirmation assignment is allowed. Note that the reserved word LET is optional.
+If the VariableName variable type is numeric, then AnyExpression can be anything numeric. TML BASIC automatically converts the value of NumeriqueExpression into the corresponding variable type if the numeric type is missing. Finally, if the value can not be represented in this type, then we get the error "Overflow Error". A "Type Mismatch Error" error occurs if AnyExpression is a string expression.
+
+If the variable is a string, then AnyExpression must also be a string, otherwise we get a "Type Mismatch Error" error.
+
+See as well
+   FN =
+   Chapter 7, Arrays
+
+Example
+LET Value1 = 30
+LET Value2 = 23
+LET Value3 = 8
+LET Sum = Value1 + Value2 + Value3
+
+OR
+
+Value1 = 30
+Value2 = 23
+Value3 = 8
+Sum = Value1 + Value2 + Value3
+<Page-footer>
+<Page-break>
+
+Page 225
+LIBRARY Instruction
+--------------------
+
+Syntax
+
+   LIBRARY <PathName>
+
+Action
+
+The LIBRARY statement is used in a program to load a compiled library file into memory, and enter all the procedure and function declarations of the library in the symbol table of the program, as if the declarations were made in the source code . There are two types of TML BASIC libraries, user-defined libraries created by the DEF LIBRARY statement, and predefined libraries that allow access to the TOOLBOX.
+
+The LIBRARY statement can appear anywhere in a program.
+Before TML BASIC compiles a program, it first searches the file for all occurrences of the LIBRARY statement. At each LIBRARY statement encountered, these declarations are entered in the symbol table of the program and made available for the entire program.
+
+LIBRARY statements whose predefined names TOOLBOX libraries have another purpose. As defined in Chapter 11, several of the Toolbox Toolboxes are not available in ROM and are contained on disk files, which must be loaded in RAM. When a LIBRARY statement names a TOOLSET that is not in ROM, TML BASIC automatically generates the code to load the disk file into RAM.
+
+When a library name is specified in the LIBRARY statement, TML BASIC searches through the compiled libraries file. The library file is not the source code for the library, but its declaration and compiled code. As described in chapter 3, the name of a library file is the name of the library with the suffix ".LIB". For example, the name of the library file for QUICKDRAW is QUICKDRAW.LIB.
+
+TML BASIC is looking at three different places to find a library file. First, it reloads to see if the library is already in memory. Second, it looks in the same folder as the source code containing the LIBRARY statement. And finally, if the file is not found in the folder, it looks in the directory specified in the 'Library Search Path' option of the Dialogue Preferences procedure (see Chapter 6 for more details). details on this Dialogue Preferences). If the file is not found in one of these three places, then TML BASIC returns an error. However, it is possible to direct TML BASIC by specifying the full path of the library file.
+<Page-footer>
+<Page-break>
+
+Page 226
+See as well
+   DEF LIBRARY
+   Chapter 8
+   Chapter 11
+
+Example
+LIBRARY "Memory"
+LIBRARY "QuickDraw"
+LIBRARY "/ TML / LIBRARIES / QUICKDRAW"
+<Page-footer>
+<Page-break>
+
+Page 227
+LOCAL Instruction
+------------------
+
+Syntax
+
+   LOCAL VariableName <, VariableName>
+
+Action
+
+The LOCAL statement is allowed only within a function or multi-line procedure. LOCAL is used to declare a simple variable as a temporary local variable for the sole use of the procedure or function. Local arrays are not supported
+
+When a procedure or function is called, storage for local variables is temporarily allocated and initialized to zero or the null string value. When the procedure or function ends, the storage is deallocated. Local variables do not retain their value between calls. A good programming practice is the use of FN = variants of assignment instructions within a procedure or function to ensure that only references to local variables are made. The use of the FN = instruction also allows a self-documented code.
+LOCAL statements in a procedure or function must appear immediately after the DEF PROC or DEF FN statements and before any other statement except for the REM instruction
+
+See as well
+   DEF FN
+   DEF PROC
+   FN =
+   Chapter 8, Local variables
+
+Example
+DEF PROC AverageThree (Val1, Val2, Val3)
+LOCAL Somme
+LOCAL Average
+FN Sum = Val1 + Val2 + Val3
+FN Average = Sum / 3
+PRINT "The average is:" Average
+END PROC AverageThree
+<Page-footer>
+<Page-break>
+
+Page 228
+LOCATE Instruction
+-------------------
+
+Syntax
+
+   LOCATE <Row> <, Column>
+
+Action
+
+The LOCATE statement is used to change the horizontal and vertical cursor position values ​​of the text screen. This instruction essentially reproduces the features of the HPOS and VPOS reserved variables.
+Row and Column must have numeric expressions. The Row argument changes the vertical position of the cursor, takes the specified value, and must be in range 1 through 24. The Column argument changes the horizontal position of the cursor and must be in range 1 to 80. The row arguments and column are optional. If only one of the arguments appears, the other component of the cursor position is not affected. Obviously, using the LOCATE statement without any arguments makes no sense, but is still allowed.
+
+See as well
+   HPOS and VPOS
+
+Example
+LOCATE 5.2: PRINT "HELLO" 'Change the vertical and horizontal position of the cursor
+LOCATE, 10: PRINT "Goodbye" 'Change only the horizontal position of the cursor
+LOCATE 6: PRINT "Hello" 'Change only the vertical position of the cursor
+<Page-footer>
+<Page-break>
+
+Page 229
+LOCK and UNLOCK Instruction
+---------------------------
+
+Syntax
+
+   LOCK PathName
+   UNLOCK PathName
+
+Action
+
+The LOCK and UNLOCK instructions are used to change the write protection of a file.
+
+The LOCK statement prohibits writing, saving, and deleting a file named in PathName. PathName is a string expression and must represent an allowed Prodos 16 PathName. A volume can not be locked, but we can lock subdirectories.
+Any subsequent attempts to change the contents of a locked file will result in the "File Locked" error.
+
+UNLOCK removes the write protection of a file previously protected by LOCK. An unlocked file can be deleted, saved, renamed or saved.
+
+See as well
+   Chapter 9, Files
+
+Example
+LOCK MyFile$
+UNLOCK MyFile$
+LOCK "/TML/PART1.EXAMPLES/HELLOWORLD.BAS"
+<Page-footer>
+<Page-break>
+
+Page 230
+LOG, LOGB%, LOG1 and LOG2 Functions
+---------------------------------
+
+Syntax
+
+   LOG (X)
+   Logb% (X)
+   LOG1 (X)
+   LOG2 (X)
+
+Action
+
+The LOG statement returns the natural logarithm of X. The natural logarithm is based on e.
+
+The LOGB% statement returns the binary exponent of the actual value X as a signed integer.
+
+The LOG1 instruction accurately calculates the natural logarithm of
+X + 1. If X is small, then the calculation of LOG1 is more accurate than LOG (X + 1)
+
+The LOG2 statement returns the logarithm in base 2 of X.
+For these 4 instructions, X is a numeric expression.
+
+Example
+PRINT LOG (EXP (1))
+PRINT LOGB% (100.0)
+PRINT LOG1 (EXP (1))
+PRINT LOG2 (32)
+
+obtained result
+1
+6
+1.3132632
+5
+
+<Page-footer>
+<Page-break>
+
+Page 231
+MENUDEF Instruction
+--------------------
+
+Syntax
+
+   MENUDEF ItemNumber, Label <, Label>
+
+Action
+
+The MENUDEF statement is used to store subroutine labels in the Item Dispatch Table Menu. The Item Dispatch Table Menu is a special data structure defined by TML BASIC to direct the control of the program to the subroutines proposed in the drop-down menus. The MENUDEF instruction works in coordination with the TASKPOLL and EVENTDEF instructions.
+
+The 'Menu Item Dispatch Table' has 128 entries numbered from 0 to 127. As described in Chapter 13, each drop-down menu contains one or more submenus. Each submenu is associated with a Menu Item Identification Number (Menu Item ID). The item IDs menu for menus created by TML BASIC programs must be in the range 250 to 377 inclusive. These menu item IDs correspond directly to the entries in the 'item dispatch table' menu. The sub-menu identification number map to the Dispatch Table entries is made by subtracting 256 from the value of the sub-menu ID number.
+
+When the TASKPOLL instruction is executed, and it detects the event in the menu bar, the control is transferred to the subroutines of manipulation of the submenu specified in the 'item dispatch table' menu. For this to happen, the event dispatch table for the event of the menu bar must be zero (index 17), otherwise the control is transferred to the event handling subroutine that is there. specified. If index 17 of the menu events menu is empty, TASKPOLL subtracts 250 from the identification number of the selected submenu and looks at the sub-menu manipulation sub-routines in the Dispatch Table Menu. If a subroutine has been defined, the control is transferred to the specified subroutine, otherwise TASKPOLL continues the normal execution. Sub-menu subroutines end with the RETURN 0 statement instead of the normal RETURN statement.
+
+See as well
+   EVENTDEF
+   TASKPOLL
+
+Example
+MENUDEF 0, doNew
+MENUDEF 1, doOpen
+MENUDEF 2, doClose
+<Page-footer>
+<Page-break>
+
+Page 232
+MID$ Function
+--------------
+
+Syntax
+
+   MID$ (StringExpression, Start <, Length>)
+
+Action
+
+The MID$ statement returns a string of length length, contained in ExpressionString, this string beginning with the number numbered Beginning. Start and Length must be numeric expressions whose value is in the range 1 to 255 otherwise we get the message "Illegal Quantity Error". If the Length parameter does not appear, or if there are fewer characters to the right than the beginning of characters, the MID$ statement returns all the rightmost characters. If start is greater than the number of characters in the string, MID$ returns an empty string.
+
+To determine the number of characters in a string, use the LEN function.
+
+See as well
+   LEFT$
+   LEN
+   RIGHT$
+
+Example
+INPUT "Binary number ="; Binary$ 'Input of a binary number as a string
+ValDecimal = 0
+FOR i% = 1 to LEN (Binary$)
+    Number$ = MID$ (Binary$, i%, 1) 'Take the numbers individually
+    ValDecimal to = 2 * ValDecimal to + VAL (Digit$)
+NEXT i%
+
+Print "Decimal number ="; Valdécimaleà
+
+obtained result
+Binary number = 101001
+Decimal number = 41
+
+<Page-footer>
+<Page-break>
+
+Page 233
+NEGATE Function
+-----------------
+
+Syntax
+
+   NEGATE (NumericExpression)
+
+Action
+
+The NEGATE function returns the negation of NumericExpression, ie -NumericExpression. This seemingly simple function is included in TML BASIC because of the special infinity and possible NaN result using the IIGS SANE floating point capability.
+
+See as well
+
+   Chapter 7
+
+Example
+
+   someValue = 5.2394
+   PRINT NEGATE (someValue)
+
+obtained result
+
+   -5.2394
+<Page-footer>
+<Page-break>
+
+Page 234
+NORMAL Instruction
+--------------------
+
+Syntax
+
+   NORMAL
+
+Action
+
+The NORMAL statement is used to change the display of all subsequent characters written on the text screen to normal video, as opposed to reverse video. If you are using a monochrome monitor, NORMAL causes white characters to appear on a black background. If you are using a color monitor, the effect will depend on your monitor settings. In this case, it is more appropriate to use the terms background and foreground color text.
+
+NORMAL does not affect characters that are already displayed on the screen, but only the output on the screen after the NORMAL instruction has been executed. NORMAL does not affect characters written to a file.
+
+See as well
+
+   REVERSE
+
+Example
+
+   NORMAL
+   PRINT "This is the normal display"
+   REVERSE
+   PRINT "This is the reverse display"
+
+<Page-footer>
+<Page-break>
+
+Page 235
+ON BREAK and OFF BREAK Instructions
+------------------------------------
+
+Syntax
+
+   ON BREAK statementlist
+   OFF BREAK
+
+Action
+
+The ON BREAK instruction is used in a program to control what action to take when a control C character (a break character) is typed on the keyboard. The ON BREAK instruction is a special case of the ON ERR instruction, used to handle all other Runtime errors. The ON BREAK statement can be used to activate a BREAK management mechanism.
+
+When a C control character is typed and the ON BREAK instruction has been executed, the control will be temporarily suspended and transferred to the instruction sequence following the ON BREAK instruction. After the BREAK has been managed the control can resume at the previous point by executing the RESUME statement.
+
+The OFF BREAK statement cancels the ON BREAK statement. If there is no ON BREAK statement active when control C is typed, the program execution ends.
+
+If the BREAK OFF statement was executed, TML BASIC does not check that the control C character is typed. Thus, it is impossible to use the BREAK user mechanism to transfer the control to the ON BREAK instruction list, or to abort the program. BREAK ON restores checking control C character.
+
+See as well
+
+   BREAK ON and BREAK OFF
+   ON ERR
+   ABSTRACT
+
+The differences between Compiler and Interpreter.
+The ON BREAK statement requires the generation of a large amount of code by TML BASIC. Since most programs
+does not use the ON BREAK statement, TML BASIC allows you to disable the code generation necessary to support this instruction. This is done by turning off the On Error option in the Dialog Preferences, or by using the $OnError Metainstruction. If OnError code generation is disabled and a program uses this statement, TML BASIC will give you the error:
+
+   "On Error option must be ON for this statement."
+   (The On Error option must be ON for this instruction)
+<Page-footer>
+<Page-break>
+
+Page 236
+In addition, you must tell TML BASIC to generate code for checking the C control character. This is done by turning on the Keyboard Break option in the preferences dialog, or by using the $KeyboardBreak meta-construction. If you use the ON BREAK statement (and $OnError is ON) and you forget to activate the Keyboard Break option, TML BASIC will give the error:
+
+   "Keyboard Break must be ON for this statement"
+   (Keyboard Break must be ON for this instruction)
+
+Example
+
+   ON BREAK GOTO HandleBreak
+
+   wait:
+       PRINT "Wait for a break"
+       GOTO Wait
+
+   HandleBreak
+       PRINT "A break came up"
+       GET$ A$
+       IF A$ = "." THEN END
+       ABSTRACT
+<Page-footer>
+<Page-break>
+
+Page 237
+ON EOF # and OFF EOF # Instructions
+----------------------------------
+
+Syntax
+
+   ON EOF # FileNumber StatementList
+   OFF EOF # FileNumber
+
+Action
+The ON EOF # statement allows a program to control what action to take when attempting to read a file beyond its end-of-file marker. If an ON EOF # instruction has been executed before, when the end of file marker is passed, the control of the program is transferred unconditionally to the sequence of instructions after the ON EOF # statement. FileNumber must be the reference number of an open file.
+
+The OFF EOF # statement cancels the end-of-file trapping that has been enabled with the ON ERR # statement. If a program tries to read beyond the end of a file and there is no active ON EOF # statement, the standard TML BASIC error mechanism is used. That is, if an ON ERR instruction is active, the sequence of instructions associated with the ON ERR instruction is executed, otherwise the execution is aborted.
+
+In a different way from the ON BREAK, ON KBD, ON ERR and ON EXCEPTION instructions, the program control is unconditionally connected to the sequence of instructions that follows ON EOF #. You can not use RETURN or RESUME statements when you handle an end-of-file error. The ON EOF # statement does not require that $OnError is $ON.
+
+See as well
+
+   EOF
+   EOFMARK
+   Chapter 9
+
+Example
+
+   OPEN someFile$, AS # 1
+
+   ON ERR # 1 GOTO EofReplaced
+
+   nextLine:
+       INPUT # 1; Line$
+       PRINT Line$
+       GOTO NextLine
+
+   EofRencontré:
+       PRINT "EOF met for the file"; EOF
+       CLOSE# 1
+       END
+<Page-footer>
+<Page-break>
+
+Page 238
+ON ERR and OFF ERR Instructions
+---------------------------------
+
+Syntax
+
+   ON ERR StatementList
+   OFF ERR
+
+Action
+
+The ON ERR instruction is used in a program to decide what action to take when a Runtime error occurs.
+
+When a Runtime error such as "Overflow Error" or "Illegal Quantity Error" occurs, and the ON ERR instruction has been executed, the execution of the program is temporarily suspended and the control is transferred to the sequence of instructions that follows the On Err instruction. After the error has been handled, the program can resume its normal execution at point o | it was by executing the RESUME statement, or the instruction following the error, executing the RESUME NEXT statement.
+
+The reserved variable ERR can be used in the sequence of instructions handling the error, in order to determine exactly which error of Runtime has occurred and to act accordingly.
+
+If a program contains more than one ON ERR instruction, the most recently executed ON ERR instruction is the one that will handle the error. A Break user error (typing control C) is handled separately by the ON BREAK statement.
+
+See as well
+
+   ON BREAK
+   ABSTRACT
+
+Differences between compiler and enterpreter
+The ON ERR instruction requires the generation of a large amount of code by TML BASIC. Since many programs do not use the ON ERR instruction, TML BASIC allows you to disable this generation of code necessary to support this instruction. This is done by turning off the On Error option in the Dialog Preferences, or using the $OnError meta-construction. If On Error code generation is disabled and a program uses this instruction, TML BASIC will give the error:
+
+   "On Error option must be ON for this statement"
+   (The On Error option must be ON for this instruction)
+<Page-footer>
+<Page-break>
+
+Page 239
+In addition, you should tell TML BASIC to generate debug code to check for runtime errors such as "Overflow Error", "Illegal Quantity Error", etc. This is done by putting the Debug option into use. the preferences dialog, or using the $Debug meta-construction.
+
+Example
+
+   ON ERR GOTO HandleError
+
+   X% = 20000
+   X% = X% + 15000
+   PRINT "X% ="; X%
+   END
+
+   HandleError:
+     IF ERR = 1 THEN 'Overflow error
+        X% = 0
+        ABSTRACT
+     ELSE
+        PRINT "Runtime Error ="; ERR
+        END
+     END IF
+
+obtained result
+
+   X% = 15000
+<Page-footer>
+<Page-break>
+
+Page 240
+ON EXCEPTION and OFF EXCEPTION Instructions
+--------------------------------------------
+
+Syntax
+
+   ON EXCEPTION StatementList
+   OFF EXCEPTION
+
+Action
+
+The ON EXCEPTION statement is a separate version of the ON ERR instruction for errors that occur for floating point mathematical calculations. TML BASIC manages floating-point operations using SANE, the embedded floating-point tool. SANE defines several error conditions that can occur while executing floating-point operations. They are :
+
+. Invalid operation (such as SQRT (-2)) (Invalid Operation)
+. Above capacity overflow
+. Capacity overflow by lower value (Underflow)
+. Division by zero (Divide by zero)
+. Unordered comparison
+. Innexact result (Inexact result)
+
+It is possible to define which of these errors is reported to a TML BASIC program using the EXCEPTION ON statement.
+
+The ON EXCEPTION statement is used in a program to control what action to take when the EXCEPTION ON statement has defined that certain floating point errors should be reported. The behavior of the ON EXCEPTION statement is exactly the same as that of the ON ERR statement. See the description of this instruction for more information.
+<Page-footer>
+<Page-break>
+
+Page 241
+ON KBD and OFF KBD Instructions
+--------------------------------
+
+Syntax
+
+   ON KBD StatementList
+   OFF KBD
+
+Action
+
+The ON KBD instruction is used for the program to automatically execute a sequence of instructions each time it detects that a keyboard key is depressed.
+
+After executing the ON KBD instruction, the program continues its normal execution, but as soon as a key is pressed, the program branches to the sequence of instructions included in the ON KBD instruction. Note that when the ON KBD instruction is encountered during normal program execution, the instructions following the ON KBD reserved words are not executed.
+
+The connection to the ON KBD instruction list is treated as a GOSUB connecting to a subroutine. So the instruction sequence must end with the RETURN statement so that the program continues its normal flow. After a key is pressed, the ON KBD instruction is disabled. To re-enable the instruction, the ON KBD instruction must be used again.
+
+To disable the ON KBD instruction, the OFF KBD instruction must be executed.
+
+Note that when the ON KBD instruction is active, the program can not be aborted using the control C character. This is because control C is treated like any other character on the keyboard and the program controls it transfers to the instruction sequence. following the ON KBD instruction.
+
+See as well
+
+   GOSUB
+   KBD
+
+Example
+
+   ON KBD GOTO Watch 'Activate Key Event Detection Event
+
+   Wait: GOTO Wait 'Loop key wait
+
+   MontreTouche:
+       PRINT "The key ="; KBD
+       IF KBD = ASC (".") THEN END 'Exit when point key is pressed
+       ON KBD GOTO WatchTouch 'Reactivates touch detection
+       RETURN
+<Page-footer>
+<Page-break>
+
+Page 242
+ON ... GOSUB Instruction
+-------------------------
+
+Syntax
+
+   ON NumericExpression GOSUB Label <, Label>
+
+Action
+
+The ON ... GOSUB instruction is used to cause the connection of a program to a subroutine, which depends on the value of NumericExpression. After the reserved word GOSUB, we find a list of 1 or more labels separated by commas. The labels must designate subroutines ending with the RETURN statement.
+
+The value of NumericExpression determines which subroutine is executed. The value of NumericExpression must be an integer between 0 and 255. If the value is 1, the control is transferred to the subroutine designated by the first label. If the value is two, the control is transferred to the subroutine designated by the second label etc ... If the value is equal to zero, or greater than the number of labels specified, the instruction is ignored and the run continuously with the following statement.
+
+See as well
+
+   GOSUB
+   ON ... GOTO
+   Chapter 7, Labels
+   Chapter 8, Subprograms
+
+Example
+PRINT "Database options ..."
+PRINT "1) Spell"
+PRINT "2) Print"
+PRINT "3) Enter record"
+PRINT "4) Delete record"
+PRINT "5) Quit"
+PRINT "Enter selection:";
+GET$ Option$
+Option% = ASC (Option$) - ASC ("1") + 1
+ON Option% GOSUB doSort, doPrint, doEnter, doDelete, doQuit
+<Page-footer>
+<Page-break>
+
+Page 243
+ON ... GOTO Instruction
+------------------------
+
+Syntax
+
+   ON NumericExpression GOTO Label <, Label>
+
+Action
+
+The ON ... GOTO statement is used to cause the program to branch to a label based on the NumericExpression value. After the reserved word GOTO, we find a list of 1 or more labels, separated by commas.
+
+The value of NumericExpression determines the label at which the program execution is transferred. The value of NumericExpression must be between 0 and 255. If the value is 1, the control is transferred to the instruction designated by the first label. If the value is 2, the control is transferred to the instruction designated by the second label, etc. If the value is 0 or greater than the number of labels specified, the instruction is ignored and the execution continue with the following statement.
+
+See as well
+
+   GOTO
+   ON ... GOSUB
+   Chapter 7, Labels
+
+Example
+PRINT "Database options ..."
+PRINT "1) Spell"
+PRINT "2) Print"
+PRINT "3) Enter record"
+PRINT "4) Delete record"
+PRINT "5) Quit"
+PRINT "Enter selection:";
+GET$ Option$
+Option% = ASC (Option$) - ASC ("1") + 1
+ON Option% GOTO doSort, doPrint, doEnter, doDelete, doQuit
+<Page-footer>
+<Page-break>
+
+Page 244
+ON TIMER and OFF TIMER Instructions
+------------------------------------
+
+Syntax
+
+   ON TIMER (seconds) StatementList
+   OFF TIMER
+
+Action
+
+ON TIMER allows event trapping using the one-second interrupt capability of the IIGS clock. Seconds is an integer expression that handles a countdown countdown interval that takes the value of seconds. Seconds must be between 2 and 86400.
+
+When the interval counter reaches the value of zero, the countdown is completed and the program branches (like a GOSUB) on the StatementList of ON TIMER, since the current instruction of the program that is finished. StatementList must end with a RETURN statement to return control to the next sequential instruction in the program.
+
+The counting of the TIMER is only approximate and does not guarantee a precise duration. Certain operations with higher priority such as disk I / O or appletalk communications may even cause the TIMER interrupts to stop for more than 1 second. The ON TIMER instruction will have no effect unless the interruption of more than one second is allowed by the TIMER ON instruction.
+
+OFF TIMER disables the most recent ON TIMER statement.
+
+See as well
+   
+   GOSUB
+   RETURN
+   TIMER ON
+<Page-footer>
+<Page-break>
+
+Page 245
+OPEN Instruction
+------------------
+
+Syntax
+
+   OPEN Pathname, <FILTYP = DIR I TXT I SRC I BDF I Filetype>
+        <FOR INPUT I OUTPUT I APPEND I UPDATE> AS # FileNumber <, RecordSize>
+        
+Action
+
+The OPEN statement is used to open files so that these files can be accessed and must precede any input / output routines accessing a given file. The minimum necessary arguments that must be found after the reserved word OPEN are the path of the file, followed by a comma, the reserved word AS and the file reference number. The file must have been opened beforehand and must be on a floppy disk loaded in the floppy disk drive. If a partial path is used, it is prefixed with 0 to create the full path name. The file reference number is used in all subsequent TML BASIC input / output instructions for accessing the file.
+
+The optional clause FOR in the OPEN statement is used to qualify the access mode to the file. The access modes supported are INPUT, OUTPUT, APPEND and UPDATE. If the clause is not used, the file is opened for an UPDATE. The FOR INPUT clause specifies that the file is open only for read access and can not write to the file. For example :
+
+   OPEN myFile$, FOR INPUT AS # 10
+
+The FOR OUTPUT clause specifies that the file is open for write-only access and can not be read from the file. For example :
+
+   OPEN myFile$, FOR OUTPUT AS # 10
+
+The FOR APPEND option is a variant of the FOR OUTPUT clause. It is used for sequential access (discussed later) to allow the PRINT # and WRITE # statements to append new information at the end of a file without disturbing the existing data in the file. For example :
+
+   OPEN myFile$, FOR APPENDES AS # 10
+
+Finally, the FOR UPDATE clause is used to open a file for read / write access, as long as the file type supports such access. For example, you can not read on a printer.
+
+The FILTYP = optional clause of an OPEN statement is used to specify the type of a file. The FILTYP = clause is used primitively to make sure that a file is open, it is of the expected file type. If a program tries to open a file using the FILTYP = clause and the file type does not match the specified file type, the file will not be opened and an error message will be obtained. You can use all predefined file type names (see CREATE) with the FILTYP = clause, or you can use an unsigned integer value.
+<Page-footer>
+<Page-break>
+
+Page 246
+The FILTYP = clause is also used with the OPEN statement to open files that have not been created. If the OPEN statement finds that the specified file does not exist and the FILTYP = clause has been given, it will implicitly call, first, the CREATE statement, and then open the file.
+
+Finally, the optional RecordSize argument is used to specify the record size for random access to a file using the INPUT # and GET # statements for non-basic data files. If a file that is being opened is an existing basic data file, the Record Size argument is ignored, and the record size used is the size specified at the time the file was created. file.
+
+See as well
+   
+   CLOSE
+   Chapter 9
+
+Example
+
+OPEN "HELLOWORLD.BAS", AS # 10
+OPEN "/TML/MYSTUFF/INVOICES", FOR INPUT AS # 20
+OPEN aFile$, FOR UPDATE AS # 20, 100
+OPEN ".PRINTER", AS # 1
+OPEN ".MODEM", AS # 2
+<Page-footer>
+<Page-break>
+
+Page 247
+OUTPUT# Instruction
+---------------------
+
+Syntax
+   
+   OUTPUT #FileNumber
+
+Action
+
+The OUTPUT # statement is used to direct the outputs and information that are normally displayed on the IIGS text screen to a previously opened file, FileNumber being its file reference number. Remember that the devices can be opened with a file reference number to direct the outputs to the devices. A printer is an example of a device.
+
+The PRINT and CATALOG statements are the only statements affected by the OUTPUT # statement. To send the outputs again on the text screen, use the OUTPUT # 0 instruction.
+
+See as well
+
+   CATALOG
+   OPEN
+   PRINT
+
+Example
+
+OPEN SomeFile$, AS #1
+OUTPUT #1
+
+PRINT "Follows the list of files on my floppy disk"
+PRINT
+CATALOG
+
+OUTPUT #0
+CLOSE #1
+END
+<Page-footer>
+<Page-break>
+
+Page 248
+PDL Function
+PDL9 Variable Reserved
+------------------------
+
+Syntax
+
+   PDL (NumericExpression)
+   PDL9
+
+Action
+
+The PDL function reads the position of a game handle and returns its position as an integer value between 0 and 255.
+
+The PDL function actually reads the game handle position twice as fast as the original Call II routines and ignores the least significant bit, eliminating the uncertainty caused by the variable speed of the microprocessor. IIGS. The reserved variable PDL9 returns the result of 9 bits calculated by the prior execution of the PDL function.
+
+NOTE: Playing any game handle in quick succession will tend to give unstable results due to hardware couplings of the game handles. The use of the JOYX function will eliminate this interaction in the case where one reads the two coordinates (X and Y) of a joystick.
+
+Example
+
+ReadPaddles: PRINT PDL(0), PDL9
+             GOTO ReadPaddles
+<Page-footer>
+<Page-break>
+
+Page 249
+PEEK Function
+---------------
+
+Syntax
+
+   PEEK (NumericExpression)
+
+Action
+
+The PEEK function reads a byte at the memory address specified by NumericExpression and returns an integer value between 0 and 255. NumericExpression must be a positive integer less than 2 ^ 24 (2 power 24) and must represent an IIGS memory address.
+
+The PEEK function should only be used on special occasions. You should be very careful and do not read the input / output memory areas as well as the control registers. Since simply reading these addresses can cause unpredictable side effects including system crash.
+
+Programmers involved in writing programs that may be running on new versions of the Apple IIGS family of products should avoid the use of PEEKs that use addresses that may not be compatible with future machines and software systems. .
+
+See as well
+
+   POKE
+
+Example
+
+'Using physical addresses to read a keyboard key
+OptionKey% = PEEK (14729314) 'Hex address = E0C062
+PRINT OptionKey%
+
+'Using an address variable to read a memory byte
+myStr$ = "TML BASIC"
+Addressa = VARPTR$ (myStr$)
+PRINT CHR$ (PEEK (Addressà + 1)) 'Displays the first letter of a string in memory
+
+obtained result
+
+127
+T
+<Page-footer>
+<Page-break>
+
+Page 250
+PFX$ Function
+---------------
+
+Syntax
+
+   PFX$ (Prefix)
+
+Action
+
+The PFX$ function returns a string that is the current value of the specified PRODOS 16 prefix. Prefix must be a numeric expression in 0 and 8, otherwise we get the error message "Illegal Quantity Error". For prefix values ​​between 0 and 7, PFX$ returns the PRODOS prefix 16 corresponding to this number, for a prefix value equal to 8, PFX$ returns the pseudo prefix equal to the name of the boot volume.
+
+See as well
+
+   PREFIX
+   $PREFIX
+   Chapter 9 - Files
+
+Example
+
+'Print each of the 16 prefixes PRODOS 16
+FOR i% = 0 TO 8
+   PRINT PFX$ (i%)
+NEXT i%
+<Page-footer>
+<Page-break>
+
+Page 251
+PI Variable reserved
+----------------------
+
+Syntax
+
+   PI
+
+Action
+
+PI is a reserved variable whose value is PI, specifies up to the 20th decimal digit. The value of PI is stored as an actual SANE extended precision value, in order to provide the utmost precision in the expressions. TML BASIC automatically converts PI to any numeric type for assignments, which obviously causes a loss of precision.
+
+Example
+
+Radians = Degres * PI / 180 'Convert degrees to radians
+<Page-footer>
+<Page-break>
+
+Page 252
+POKE Instruction
+------------------
+
+Syntax
+
+   POKE NumericExpression, Value
+
+Action
+
+The POKE instruction writes a Value byte to the memory address specified by NumericExpression. Value must be between 0 and 255, otherwise we get the message "Illegal Quantity Error". NumericExpression must be a positive integer less than 2 ^ 24 (2 power 24) and must represent a legal Apple IIGS address.
+
+The POKE instruction should only be used in special circumstances. Using the POKE instructions you should be very careful not to accidentally write to memory areas corresponding to inputs / outputs, control registers, or other addresses not allocated to your program.
+
+Programmers involved in writing programs that will run on new versions of the Apple IIGS product family should avoid the use of POKE instructions that include addresses that may not be compatible with future machines or software systems.
+
+See as well
+
+   PEEK
+
+Example
+
+anInt% = 0
+PRINT anInt%
+POKE VARPTR (anInt%), 2 'Assign the hard way!
+POKE VARPTR (anInt%) + 1,1
+PRINT anInt%
+
+obtained result
+
+0
+258
+<Page-footer>
+<Page-break>
+
+Page 253
+POP Instruction
+-----------------
+
+Syntax
+
+   POP
+
+Action
+
+The POP statement is used to exit a nested subroutine level by removing the subroutine return address from the TML BASIC runtime stack. Thus, when the next RETURN instruction is executed, the program instead of reconnecting to the instruction that is located after the most recently executed GOSUB, the control is given back to the instruction that is after the second GOSUB instruction. most recently executed.
+
+If a POP instruction is executed in a program without a GOSUB instruction being executed, the error message "RETURN / POP without matching GOSUB" will be obtained.
+
+See as well
+   GOSUB
+   RETURN
+
+Example
+
+PRINT "Start program"
+GOSUB First
+PRINT "End program"
+END
+
+First:
+   PRINT "Entering the First Subprogram"
+   Gosub Second
+   PRINT "Exit of the First Subprogram"
+   RETURN
+
+Second:
+   PRINT "Entering the second subroutine"
+   POP
+   PRINT "Output of the second subroutine"
+   RETURN
+
+obtained result
+Start program
+Entry into the First sub-program
+Entry into the second sub program
+Output of the second subroutine
+End program
+
+<Page-footer>
+<Page-break>
+
+Page 254
+PREFIX Instruction
+--------------------
+
+Syntax
+
+   PREFIX DirectoryPath
+
+   PREFIX PrefixNum, DirectoryPath
+
+Action
+
+The PREFIX statement is used to set a PRODOS prefix. The first form of the statement sets the prefix 0 PRODOS and gives it the value of the path specified by DirectoryPath. The second form of the statement sets any prefix numbered from 0 to 7 as specified by the PrefixNum argument. If the pathname used in a prefix statement is illegal, we get the error "Bad Path Error".
+
+Differences between Compiler and Interpreter
+GS BASIC provides a variant of the PREFIX statement that displays the values ​​of the current prefixes. This variant is not supported in TML BASIC.
+
+See as well
+
+   Chapter 9
+
+Example
+
+PREFIX "/TML/PART1.EXAMPLES"
+PEFIX 4, "/ TML / MYWORK / NES"
+<Page-footer>
+<Page-break>
+
+Page 255
+PREFIX$ Variable reserved editable
+--------------------------------------
+
+Syntax
+
+   $PREFIX
+
+Action
+
+PREFIX$ is an editable reserved variable whose value is the default prefix of PRODOS 16, ie it is the prefix 0. If we assign a new value to the reserved variable, the prefix 0 of PRODOS 16 is modified to contain the new path. If an illegal PRODOS 16 path is assigned to PREFIX$, we get the error "Bad Path Error".
+
+See as well
+
+   PFX$
+   PREFIX
+   Chapter 9 - Files
+
+Example
+
+PRINT "Default current prefix ="; $PREFIX
+
+INPUT "Type a new prefix by default:"; NewPrefix$
+PREFIX$ = NewPrefix$
+<Page-footer>
+<Page-break>
+
+Page 256
+PRINT Instruction
+-------------------
+
+Syntax
+
+   PRINT <<, I;> <AnyExpression>> <, I;>
+
+Action
+
+The PRINT statement displays text on the IIGS text screen. The PRINT statement is used to print the values ​​of numeric expressions and string expressions. The PRINT statement can contain any number of expressions separated by either a comma or a semicolon. Each expression is called a print element. In fact, multiple expressions can be separated by spaces, but it is good programming practice to use either the comma or the semicolon so that one understands that there is more than one expression included in the PRINT statement.
+
+When a string expression appears in a PRINT statement, the exact characters of the string are displayed on the text screen at the current text position (at the cursor position). When a numeric expression is printed, the binary representation of the numeric value is first converted to a string and then displayed at the position of the current text. The conversion is controlled by the SHOWDIGITS reserved variable. If the numeric expression contains an integer value, it is displayed as an integer unless SHOWDIGITS is too small, in which case the number is displayed in scientific notation. When you use the semicolon as a separator between multiple expressions in a PRINT statement, TML BASIC positions the cursor just after the last character displayed. Thus, the next expression will be displayed adjacent to the preceding print element.
+
+If a comma is used as a separator, TML BASIC executes a tab operation before displaying the next print item. The width of the tab stops of the PRINT statement is 16 characters. The space between each tab stop is called a print area. The diagram on the next page shows how the 80-column text screen is divided into 5 print areas.
+
+After all the print elements of a PRINT statement have been displayed, the text cursor is moved to the first column of the next line. If the cursor is on the bottom line of the screen, the entire content of the screen is scrolled up a line. Thus, the PRINT statement containing nothing will display a blank line.
+
+In some cases, a program may not want the PRINT statement to advance the cursor position to the next line after the instruction has displayed all the print items. Whenever the PRINT statement ends with a comma or semicolon, the PRINT statement will not advance the cursor to the next line.
+<Page-footer>
+<Page-break>
+
+Page 257
+
+
+   1         17         33         49        65         80
+  _________________________________________________________
+  !          !          !          !          !          !
+2 !          !          !          !          !          !
+4 ! PRINT    ! PRINT    ! PRINT    ! PRINT    ! PRINT    !
+  ! Zone 1   ! Zone 2   ! Zone 3   ! Zone 4   ! Zone 5   !
+L !          !          !          !          !          !
+I !          !          !          !          !          !
+N !          !          !          !          !          !
+E !          !          !          !          !          !
+S !          !          !          !          !          !
+  _________________________________________________________
+
+   The width of an area is 16 characters
+
+
+The PRINT statement also works in the Super HiRes graphical display. When the PRINT statement is executed, it examines the current screen mode. If the screen is in text mode (default), the text is displayed in the usual way. However, if the screen is in graphical mode, the text is displayed on the current GrafPort (window) using Quickdraw graphic routines. The text is drawn by starting at the current location of the Quickdraw pen. Note that the positioning commands on the TML BASIC screen work in the graphic display to move the pen. To move the pen, Quickdraw commands such as MOVE and MOVE TO must be used. For more information on Quickdraw, see Chapter 12.
+
+See as well
+
+   PRINT USING
+   PRINT #
+   SHOWDIGITS
+   SPC
+   TAB
+
+Example
+PRINT "The average of three numbers is"; (43 + 27 + 23) / 3
+
+FOR i% = 1 TO 5
+   PRINT SPACE$ (i%); i%
+NEXT i%
+
+PRINT tbl1, tbl2, tbl3
+<Page-footer>
+<Page-break>
+
+Page 258
+PRINT USING Instruction
+-------------------------
+
+Syntax
+
+   PRINT USING UsingSpecification <; Expression <, Expression>> <;>
+
+Action
+
+The PRINT USING statement is an advanced form of the PRINT statement. The PRINT USING statement contains the UseSpecification usage specification that controls the format of the individual print items displayed on the text screen.
+
+UsingSpecification can be a string variable, a string constant, or a label that contains an IMAGE statement. In each case, the information is expressed in the same way. See the description of the IMAGE statement for a complete list of available formatting specifications.
+
+In the PRINT USING statement, the print elements (Expressions) are separated by commas. Commas do not cause a tab action to the next print area as they do in the PRINT statement, since formatting is controlled by UsingSpecification. However, you can still use a semicolon after the print elements to prevent the PRINT statement from moving the cursor to the next line.
+
+See as well
+
+   PRINT
+   PICTURE
+<Page-footer>
+<Page-break>
+
+Page 259
+PRINT # Instruction
+--------------------
+
+Syntax
+
+  PRINT # FileNumber <, RecordNumber> <; Expression <, I; Expression >> <;>
+
+Action
+
+The PRINT # statement writes a line of text to a file, just as the PRINT statement does on the screen. The reserved word PRINT # is followed by the file reference number of an open file on which you want to write, a semicolon and a list of expressions separated by commas or semicolons.
+
+PRINT # automatically executes any numeric conversion to a string type that may be needed before writing to the file. Numeric values ​​are formatted using the same rules as the PRINT statement. That is, SHOWDIGITS controls the format of numbers generated by PRINT #. By using the comma as a separator between the expressions, a tabulation action is generated to the next print area, which is not done by the semicolon. The SPC and TAB functions can also be used.
+
+
+An optional form of the PRINT # statement allows random access to a text file. To execute random access using the PRINT # statement, include the registration number after the file reference number. Remember that the file must be opened using the OPEN statement, with the optional record size argument specified to set the size of a record in the text file.
+
+See as well
+
+   PRINT USING
+   PRINT
+   SHOWDIGITS
+   SPC
+   TAB
+   Chapter 9
+
+Example
+
+PRINT # 10; anInt%, aReal, aStr$ 'Writes sequentially different values ​​to a file
+OPEN "AFILE", AS # 10, 20 'Opens a random access file
+PRINT # 10.6; aLine$ 'Writes a line of text to the record number 6
+
+<Page-footer>
+<Page-break>
+
+Page 260
+PRINT # USING Instruction
+--------------------------
+
+Syntax
+
+   PRINT # FileNumber <, RecordNumber> USING UsingSpecification
+          <; Expression <, I; Expression>> <;>
+
+Action
+The PRINT # USING statement is an advanced form of the PRINT # statement. The PRINT # USING statement contains the UseSpecification usage specification that controls the format of individual print elements written to a text file.
+
+UsingSpecification can be a string variable, a string constant, or a label that contains an IMAGE statement. In each case, the information is expressed in the same way. See the description of the IMAGE statement for a complete list of available formatting specifications.
+
+In the PRINT # USING statement, the print elements (Expressions) are separated by commas. Commas do not cause tabbing to the next print area as they do in the PRINT # statement, since formatting is controlled by UsingSpecification. However, you can still use a semicolon after the print elements to prevent the PRINT statement from moving the cursor to the next line.
+
+<Page-footer>
+<Page-break>
+
+Page 261
+PUT # Instruction
+------------------
+
+Syntax
+ 
+   PUT # FileNumber <, <Length> <, RecordNumber >>; StructureVariable
+
+Action
+
+The PUT # statement writes a number of bytes contained in a structured array to a binary file. The reserved word PUT # is followed by the file reference number of an open binary file, on which it is desired to write, a semicolon and a structured array variable reference (including indices). The number of bytes transferred is equal to the recording size of the file.
+
+By using the optional argument Length in the PUT # statement, it is possible to ignore the value of the record size for the number of bytes transferred. The PUT # statement can also be used for random access using the optional RecordNumber argument.
+
+See as well
+
+   OPEN
+   GET #
+   Chapter 9, Files
+
+Example
+
+DIM myData! (11)
+
+Overture of a binary file whose recording size is 4
+OPEN "SOMEFILE", FILTYP = 0 FOR OUTPUT AS # 1, 4
+
+PUT # 1; myData! (0) 'Writes 4 bytes to the first record in the file
+PUT # 1,, 3. myData! (4) 'Write 4 bytes starting at record 3
+
+PUT # 1,2,5. myData! (0) 'Writes 2 bytes starting at record 5
+
+CLOSE # 1
+<Page-footer>
+<Page-break>
+
+Page 262
+R.STACK Functions
+-------------------
+
+Syntax
+
+   R.STACK% (NumericExpression)
+   R.STACKà (NumericExpression)
+   R.STACK & (NumericExpression)
+           
+Action
+
+The functions return data read from the return stack of CALL (CALL return stack). The CALL return stack is a 32-byte (16-word) buffer used by the CALL, CALL%, and EXFN_ instructions to store the values ​​returned by an IIGS toolbox routine.
+
+Because each toolbox routine returns a variable amount of information under different types of data, one can access the CALL return stack to elect integers, double integers, and long integers. The NumericExpression parameter is an offset word in the stack. The bytes are read from this location, and the number of bytes read depends on the R.STACK function that is called. R.STACK% returns an integer value by reading two bytes of data in the stack. The R.STACKà function returns a double integer reading 4 bytes in the stack and finally R.STACK & returns a long integer reading 8 bytes of data in the stack. Thus, R.STACK% may be indexed by a number between 0 and 16, R.STACK by a number between 0 and 15, R.STACK & a number between 0 and 13.
+
+R.STACK% (0) returns the error code returned by the toolbox routine. If the value is 0, then there was no error. If the value is non-zero, an error occurred while executing the toolbox routine and your program should take the appropriate action.
+
+R.STACK (1) is the first data word returned on the CALL stack.
+
+See as well
+
+   CALL
+   CALL%
+   EXFN_
+   Chapter 11
+
+Example
+
+CALL NewHandle (1024, myMemoryID%, 0,0)
+
+IF R.STACK (0) = 0 THEN
+    myHandleà = R.STACKà (1)
+ELSE
+    PRINT "Unable to assign memory management, error:"; R.STACK (0)
+END IF
+<Page-footer>
+<Page-break>
+
+Page 263
+RANDOMIZE Instruction
+-----------------------
+
+Syntax
+
+   RANDOMIZE NumericExpression
+
+Action
+Change the value of the random number generator with the value of NumericExpression as new value. NumericExpression must be between 1 and 2 ^ 31-2. The correct values ​​to use are the values ​​of the TIME function, or the SECONDS reserved variable after executing the TIMER ON statement.
+
+See as well
+
+   SECONDSà
+   TIME
+   TIMER ON
+
+Example
+
+RANDOMIZE 8849391
+RANDOMIZE SECONDSto
+RANDOMIZE TIME (2) * 60 + TIME (3)
+<Page-footer>
+<Page-break>
+
+Page 264
+READ Instruction
+------------------
+
+Syntax
+
+   READ VariableName <, VariableName>
+
+Action
+
+The READ statement assigns in one or more variables, values ​​obtained by the DATA statement of a program. The values ​​are read by starting at the current DATA list pointer. The DATA list pointer points to the first constant of the program's first DATA statement. The list pointer advances as the values ​​are read. It can also be modified to point to any DATA statement using the RESTORE statement.
+
+If a READ statement attempts to assign a string data item to a numeric variable, the "Type Mismatch Error" message is obtained.
+
+See as well
+
+   DATA
+   RESTORE
+
+Example
+
+READ A$, B$
+
+RESTORE Names$
+READ C$, D$
+
+PRINT A$, B$, C$, D$
+END
+
+Names: DATA Apple, Orange
+       DATA Pear, Grape
+
+obtained result
+
+Apple Orange Apple Orange
+<Page-footer>
+<Page-break>
+
+Page 265
+READ # Instruction
+------------------
+
+Syntax
+
+   READ # FileNumber <, RecordNumber> <; VariableName <, VariableName >>
+
+Action
+
+The READ # statement reads information from a basic (BDF) data file and stores it in one or more variables. The reserved word READ # is followed by the file reference number of an open BDF file that is read with a semicolon and a comma separated list of variables.
+
+If the READ # statement contains a numeric variable, the value at the position of the current file in the BDF file must also be a numeric value. If the file contains a string value, we get the error "Type Mismatch Error". If the file contains a numeric value, but its type does not correspond to that of the variable contained in the READ # statement, the value is converted using the same rules as the CONV functions. Thus, it is possible that the conversion causes a loss of precision or even causes an overflow error. If the READ # statement contains a string variable, the value at the current file position must be a string value, otherwise the "Type Mismatch Error" message is obtained.
+
+An optional form of the READ # statement allows random access to a BDF file. To perform random access using the READ # statement, include a record number after the file reference number.
+
+See as well
+
+   WRITE #
+   Chapter 9
+
+Example
+
+READ # 10; anInt1%, anInt2%, anInt3% 'Sequential access to a BDF file
+READ # 10.3; aStr$, aDblIntà 'Random access to a BDF file
+<Page-footer>
+<Page-break>
+
+Page 266
+REC Function
+--------------
+
+Syntax
+
+   REC (FileNumber)
+
+Action
+The REC function returns the current record number of the previously opened file, its file reference number being equal to FileNumber.
+
+When using the INPUT # or READ # instructions to access the catalog of a directory, REC returns the number of the line that is being accessed.
+
+See as well
+
+   OPEN
+   INPUT #
+   READ #
+
+Example
+
+OPEN "SOMEFILE", AS # 1
+
+FOR i% = 1 TO 5
+    READ # 1, i%; myInt%
+    PRINT "Record" REC (1); "has integer value"; myInt%
+NEXT i%
+
+CLOSE # 1
+<Page-footer>
+<Page-break>
+
+Page 267
+REM Instruction
+-----------------
+
+Syntax
+
+   REM AnyText
+
+Action
+
+The REM instruction, also known as the REMARK statement, is used to place information describing your code in a program. The REM instruction continues to the end of the current line. It is not possible to follow the REM instruction with other instructions on the same line, separated by two dots (:). When compiling a program, TML BASIC ignores the REM instructions, so that they have no effect on the program.
+
+TML BASIC offers an alternative to the REM statement, called Comment. A comment behaves exactly like the REM statement, but is simply the single quote character (').
+
+See as well
+   Chapter 7, Comments
+
+Example
+
+REM The following lines show how REM and 'are used
+
+Interest = Principle * Rate: REM Calculates interest due
+Interest = Principle * Rate 'Calculation interest due
+<Page-footer>
+<Page-break>
+
+Page 268
+RENAME Instruction
+--------------------
+
+Syntax
+
+   RENAME OldPathname, NewPathname <, FILTYP + TXTISRCIBDFIFiletype>
+
+Action
+
+The RENAME statement is used to change the name of a volume, subdirectory, or other file. The OldPathname and NewPathname arguments must be string expressions that represent legal PRODOS 16 paths. OldPathname must be the path name of an existing file that is given the new path name specified by NewPathname. Using RENAME, it is possible to change the local name of a file, or move the file to another directory, but it is not possible to place the file to another disk, simply by changing its name.
+
+When the optional argument FILTYP = is used, the file type of NewPathname will be changed after the file has been renamed successfully. It is possible to change only the file type of a file using FILTYP = and giving the same value to OldPathname and NewPathname.
+
+See as well
+
+   Chapter 9, Files
+
+Example
+
+So the current directory is the PART1.EXEMPLES folder of the TML BASIC disk
+PREFIX "/TML/PART1.EXAMPLES"
+
+'Renames the HELLOWORLD.BAS file to HELLO.BAS
+RENAME "HELLOWORLD.BAS", "HELLO.BAS"
+
+'Rename HELLO.BAS to place it in the PART2.EXAMPLES folder
+RENAME "HELLO.BAS", "/TML/PART2.EXAMPLES/HELLO.BAS"
+<Page-footer>
+<Page-break>
+
+Page 269
+REP$ Function
+---------------
+
+Syntax
+
+   REP$ (stringExpression, NumericExpression)
+
+Action
+
+The REP$ function returns a string containing a number of characters equal to NumericExpression, whose characters are all equal to the first character of StringExpression.
+
+NumericExpression must be an integer between 1 and 255, otherwise we get the message "Illegal Quantity Error". If the value of StringExpression is an empty string, then REP$ returns a string consisting of question marks (?).
+
+See as well
+
+   SPACE$
+
+Example
+
+Msg$ = "TML BASIC"
+PRINT Msg$
+PRINT REP$ ("-", LEN (Msg$))
+PRINT
+
+PRINT REP$ ("", 5)
+
+obtained result
+
+TML BASIC
+---------
+
+?????
+<Page-footer>
+<Page-break>
+
+Page 270
+RESTORE Instruction
+---------------------
+
+Syntax
+
+   RESTORE <Label>
+
+Action
+
+The RESTORE statement is used to move the TML BASIC DATA list pointer to the first DATA element of the DATA statement specified by Label. After executing the RESTORE statement, the next READ statement will start reading the values ​​at the specified DATA statement. If Label is not specified in the RESTORE statement, the next READ statement will begin reading from the first DATA statement in the program. Using this instruction, a DATA statement can be read and replayed as many times as a program needs.
+
+If the lines specified by Label do not contain a DATA statement, the result of the next READ statement will be unpredictable.
+
+See as well
+
+   DATA
+   READ
+
+Example
+
+READ A$, B$
+
+RESTORE Name$
+READ C$, D$
+
+PRINT A$, B$, C$, D$
+END
+
+Names: DATA Apple, Orange
+       DATA Pear, Grape
+
+obtained result
+
+Apple Orange Apple Orange
+<Page-footer>
+<Page-break>
+
+Page 271
+SUMMARY Instructions
+---------------------
+
+Syntax
+
+   ABSTRACT
+   SUMMARY NEXT
+
+Action
+The RESUME statements restart the execution of a program after a trapped error has been handled with ON BREAK, ON ERR, or ON EXCEPTION statements.
+
+The RESUME statement restarts the program to the statement that caused the error. The RESUME NEXT statement restarts the program to the statement immediately following the statement that caused the error.
+
+If a RESUME statement is executed while the program has not encountered an error, it has no effect and the program execution continues with the next statement.
+
+See as well
+
+   ON BREAK
+   ON ERR
+   ON EXCEPTION
+
+The differences between Compiler and Interpreter
+The RESUME statement requires the generation of a large amount of code in TML BASIC, to be managed. Since most programs do not use the ON ERR and RESUME statements, TML BASIC allows you to disable the code generation required to support this instruction. This is done by turning off the On Error option of the Dialog Preferences or using the $OnError meta-construction. If On Error code generation is disabled and a program uses this statement, TML BASIC will give the error: "On Error Option must be On for this Statement". (The On Error option must be On for this instruction)
+
+Example
+
+ON BREAK GOTO HandleBreak
+
+wait:
+   PRINT "Wait for a break"
+   GOTO Wait
+HandleBreak:
+   PRINT "A break has arrived"
+   GET$ A$
+   IF A$ = "." THEN END
+   ABSTRACT
+<Page-footer>
+<Page-break>
+
+Page 272
+RETURN Instruction
+--------------------
+
+Syntax
+   RETURN
+   RETURN 0
+
+Action
+RETURN causes the program to be connected to the statement that follows the most recently executed GOSUB statement.
+
+When a GOSUB instruction is executed, TML BASIC stores the address of the statement following the GOSUB instruction on the Runtime stack. When the RETURN instruction is executed, the address on the Runtime stack is read and the control is transferred to that address. If the RETURN instruction is executed without a GOSUB instruction being executed beforehand, the "Return / POP without matching GOSUB" runtime error (RETURN / POP without a GOSUB trace) is returned.
+
+RETURN 0 is a special case of the RETURN statement, used for subprograms handling events defined by EVENDEF and MENUDEF. These subprograms are implicitly called by the TASKPOLL instruction. This form of RETURN statement is necessary because of the different call mechanisms used by the TASKPOLL statement. As such, the RETURN 0 instruction should never be used by a subroutine that is called by a normal GOSUB instruction.
+
+See as well
+
+   GOSUB
+   EVENTDEF
+   MENUDEF
+   POP
+   TASKPOLL
+
+Example
+
+MainProgramStart: PRINT "Main program"
+                  GOSUB MySubroutine
+                  PRINT "Main program again3
+                  END
+MySubroutine: PRINT "Hi from Subroutine"
+                  RETURN
+
+obtained result
+
+Main program
+Hi from MySubroutine
+Main program again
+<Page-footer>
+<Page-break>
+
+Page 273
+RIGHT$ Function
+-----------------
+
+Syntax
+
+   RIGHT$ (StringExpression, NumericExpression)
+
+Action
+The RIGHT$ function returns a character string that includes NumericExpression characters and is the rightmost string in the StringExpression string.
+
+StringExpression can be any string variable, string constant, or string expression. If NumericExpression is a real value, it is rounded to the nearest whole number. The value of NumericExpression must be between 1 and 255, otherwise we get the message "Illegal Quantity Error". To know the number of characters of a chain, use the LEN function.
+
+See as well
+   LEFT$
+   LEN
+   MID$
+
+Example
+
+PRINT RIGHT$ ("TML BASIC is great", 5)
+
+obtained result
+
+great
+<Page-footer>
+<Page-break>
+
+Page 274
+TAN Function
+-------------
+
+Syntax
+
+   TAN (NumericExpression)
+
+Action
+
+The TAN function returns the trigonometric tangent of NumericExpression. NumericExpression is an angle expressed in radian. To convert radians to degrees, multiply the number of radians by 180 / PI. To convert degrees to radians, multiply the degrees by PI / 180.
+
+See as well
+   ATN
+   COS
+   PI
+   INS
+
+Example
+PRINT "Tangent of 45 degrees ="; TAN (45 * PI / 180)
+
+obtained result
+1
+<Page-footer>
+<Page-break>
+
+Page 293
+TEN Function
+-------------
+
+Syntax
+
+   TEN (HexStringExpression)
+
+Action
+
+The TEN function returns the decimal equivalent in base 10 of the hexadecimal digits that are specified in StringExpression. The return value is a double integer. HexStringExpression can contain leading spaces followed by an optional $ sign, but the next eight or fewer characters in the string must represent a hexadecimal number, otherwise the "Illegal Quantity Error" error will be obtained.
+
+See as well
+   HEX$
+
+Example
+PRINT TEN ("$ E1000")
+
+obtained result
+921600
+<Page-footer>
+<Page-break>
+
+Page 294
+TASKPOLL INIT Instruction
+TASKPOLL Instruction
+---------------------------
+
+Syntax
+
+   TASKPOLL INIT NumericExpression
+   TASKPOLL NumericExpression
+
+Action
+
+TASKPOLL statements are used to write event controlled DESKTOP programs. The TASKPOLL INIT instruction is used to define the type of events that will be detected while the TASKPOLL instruction is used to actually detect events. Writing programs controlled by events is not an easy task. Be sure you have understood the information in chapters 11 to 13 before writing programs that manage events.
+
+TASKPOLL statements in TML BASIC use the TASKMASTER routine of the Window Manager of the Toolbox to detect events. Therefore, to use the TASKPOLL instructions in a program, it is necessary for the program to correctly load and initialize the necessary DESKTOP tools, especially the Window Manager. For more information on the tools required and how to load and initialize them, see Chapter 13.
+
+As indicated with the EVENTDEF instruction, the TASKPOLL instruction is able to detect 29 different events. The first 16 events are the standard event events of the Event Manager and the last 13 events are those detected by Taskmaster when there is a Mouse-Down event happening in special places on the desktop. It is possible to control which of the last 13 events are really detected by TaskMaster giving some value to TASKMASK. TASKMASK is an integer value specified by the NumericExpression argument in the TASKPOLL INIT statement. The individual values ​​of TASKMASK are shown below. The individual values ​​are added to each other to form TASKMASK. Thus a TASKMASK value of 8191 (the sum of all values) would indicate that TASKMASK should detect all possible event types. Follows a list of values ​​and the generated detection.
+
+   1 Detects the menu keys
+   2 Executes an automatic update of the window
+   4 Execute FindWindow (find the window)
+   8 Execute MenuSelect (menu selection)
+  16 Run OpenNDA (open a NDA)
+  32 Executes SystemClick
+  64 Execute DragWindow (move a window)
+ 128 Execute SelectWindow if 'mouse down in content'
+ 256 Runs TrackGoAway
+ 512 Execute TrackZoom
+1024 Runs GrowWindow (Window Magnification)
+2048 Executes an auto scrolling support
+4096 Manage special menu items
+<Page-footer>
+<Page-break>
+
+Page 295
+The TASKPOLL INIT instruction must be run before the TASKPOLL statement to set a value for TASKMASK. If a program needs to change TASKMASK, the TASKPOLL INIT instruction must be run again. The TASKPOLL instruction is used to detect events. When an event occurs, the TASKPOLL instruction examines the EVENT DISPATCH TABLE and the ITEM DISPATCH TABLE MENU to determine the appropriate event management subroutines. These tables are defined by the instructions EVENTDEF and MENUDEF. Normally, a program executes the TASPOLL instruction in a loop, allowing the TASKPOLL statement to automatically call the event management subprograms.
+
+The NumericExpression argument defined EVENTMASK. EVENTMASK is used to indicate which event should be returned by the TASKPOLL statement. If an event occurs but EVENTMASK indicates that the event should not be returned, the event remains in the event queue of the EVENT MANAGER until TASKPOLL is called with an EVENTMASK that allows an event to be sent back.
+
+Follows the individual values ​​of EVENTMASK. The individual values ​​are added to each other to form the complete EVENTMASK. Thus, a value of minus 1 (all bits set to one) indicates that TASKMASTER should return all possible event types.
+
+     2 Mouse depressed
+     4 Raised mouse
+     8 Key pressed
+    32 Repetition touches
+    64 Update (update)
+   128 Activation (activate)
+   512 Contact (Switch)
+  1024 Office accessory
+  2048 Peripheral Driver
+  4096 Application defined nr 1
+  8192 Application defined nr 2
+ 16384 Application defined nr 3
+-32768 Application defined nr 4
+
+See Chapter 13 for a complete description of writing a program managing events.
+
+See as well
+   EVENTDEF
+   EXEVENTà
+   MENUDEF
+   TASKREC%
+   Chapter 11 to 13
+<Page-footer>
+<Page-break>
+
+Page 296
+TASKREC% and TAKSRECà Functions
+-------------------------------
+
+Syntax
+
+   TASKREC% (NumericExpression)
+   TASKRECà (NumericExpression)
+
+Action
+
+The TASKREC functions return a single or double integer result of TASKMASTER TASKREC. NumericExpression is an integer value that represents an offset word in TASK RECORD DATA STRUCTURE. A TASK RECORD is a TML BASIC internal variable that is declared as an Event Manager Event Record. The definition of an Event Record is as follows (from Appendix C):
+
+_____________________________________________________________________
+
+   DIM anEventRecord! (19)
+
+Element (s) Value Description
+
+0 ... 1 Integer Event code specifying which event happens
+2 ... 5 Double integer Event message containing additional information about the event
+6 ... 9 Double integer Number "ticks" from the start
+10.13 Point Position of the mouse when the event occurred
+14.15 Whole Modifying Flags
+16.17 Double integer Task data for Task Master
+18.19 Double Integer Task Mask for Task Master
+
+_____________________________________________________________________
+
+For example, calling the function TASKRECà (2) returns the Event Message buffer from Event Record as a double integer value.
+
+The TASKREC functions are used in event management routines. An event management subroutine retrieves the information in the event record to exactly determine what action to take following an event. For example, the TASKREC function can be used to determine the position of the mouse for a Mouse down event.
+The meaning of each field depends on the type of event being returned. For a full description of the meaning of these fields, see Chapter 13. The APPLE IIGS TOOLBOX REFERENCE is also a good source of information for everything related to this data structure.
+
+<Page-footer>
+<Page-break>
+
+Page 297
+TEXT Instruction
+-----------------
+
+Syntax
+
+   TEXT
+
+Action
+
+The TEXT instruction possesses the screen display in full-screen text mode by erasing all other graphic modes or texts used. The cursor is positioned on the first line next to the left margin at the top of the screen.
+
+See as well
+   GRAF INIT
+   GRAF ON
+   GRAF OFF
+   HOME
+
+Example
+TEXT
+<Page-footer>
+<Page-break>
+
+Page 298
+TEXTPORT Instruction
+---------------------
+
+Syntax
+
+   TEXTPORT left, up TO right, down
+
+Action
+
+The TEXTPORT statement sets the size and position of the text window inside the text screen. After executing the TEXTPORT statement, all subsequent outputs will be restricted to the size of the text window. The rest of the text screen is not affected.
+
+Left, up, right and down define the borders of the text window. If the boundaries of the specified text window define a wider window than the text screen, (24 rows on 80 columns) then the text window will be truncated to fit.
+
+Example
+TEXTPORT 10.10 TO 20.20
+<Page-footer>
+<Page-break>
+
+Page 299
+TIME Function
+--------------
+
+Syntax
+
+   TIME (NumericExpression)
+
+Action
+
+The TIME function reads the IIGS clock to send the TIME information as an integer rather than a string as returned by the TIME$ function. The value of NumericExpression must be between 0 and 3 otherwise we get the message "Illegal Quantity Error".
+
+The following table shows the values ​​returned by the TIME function for each legal parameter value.
+
+Function Return Value
+
+TIME (0) Time (from 0 to 23), reads the clock
+TIME (1) Time (from 0 to 23)
+TIME (2) Minute (from 0 to 59)
+TIME (3) Second (from 0 to 59)
+
+Currently, the IIGS clock is read only when the parameter value is zero. TIME (0) reads all information from the IIGS clock and updates the values ​​that will be returned by other TIME function calls. This feature protects the program from the classic "clock rollover" issues
+
+Example
+ReadTime% = TIME (0) 'Read time information
+Time% = TIME (1)
+Minute% = TIME (2)
+Second% = TIME (3)
+
+PRINT "He is"; Hour% ; ":"; Minute%; ":"; Second%
+obtained result
+It's 14:32:15
+<Page-footer>
+<Page-break>
+
+Page 300
+TIME$ Instruction
+------------------
+
+Syntax
+
+   $TIME
+   TIME$ Hour, Minute, Second
+
+Action
+
+TIME$ is at the same time a function and an instruction in TML BASIC. The TIME$ statement has three arguments, while the function has none.
+
+The TIME$ function reads the IIGS clock and returns the current time as a string. The string depends on the format chosen in the IIGS dashboard. The time format is HH: MM: SS or HH is the time, MM is the minute and SS is the second. The variants of this format are a time display of 12 or 24 hours. Consult your IIGS user manual for information on the dashboard.
+
+The TIME$ statement is used to change the current time of the IIGS clock. The time is specified by the Time parameter, the minutes by the Minute parameter, and the seconds by the Second parameter. The Time parameter must be in the range 0 to 23, while the Minutes and Seconds must be in the range 0 to 59.
+
+Example
+TIME$ 8, 20, 40 'Set the clock to 8:20:40 AM
+PRINT TIME$
+
+obtained result
+8:20:40 AM
+<Page-footer>
+<Page-break>
+
+Page 301
+TIMER ON and TIMER OFF Instruction
+----------------------------------
+
+Syntax
+
+   TIMER ON
+   TIMER OFF
+
+Action
+
+The TIMER ON instruction starts a process that reads the time on the IIGS clock and calculates the value of the number of seconds since midnight (number between 0 and 86399) and the range in the SECONDS counter variable. The counter is updated once per second using the interrupt clock 1-second clock interrupt. After running TIMER ON, a program can start a timer with a 1-shot interval using the ON TIMER instruction. TIMER OFF disengages the 1-second clock interrupt and thus freezes the SECONDS counter.
+
+Due to the low priority of the 1-second interrupt and other factors in the system, the meter may be missing interrupts and may not represent the actual number of seconds since midnight.
+
+See as well
+   ON TIMER
+   SECONDSà
+
+Example
+TIMER ON
+RANDOMIZE SECONDSto
+<Page-footer>
+<Page-break>
+
+Page 302
+TYP Function
+-------------
+
+Syntax
+
+   TYP (FileNumber)
+
+Action
+
+The TYP function returns the type of the next data element to be read on the Basic Data File for the next access. This function is typically used to ensure that a READ statement will be used with the correct type of variable when the exact elements of the file are not known.
+
+The FileNumber argument is the reference number of the file previously opened with this number. The number returned by the TYP function characterizes the type of data that will be read on the specified file. TYP returns the following values:
+
+Value Meaning
+0 End of file
+2 Next data is of type integer (%)
+3 Next data is of type double integer (to)
+4 Next data is of type integer long (&)
+5 Next data is of simple real type (no suffix)
+6 Next data is of the real double type (#)
+7 Next data is of type string ($)
+
+If the file type referenced by FileNumber is not a Basic data file (BDF), then we will get the file type error. If FileNumber does not refer to an open file in progress, you will get the "file not open error" error.
+
+Example
+nextTyp% = TYP (1)
+IF nextTyp% = 2 THEN
+   READ # 1; nextInt%
+ELSE IF nextTyp% = 3 THEN
+   READ # 1; nextDblIntà
+ELSE IF nextTyp% = 4 THEN
+   READ # 1; nextLongInt &
+ELSE IF nextTyp% = 5 THEN
+   READ # 1; nextSglReal
+ELSE IF nextTyp% = 6 THEN
+   READ # 1; nextDblReal #
+ELSE IF nextTyp% = 7 THEN
+   READ # 1; $nextString
+END IF
+<Page-footer>
+<Page-break>
+
+Page 303
+UBOUND Function
+----------------
+
+Syntax
+
+   UBOUND (ArrayName <()> <, DimNumber>)
+
+Action
+
+The UBOUND function returns the limit (the largest possible index) of the specified dimension of an array. The array is defined by ArrayName, optionally followed by left and right parentheses. If the array is a multidimensional array, DimNumber that is optional can be used to specify which UBOUND dimension should return as the upper bound. If DimNumber is not specified, then UBOUND returns the upper bound of the first dimension of the array.
+
+UBOUND is typically used with dynamic arrays to determine their current size. The lower limit of a table is always zero.
+
+See as well
+   SUN
+
+Example
+i% = 5
+j% = 45
+DIM DYNAMIC someArray (i%, j%)
+PRINT UBOUND (someArray, 1), UBOUND (someArray, 2)
+
+obtained result
+5 45
+<Page-footer>
+<Page-break>
+
+Page 304
+UCASE$ Function
+----------------
+
+Syntax
+
+   UCASE$ (stringExpression)
+
+Action
+
+The UCASE$ function returns a string that is the value of StringExpression, StringExpression having all of its lowercase letters, from a to z, converted to upper case, from A to Z.
+
+Example
+PRINT UCASE$ ("tml basic")
+
+obtained result
+
+TML BASIC
+<Page-footer>
+<Page-break>
+
+Page 305
+VAL Function
+-------------
+
+Syntax
+
+   VAL (stringExpression)
+
+Action
+
+The VAL function evaluates StringExpression and returns the value as a real or an integer. The evaluation is carried out from left to right. If the characters in the beginning of StringExpression are not evaluated as valid numeric values, the returned value is zero. If StringExpression starts with allowed numeric characters, followed by non-numeric characters, only numeric characters are evaluated.
+
+The complementary function is STR$, which uses a numeric argument and returns a string value.
+
+See as well
+   STR$
+
+Example
+someString$ = "123.456" 'Set the variable someString$
+
+someNum = VAL (someString$) 'Convert the value to a number
+
+PRINT someString$, someNum 'Make sure you get the same thing
+
+IF someString$ = STR$ (someNum) THEN
+   PRINT "VAL and STR$ work!"
+END IF
+
+obtained result
+123.456 123.456
+VAL and STR$ work!
+<Page-footer>
+<Page-break>
+
+Page 306
+VAR Function
+-------------
+
+Syntax
+
+   VAR (StructureArrayReference, VariableType <, Length>)
+   VAR (MemoryAddress, VariableType <, Length>)
+
+Action
+
+The VAR function is used to extract values ​​from a structured array variable. This statement is the opposite of the SET statement
+
+StructureArrayReference must be a structured array variable that has previously been declared. The VariableType argument is used to indicate the type of value to retrieve from the structured array. The type implicitly defines the number of bytes to be retrieved from the array. Following are the allowed values ​​for the VariableType argument:
+
+1 Real extended
+2 Whole
+3 Double whole
+4 Long Integer
+5 Real simple
+6 Real double
+7 Chain
+
+The values ​​above are the same as the values ​​returned by the TYP function. The only exception is the value 1 since extended reals are not stored in BDF files
+
+The Length parameter can be used with integer types to specify a size smaller than the default integer size (2,4,8), and must be used with the string type. For integers, Length can be 1 or 2, for double integers, Length can be 1,2,3 or 4, and for long integers, Length can be from 1 to 8. When an integer is created from a small size, the result is always a positive number. That is, it is not provided with sign extension. For strings, Length must be in the range 1 to 255.
+
+The second form of the VAR function effectively implements a multibyte PEEK operation. MemoryAdress is a double integer that specifies a place in memory that is essentially treated as a structured array. The VariableType and Length parameters are used as above to control the extracted data.
+<Page-footer>
+<Page-break>
+
+Page 307
+See as well
+   SET
+   TYP
+
+Example
+i% = VAR (aStruct! (0), 2) 'Extract 2 bytes as an integer
+i% = VAR (aStruct! (0), 2,1) 'Extract 1 byte as an integer
+
+mag$ = VAR (aStruct! (12), 7,10) 'Extract 10 bytes as a string
+
+i% = VAR (aPointerà, 2) 'A multi-byte PEEK to read an integer
+<Page-footer>
+<Page-break>
+
+Page 308
+VAR$ Function
+--------------
+
+Syntax
+
+   VAR$ (MemoryAdress <, Length>)
+
+Action
+
+The VAR$ function creates a TML BASIC string value from the count string at the memory address specified by MemoryAdress. MemoryAdress is a numeric expression that must be an authorized IIGS address pointing to a counted string. The optional Length parameter specifies the number of characters to retrieve from the memory.
+
+The VAR$ function is typically used to retrieve strings counted from a data structure returned by an IIGS TOOLBOX routine.
+<Page-footer>
+<Page-break>
+
+Page 309
+VARPTR and VARPTR$ Function
+---------------------------
+
+Syntax
+
+   VARPTR (VariableName)
+   VARPTR$ (stringvariable)
+
+Action
+
+The VARPTR function returns the address of the specified VariableName. For string variables, VARPTR will return the address of the string descriptor and not the address of the string data. To get the address of an array, specify the array name indexed by zero.
+
+The function VARPTR$ is used to obtain the address of the data string for a string variable. If the specified string variable is a null string, VARPTR$ returns zero. If a numeric variable is passed to VARPTR$, we get the error "Tyme Mismatch Error".
+
+The VARPTR and VARPTR$ functions both return a double integer. If an indefinite variable is specified as an argument to these functions, the error "Undefined Variable" will be obtained.
+
+Example
+DIM myArray% (50)
+
+theAdressà = VARPTR (myArray% (0)) 'Address of myArray table%
+theAdressà = VARPTR (theAddr) 'Address of the simple variable theAddr
+theAdressà = VARPTR (myString$) 'Variable string address myString$
+theAdressà = VARPTR$ (myString$) 'Data address of the variable string myString$
+
+<Page-footer>
+<Page-break>
+
+Page 310
+VOLUMES Instruction
+--------------------
+
+Syntax
+
+   volumes
+
+Action
+
+The VOLUMES statement is used to read the volume name of each PRODOS 16 device and display their name. The PRODOS 16 devices are numbered .D1 to .D9. The display lists the device name, its volume name, and the number of free bytes available for storage on the volume.
+
+See as well
+   Chapter 9
+<Page-footer>
+<Page-break>
+
+Page 311
+WRITE # Instruction
+-------------------
+
+Syntax
+
+   WRITE # FileNumber <, RecordNumber> <; Expression <, I; Expression >>
+
+Action
+
+The WRITE # statement writes information about a Basic Data File (BDF). The reserved word WRITE # is followed by the file reference number, an open file to which you want to write and also followed by a semicolon and a list of expressions separated by commas or semicolons.
+
+This form of the WRITE # statement performs sequential access by writing each succeeding value to the current position of the file. Each expression in the WRITE # argument list causes a field to be written to the BDF file. Remember that a field consists of a marker byte followed by the binary representation of the value. If a record does not contain enough space to hold all the fields you are trying to write to it, the extra fields are written to the next record. If a field can not fit into a record (if it is larger than the record size), you will get an error.
+
+An optional form of the WRITE # statement allows random access to a BDF file. To execute direct random access using the WRITE # statement, include a record number after the file reference number.
+
+See as well
+   READ #
+   Chapter 9
+
+Example
+WRITE # 10; anInt%, aReal, aSTR$
+WRITE # 10; "Hello"
+WRITE # 10.6; anInt%, aReal, aStr$
+
+
+End of Chapter 10
+
+
+
+
+
+Page 315
+

@@ -1,0 +1,587 @@
+CHAPTER 9
+----------
+THE FILES
+------------
+This chapter discusses the features of the TML BASIC language and capabilities for handling floppy files and devices. If you are not familiar with the concepts of files, volume, floppy disk and prodos, you should study the IIGS User Guide for an introduction to the prodos operating system.
+
+THE ESSENTIAL ON PRODOS 16
+-------------------------
+Prodos 16 is the operating system of the IIGS. As such, it supports the management of a large part of the interface between the Hardware IIGS and the applications. It manages the creation and modification of files. It manages the floppy drives on which the files are stored and then read. It distributes the interrupt signals to the interrupt handlers. It also controls some aspects of the IIGS operating environment, such as path prefixes (pathname) as well as routines to exit programs and start new ones.
+
+FILE NAMES
+A disk file is an ordered set of information that is stored on a floppy disk and has several attributes, including a file name and file type. Because TML BASIC operates from within the prodos 16 operating system, the conventions for naming files and operations in TML BASIC must follow the rules of PRODOS 16.
+
+A file name for a TML BASIC disk file may consist of any sequence of 15 letters or less (A to Z and a to z), digits (0 to 9), or periods (.). The first character in a file name to be a letter. If a program tries to use a file name that is longer than 15 characters, or a name that contains an illegal character, an error will occur.
+
+Peripheral devices, such as the keyboard, monitor, and printer connected to the IIGS, are also treated as TML BASIC files. They are called character files rather than floppy files. The conventions for naming these character files are the same as naming the floppy files, except that the name starts with a dot. For example, ".PRINTER" refers to the printer device connected to slot 1. TML BASIC predefines some character file names and one program can set others by using the ASSIGN statement. See Chapter 10 for a discussion of the ASSIGN statement and predefined character file names. By treating peripheral devices as files, TML BASIC provides you with a simple and regular method for executing inputs and outputs in a program.
+
+The file type attribute (filetype) is a special integer value that indicates the contents of a file. There are file types indicating text files, PRODOS 16 files, basic data files etc. Appendix F gives you a list of the most common file types.
+<Page-footer>
+
+
+
+Page 122
+To open a file for an entry and / or an exit, the OPEN statement must be used. The OPEN statement associates with the character file or floppy disk file a file number that is used by TML BASIC output input file instructions. TML BASIC can support up to 32 open files in a program, numbered from 0 to 31. File number 31 has a specific purpose in TML BASIC. It is used by the CATALOG instruction, to read the directory of a floppy disk. If a program has its 32 open files and it executes the CATALOG statement, we will get an error. Currently, PRODOS 16, version 1.X only allows the opening of 8 files at the same time. However, when new versions of PRODOS 16 are available and will support the opening of more than 8 files at the same time, TML BASIC can open up to 32 files.
+
+NAMES OF PATH
+The file types prodos 16 include the special file type folder. A folder file contains the names and location on the floppy disk of the other files on the floppy disk. A folder file may contain other folder files creating a hierarchy for organizing files on a floppy disk. These nested folders within each other are sometimes called under folders, or under directories, or under directory. Each volume contains at least one folder called the root folder. Thus, the root folder file has the same name as the volume. All other files and folders are contained in this folder.
+
+Follows a figure that illustrates part of the organization of the TML BASIC diskette distribution folder.
+
+TML-!
+    ! -TMLBASIC
+    !
+    ! -PART3.EXAMPLES
+    !
+    ! --- -PART1.EXAMPLES HELLOWORLD.BAS
+    !
+    ! -SYSTEM DESK.ACCS --- ---- TMLCLOCK
+             !
+             ! -TOOLS ---- TOOL014
+             ! ! -TOOL015
+             ! ! -TOOL016
+             !
+             ! -FONTS
+
+A filename is not enough to access a file using prodos 16. Prodos 16 requires a path (pathname) to fully specify a file. A path is nothing more than a series of file names, each of which is preceded by the slash character (/). The first file name in the path is the file name of the root folder (the name of the volume). Successive file names indicate the path prodos 16 must follow from the root folder to the file, to find a particular file. For example, the path name for the TMLCLOCK file in the schema above is as follows:
+
+<Page-footer>
+
+
+
+Page 123
+   /TML/SYSTEM/DESK.ACCS/TMLCLOCK
+
+The maximum length for a path is 64 characters.
+
+A path that starts with the file name of the root folder (volume name) is called a full path (full pathname). Files can also be designated with partial paths. A partial path is a portion of the path that does not start with the name of the root folder and does not start with the slash character (/). Following are partial paths for the TMLCLOCK file.
+
+   TMLCLOCK
+   DESK.ACCS / TMLCLOCK
+   SYSTEM / DESK.ACCS / TMLCLOCK
+
+Whenever a partial path is used, prodos 16 automatically adds a prefix to the partial path to create a complete path. A prefix is ​​a path that indicates a folder. A prefix always starts with a slash and the name of the root folder, followed by zero or more folder names. Follow specific paths, prefixes allowed according to the example above:
+
+   / TML /
+   / TML / SYSTEM /
+   /TML/SYSTEM/DESK.ACCS/
+   /TML/PART1.EXAMPLES/
+
+Slashes at the end of these prefixes are optional, but are useful to help you remember that they are prefix paths and not complete paths to the respective folder files.
+
+PRODOS 16 stock 8 prefix numbered from 0 to 7. The prefix 0 is called the prefix by default. Whenever a partial path is given, PRODOS 16 automatically adjusts the prefix 0 at the beginning of the partial path to create a complete path. A prefix path can have a maximum length of 64 characters. Since the partial paths can also have a length of 64 characters, it is possible to create paths with a maximum length of 128 characters. The modifiable reserved value of TML BASIC PREFIX $ contains the value of prodos prefix 0. TML BASIC also provides the PREFIX statement and the PFX $ function for handling prefixes.
+
+Finally, it is possible to override the use of prefix 0 when using partial paths, and it is possible to designate any prefix by prefixing a partial path name with a prefix number and a slash character. For example :
+
+   1 / DESK.ACCS / TMLCLOCK
+   6 / HELLOWORLD.BAS
+<Page-footer>
+
+
+
+Page 124
+FILE HANDLING
+----------------------------
+TML BASIC provides several instructions for direct access to the prodos 16 operating system for file manipulation. These instructions allow the program to create and delete files, rename files, lock and unlock files, catalog a folder, and determine which volumes are available. Each of these instructions is discussed in detail in Chapter 10. However, a brief review of these operations is given below.
+
+CREATE INSTRUCTION
+The CREATE statement is used to create floppy files. The CREATE statement can be used to create folders, text files, basic data files, and any other type of authorized prodos 16 file. Follows the syntax of the CREATE statement:
+
+   CREATE Pathname <, FILTYP = DIR S TXT I SRC I BDF I Filetype <, SubType >>
+
+The reserved word CREATE is followed by the path of the file to be created. Optionally, a path may be followed by the specification of the file type, and the subtype specification. If the optional specification of the file type does not appear in a CREATE statement, a text file is created. The following table shows the predefined file type names, alternative names or other names, and their meanings.
+
+______________________________________________________________________
+
+                          Table 9-1
+                          FILTYP = names
+______________________________________________________________________
+
+Alternative file type
+Mnemonic Mnemonic Meaning
+
+DIR CAT Subdirectory
+TXT TEXT Text file
+SRC Source file
+BDF DATA Basic data file
+
+______________________________________________________________________
+
+Appendix F gives you a list of the most commonly used file types in prodos 16.
+
+If the FILTYP = argument appears in a CREATE statement, it can optionally be followed by a subtype file specification. The subtype is an unsigned integer value in the range 0 to 65535. If the subtype is not specified, the default value of 0 is used, except for basic data files. If the specified file type is a subdirectory (DIR), then the subtype is 0 regardless of the specified value. The meaning of the sub type varies with the type of file.
+
+The basic data files require the subtype value to be in the range of 3 to 32767.
+<Page-footer>
+
+
+
+Page 125
+This is because TML BASIC uses the subtype of a basic data file as the logical record size of the file. The size of a logical record of a basic data file must be known to allow random access to the records in the file. See "basic data file access" later in this chapter for more information on basic data files.
+
+Trying to create an already existing file using the CREATE statement causes the "duplicate file error" error. There are three examples of using the CREATE statement. CREATE statements create a folder, a text file, and a basic data file respectively:
+
+   CREATE "/TML/MY.EXAMPLES", FILTYP = DIR 'Create a new subdirectory
+
+   CREATE "GRADES" 'Create a text file
+
+   CREATE "MYROLODEX", FILTYP = BDF, 100 'Create a basic data file
+                                           'with record size' (sub type) of 100
+
+DELETE INSTRUCTION (DELETE)
+The DELETE statement is used to remove a diskette file from a volume. A folder file can only be deleted if all files in the folder have been erased. It is obviously impossible to delete the root folder. Follows the syntax of the DELETE statement
+
+   DELETE Pathname
+
+A number of errors can occur when using the DELETE statement, if the file is in use, locked, if it is located on a write-protected floppy disk, etc. See Appendix A for an explanation. complete list of possible runtime errors.
+
+RENAME INSTRUCTION (RENAME)
+The RENAME statement is used to change the name of a volume, folder, or other file. The syntax for the RENAME statement includes the old path, followed by a comma, and then the new path.
+
+   RENAME OldPathname, NewPathname <, FILTYP = TXT I SRC I BDF I Filetype>
+
+OldPathname must be the name of an existing file and NewPathname, maybe any Prodos 16 authorized path name. By using RENAME, it is possible to change the name of a file, and even move the file to a different folder. However, you can not move a file to another floppy simply by changing its path name. For example :
+
+   RENAME "HELLOWORLD.BAS", "HELLO.BAS" 'Change the file name
+   RENAME "HELLO.BAS", "/TML/HELLO.BAS" 'Change the folder file
+<Page-footer>
+
+
+
+Page 126
+If the optional argument FILTYP = is used, the type of the renamed file is also changed. It is possible to change only the type of a file using the argument FILTYP = when OldPathname and NewPathname are the same.
+
+LOCK AND UNLOCK INSTRUCTIONS
+The LOCK and UNLOCK statements are used to change the protection of a file. The syntax of these instructions includes only the reserved word LOCK or UNLOCK followed by the path of the file whose protection must be modified.
+
+   LOCK Pathname
+   UNLOCK Pathname
+
+The LOCK instruction prohibits the writing and erasing of a floppy disk file and also prevents it from being renamed. All file types including folders, can be locked except for the root folder. The UNLOCK statement removes protection from a file protected by the LOCK statement.
+
+CATALOG INSTRUCTION
+The CATALOG statement is used to display the list of files contained in a folder. The CAT instruction is a shortened form of the CATALOG statement, and displays only a subset of the information in the folder. Optionally, after the reserved word CATALOG, we can put the path of a directory.
+
+   CATALOG <Pathname>
+   CAT <Pathname>
+
+If the Pathname path is a volume name, all the files in the root folder of the volume are displayed. Otherwise, the Pathname path should specify the name of a file under folder, in which case all files in that subfolder are displayed. If the path is omitted, the path displayed is the prefix 0 of prodos 16.
+
+The CATALOG statement allows you to display the name, type, size, modification date, creation date, and subtype of each file in a specified folder.
+
+INSTRUCTION VOLUMES
+The VOLUMES statement is used to read the volume name of each prodos 16 device and display its name. The PRODOS 16 devices are numbered from .D1 to .D9 inclusive. The display shows the name of the device, the volume name, and the number of free bytes available on the volume.
+<Page-footer>
+
+
+
+Page 127
+OPENING AND CLOSING FILES
+Before a program can read or write to a file that has been created, this file must be open. After a program has finished accessing a file, file must be closed. As seen previously, TML BASIC allows the simultaneous opening of 32 files. However, the current versions of PRODOS 16 (version 1.X) only support the opening of 8 files. Only newer versions of the operating system will take advantage of TML BASIC's ability to open up to 32 files.
+
+OPEN INSTRUCTION
+The OPEN statement is used to open files so that it can be accessed and must precede any input / output routine to a file accessing a given file. Follows the general syntax of the OPEN statement
+
+   OPEN Pathname, <FILTYP = DIR I TXT I SRC I BDF I Filetype>
+        <FOR INPUT I OUTPUT I APPEND I UPDATE> AS # Filenumber <, recordsize>
+
+The minimum arguments required to follow the reserved word OPEN are the file path, followed by a comma, the AS reserved word, and the file reference number. The file must have been opened beforehand and must be on a floppy disk that is actually inside the floppy disk drive. If a partial path is used, it is prefixed with 0 to create a full path name. The file reference number is used in all subsequent TML BASIC input / output instructions to access the file. Here are some examples of the OPEN statement
+
+   OPEN "HELLOWORLD.BAS", AS # 10
+   OPEN "/ TML / MYSTUFF / INVOICES", AS # 20
+   OPEN ".PRINTER", AS # 1
+   OPEN ".MODEM", AS # 2
+
+It is good programming practice to adopt a convention for using file reference numbers. A convention is to use file reference numbers from 1 to 7 for devices containing character files, o | the file reference number corresponds to its slot and use numbers ranging from 10 to 31 for floppy files.
+
+The optional FOR clause in the OPEN statement is used to qualify the access mode for the file. The access modes supported are INPUT, OUTPUT, APPEND and UPDATE. If the FOR clause is not used, the file is opened for UPDATE. The FOR INPUT clause specifies that the file is open for read only access and can not be written to. for example
+
+   OPEN myFile $, FOR INPUT AS # 10
+<Page-footer>
+
+
+
+Page 128
+The FOR OUTPUT clause specifies that the file is open for write access only and can not be read. for example
+
+   OPEN myFile $, FOR OUTPUT AS # 10
+
+The FOR APPEND option is a variant of the FOR OUTPUT clause. It is used for sequential access (which will be discussed later) and allows the PRINT # and WRITE # statements to add new information at the end of a file without disturbing existing data already in the file. for example
+
+   OPEN myFile $, FOR APPENDES AS # 10
+ 
+Finally, the FOR UPDATE clause is used to open files for read / write access, as long as the file type supports such access. For example, you can not read a printer.
+
+The FILTYP = optional clause of an OPEN statement is used to specify the file type. The FILTYP = clause is used primitively to ensure that an already open file is of the expected file type. If a program tries to open a file using the FILTYP = clause and the file type does not match the specified file type, the file is not opened and an error is obtained. All predefined file type names (see CREATE) can be used with the FILTYP = clause or with an unsigned integer value.
+
+The FILTYP = clause is also used with the OPEN statement to open files that have not been created. If the OPEN statement finds that the specified file does not exist and if the FILTYP = clause is given, the OPEN statement will implicitly call the CREATE statement first and then open the newly created file.
+
+Finally, the record size argument is used to specify the record size for random access to the file using the INPUT # and GET # statements for non-Basic data files. If the file that is open is an existing basic data file, the save size argument is ignored and the record size used is the size specified when the file was created. For more information on random file access, see "Text file access", "Basic data file access", and "Binary file access" below.
+
+INSTRUCTION CLOSE
+The CLOSE statement is used to close a previously opened file with the OPEN statement. After a file has been closed, it can no longer be accessed. A program should always close a file after it has finished accessing it. Follows the syntax of the CLOSE statement:
+
+   CLOSE
+   CLOSE # FileNumber
+
+The CLOSE statement alone closes all open files. In addition, TML BASIC closes all open files when the RUN and END statements are executed and a program terminates.
+<Page-footer>
+
+
+
+Page 129
+A variant of the CLOSE statement is the CLOSE # statement that can be used to close a single file. With this instruction, a program specifies the reference number of the file to be closed. For example :
+
+   CLOSE # 10
+
+FILE ACCESS TECHNIQUES
+Each of the six file access instructions, discussed in the next three sections, can be used at the same time for accessing sequential files and random files. Access to a sequential file is analogous to reading a book. Access begins at the beginning of the file and continues in order until the end of the file. Random access to a file on the other hand, allows a program to read or write to arbitrary places in the file.
+
+The following paragraphs define how TML BASIC describes the concepts of sequential and random access to files. For specific information on the different instructions that access the files, see the sections "access to text files" "access to the basic data files" and "access to the binary files", later in this chapter .
+
+SEQUENTIAL ACCESS
+TML BASIC stores a current file position for each open file with the OPEN statement. When a file is opened for the first time, the position of the current file is positioned at the beginning of the file, unless the file has been opened with the FOR APPEND option, in which case the position of the current file is positioned at the end of the file. The position of the current file is where o | each TML BASIC input / output instruction reads the file or writes to the file.
+
+Sequential access is the most common technique for accessing a file. When we read a file, or when we write on a file, we access the file at the position of the current file. After the file is accessed, the current file position is updated where | the next piece of data must be written to the file, so that the next file access begins where o | the previous access to the file has stopped. If a program writes to a file and the position of the current file reaches the end of the file, the file size is increased by the size of the data that is being written to the file. After the data has been written, the position of the current file is updated and contains the location of the new end of the file.
+
+Open sequential files using the FOR UPDATE access mode (the default access mode) poses some interesting questions. Using this access mode, the position of the current file is initially positioned at the beginning of the file. After the program has written new information about the file, o | is the end of the file? and what data does this file really contain? Is the end of the file at the end of the original contents of the file, or at the end of the new contents of the file? Depending on the situation, the answer could be either the original end of the file or the new end of the file.
+<Page-footer>
+
+
+
+Page 130
+If the original content of the file has been completely rewritten, over the old information, all original information is lost and the end of the file is at the end of the new file content. If we have only rewritten some of the original information, then some of the original information is still in the file, and the end of the file is at the end of the original file content.
+
+To avoid the problem of the contents of the old file, which remains in a file after writing to this file using the FOR UPDATE access mode, a program should first erase the existing file and then recreate it. open the file.
+
+RANDOM ACCESS
+Unlike sequential access, random access to a file allows each TML BASIC input / output instruction to specify a file record number as the new current file position location for the file before that no access to the file occurs. But in order to be able to specify a registration number, a file must first be organized into a set of records. A record is a data structure, consisting of a fixed number of bytes. The first record in a file is numbered 0, the second record is numbered 1, etc. Each successive record is adjacent to the previous one, and there is no space between them. Thus, for a file containing N records, each with B bytes in length, contains records numbered in the range 0 to N-1 and a file size that is N * B bytes.
+
+When writing a file using random access, for a record that does not exist in the file yet, the file is expanded to create the specified record.
+
+Basic data files are always organized into records because the record size must be specified when the file is created, when using the CREATE statement. Once a Basic data file is created, its record size can not be changed. A different recording size can be given to files of other types when the file is opened using the OPEN statement, as discussed above.
+
+Remember that text files are organized as lines of variable length characters, each line ending with the RETURN character. Thus, it makes sense to access a text file randomly, if we know that each line has exactly the same length and that this length is equal to the recording size. Text files that contain variable line lengths and are randomly accessed with the INPUT # statement will certainly not read partial lines.
+
+ACCESS TO TEXT FILES
+A text file is a special type of file that contains ASCII characters, organized as lines. A line is a sequence that contains up to 255 characters and ends with the RETURN (ASCII 13) character. A text file is created with the TML BASIC CREATE statement, whose FILTYP = argument is set to TXT.
+
+TML BASIC provides two instructions for accessing text files (floppy) and character files (devices):
+<Page-footer>
+
+
+
+Page 131
+INPUT # and PRINT #. These instructions only work with text files. If a program uses these instructions for other types of files, TML BASIC will give the "File Type Error" error.
+
+INSTRUCTION INPUT #
+The INPUT # statement reads a line of text from a file, stores it in an input buffer, and then processes the text that has just been entered, according to the INPUT variable list, into its argument list. If the INPUT # statement does not match a RETURN character after reading 255 characters, it finishes reading the file, adds a RETURN character to the input buffer, and then processes the characters in the same way as a single line.
+
+Follows the syntax of the INPUT # statement
+
+   INPUT # FileNumber <, RecordNumber> <; VariableName <, VariableName >>
+
+The reserved word INPUT # is followed by the file reference number of an open file, a semicolon, and then a comma separated list of variables. Following is an example of the INPUT # statement that reads a line and ranks it in a string variable.
+
+   INPUT # 10; Aline $
+
+This form of the INPUT # statement executes sequential access, reads a line of text, starting at the position of the current file. To execute random access using the INPUT # statement, include a record number after the file reference number. Remember that the file must be opened using the OPEN statement, with the optional record size argument specified, to set the size of the record for the text file. Consider the following instructions:
+
+   OPEN "AFILE", AS # 10, 15
+   INPUT # 10.4; Aline $
+
+The OPEN statement opens the AFILE file by setting a record size of 15 bytes. The INPUT # statement then reads a line of text starting at the fourth record in the file. The position in the fourth record file is calculated using the equation (Record Number - 1) * Record Size
+(RecordNumber - 1) * RecordSize. Thus, the new current position of the INPUT # instruction file is calculated as:
+
+   (4-1) * 15 = 45
+
+Therefore, TML BASIC will position itself in the file at the 45th byte of the file before reading the line. Remember that we count the record numbers and bytes from scratch.
+
+The INPUT # statement can contain strings and numeric variables at the same time. If a numeric variable is used in an INPUT # statement, TML BASIC automatically converts the string representation of a number into the appropriate numeric type (similar to the VAL statement)
+<Page-footer>
+
+
+Page 132
+
+When a numeric variable is used in an INPUT # statement, and the read line does not contain a string that represents a legal numeric value, the error "Type Mismatch Error" is obtained. If there is not enough data in the read line, the file is read again, until a value is given to all variables.
+
+INSTRUCTION PRINT #
+The PRINT # statement writes a line of text to a file, in the same way that the print statement writes it to the screen. Follows the syntax of the PRINT # statement:
+
+   PRINT # FileNumber <, RecordNumber> <; expression <, I; expression>>
+
+The reserved word PRINT # is followed by the reference number of an open file, a semicolon, and a list of expressions separated by commas or semi-colons. Here is an example of a PRINT # statement that writes several variables to a file:
+ 
+   PRINT # 10. anInt%, aReal, aStr $
+
+PRINT # automatically executes any conversion from numeric to string, before writing to a file. The numeric values ​​are formatted using the same rules as the PRINT statement, ie SHOWDIGITS controls the number format generated by PRINT #. Using the comma as a separator between expressions, a tab is executed at the next print area before writing the expression, whereas the semicolon does not execute this operation. The SPC and TAB functions can also be used.
+
+This form of PRINT # instruction executes sequential access by writing a line of text, starting at the position of the current file. To perform random access using the PRINT # statement, include a record number after the file reference number. Remember that the file must be opened using the OPEN statement, the optional record size argument being specified to set the size of a record in the text file. Consider the following instructions:
+
+   OPEN "AFILE", AS # 10, 20
+   PRINT # 10.6; Aline $
+
+The OPEN statement opens the AFILE file, setting a record size of 20 bytes. The PRINT # statement then writes a line of text starting at the sixth record in the file. The PRINT # statement begins at the beginning of the specified random record and writes the entire value of each expression contained in its argument list, regardless of the record size or boundaries between records. This behavior is different from that of the WRITE # statement that will be seen in the next section.
+<Page-footer>
+
+
+
+Page 133
+ACCESS TO BASIC DATA FILES
+A basic data file is a special binary encoded file type, which allows much faster access to the file than access to text files. Basic data files are also called Basic Data File (BDF) or data files. BDF files are faster than standard text files because there is no need to perform text-to-binary translations when writing or reading a file. The BDF files store the data using the same binary representation as for the values ​​stored in memory.
+
+TML BASIC provides two instructions for accessing BDF files: READ # and WRITE #.
+
+STRUCTURE OF A BDF FILE
+Basic data files are stored in a special file structure format. Unlike other types of files, BDF files are always organized with fixed record sizes, regardless of whether the file is accessed sequentially or randomly. The save size of a BDF file is specified when the file is created and can not be changed. If the record size is not specified in the CREATE statement, a default record size of 512 bytes is used. When a record size is specified in an OPEN statement for a BDF file, this value is ignored and the record size specified when the file was created is used. The save size of a BDF file is stored as the file type of a prodos 16 file.
+
+As mentioned above, the data values ​​stored in a BDF file are in the same binary format as the values ​​stored in memory. To identify the type of a value, BDF files also store a tag byte immediately preceding a value, which defines only the type of data. Table 9-2 shows the values ​​and the meaning of each BDF tag byte. The table also shows the number of bytes needed to store a value of a given type in a BDF file.
+
+______________________________________________________________________
+
+                             Table 9-2
+                 BDF label byte values
+
+______________________________________________________________________
+
+Byte label Meaning Bytes in a BDF file
+
+0 End of file 1
+1 Not used
+2 Integer 3
+3 Double whole 5
+4 Long integer 9
+5 Real single precision 5
+6 Real double precision 9
+7 String 2 + the number of characters in the string
+______________________________________________________________________
+
+<Page-footer>
+
+
+
+Page 134
+The set consisting of a data item and its corresponding label byte is called a field. All bytes in a field must fit inside a record. A field can not extend beyond the limits of a record. If there is not enough space in a record to write a field, the field is written to the next record. If the field does not fit inside any record, an error occurs.
+
+This is a diagram illustrating how various data can be written on a BDF file containing 4 records and whose record size is 10 bytes. The integer values ​​in the records are the tag octets, followed by a description of the data enclosed in square brackets. The bytes shown in gray inside each record indicate an unused space in the file, because the next field in the file could not fit inside the record.
+
+        Byte
+        0 1 2 3 4 5 6 7 8 9 Recording 0
+       ! ---! ---! ---! ---! ---! ---! ---! ---! ---! ---!
+       ! 2! V. Ent! 2! V. Ent! 2! V. Ent !!!!! V. Ent = Integer Value
+       ! ---! ---! ---! ---! ---! ---! ---! ---! ---! ---! 2 bytes
+
+       ! ---! ---! ---! ---! ---! ---! ---! ---! ---! ---! Registration 1
+       ! 3! V. Double Ent! 2! V. Ent !!!!!!!!! V. Double Ent =
+       ! ---! ---! ---! ---! ---! ---! ---! ---! ---! ---! Integer double value
+                                                  4 bytes
+
+       ! ---! ---! ---! ---! ---! ---! ---! ---! ---! ---! Recording 2
+       ! 7! Oct Long + 4 C. Ch !!!!!!!!!!!!!!!!! Byte length and
+       ! ---! ---! ---! ---! ---! ---! ---! ---! ---! ---! 4 characters of string
+
+       ! ---! ---! ---! ---! ---! ---! ---! ---! ---! ---! Registration 3
+       ! 3! V. Double Ent! 3! V. Double Ent!
+       ! ---! ---! ---! ---! ---! ---! ---! ---! ---! ---!
+
+If a program tried to write to a string value on this hypothetical file, a value whose size would be greater than 10 bytes, we would get an error because the value could not fit inside a single record of length 10 bytes.
+
+READ INSTRUCTION #
+The READ # statement reads information about a BDF file for one or more variables. Follows the general syntax of the READ # statement:
+
+   READ # FileNumber <, RecordNumber> <; VariableName <, VariableName >>
+
+The reserved word READ # is followed by the reference number of an open BDF file, a semicolon, and then a comma separated list of variables. Here is an example of a READ # statement that reads 3 integers:
+
+   READ # 10; anInt1%, anInt2%, anInt3%
+<Page-footer>
+
+
+
+Page 135
+This form of READ instruction executes a sequential access reading one field after the other on the successive records of the file. If the values ​​stored at the current file position of the BDF file are not integer values ​​(label byte other than 2), the value must be converted.
+
+If a READ statement contains a numeric variable, the value at the position of the current file of the BDF file must also be a numeric value. If the file contains a string value, we will get the error "type mismatch error". If the file actually contains a numeric value and its type does not match the variable in the READ # statement, the value is converted using the same rules as the CONV functions. Thus, it is possible that the conversion causes a loss of precision or that it causes an overshoot error. If the READ # statement contains a string variable, the value at the current file position must be a string value. Otherwise, we will get the error "type mismatch error".
+
+An optional form of the READ # statement allows random access to a BDF file. To perform random access using the READ # statement, include a record number after the file reference number. Consider the following statement:
+
+   READ # 10.3; aStr $, aDblIntà
+
+This READ # statement reads a string value starting at the third record in the file and then reads an integer double value. Remember that the registration numbers and bytes are counted from the zero value.
+
+INSTRUCTION WRITE #
+The WRITE # statement writes information about a BDF file. Follows the syntax of the WRITE statement #
+
+   WRITE # FileNumber <, RecordNumber> <; expression <, I; expression>>
+
+The reserved word WRITE # is followed by the file reference number of an open file, a semicolon, and then a list of expressions separated by commas or semicolons. Following is an example of the WRITE # statement that writes several variables to a file:
+
+   WRITE # 10; anInt%, aReal, aStr $
+
+This form of WRITE # statement executes sequential access by writing successive values ​​to the position of the current file. Each expression in the WRITE # argument list causes a field to be written to the BDF file. Remember that a field consists of a label byte, followed by the binary representation of the value. If a record does not have enough space to hold all the fields we are trying to write, we write the following fields on the next record. If a field can not fit inside any record (if it is larger than the record size), we get an error.
+<Page-footer>
+
+
+
+Page 136
+An optional form of the WRITE # statement allows random access to a BDF file. To execute random access using the WRITE # statement, include a record number after the file reference number. Consider the following variant of the above statement:
+
+   WRITE # 10.6; anInt%, aReal, aStr $
+
+ACCESS TO BINARY FILES
+A binary file is simply a file consisting of a sequence of bytes without any particular organization or structure, such as the structure of BDF files or TXT files. When accessing a binary file, the specified number of bytes at the current file position is transferred without translation into a structured array. You can open and access any type of file as a binary file, including BDF files and TXT files. A major use of binary files in TML BASIC is reading and writing graphic files.
+
+TML BASIC GET # and PUT # instructions handle access to binaries. By default, these instructions transfer a byte number equal to the record size of the open file that is accessed. Thus, a file accessed using these instructions should specify the optional record size argument in the OPEN statement.
+
+INSTRUCTION GET #
+The GET # statement reads a number of bytes into a binary file and stores them in a structured array. Follows the syntax of the GET # statement:
+
+   GET # FileNumber <, <Length> <, RecordNumber >>; StructureVariableReference
+
+The reserved word GET # is followed by the file reference number of an open binary file, a semicolon, and then a structured array variable reference. (which includes a clue) The number of bytes transferred is equal to the recording size of the file. The following instructions illustrate the use of the GET # statement:
+
+   DIM myData! (99)
+   OPEN "SomeFile", AS # 10, 100
+   GET # 10; myData! (0)
+
+The DIM statement declares a structured array that contains 100 elements and thus occupies 100 bytes of storage. The OPEN statement opens a binary file whose record size is 100 bytes and positions the position of the current file at the first record of the file. Finally, the GET # statement reads the first record (100 bytes) from the file and ranks it in the structured array starting at index position 0.
+Note that it is the OPEN statement, and it only, that is responsible for determining the number of bytes transferred by the GET # statement by setting the record size.
+<Page-footer>
+
+
+
+Page 137
+Using the optional LENGTH argument in the GET # statement, allows a program to ignore the record size and transfer a number of bytes different from the record size. However, the LENGTH argument must be less than or equal to the record size. For example, the following statement GET # transfers only 50 bytes from the file.
+
+   GET # 10.50; myData! (0)
+
+Each of the above forms of the GET # statement executes sequential access to the binary file. You can also use the GET # statement for random access using the optional RecordNumber argument. For example, the following statement reads the second record of 100 bytes (the numbering of records starts at 0) on the binary file:
+
+   GET # 10,, 1; myData! (0)
+
+And the following statement only reads 50 bytes in the second 100-byte record:
+
+   GET # 10,50,1; myData! (0)
+
+INSTRUCTION PUT #
+The PUT # statement writes a number of bytes stored in a structured array to a binary file. Follows the syntax of the PUT # statement
+
+   PUT # FileNumber <, <Length> <, RecordNumber >>; StructureVariableReference
+
+The reserved word PUT # is followed by the file reference number of an open binary file, followed by a semicolon and then a structured array variable reference (which includes an index). The number of bytes transferred is equal to the size of the file record. The following examples illustrate the use of the PUT # statement:
+
+   DIM myData! (99)
+   FOR i% = 0 TO 99
+       myData! (i%) = i%
+   NEXT I%
+   OPEN "SomeFile", AS # 10, 100
+   PUT # 10; myData! (0)
+
+The DIM statement declares a structured array that contains 100 elements and thus occupies 100 bytes of storage. The structured array is initialized with the FOR loop. The OPEN statement opens a binary file whose record size is 100 bytes and sets the position of the current file to the first record of the file. Finally, the PUT # statement writes the contents of the structured array to the first record (100 bytes) of the file. Note that it is the OPEN statement that is the only one responsible for determining the number of bytes transferred by the PUT # statement by setting the record size.
+
+Using the optional LENGTH argument in the PUT # statement disregards the size of the record for the number of bytes transferred to the file.
+<Page-footer>
+
+
+
+Page 138
+However, the value of the optional length parameter must be less than or equal to the record size. For example, the next PUT # statement only transfers 50 bytes to the file.
+
+   PUT # 10.50; myData! (0)
+
+Each of the above PUT instruction forms executes sequential access to the binary file. The PUT # statement can also be used for random access using the optional RecordNumber argument. For example, the following statement writes to the second 100-byte record (the record numbers start at zero) on the binary file:
+
+   PUT # 10,, 1; myData! (0)
+
+And the following statement writes only 50 bytes on the second 100-byte record:
+
+   PUT # 10,50,1; myData! (0)
+
+OTHER OPERATIONS ON FILES
+In addition to the file operations discussed so far, TML BASIC offers several other instructions and functions related to file manipulation. The most significant of these instructions relate to the detection and manipulation of end-of-file conditions. These instructions and other instructions and functions are described below.
+
+INSTRUCTION ON EOF #
+The ON EOF # statement tells a program what to do when a file load instruction such as INPUT # or READ # tries to read past the file's end-of-file (EOF) marker. The ON EOF # statement has a unique argument, the file reference number, followed by a sequence of one or more statements. For example :
+
+   ON EOF # 10 PRINT "End of file": CLOSE # 10: END
+
+When the normal execution of a program encounters the ON EOF # statement, it notes that the file associated with the given file reference number is affected by an ON EOF # statement. Instructions on the same line as the ON EOF # statement are not executed.
+
+When the end-of-file marker of a file has been reached, there is no longer any usable data in the file for an INPUT statement, so the INPUT statement can not return a value. Without the ON EOF # statement, the program would abort its execution and give the error message "Out of Data Error". However, if an ON EOF # statement has been encountered for a file whose file reference number matches that found in the ON EOF # statement, the control is automatically transferred to the instructions after the ON EOF statement #.
+
+The following program shows how to use the ON EOF # instruction in a very simple program.
+<Page-footer>
+
+
+
+Page 139
+   OPEN "Test", AS # 10
+   ON EOF # 10 CLOSE # 10: END
+   ReadAgain: INPUT # 10; Aline $
+              PRINT aLine $
+              GOTO ReadAgain
+
+The program opens a text file, executes the ON EOF # statement, then reads line by line what is in the file and prints it on the screen. When you encounter the end of the file, TML BASIC automatically transfers the control to the instructions after the ON EOF # statement. In this example, the statements close the open file and complete the execution of the program.
+
+INSTRUCTION OFF EOF #
+The OFF EOF # statement cancels the effect of an ON EOF # statement. After an OFF EOF # statement has been encountered for a reference number of a given file, reading beyond the end of the file will cause the abort of the program by TML BASIC and will give the message of "Out of Data Error" error.
+
+THE VARIABLE RESERVED EOF
+When TML BASIC encounters an end of file, it assigns the file reference number of this file to the reserved variable EOF. EOF reserved variables can be used in code that handles end-of-file conditions for one or more files to exactly determine which file has reached its end-of-file marker. Here is a simple example of how to use the reserved variable EOF:
+
+   ON EOF # 10 GOTO HandleEOF
+   ON EOF # 15 GOTO HandleEOF
+   ON EOF # 17 GOTO HandleEOF
+   ***
+   HandleEOF: PRINT "End of file encountered for file #"; EOF
+              CLOSE #EOF
+   ***
+
+THE EOFMARK FUNCTION
+The EOFMARK function is used to determine the exact location of the end-of-file marker of an open file. The function has a unique parameter which is the file reference number of an open file. If the file is not open, we will get an error. The following example shows the use of the EOFMARK function
+
+   FileSize = EOFMARK (10)
+
+EOFMARK can only be used with floppy files. Character files such as printers or modems can not have end-of-file markers.
+<Page-footer>
+
+
+
+Page 140
+FUNCTION FILE
+The FILE function is used to determine whether a file exists as a floppy file. The FILE function has a string parameter that specifies the path of the file to test its existence. If the files really exist, the FILE function returns a value of 1 (true), otherwise it returns a value of 0 (false). The following example demonstrates how to use the FILE function
+
+   FileOk = 0
+   DO
+       INPUT "Type a file to open:" theFilename $
+       IF FILE (theFilename $)
+          THEN FileOk = 1
+          ELSE PRINT "Sorry, this file does not exist"
+   UNTIL FileOk
+   OPEN theFilename $, AS # 10
+
+The FILE function may also include a second optional parameter that specifies a file type. If the second parameter is given, the FILE function checks not only the existence of the file, but also whether the file type matches the file type specified in the second parameter. The second parameter uses the reserved word FILETYP = as previously described with the CREATE statement.
+
+THE FILTYP FUNCTION
+The FILTYP function is used to obtain the file type of an open file. The function has a unique parameter that must be a file reference number of an open file. The function returns an integer that is the type of the file.
+
+TYP FUNCTION
+The TYP function is only used with basic data files. The function examines the type of the next one to be read from a basic data file and returns an integer which is the tag byte of the next file value. The function has a unique parameter which is the file reference number of an open file. Table 9-2 defines the value of the tag byte.
+
+THE REC FUNCTION
+The REC function is used with random access files to obtain the current record number of a file. The function has a unique parameter which must be the file reference number of an open file. The function returns a double integer which is the record number corresponding to the current position of the file. Following is a simple example of the REC function:
+
+   CurrentRecordPosà = REC (10)
+<Page-footer>
+
+
+
+Page 141
+ABSTRACT
+TML BASIC provides a large set of instructions and functions for handling files. This chapter has provided you with a general overview of the PRODOS 16 file concepts, the IIGS operating system, as well as an item-by-item review of the TML BASIC instructions, functions, and reserved variables, which allow you to manipulate files in TML BASIC programs. You should also refer to Chapter 10 for more information on each of the instructions and functions discussed in this chapter.
+
+End of Chapter 9
+
+
+
+Page 143

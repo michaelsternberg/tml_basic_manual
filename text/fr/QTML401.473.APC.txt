@@ -1,0 +1,3003 @@
+APPENDICE C
+
+Les librairies de la TOOLBOX (Boite à outils) de l'Apple IIGS
+-------------------------------------------------------------
+Comme indiqué des chapitres 11 à 13 de ce manuel, la Toolbox du IIGS est un large ensemble de routines de software développées par APPLE et incluses dans le HARDWARE de chaque IIGS. Les routines de la Toolbox exécutent les écrans graphiques Super HiRes et l'outil graphique Quickdraw. Elles exécutent également le son, les menus, les fenetres, les dialogues et beaucoup d'autres choses encore. Comme indiqué dans le Chapitre 11, la Toolbox est formée d'un ensemble de TOOL SET (ou Managers). Chacun de ces outils exécute un ensemble de procédures, de fonctions et de structures de données qui lui sont propres.
+
+TML BASIC permet au programmeur l'accès à la Toolbox avec un ensemble de librairies, chacune d'entre elle définissant l'interface à un Tool set individuel. Les librairies sont livrées sur le disque système TML BASIC dans le dossier LIBRARIES. Le source code des Librairies n'est pas fourni, bien que le contenu de chaque librairie est listée dans cette appendice par ordre alphabétique. Les librairies fournies avec le TML BASIC sont indiquées dans le tableau suivant :
+
+______________________________________________________________________
+
+Apple IIGS Ensemble d'outils            TML BASIC nom de librairie
+(TOOL SET)                              (Library name)
+
+Control Manager                         Control
+Desk Manager                            Desk
+Dialog Manager                          Dialog
+Event Manager                           Event
+Font Manager                            Font
+Integer Math                            IntMath
+Line Edit                               LineEdit
+Memory Manager                          Memory
+Menu Manager                            Menu
+Miscellaneous Tools                     MiscTool
+Note Synthesizer                        NoteSyn
+Print Manager                           Print
+QuickDraw                               QuickDraw
+QuickDraw Auxiliary                     QDAux
+Scheduler                               Scheduler
+Scrap Manager                           Scrap
+Sound Manager                           Sound
+Standard File                           StdFile
+Text Tools                              TextTool
+Tool Locator                            ToolLocator
+Window Manager                          Window
+
+______________________________________________________________________
+<page-footer>
+<page-break>
+
+Page 402
+La description de chaque Tool set est divisé en quatre parties, l'introduction, les valeurs spéciales, les structures de donnée et les routines.
+Les paragraphes suivants décrivent le contenu de ces parties et la notation conventionnelle utilisée.
+Bien que cet Appendice fournisse une description approfondie du contenu de chaque Tool Set et de la structure des données que chaque Tool Set utilise, il est en aucune manière un substitut à un bon livre de référence sur la manière dont la Toolbox travaille. La référence absolue est bien entendu la publication technique Apple dont le titre est APPLE IIGS Toolbox Reference : Volumes 1 and 2. Toute personne essayant de programmer la Toolbox au delà d'une simple utilisation des graphiques QuickDraw qui est entièrement documenté dans le chapitre 12 y obtiendra de bonnes réferences décrivant le détail de la Toolbox.
+
+INTRODUCTION
+------------
+Avant de décrire la structure des données, les procédures et les fonctions d'un Tool Set, une brève description des fonctions particulières des Tool Set et de leurs possibiligés est donnée.
+
+VALEURS SPECIALES
+-----------------
+Cette partie est utilisée pour mettre en valeur différentes valeurs importantes utilisées ou renvoyées par les procédures et les fonctions du Tool Set. Par exemple, le Memory Manager fournit la fonction NewHandleà qui est utilisée pour allouer un bloc de mémoire. Un des paramètres de cette fonction spécifie les différents attributs du bloc qui doit etre alloué. Les attributs sont définis par le programme avec des valeurs prédéfinies spéciales. Si vous ne connaissez pas la signification des valeurs de ces paramètres, il sera impossible d'allouer de façon correcte un bloc de mémoire. Dans cette partie, on ne décrira pas toutes les valeurs concevables utilisées par les procédures et les fonctions dans un Tool Set mais seulement les plus importantes et celles qui sont utilisées les plus communément. Les valeurs spéciales sont présentées dans un tableau qui défini la valeur entière et sa signification. Dans certains cas, un paragraphe décrit comment l'ensemble des valeurs est utilisé.
+
+STRUCTURE DES DONNEES
+---------------------
+Un grand nombre des fonctions et des procédures de la Toolbox manipule des structures de données, plutot que simplement quelques valeurs. Les structures de données sont un ensemble de valeurs regroupées ensemble en une seule variable. En TML BASIC, les structures de données sont représentées en tableau ou structure de variables. Comme le BASIC ne permet pas des mécanismes de symbole similaires à ceux que l'on peux trouver dans des languages comme le Pascal ou le C, il n'est pas possible de définir de nouveaux types d'écriture à partir desquels les variables peuvent etre déclarées. Au lieu de cela, le programmeur doit déclarer les tableaux et/ou les structures des variables d'une manière appropriée et les utiliser d'une façon considerant la signification particulière que la toolbox a donné à une structure de données spécifique.
+Cette partie de l'appendice fournie un gabarit qui montre la façon dont un tableau ou une variable structurée devrait etre déclaré et utilisé pour une structure de données particulière de toolbox. Le gabarit inclus un paragraphe décrivant le but de la structure de données, un exemple d'instruction DIM qu'un programme peux utiliser pour créer un exemple de data structurée et une définition de la signification pour chaque élément du tableau ou chaque variable structurée.
+<page-footer>
+<page-break>
+
+Page 403
+Le gabarit exemple n'est pas necessairement la seule façon dont la structure data peux etre défini, mais est généralement la meilleure. Suit un exemple de la structure de données Point, utilisée par les routines graphiques QuickDraw. Un point défini un endroit dans l'espace de dessin à deux dimensions de l'écran Super HiRes QuickDraw. En tant que tel, il comprends deux valeurs entieres qui définissent la position horizontale et verticale du point.
+
+   DIM aPoint%(1)
+
+Element(s)    valeur    Description
+0             Entière   Coordonnée horizontale
+1             Entière   Coordonnée verticale
+
+Comme on l'a vu dans la définition de la structure de données, un point a été décrit comme un tableau entier contenant deux éléments. Le premier élément est la coordonnée horizontale et le deuxième élément est la coordonnée verticale. Les structures de données qui ne contiennent pas des éléments qui soient tous du meme type sont usuellement définies comme des structures plutot que comme des tableaux. Certaines valeurs d'octets dans la structure constituent alors chaque élément de la structure de données. Dans ce cas, une assignation simple de chaque élément à la structure de données n'est pas possible. Au lieu de ça, les instructions SET et VAL sont utilisées pour accèder aux éléments de la structure de données. Suit la structure de données de PenState qui est également utilisé par QuickDraw
+
+   DIM aPenState!(47)
+
+Element(s)     Valeur    Description
+0...3          Point     Endroit stylo
+4...7          Point     Taille stylo
+8...39         Forme     Forme stylo
+40...47        Masque    Masque stylo
+
+Dans cet exemple, nous voyons que les deux premiers éléments de la structure de données sont des points. Un point est une autre structure de données que nous avons déclaré ci-dessus. Un point est un tableau de deux valeurs entières, ainsi les éléments point occupent chacun 4 octets dans la structure de données PenState. Les Patterns (formes) et masques sont d'autres structures de données définis par QuickDraw.
+
+LES ROUTINES
+------------
+La Toolbox n'est pas une partie du language TML BASIC, mais est une partie intégrale du IIGS. Le code qui exécute les routines Toolbox est écrit en assembleur et est stocké dans les ROM IIGS ou sur le système disque et lu en RAM. 
+<page-footer>
+<page-break>
+
+Page 404
+Comme telles les procédures et les fonctions dans chaque Toolset ne sont pas définis de la façon habituelle en utilisant les instructions DEF PROC et DEF FN, et elles ne sont pas non plus appellées de la façon habituelle en utilisant les instruction PROC ou FN. Comme indiqué dans le chapitre 11, le TML BASIC fourni les instructions  CALL et EXFN pour appeler les procédures et les fonctions Toolbox. Toutefois, il n'est pas fourni de mécanisme en TML BASIC qui permette de définir une procédure ou une fonction Toolbox.
+
+Puisque les procédures et fonctions Toolbox ne peuvent pas etre définis en utilisant l'instruction TML BASIC autorisée, les librairies Toolbox sont crées avec un outil spécial qui n'est pas livré avec le disque de distribution TML BASIC. Toutefois, pour définir chaque nom de routine Toolbox et ses paramètres, nous avons adopté une notation spéciale basé sur les instructions familières dans cet Appendice DEF PROC et DEF FN. Chaque déclaration commence soit avec DEF PROC, soit avec DEF FN, suivant que la routine soit une procédure ou une fonction. Suit ensuite le nom de la routine Toolbox. Ces noms correspondent exactement à ceux décrits dans le manuel de référence IIGS de la Toolbox. Si la routine est une fonction, alors le nom est suivi par un caractère de type qui indiquera le résultat type de la fonction. De façon différente des fonctions basic normales, la fonction Toolbox peux renvoyer plus d'une valeur (en utilisant R.STACK, voir chapitre 11). Dans ce cas des crochets sont utilisés pour indiquer le nombre de valeurs renvoyées par la fonction. Après, on trouve la liste de paramètre entre parenthèses. La déclaration se termine avec le mot TOOL, suivi par deux nombres entiers séparés par une virgule. Le mot TOOL indique que la déclaration est une routine Toolbox plutot qu'une procédure ou une fonction normale qui contiendrait du code et se termine avec un END PROC ou un END FN. Suit la procédure d'une déclaration de fonction ou de procédure Toolbox :
+
+DEF PROC ToolName < (Paramètre (,paramètre) ) > TOOL FunctionNum,          ToolNum
+
+DEF FN ToolName< ! I % I à I # > < <NumReturnValues> >
+    < (paramètre (,paramètre) ) > TOOL FunctionNum, ToolNum
+
+Une routine TOOLBOX peut etre invoquée en utilisant l'instruction CALL suivi par le nom de la routine, comme défini dans cette appendice, ou en utilisant l'instruction CALL% utilisant le numéro de fonction et le numéro d'outil de la routine FunctionNum et ToolNum.
+
+
+Les noms de paramètres choisis dans cet Appendice ont été choisis pour décrire la signification de la valeur du paramètre. Par exemple, un paramètre avec le nom UserID% indique que l'identificateur ID de l'utilisitateur du Memory Manager doit etre utilisé comme valeur de paramètre. Le caractère de type suivant le nom indique evidemment le type du paramètre. Dans ce cas, UserID% est un paramètre entier.
+
+Souvent une valeur de data structurée est envoyé à une routine TOOLBOX. Dans ces cas, le nom du paramètre inclus comme partie de son nom le nom de la structure de donnée en italique. Par exemple, la fonction TOOLBOX PtinRect% contient le paramètre PointPtrà (Point étant en italique). Puisque TML BASIC ne permet pas les tableaux et les paramètres structurés (en meme temps), l'adresse de la structure de donnée doit etre passé comme un paramètre entier double (à : arobad)
+<page-footer>
+<page-break>
+
+Page 405
+L'adresse d'un tableau ou d'une variable structuré est obtenue en utilisant la fonction VARPTR (VARPOINTER). A chaque fois que l'adresse d'une structure de données est utilisée en tant que paramètre, son nom se termine usuellement avec les lettres PTR : Pointer. Les routines Tolbox necessitent parfois des valeurs Handle pour un paramètre. un Handle est un pointeur vers un pointeur. Alors que des Handle sont utilisés de façon extensive dans la Toolbox, un programme n'aura à créer une valeur Handle en utilisant VARPTR que très rarement puisque la Toolbox elle-meme les crée et renvoie les Handles au programme. Quand une valeur de paramètre est une Handle, son nom se termine avec les Hndl.
+<page-footer>
+<page-break>
+
+Page 406
+CONTROL MANAGER
+---------------
+Le Control Manager est constitué de toutes les routines qui manipulent le controle. On entends par controle les barres de défilement, les boutons radio, boites etc... Quand un controle est activé ou choisi, il provoque la mise en place immédiate d'une action ou un changement de valeur qui affecte le déroulement de l'application ou la fenetre ou
+qui est commandée par le controle en question.
+
+
+Valeurs spéciales
+Pas de valeur spéciale définie pour le Control Manager.
+
+Structures de donnée
+
+ControlColorTbl
+La structure ControlColorTbl contient l'information utilisée pour ajouter de la couleur à un controle. Puisque les différents controles ne sont pas constitués tous de la meme manière, le contenu de cette structure varie suivant le type de controle utilisé. Suit la forme de définition la plus courante de ControlColorTbl pour une Scroll Bar (ascenseur). Les bits dans chacun des éléments entiers de la structure de donnée définissent les couleurs. Pour plus de détails, voir L'APPLE IIGS TOOLBOX REFERENCE.
+
+______________________________________________________________________
+
+   DIM aControlColorTbl%(7)
+
+Element   Valeur         Définition
+0         Entier         Couleur de contour de l'ascenseur
+1         Entier         Couleur des fleches non illuminées
+2         Entier         Couleur des fleches illuminées
+3         Entier         Couleur du fond intérieur de la boite fleche
+4         Entier         Couleur du marqueur intérieur non illuminé
+5         Entier         Réservé
+6         Entier         Couleur de la région page intérieur
+7         Entier         Couleur intérieure de la Scroll Bar inactive
+
+______________________________________________________________________
+<page-footer>
+<page-break>
+
+Page 407
+Control
+La structure de donnée de controle définie en fait l'objet controlé. Comme pour la structure de donnée ControlColorTbl, les éléments exactes de cette structure de donnée dépendent du controle qui est défini. Le controle listé ci-dessous est celui d'une barre de défilement. Pour plus de détails, se reporter au APPLE IIGS TOOLBOX REFERENCE.
+
+______________________________________________________________________
+
+   DIM Control!(46)
+
+Element   Valeur         Définition
+0...3     Double Entier  Manipule le prochain controle dans la liste                             de controle
+3...6     Double Entier  Pointe vers la fenetre a laquelle se controle                          appartient : WindowPtr
+7...14    Rect           Controle rectangle    
+15        Entier         Controle drapeau
+16        Entier         Controle illumination
+17...18   Entier         Valeur du controle
+19...22   Double Entier  Pointe vers la procédure de définition du                              controle : ProcPtr
+23...26   Double Entier  Pointeur pour controler l'action par défaut                            de la procédure : ProcPtr
+27...28   Entier         Taille des données
+29...30   Entier         Taille de l'affichage (view)
+31...34   Double Entier  Réservé pour l'utilisation de l'application
+35...38   Double Entier  Pointeur pour controler la table des                                   couleurs: ControlColorTblPtr
+39...42   Rect           Rectangle du marqueur
+43...46   Rect           Rectangle de la page
+
+______________________________________________________________________
+
+ROUTINES
+--------
+HouseKeeping
+
+DEF PROC CtlStartup(UserID%,DPageAddr%)                            TOOL 2,16
+DEF PROC CtlShutDown                                               TOOL 3,16
+DEF FN   CtlVersion%                                               TOOL 4,16
+DEF PROC CtlReset                                                  TOOL 5,16
+DEF FN   CtlStatus%                                                TOOL 6,16
+DEF PROC CtlNewRes                                                 TOOL 18,16
+<page-footer>
+<page-break>
+
+Page 408
+Création et disposition (creating and disposing)
+------------------------
+DEF FN    NewControlà
+            (TheWindowPtrà,          
+             BoundsRectPtrà,         
+             TitleString$,
+             Flag%,
+             Value%,
+             Param1%
+             Param2%,
+             DefProcPtrà,            
+             RefConà,
+             ControlColorTablePtrà)                                TOOL 9,16
+DEF PROC  DisposeControl(TheControlHndlà)                          TOOL 10,16
+DEF PROC  KillControls(TheWindowPtrà)                              TOOL 11,16
+
+Affichage
+---------
+DEF PROC  SetCtlTitle(TitleString$,TheControlHndlà)                TOOL 12,16
+DEF FN    GetCtlTitleà(TheControlHndlà)                            TOOL 13,16
+DEF PROC  HideControl(TheControlHndlà)                             TOOL 14,16
+DEF PROC  ShowControl(TheControlHndlà)                             TOOL 15,16
+DEF PROC  DrawControls(TheWindowPtrà)                              TOOL 16,16
+DEF PROC  HiliteControl(HiliteState%,TheControlHndlà)              TOOL 17,16
+
+Coordonnées souris
+------------------
+DEF FN    FindControl%
+             (FoundControlHndlà,
+              XPoint%,
+              YPoint%,
+              TheWindowPtrà)                                       TOOL 19,16
+DEF FN    TestControl%
+             (XPoint%,
+              YPoint%,
+              TheControlHndlà)                                     TOOL 20,16
+DEF FN    TrackControl%
+             (StartX%,
+              StartY%,
+              ActionProcPtrà,
+              TheControlHndlà)                                     TOOL 21,16
+
+Deplacement et taille
+---------------------
+DEF PROC  MoveControl(NewX%,NewY%,TheControlHndlà)                 TOOL 22,16
+DEF PROC  DragControl
+             (StartX%,
+              StartY%,
+              LimitRectPtrà,
+              SlopRectPtrà,
+              Axis%,
+              TheControlHndlà)                                     TOOL 23,16
+<page-footer>
+<page-break>
+
+Page 409
+Controle enregistrement accès
+-----------------------------
+DEF PROC  SetCtlValue(CurValue%,TheControlHndlà)                   TOOL 25,16
+DEF FN    GetCtlValue%(TheControlHndlà)                            TOOL 26,16
+DEF PROC  SetCtlAction(NewActionProcPtrà,TheControlHndlà)          TOOL 32,16
+DEF FN    GetCtlActionà(TheControlHndlà)                           TOOL 33,16
+DEF PROC  SetCtlRefCon(NewRefConà,TheControlHndlà)                 TOOL 34,16
+DEF FN    GetCtlRefConà(TheControlHndlà)                           TOOL 35,16
+DEF PROC  SetCtlParams(Param2%,Param1%,TheControlHndlà)            TOOL 27,16
+DEF FN    GetCtlParams%<2>(TheControlHndlà)                        TOOL 28,16
+
+Divers
+------
+DEF FN    DragRectà
+           (ActionProcPtrà,
+           DragPatternPtrà,
+           StartX%,
+           StartY%,
+           DragRectPtrà,
+           LimitRectPtrà,
+           SlopRectPtrà,
+           Axis%)                                                  TOOL 29,16
+
+DEF FN    GetCtlDPage%                                             TOOL 31,16
+DEF FN    GrowSizeà                                                TOOL 30,16
+DEF FN    SetCtlIconsà(NewFontHndlà)                               TOOL 24,16
+DEF PROC  EraseControl(TheControlHndlà)                            TOOL 36,16
+DEF PROC  DrawOneCtl(TheControlHndlà)                              TOOL 37,16
+
+<page-footer>
+<page-break>
+
+Page 410
+DESK MANAGER
+------------
+Le Desk Manager est l'ensemble d'outils autorisant les applications à supporter l'utilisation des CDA (accessoires classiques de bureau accessibles par CTRL POMME ESC) et des NDA (Nouveaux accessoires de bureau accessibles dans le menu POMME). Les CDA sont invoqués avec une interruption du clavier générée par la combinaison de touches POMME-OUVERTE CONTROLE ESCAPE, les NDA ne peuvent etre appelées que par les applications supportant un environnement Desktop. On trouve les NDA dans le menu POMME de ces applications.
+
+
+Valeurs spéciales
+-----------------
+Les valeurs spéciales sont les codes passés aux procédures DAActive.
+
+_____________________________________________________________________________
+
+Valeur              Définition
+1                   Evenement accessoire de bureau
+2                   Lancement accessoire de bureau
+3                   Curseur   accessoire de bureau
+4                   Menu      accessoire de bureau
+5                   Annuler   accessoire de bureau
+6                   Couper    accessoire de bureau
+7                   Copier    accessoire de bureau
+8                   Coller    accessoire de bureau
+9                   Effacer   accessoire de bureau
+
+_____________________________________________________________________________
+
+Structures de données
+---------------------
+Il n'y a pas de structure de données définie pour le Desk Manager
+
+Routines
+--------
+Chargement (HouseKeeping)
+
+DEF PROC  DeskStartup                                              TOOL 2,5
+DEF PROC  DeskShutDown                                             TOOL 3,5
+DEF FN    DeskVersion%                                             TOOL 4,5
+DEF PROC  DeskReset                                                TOOL 5,5
+DEF FN    DeskStatus%                                              TOOL 6,5
+
+Etat sauvegardé et restauré
+
+DEF PROC  SaveScrn                                                 TOOL 9,5
+DEF PROC  RestScrn                                                 TOOL 10,5
+DEF PROC  SaveAll                                                  TOOL 11,5
+DEF PROC  RestAll                                                  TOOL 12,5
+
+<page-footer>
+<page-break>
+
+Page 411
+Installation
+
+DEF PROC  InstallNDA(IDHndlà)                                      TOOL 14,5
+DEF PROC  InstallCDA(IDHndlà)                                      TOOL 15,5
+
+Classique accessoire de bureau
+
+DEF PROC  ChooseCDA                                                TOOL 17,5
+DEF PROC  SetDAstrPtr(AltDispHndlà,StringTblPtrà)                  TOOL 19,5
+DEF FN    GetDAstrPtrà(DAIDNum%)                                   TOOL 20,5
+
+Nouvel accessoire de bureau
+
+DEF FN    OpenNDA%(IDNum%)                                         TOOL 21,5
+DEF PROC  CloseNDA(RefNum%)                                        TOOL 22,5
+DEF PROC  CloseNDAbyWinPtr(TheWindowPtrà)                          TOOL 28,5
+DEF PROC  CloseALLNDAs                                             TOOL 29,5
+DEF PROC  FixAppleMenu(MenuNum%)                                   TOOL 30,5
+DEF FN    GetNumAs%                                                TOOL 27,5
+DEF PROC  SystemClick
+            (TheEventRecordà,
+             TheWindowPtrà,
+             Flags%)                                               TOOL 23,5
+DEF FN    SystemEdit%(EditType%)                                   TOOL 24,5
+DEF PROC  SystemTask                                               TOOL 25,5
+DEF FN    SystemEvent%
+            (What%,
+             Messageà,
+             Whenà,
+             WherePointPtrà,
+             Mods%)                                                TOOL 26,5
+<page-footer>
+<page-break>
+
+Page 412
+DIALOG MANAGER
+--------------
+Le Dialog Manager contient les routines pour la manipulation des dialogues et des boites d'alerte. Ces boites fournissent une manière pour l'application pour dialoguer avec l'utilisateur. Les boites de dialogue sont utilisées essentiellement pour demander certains types d'entrées, alors que les boites d'alertes previennent l'utilisateur de situations pouvant géner le déroulement du programme.
+
+Les valeurs spéciales
+---------------------
+Les deux premières valeurs listées sont les éléments de dialogue standard, c'est à dire les nombres pour les boutons OK et CANCEL (annuler). Les autres valeurs sont utilisées quand on crée un nouvel élément de dialogue pour définir le type d'élément de dialogue à créer.
+
+_____________________________________________________________________________
+
+    Valeur               Définition
+1                        OK
+2                        Annuler
+
+10                       Element bouton
+11                       Element vérification
+12                       Element radio
+13                       Element barre de défilement
+14                       Element de controle de l'utilisateur
+15                       Element texte statique
+16                       Element long texte statique
+17                       Element édition de ligne
+18                       Element icone
+19                       Element image
+20                       Element utilisateur
+
+_____________________________________________________________________________
+
+Les structures de données
+--------------------------
+Dialogue
+La structure de donnée dialogue est une structure complexe de taille variable, contenant des pointeurs et des handles pour d'autres structures en mémoire. Le contenu des structures de données Dialogue n'est pas public. A la place, pour manipuler les dialogues et leur contenu, le programmeur utilise les routines standard que l'on trouve dans le Dialog Manager.
+<page-footer>
+<page-break>
+
+Page 413
+Routines
+--------
+
+Chargement (HouseKeeping)
+
+DEF PROC  DialogStartup(UserID%)                                   TOOL 2,21
+DEF PROC  DialogShutDown                                           TOOL 3,21
+DEF FN    DialogVersion%                                           TOOL 4,21
+DEF PROC  DialogReset                                              TOOL 5,21
+DEF FN    DialogStatus%                                            TOOL 6,21
+
+DEF PROC  ErrorSound5SoundProcPtrà)                                TOOL 9,21
+DEF PROC  SetDAFont(FontHndlà)                                     TOOL 28,21
+
+Création et disposition
+
+DEF FN    NewModalDialogà
+           (dBoundsRectPtrà,
+            dVisible%,
+            dRefConà)                                              TOOL 10,21
+DEF FN    NewModelessDialogà
+           (dBoundsRectPtrà,
+            dTitleString$,
+            dBehindWindowPtrà,
+            dFlag%,
+            dRefCon%,
+            dFullSizeRectPtrà)                                     TOOL 11,21
+DEF FN    GetNewModalDialogà(TheDialogPtrà)                        TOOL 50,21
+DEF PROC  CloseDialog(TheDialogPtrà)                               TOOL 12,21
+
+Créer et retirer des éléments
+
+DEF PROC  NewDItem
+           (TheDialogPtrà,
+            ItemID%,
+            ItemRectPtrà,
+            ItemType%,
+            ItemDescrUNIVPtrà,
+            ItemValue%,
+            ItemFlag%,
+            ItemColorTablePtrà)                                    TOOL 13,21
+DEF PROC  GetNewDItem(TheDialogPtrà,ItemTemplatePtrà)              TOOL 51,21
+DEF PROC  RemoveDItem(TheDialogPtrà,ItemID%)                       TOOL 14,21
+
+Manipulation des éléments de dialogue
+
+DEF FN    ModalDialog%(FilterProcPtrà)                             TOOL 15,21
+DEF FN    ModalDialog2à(FilterProcPtrà)                            TOOL 44,21
+DEF FN    IsDialogEvent%(TheEventRecordPtrà)                       TOOL 16,21
+DEF FN    DialogSelect%
+           (TheEventRecordPtrà,
+            TheDialogPtrà,
+            ItemHit%)                                              TOOL 17,21
+DEF PROC  DlgCut(TheDialogPtrà)                                    TOOL 18,21
+<page-footer>
+<page-break>
+
+Page 414
+DEF PROC  DlgCopy(TheDialogPtrà)                                   TOOL 19,21
+DEF PROC  DlgPaste(TheDialogPtrà)                                  TOOL 20,21
+DEF PROC  DlgDelete(TheDialogPtrà)                                 TOOL 21,21
+DEF PROC  DrawDialog(TheDialogPtrà)                                TOOL 22,21
+
+Invoquer les alertes
+
+DEF FN    Alert%(AlertTemplatePtrà,FilterProcPtrà)                 TOOL 23,21
+DEF FN    StopAlert%(AlertTemplatePtrà,FilterProcPtrà)             TOOL 24,21 
+DEF FN    NoteAlert%(AlertTemplatePtrà,FilterProcPtrà)             TOOL 25,21
+DEF FN    CautionAlert%(AlertTemplatePtrà,FilterProcPtrà)          TOOL 26,21
+
+Manipulation des éléments
+
+DEF PROC  ParamText
+           (Param0String$,
+            Param1String$,
+            Param2String$,
+            Param3String$,)                                        TOOL 27,21
+DEF FN    GetControlDItemà(TheDialogPtrà,ItemID%)                  TOOL 30,21
+DEF PROC  GetIText(TheDialogPtrà,ItemID%,TextStringPtrà)           TOOL 31,21
+DEF PROC  SetIText(TheDialogPtrà,ItemID%,TextString$)              TOOL 32,21
+DEF PROC  SelIText(TheDialogPtrà,ItemID%,StartSel%,EndSel%)        TOOL 33,21
+DEF FN    GetDItemType%(TheDialogPtrà,ItemID%)                     TOOL 38,21
+DEF PROC  SetDItemType(ItemType%,TheDialogPtrà,ItemID%)            TOOL 39,21
+DEF PROC  GetDItemBox(TheDialogPtrà,ItemID%,ItemBoxRectPtrà)       TOOL 40,21
+DEF PROC  SetDItemBox(TheDialogPtrà,ItemID%,ItemBoxRectPtrà)       TOOL 41,21
+DEF FN    GetFirstDItem%(TheDialogPtrà)                            TOOL 42,21
+DEF FN    GetNextDItem%(TheDialogPtrà,ItemID%)                     TOOL 43,21
+DEF FN    GetDefButton%(TheDialogPtrà)                             TOOL 55,21
+DEF PROC  SetDefButton(ItemID%,TheDialogPtrà)                      TOOL 56,21
+DEF FN    GetDItemValue%(TheDialogPtrà,ItemID%)                    TOOL 46,21
+DEF PROC  SetDItemValue(ItemValue%,TheDialogPtrà,ItemID%)          TOOL 47,21
+DEF FN    GetAlertStage%                                           TOOL 52,21
+DEF PROC  ResetAlertStage                                          TOOL 53,21
+<page-footer>
+<page-break>
+
+Page 415
+DEF FN    DefaultFilter%
+           (TheDialogPtrà,
+            TheEventRecordPtrà,
+            ItemHitPtr%)                                           TOOL 52,21
+DEF PROC  HideDItem(TheDialogPtrà,ItemID%)                         TOOL 34,21
+DEF PROC  ShowDItem(TheDialogPtrà,ItemID%)                         TOOL 35,21
+DEF FN    FindDItem(TheDialogPtrà,ThePointPtrà)                    TOOL 36,21
+DEF PROC  UpDateDialog(TheDialogPtrà,UpDateRgnHandleà)             TOOL 37,21
+DEF PROC  DisableDItem(TheDialogPtrà,ItemID%)                      TOOL 57,21
+DEF PROC  EnableDItem(TheDialogPtrà,ItemID%)                       TOOL 58,21
+<page-footer>
+<page-break>
+
+Page 416
+EVENT MANAGER
+-------------
+L'Event Manager (le gestionnaire d'évenements) prends en charge la manipulation d'évenements possibles, qui peuvent arriver soit depuis l'utilisateur, soit depuis l'ordinateur. L'Event Manager prends note de tous les évenements et les renvoie à l'application quand celle-ci les lui demande. Puisque certains évenements ont une priorité plus grande que d'autres, les évenements ne sont pas rapportés dans le meme ordre que celui dans lequel ils arrivent. Le mouvement de la souris vers le bas, un click souris, un double click et l'insertion d'un disque sont des exemples d'évenements.
+
+Les valeurs spéciales
+---------------------
+_____________________________________________________________________________
+
+Valeur         Définition
+
+Codes d'évenements
+-1             Tout évenement
+0              Evenement nul
+1              Souris vers le bas
+2              Souris vers le haut
+3              Touche appuyée
+4              Non défini
+5              Répetition de touche
+6              Mise à jour d'évenements
+7              Non défini
+8              Active l'évenement
+9              Evenement de contact
+10             Evenement Desk Accessorie
+11             Evenement Driver
+12             Evenement Application numéro 1
+13             Evenement Application numéro 2
+14             Evenement Application numéro 3
+15             Evenement Application numéro 4
+
+Evenements de masques équivalents (event masks equates)
+
+2              Masque souris vers le bas
+4              Masque souris vers le haut
+8              Masque touche appuyée
+32             Masque touche répétition
+64             Masque mise à jour
+256            Masque activation
+1024           Masque contact
+2048           Masque Driver
+4096           Masque Application numéro 1
+8192           Masque application numéro 2
+16384          Masque application numéro 3
+-32768         Masque application numéro 4
+<page-footer>
+<page-break>
+
+Page 417
+
+Les drapeaux modificateurs (modifier flags)
+
+1              Drapeau actif
+64             Bouton à l'état 1
+128            Bouton à l'état 0
+256            Touche pomme
+512            Touche shift
+1024           Touche capslock
+2048           Touche Option
+4096           Touche control
+8192           Pavé numérique
+
+_____________________________________________________________________________
+
+Structure de données
+--------------------
+EventRecord
+L'EventRecord est la structure de données utilisée par l'EventManager pour rapporter les occurences d'un évenement et l'information appropriée qui lui est relative.
+_____________________________________________________________________________
+
+DIManEventRecord!(19)
+
+Element(s)     Valeur         Description
+
+0...1          Entier         Code d'évenement spécifiant quel évenement est                                arrivé
+2...5          Double entier  Message d'évenement apportant une information                                 supplémentaire à propos de l'évenement
+6...9          Double entier  Nombre de ticks depuis le démarrage
+10...13        Point          Position de la souris quand l'évenement est                                   arrivé
+14...15        Entier         Drapeau modificateur
+16...17        Double Entier  Donnée Task (tache) pour le Task Master
+18...19        Double Entier  Masque Task pour le Task Master
+
+_____________________________________________________________________________
+
+Routines
+--------
+
+Chargement (HouseKeeping)
+
+DEF PROC  EMStartup
+           (DPageAddr%,
+            QueueSize%,
+            XMinClamp%,
+            XMaxClamp%,                                            
+            YMinClamp%,
+            YMaxClamp%,
+            UserID|)                                               TOOL 3,6
+DEF FN    EMVersion%                                               TOOL 4,6
+DEF PROC  EMReset                                                  TOOL 5,6
+DEF FN    EMStatus%                                                TOOL 6,6
+
+<page-footer>
+<page-break>
+
+Page 418
+Accès aux évenements Toolbox
+
+DEF FN    GetNextEvent%(EventMask%,EventRecordPtrà)                TOOL 10,6
+DEF FN    EventAvail%(EventMask%,EventRecordPtrà)                  TOOL 11,6
+
+Lecture de la souris
+
+DEF PROC  GetMouse(PointPtrà)                                      TOOL 12,6
+DEF FN    Button%(ButtonNum%)                                      TOOL 13,6
+DEF FN    StillDown%(ButtonNum%)                                   TOOL 14,6
+DEF FN    WaitMouseUp%(ButtonNum%)                                 TOOL 15,6
+
+Positionner et retirer les évenements
+
+DEF FN    PostEvent%(EventCode%,EventMsgà)                         TOOL 20,6
+DEF FN    FlushEvents%(EventMask%,StopMask%)                       TOOL 21,6
+
+Accès aux évenements du système opérationnel
+
+DEF FN    GetOSEvent%(EventMask%,EventRecordPtrà)                  TOOL 22,6
+DEF FN    OSEventAvail%(EventMask%,EventRecordPtrà)                TOOL 23,6
+
+Divers
+
+DEF FN    TickCountà                                               TOOL 16,6
+DEF FN    GetdblTimeà                                              TOOL 17,6
+DEF FN    GetCaretTimeà                                            TOOL 18,6
+DEF PROC  FakeMouse
+           (Changed%,
+            ModLatchByte%,
+            XPosition%,
+            YPosition%,
+            ButtonStatus%)                                         TOOL 25,6
+DEF FN    DoWindows%                                               TOOL 9,6
+DEF PROC  SetSwitch                                                TOOL 19,6
+<page-footer>
+<page-break>
+
+Page 419
+FONT MANAGER
+------------
+Le Font Manager (gestionnaire de fontes) permets à une application d'utiliser différentes fontes de caractères, différents styles etc..., à l'intérieur de Quickdraw. Les définitions des fontes sont dans le répertoire SYSTEM/FONT d'un disque système.
+
+Les valeurs spéciales
+---------------------
+Il n'y a pas de valeur spéciale définie pour le Font Manager
+
+Structure de données
+--------------------
+Fonte
+Une fonte est un ensemble complet de caractères avec des variantes de type ou de style, non compris leur taille. Les fontes sont stockées dans le répertoire SYSTEM/FONT/ d'un disque système. La manipulation des fontes par une application est usuellement réalisée au moyen des Handles.
+
+FontID
+_____________________________________________________________________________
+
+DIM aFontID!(3)
+
+Element   Valeur    Définition
+
+0...1     Entier    Numéro de la famille de la fonte
+2         Entier    Style
+3         Entier    Taille du point de la fonte
+
+_____________________________________________________________________________
+
+FontStatRec
+_____________________________________________________________________________
+
+DIM aFontStatRec!(5)
+
+Element   Valeur    Définition
+
+0...3     FontID    Résultat de l'ID
+4...5     Entier    Résultat Stats (état résultant)
+
+_____________________________________________________________________________
+
+
+<page-footer>
+<page-break>
+
+Page 420
+Routines
+--------
+Chargement (HouseKeeping)
+
+DEF PROC  FMStartup(UserID%,DPageAdress%)                          TOOL 2,27
+DEF PROC  FMShutdown                                               TOOL 3,27
+DEF FN    FMVersion%                                               TOOL 4,27
+DEF PROC  FMReset                                                  TOOL 5,27
+DEF FN    RMStatus%                                                TOOL 6,27
+
+Accès à la famille
+
+DEF FN    CountFamilies%(FamSpecs%)                                TOOL 9,27
+DEF FN    FindFamily%
+           (FamSpecs%,
+            PositionNum%,
+            FamNameStringPtrà)                                     TOOL 10,27
+DEF FN    GetFamInfo%(FamNum%,FamNameStringPtrà)                   TOOL 11,27
+DEF FN    GetFamNum%(FamNameStringPtrà)                            TOOL 12,27
+DEF PROC  AddFamily(FamNum%,FamNameString$)                        TOOL 13,27
+
+Manipulation
+
+DEF PROC  InstallFont(DesiredIDRecPtrà,ScaleWord%)                 TOOL 14,27
+DEF PROC  SetPurgeStat(DesiredIDRecPtrà,PurgeStat%)                TOOL 15,27
+DEF FN    CountFonts%(DesiredIDRecPtrà,Specs%)                     TOOL 16,27
+DEF PROC  FindFontStats
+           (DesiredIDRecPtrà,
+            Specs%,
+            PositionNum%,
+            FontStatRecPtrà)                                       TOOL 17,27
+DEF PROC  LoadFont
+           (DesiredIDRecPtrà,
+            Specs%,
+            PositionNum%,
+            FontStatRecPtrà)                                       TOOL 18,27
+DEF PROC  LoadSysFont                                              TOOL 19,27
+DEF PROC  AddFontVar(FontHndlà,NewSpecs%)                          TOOL 20,27
+
+Menu et dialogue des fontes
+
+DEF PROC  FixFontMenu(MenuID%,StartingID%,FamSpecs%)               TOOL 21,27
+DEF FN    ChooseFontà(currentIDRecPtrà,FamSpecs%)                  TOOL 22,27
+DEF FN    ItemID2FamNum%(itemID%)                                  TOOL 23,27
+
+Divers
+
+DEF PROC  FMSetSysFont(TheFontIDRectPtrà)                          TOOL 24,27
+DEF FN    FMGetSysFIDà                                             TOOL 25,27
+DEF FN    FMGetCurFIDà                                             TOOL 26,27
+<page-footer>
+<page-break>
+
+Page 421
+INTEGER MATH 
+------------
+L'ensemble d'outils INTEGER MATH (calcul entier) consiste en un ensemble varié d'opérations pour les nombres entiers, les entiers longs et les nombres rationnels. Ces opérations comprennent la multiplication, la division et des conversions diverses entre les représentations numériques et les chaines de cractères.
+
+Les valeurs spéciales
+---------------------
+Il n'y a pas de valeur spéciale définie pour l'INTEGER MATH
+
+Structure de données
+--------------------
+Il n'y a pas de structure de données définie pour l'INTEGER MATH
+
+Routines
+--------
+
+Routines de chargement
+
+DEF PROC  IMStartup                                                TOOL 2,11
+DEF PROC  IMShutDown                                               TOOL 3,11
+DEF FN    IMVersion%                                               TOOL 4,11
+DEF PROC  IMReset                                                  TOOL 5,11
+DEF FN    IMStatus%                                                TOOL 6,11
+
+Routines mathématiques
+
+DEF FN    Muliplyà(left%,Right%)                                   TOOL 9,11
+DEF FN    SDivideà(left%,Right%)                                   TOOL 10,11
+DEF FN    UDivideà(left%,Right%)                                   TOOL 11,11
+DEF FN    LongDivideà<2>(leftà,Rightà)                             TOOL 13,11
+DEF FN    FixRatioà(Numerator%,Denominator%)                       TOOL 14,11
+DEF FN    FixMulà(leftà,Rightà)                                    TOOL 15,11
+DEF FN    FracMulà(leftà,Rightà)                                   TOOL 16,11
+DEF FN    FixDivà(Dividendà,Divisorà)                              TOOL 17,11
+DEF FN    FracDivà(Dividendà,Divisorà)                             TOOL 18,11
+DEF FN    FixRound%(Fixedà)                                        TOOL 19,11
+DEF FN    FracSqrtà(Fracà)                                         TOOL 20,11
+DEF FN    FracCosà(Fixedà)                                         TOOL 21,11
+DEF FN    FracSinà(Fixedà)                                         TOOL 22,11
+DEF FN    FixATan2à(Val1à,Val2à)                                   TOOL 23,11
+DEF FN    HiWord%(Longà)                                           TOOL 24,11
+DEF FN    LoWord%(Longà)                                           TOOL 25,11
+<page-footer>
+<page-break>
+
+Page 422
+Routines de conversion numérique
+
+DEF FN    Long2Fixà(Longà)                                         TOOL 26,11
+DEF FN    Fix2Longà(Fixedà)                                        TOOL 27,11
+DEF FN    Fix2Fracà(Fixedà)                                        TOOL 28,11
+DEF FN    Frac2Fixà(Fracà)                                         TOOL 29,11
+DEF PROC  Fix2X(Fixedà,ExtPtrà)                                    TOOL 30,11
+DEF PROC  Frac2X(Fracà,ExtPtrà)                                    TOOL 31,11
+DEF FN    X2Fixà(ExtPtrà)                                          TOOL 32,11
+DEF FN    X2Fracà(ExtPtrà)                                         TOOL 33,11
+
+Routines de conversion de chaine
+
+DEF PROC  Int2Hex(Int%,BufferPtrà,BufferLen%)                      TOOL 34,11
+DEF PROC  Long2Hex(Long%,BufferPtrà,BufferLen%)                    TOOL 35,11
+DEF FN    Hex2Int%(BufferPtrà,BufferLen%)                          TOOL 36,11
+DEF FN    Hex2Longà(BufferPtrà,BufferLen%)                         TOOL 37,11
+DEF PROC  Int2Dec(Int%,BufferPtrà,BufferLen%,Signed%)              TOOL 38,11
+DEF PROC  Long2Dec(Long%,BufferPtrà,BufferLen%,Signed%)            TOOL 39,11
+DEF FN    Dec2Int%(BufferPtrà,BufferLen%,Signed%)                  TOOL 40,11
+DEF FN    Dec2longà(BufferPtrà,BufferLen%,Signed%)                 TOOL 41,11
+DEF FN    HexItà(Int%)                                             TOOL 42,11
+<page-footer>
+<page-break>
+
+Page 423
+LINE EDIT
+---------
+Line Edit (édition de ligne) est utilisé pour afficher une ligne de texte sur l'écran et permettre à l'utilisateur d'éditer du texte. L'opération d'édition inclus les opérations standards, couper, copier et coller.
+
+Les valeurs spéciales
+---------------------
+Il n'y a pas de valeur spéciale définie pour Line Edit
+
+Structure de données
+--------------------
+
+LERec
+
+La structure LineEditRecord (LERec) contient l'information nécessaire pour stocker et manipuler une ligne en mémoire. Un programme ne doit pas accèder à la structure de donnée LERec, mais seulement à travers l'utilisation des routines Line Edit.
+
+_____________________________________________________________________________
+
+DIM aLERec!(52)
+
+Element   Valeur         Définition
+
+0...3     Double entier  Manipule le texte devant etre édité
+4...6     Entier         Longueur du texte
+7...14    Rect           Rectangle de destination
+15...22   Rect           Rectangle de visualisation (view rectangle)
+23...26   Double entier  Pointeur vers le GrafPort
+27...28   Entier         Utilisé pour illumination
+29...30   Entier         Utilisé pour dessiner le texte
+31...32   Entier         Début de la gamme de sélection
+33...34   Entier         Fin de la gamme de sélection
+35...36   Entier         Utilisé de façon interne
+37...38   Entier         Utilisé de façon interne
+39...40   Entier         Utilisé de façon interne
+41...44   Double Entier  Utilisé de façon interne
+45...48   Double entier  Pointeur pour la routine d'illumination : ProcPtr
+49...52   Double entier  Pointeur pour la routine caret (^ = exponentiel?)                             : ProcPtr
+
+_____________________________________________________________________________
+
+Routines
+--------
+
+Chargement
+
+DEF PROC  LEStartUp(DPageAddr%,UserID%)                            TOOL 2,20
+DEF PROC  LEShutDown                                               TOOL 3,20
+DEF FN    LEVersion%                                               TOOL 4,20
+DEF PROC  LEReset                                                  TOOL 5,20
+DEF FN    LEStatus%                                                TOOL 6,20
+
+<page-footer>
+<page-break>
+
+Page 424
+Création et disposition
+DEF FN    LENewà(DestRectPtrà,ViewRectPtrà,MaxTextLen%)            TOOL 9,20
+DEF PROC  LEDispose(LERectHndlà)                                   TOOL 10,20
+
+Changer le texte d'un enregistrement d'édition
+
+DEF PROC  LESetText(TextPtrà,Length%,LERecHndlà)                   TOOL 11,20
+
+Point d'insertion et adresse de sélection
+
+DEF PROC  LEIdle(LERecHndlà)                                       TOOL 12,20
+DEF PROC  LEClick(EventRecordPtrà,LERecHndlà)                      TOOL 13,20
+DEF PROC  LESetSelect(SelStart%,SelEnd|,LERecHndlà)                TOOL 14,20
+DEF PROC  LEActivate(LERecHndlà)                                   TOOL 15,20
+DEF PROC  LEDeactivate(LERecHndlà)                                 TOOL 16,20
+
+Edition
+
+DEF PROC  LEKey(TheKey%,Modifiers%,LERecHndlà)                     TOOL 17,20
+DEF PROC  LECut(LERecHndlà)                                        TOOL 18,20
+DEF PROC  LECopy(LERecHndlà)                                       TOOL 19,20
+DEF PROC  LEPaste(LERecHndlà)                                      TOOL 20,20
+DEF PROC  LEDelete(LERecHndlà)                                     TOOL 21,20
+DEF PROC  LEInsert(TextPtrà,Length%,LERecHndlà)                    TOOL 22,20
+
+Affichage du texte
+
+DEF PROC  LEUpdate(LERecHndlà)                                     TOOL 23,20
+DEF PROC  LETextBox
+           (TextPtrà,
+            Length%,
+            BoxRectPtrà,
+            TextJustify%)                                          TOOL 24,20
+
+Manipulation du Scrap
+
+DEF PROC  LEFromScrap                                              TOOL 25,20
+DEF PROC  LEToScrap                                                TOOL 26,20
+DEF PROC  LEScrapHandleà                                           TOOL 27,20
+DEF FN    LEGetScrapLen%                                           TOOL 28,20
+DEF PROC  LESetScrapLen(NewLength%)                                TOOL 29,20
+
+Positionner les crochets d'illumination et d'insertion
+
+DEF PROC  LESetHilite(HiliteProcPtrà,LERecHndlà)                   TOOL 30,20
+DEF PROC  LESetCaret(CaretProcPtrà,LERecHndlà)                     TOOL 31,20
+
+<page-footer>
+<page-break>
+
+Page 425
+LIST MANAGER
+------------
+Le List Manager (Gestionnaire de liste) est utilisé pour créer, afficher et permettre une sélection d'une certaine quantité de variables ou de données similaires.
+
+Les valeurs spéciales
+---------------------
+Il n'y a pas de valeur spéciale définie pour List Manager
+
+Structure de données
+--------------------
+
+ListMem
+
+La structure ListMem contient les données pour un membre dans une liste. Des membres étrangers peuvent etre définis en ajoutant des données supplémentaires, à la fin des données éxistantes. La liste contient un champ qui contient le nombre d'octets dans un membre.
+
+_____________________________________________________________________________
+
+DIM aListMem!(N)
+
+Element   Valeur         Définition
+
+0...3     Double entier  Pointeur de chaine pour le membre chaine, n'importe                           quoi d'autre pour un membre étranger
+4...5     Entier         Bit drapeaux, bit 7 = 1 si sélectionné
+                                       bit 6 = 1 si non sélectionné
+*         *              *
+*         *              *
+*         *              *
+N         Entier         Donnée application si membre étranger
+_____________________________________________________________________________
+
+<page-footer>
+<page-break>
+
+Page 426
+
+ListRec
+
+La structure de données ListRec est la structure contenant l'information à propos d'une liste List Manager. Bien que le List Manager fournisse une routine pour manipuler la liste, la structure vraiment utilisée est fournie ci-dessous.
+
+_____________________________________________________________________________
+
+DIM aListRec!(35)
+
+Element   Valeur         Définition
+
+0...7     Rect           Rectangle arrondi
+8...9     Entier         Total de membres dans la liste
+10...11   Entier         Nombre de membres affichés à un moment donné
+12...13   Entier         Type de la liste
+14...15   Entier         Le nombre de membres apparaissant au démarrage
+16...19   Double entier  Handle de controle faisant partie de la liste
+20...23   Double entier  Pointeur vers la procédure dessinant la liste:                                ProcPtr
+24...25   Entier         Hauteur de chaque membre en pixel
+26...27   Entier         Nombre d'octets dans l'enregistrement d'un membre
+28...31   Double entier  Pointeur vers le membre de la liste qui est le                                tableau d'enregistrement
+32...35   Double entier  Pointeur vers la table de couleur de la barre de                              défilement.
+_____________________________________________________________________________
+
+
+Routines
+--------
+
+Chargement
+
+DEF PROC ListStartup                                               TOOL 2,28
+DEF PROC ListShutdown                                              TOOL 3,28
+DEF PROC ListVersion%                                              TOOL 4,28
+DEF PROC ListReset                                                 TOOL 5,28
+DEF PROC ListStatus%                                               TOOL 6,28
+
+Manipulation
+
+DEF FN   CreateListà(TheWindowPtrà, ListRecPtrà)                   TOOL 9,28
+DEF FN   NextMemberà(ListMemPtrà, ListRecPtrà)                     TOOL 11,28
+DEF FN   ResetMemberà(ListRecPtrà)                                 TOOL 15,28
+DEF PROC DrawMember(ListMemPtrà, ListRecPtrà)                      TOOL 12,28
+DEF PROC SelectMember(ListMemPtrà, ListRecPtrà)                    TOOL 13,28
+DEF PROC SortList(SortProcPtrà, ListRecPtrà)                       TOOL 10,28
+DEF FN   GetListDefProcà                                           TOOL 14,28
+DEF PROC NewList(ListMemPtrà, ListRecPtrà)                         TOOL 16,28
+<page-footer>
+<page-break>
+
+Page 427
+MEMORY MANAGER
+--------------
+Le Memory Manager (gestionnaire de mémoire) est l'un des ensembles d'outils les plus importants de la toolbox. Cet outil est entièrement responsable de l'allocation, la désallocation et du repositionnement des blocs de mémoire dans le IIGS. Le Memory Manager prends en note de la quantité de mémoire libre et quelle partie est allouée et à qui. A chaque fois qu'un programme a besoin de mémoire, il doit demander au Memory Manager de lui allouer.
+
+Les valeurs spéciales
+
+Les valeurs suivantes sont utilisées avec la fonction NewHandleà pour spécifier l'attribut d'un bloc de mémoire qui doit etre alloué.
+
+_____________________________________________________________________________
+
+Valeur    Attribut       Définition
+1         Banque fixée   Doit etre dans une banque de mémoire particulière
+2         Adresse fixée  Doit etre alloué à une adresse spécifique
+4         Page alignée   Doit etre aligné sur le début d'une page
+8         Mémoire        Ne doit pas utiliser les banques $00, $01, $E0, $E1
+           spéciale
+16        Pas de         Ne doit pas chevaucher la frontière séparant
+          chauvechement  plusieurs banques
+          de banque
+16384     Block fixé     Ne doit jamais etre déplacé
+32768     Fermé          La meme que HLock
+
+_____________________________________________________________________________
+
+Structures de données
+
+Pointer (Ptr)
+
+Un pointeur en TML BASIC est l'adresse d'un tableau, d'une structure ou d'une variable simple. L'adresse d'une variable est obtenue en utilisant la fonction VARPTR. Un pointeur est stocké en tant que valeur entière double
+
+Handle (Hndl)
+
+Un handle est également un pointeur en TML BASIC, mais se comporte d'une façon très spéciale. Un handle pointe toujours vers un autre pointeur qui à son tour pointe vers une variable. Excepté cas très rares, on doit essayer de créer un handle avec la toolbox en utilisant la fonction VARPTR. Un programme doit obtenir des valeurs de handle seulement en appelant des fonctions NewHandleà, ou d'autres routines de la toolbox retournant une valeur de handle.
+
+Exemple du traducteur :
+On stocke, par exemple, des variables dans une structure à l'adresse 400
+Un pointeur contient l'adresse de la structure (400) et est stocké, par exemple, à l'adresse 100
+Le Handle contient l'adresse du pointeur (100) et est stocké, par exemple, à l'adresse 250
+
+
+Adresse d'une structure -------> 400  ----------
+                                      ! CHAINE !
+                                      !------- !
+                                      ! VARIAB !
+                                      ----------
+
+Adresse du pointeur qui pointe sur la structure ----> 100 -------
+                                  Contenu du pointeur --> ! 400 !
+                                                          ------
+
+Adresse du handle qui pointe sur le pointeur ----> 250 ------- 
+                                 Contenu du handle --> ! 100 !
+                                                       -------
+
+<page-footer>
+<page-break>
+
+Page 428
+Routines
+--------
+
+Chargement
+
+DEF FN   MMStartup%                                                TOOL 2,2
+DEF PROC MMShutdown(UserID%)                                       TOOL 3,2
+DEF FN   MMVersion%                                                TOOL 4,2
+DEF PROC MMReset                                                   TOOL 5,2
+DEF FN   MMStatus%                                                 TOOL 6,2
+
+Allocation de mémoire
+
+DEF FN   Newhandleà(BlockSizeà,UserID%,Attributes%,LocationPtrà)   TOOL 9,2
+DEF PROC ReAllocHandle
+          (oldHandleà,
+           BlockSizeà,
+           UserID%,
+           Attributes%,
+           LocationPtrà)                                           TOOL 10,2
+DEF PROC RestoreHandle(Handleà)                                    TOOL 11,2
+DEF PROC DisposeHandle(Handleà)                                    TOOL 16,2
+DEF PROC DisposeAll(UserID%)                                       TOOL 17,2
+DEF PROC PurgeHandle(Handle)                                       TOOL 18,2
+DEF PROC PurgeAll(UserID%)                                         TOOL 19,2
+
+Information sur la taille
+
+DEF FN   GetHandleSizeà(Handleà)                                   TOOL 24,2
+DEF PROC SetHandleSize(NewSizeà,Handleà)                           TOOL 25,2
+DEF FN   FindHandle(LocationPtrà)                                  TOOL 26,2
+
+Vérouiller et purger un niveau
+
+DEF PROC HLock(Handleà)                                            TOOL 32,2
+DEF PROC HLockAll(UserID%)                                         TOOL 33,2
+DEF PROC HUnLock(Handleà)                                          TOOL 34,2
+DEF PROC HUnLockAll(UserID%)                                       TOOL 35,2
+DEF PROC SetPurge(NewPurgeLevel%,Handle)                           TOOL 36,2
+DEF PROC SetPurgeAll(NewPurgeLevel%,UserID%)                       TOOL 37,2
+
+Espace libre
+
+DEF PROC CompactMem                                                TOOL 31,2
+DEF FN   FreeMemà                                                  TOOL 27,2
+DEF FN   MaxBlockà                                                 TOOL 28,2
+DEF FN   TotalMemà                                                 TOOL 29,2
+DEF PROC CheckHandle(Handleà)                                      TOOL 30,2
+<page-footer>
+<page-break>
+
+Page 429
+Divers
+DEF PROC BlockMove(SrcPtrà,DstPtrà,ByteCountà)                     TOOL 43,2
+DEF PROC PtrToHand(SrcPtrà,DstHandleà,ByteCountà)                  TOOL 40,2
+DEF PROC HandToPtr(SrcHandleà,DstPtrà,ByteCountà)                  TOOL 41,2
+DEF PROC HandToHand(SrcHandleà,DstHandleà,ByteCountà)              TOOL 42,2
+
+<page-footer>
+<page-break>
+
+Page 430
+MENU MANAGER
+------------
+Le Menu Manager est responsable de la création, la manipulation et la disposition des menus déroulants utilisés dans l'environnement bureau.
+
+Valeurs spéciales
+Pas de valeur spéciale définie pour le Menu Manager.
+
+Structures de données
+MenuBar
+La structure de données MenuBar contient l'information nécessaire pour gérer la barre de menus du bureau standard aussi bien que le menu contenu à l'intérieur de la barre de menus. Ceci est une structure de données privée et ne doit etre manipuler qu'en appelant les routines du Menu Manager.
+
+Menu
+Une structure de donnée menu contient l'information nécessaire à la gestion d'un menu déroulant unique. Une nouvelle fois, nous répetons que cette structure de donnée est privée et ne doit etre manipulée qu'en appelant les routines du Menu Manager
+
+Routines
+--------
+
+Chargement
+
+DEF PROC MenuStartUp(UserID%,DPAGEAdrr%)                           TOOL 2,15
+DEF PROC MenuShutDown                                              TOOL 3,15
+DEF FN   MenuVersion%                                              TOOL 4,15
+DEF PROC MenuReset                                                 TOOL 5,15
+DEF FN   MenuStatus%                                               TOOL 6,15
+
+Création et disposition
+
+DEF FN   NewMenuBarà(TheWindowPtrà)                                TOOL 21,15
+DEF FN   NewMenuà(MenuStringPtrà)                                  TOOL 45,15
+DEF PROC DisposeMenu(TheMenuHndlà)                                 TOOL 46,15
+DEF FN   FixMenuBar%                                               TOOL 19,15
+DEF PROC CalcMenuSize(NewWidth%,NewHeight%,MenuNum%)               TOOL 28,15
+
+Interaction utilisateur
+
+DEF PROC MenuSelect(EventRecordPtrà,TheMenuBarHndlà)               TOOL 43,15
+DEF PROC Menukey(EventRecordPtrà,TheMenuBarHndlà)                  TOOL 9,15
+DEF PROC MenuRefresh(RedrawRoutineProcPtrà)                        TOOL 11,15
+DEF PROC DrawMenuBar                                               TOOL 42,15
+DEF PROC HiliteMenu(Hilite%,MenuNum%)                              TOOL 44,15
+<page-footer>
+<page-break>
+
+Page 431
+DEF PROC FlashMenuBar                                              TOOL 12,15
+
+Manipulation de menu et d'élément
+
+DEF PROC InsertMenu(AddMenuHandleà,InsertAfter%)                   TOOL 13,15
+DEF PROC DeleteMenu(MenuNum%)                                      TOOL 14,15
+DEF PROC InsertMItem
+          (AddItemCStringPtrà,
+           InsertAfter%,
+           MenuNum%)                                               TOOL 15,15
+DEF PROC DeleteMItem(ItemNum%)                                     TOOL 16,15
+
+Accès a la barre des menus
+
+DEF PROC SetsysBar(TheMenuBarHandleà)                              TOOL 18,15
+DEF FN   GetsysBarà                                                TOOL 17,15
+DEF PROC SetMenuBar(TheMenuBarHandleà)                             TOOL 57,15
+DEF FN   GetMenuBarà                                               TOOL 10,15
+DEF PROC SetBarColors
+          (NewBarColor%,
+           NewInvertColor%,
+           NewOutlineColor%)                                       TOOL 23,15
+DEF FN   GetBarColorsà                                             TOOL 24,15
+DEF PROC SetMTitleStart(XStart%)                                   TOOL 25,15
+DEF FN   GetMTitleStart%                                           TOOL 26,15
+DEF FN   CountMItems                                               TOOL 20,15
+
+Accès enregistrement menu
+
+DEF FN   GetMHandleà(MenuNum%)                                     TOOL 22,15
+DEF PROC SetMTitleWidth(NewWidth%,MenuNum%)                        TOOL 29,15
+DEF FN   GetMTitleWidth%(MenuNum%)                                 TOOL 30,15
+DEF PROC SetMenuFlag(NewValue%,MenuNum%)                           TOOL 31,15
+DEF FN   GetMenuFlag%(MenuNum%)                                    TOOL 32,15
+DEF PROC SetMenuTitleà(NewTitleStringPtrà,MenuNum%)                TOOL 33,15
+DEF FN   GetMenuTitleà(MenuNum%)                                   TOOL 34,15
+DEF PROC SetMenuID(NewMenuNum%,OldMenuNum%)                        TOOL 55,15
+
+Accès enregistrement élément
+
+DEF PROC SetMItem(NewStrgCStringPtrà,ItemNum%)                     TOOL 36,15
+DEF FN   GetMItemà(ItemNum%)                                       TOOL 37,15
+DEF PROC SetMItemName(ItemTitleStringPtrà,ItemNum%)                TOOL 58,15
+DEF PROC EnableMItem(ItemNum%)                                     TOOL 48,15
+DEF PROC DisableMItem(ItemNum%)                                    TOOL 49,15
+DEF PROC CheckMItem(Checked%,ItemNum%)                             TOOL 50,15
+DEF PROC SetMItemMark(MarkChar%,ItemNum%)                          TOOL 51,15
+DEF FN   GetMItemMark%(ItemNum%)                                   TOOL 52,15
+DEF PROC SetMItemstyle(ChStyle%,ItemNum%)                          TOOL 53,15
+DEF FN   GetMItemstyle%(ItemNum%)                                  TOOL 54,15
+DEF PROC SetMItemFlag(NewValue%,ItemNum%)                          TOOL 38,15
+DEF FN   GetMItemFlag%(ItemNum%)                                   TOOL 39,15
+DEF PROC SetMItemID(NewID%,ItemNum%)                               TOOL 56,15
+<page-footer>
+<page-break>
+
+Page 432
+DEF PROC SetMItemBlink(Count%)                                     TOOL 40,15
+
+Divers
+
+DEF FN   GetMenuMgrPortà                                           TOOL 27,15
+DEF PROC MenuNewRes                                                TOOL 41,15
+DEF PROC InitPalette                                               TOOL 47,15
+DEF FN   MenuGlobal%(chgFlag%)                                     TOOL 35,15
+<page-footer>
+<page-break>
+
+Page 433
+MISCELLANEOUS TOOLS
+-------------------
+L'ensemble d'outils Miscellaneous (divers) est essentiellement constitué de routines de niveau système qui doivent etre disponibles pour la plupart des autres outils. L'ensemble d'outils inclus des opérations de lecture et d'écriture de l'horloge du IIGS, de lecture et d'écriture de paramètres de mémoire, des opérations sur la souris à bas niveau, des interruptions et d'autres opérations.
+
+Valeurs spéciales
+Pas de valeur spéciale définie pour l'ensemble d'outils Miscellaneous
+
+Structure de données
+Pas de structure de données spéciale définie pour l'ensemble d'outils Miscellaneous
+
+Routines
+--------
+
+Chargement
+
+DEF PROC MTStartup                                                 TOOL 2,3
+DEF PROC MTShutdown                                                TOOL 3,3
+DEF FN   MTversion%                                                TOOL 4,3
+DEF PROC MTReSet                                                   TOOL 5,3
+DEF FN   MTStatus%                                                 TOOL 6,3
+
+RAM sauvegardée
+
+DEF PROC WriteBram(BufferPtrà)                                     TOOL 9,3
+DEF PROC ReadBram(BufferPtrà)                                      TOOL 10,3
+DEF PROC WriteBParam(Data%,ParamRefNum%)                           TOOL 11,3
+DEF FN   ReadBParam%(ParamRefNum%)                                 TOOL 12,3
+
+Horloge
+
+DEF FN   ReadTimeHex%(<4>(BufferSize%)                             TOOL 13,3
+DEF PROC WriteTimeHex(MonthDay%,YearHour%,MinuteSecond%)           TOOL 14,3
+DEF PROC ReadAsciiTime(BufferPtrà)                                 TOOL 15,3
+
+Initialisation de vecteur
+
+DEF PROC SetVector(VectorRefNum%,VectorProcPtrà)                   TOOL 16,3
+DEF FN   GetVectorà(VectorRefNum%)                                 TOOL 17,3
+
+HeartBeat (battement de coeur)
+
+DEF PROC SetHeartBeat(TaskProcPtrà)                                TOOL 18,3
+DEF PROC DelHeartBeat(TaskProcPtrà)                                TOOL 19,3
+DEF PROC ClrHeartBeat                                              TOOL 20,3
+<page-footer>
+<page-break>
+
+Page 434
+Gestionnaire de plantage système
+
+DEF PROC SysFailMgr(ErrCode%,MsgString$)                           TOOL 21,3
+
+Récuperation des adresses
+
+DEF FN   GetAddrà(RefNum%)                                         TOOL 22,3
+
+Souris
+
+DEF FN   ReadMouse!(6)                                             TOOL 23,3
+DEF PROC InitMouse(MouseSlot%)                                     TOOL 24,3
+DEF PROC SetMouse(MouseMode%)                                      TOOL 25,3
+DEF PROC HomeMouse                                                 TOOL 26,3
+DEF PROC ClearMouse                                                TOOL 27,3
+DEF PROC ClampMouse
+          (XMinClamp%,
+           XMaxClamp%,
+           YMinClamp%,
+           YMaxClamp%)                                             TOOL 28,3
+DEF FN   GetMouseClamp%<41>                                        TOOL 29,3
+DEF PROC PosMouse(XPos%,YPos%)                                     TOOL 30,3
+DEF FN   ServeMouse%                                               TOOL 31,3
+DEF FN   GetNewID%(IDTag%)                                         TOOL 32,3
+DEF PROC DeleteID(IDTag%)                                          TOOL 33,3
+DEF PROC StatusID(IDTag%)                                          TOOL 34,3
+
+Controle d'interruption
+
+DEF PROC IntSource(ScrRefNum%)                                     TOOL 35,3
+
+Compteur de Tick (top système)
+
+DEF FN   GetTickà                                                  TOOL 37,3
+
+Compactage et décompactage des octets
+
+DEF FN   PackBytes%
+          (ScrBufferPtrà,
+           ScrSizePtrà,
+           DstBufferPtrà,
+           DstSize%)                                               TOOL 38,3
+DEF FN   UnpackBytes%
+          (ScrBufferPtrà,
+           ScrSizePtrà,
+           DstBufferPtrà,
+           DstSize%)                                               TOOL 39,3
+
+<page-footer>
+<page-break>
+
+Page 435
+Munger 
+
+DEF PROC Munger
+          (DestPtrà,
+           DestLenPtrà,
+           TargPtrà,
+           TargLen%,
+           ReplacePtrà,
+           ReplaceLen%,
+           PadCharPtrà)                                            TOOL 40,3
+
+Etat d'interruption enclenchée
+
+DEF FN   GetIRQEnable%                                             TOOL 41,3
+DEF PROC SetAbsClamp
+          (XMinClamp%,
+           XMaxClamp%,
+           YMinClamp%,
+           XMaxClamp%)                                             TOOL 42,3
+DEF FN   GetAbsClamp%<4>                                           TOOL 43,3
+DEF PROC SysBeep                                                   TOOL 44,3
+
+<page-footer>
+<page-break>
+
+Page 436
+NOTE SYNTHESIZER
+----------------
+Le Note Synthesizer est un ensemble d'outils sophistiqué qui peux générer des sons musicaux complèxes basés sur des définitions d'instruments. La puce Ensoniq Digital Oscillator Chip (DOC) est la partie matériel créant vraiment le son.
+
+Valeurs spéciales
+Pas de valeur spéciale définie pour le Note Synthesizer
+
+Structure de données
+WaveForm
+(la forme de l'onde)
+La structure de données WaveForm défini une forme d'onde qui contient l'information à propos de la hauteur (pitch) autorisée et de la gamme d'une onde. Une onde est un composant d'une liste d'ondes qui est nécessaire pour la définition d'une structure de données instruments. Une liste d'ondes consiste a regrouper différentes ondes (...)
+
+_____________________________________________________________________________
+
+   DIM aWaveForm(5)
+
+Element   Valeur    Définition
+
+0         Entier    Le plus haut demi ton MIDI, également TopKey.
+1         Entier    Adresse de l'onde, devant etre mise dans les registres du                      DOC
+2         Entier    Taille de l'onde
+3         Entier    Mode DOC
+4...5     Entier    Hauteur relative pour accorder la forme d'onde
+
+_____________________________________________________________________________
+
+
+Instruments
+
+La structure de données Instrument est utilisée avec la procédure NoteOn pour définir les caractéristiques d'un instrument, dont le son est crée avec le Note Synthesizer. Cette structure a une longueur variable, qui dépends du nombre de forme d'ondes, dans la liste d'ondes A et dans la liste d'ondes B. La notation LA et LB se réfèrre respectivement, au dernier élément dans l'onde A et au dernier élément dans l'onde B.
+<page-footer>
+<page-break>
+
+Page 437
+_____________________________________________________________________________
+
+   DIM anInstrument!(LB)
+
+Element(s)     Valeur         Définition
+
+0...23         Enveloppe!(23) Enveloppe
+24             Entier         Segment fin de note (release)
+25             Entier         Incrément de priorité
+26             Entier         Gamme de hauteur de courbe (pitch bend)
+27             Entier         Profondeur de vibrato
+28             Entier         Vitesse de vibrato
+29             Entier         Valeur en réserve, non utilisée
+30             Entier         Nombre de structures de formes d'ondes dans la                                 liste d'onde A
+31             Entier         Nombre de structures de formes d'ondes dans la                                 liste d'onde B
+32...LA        WaveA!(LA)     Liste d'onde A
+LA+1...LB      WaveB!(LB-LA)  Liste d'onde B
+
+_____________________________________________________________________________
+
+Routines
+--------
+
+Chargement
+
+DEF PROC NSStartup(UpdateRate%,UpdateProcPtrà)                     TOOL 2,25
+DEF PROC NSShutdown                                                TOOL 3,25
+DEF FN   NSVersion%                                                TOOL 4,25
+DEF PROC NSReset                                                   TOOL 5,25
+DEF FN   NSStatus%                                                 TOOL 6,25
+
+Allocation d'un oscillateur
+
+DEF FN   AllocGen%(RequestPriority%)                               TOOL 9,25
+DEF PROC DeallocGen(GenNumber%)                                    TOOL 10,25
+
+
+Manipulation de note
+
+DEF PROC NoteOn(GenNum%,SemiTone%,Volume%,InstrumentPtrà)          TOOL 11,25
+DEF PROC NoteOff(GenNum%,SemiTone%)                                TOOL 12,25
+DEF PROC AllNotesOff                                               TOOL 13,25
+<page-footer>
+<page-break>
+
+Page 438
+PRINT MANAGER
+-------------
+Le Print Manager (gestionnaire d'impression) transforme la représentation Quickdraw des documents en une forme imprimée. Un driver spécial d'impression est necessaire pour utiliser le Print Manager. Pour le moment, les drivers Print Manager existent seulement pour les imprimantes Imagewriter et Laserwriter.
+
+Valeurs spéciales
+
+_____________________________________________________________________________
+
+Valeur    Définition
+0         Spécifie une impression mode brouillon
+128       Spécifie une impression continue (spool)
+
+16382     Nombre maximum de page dans un fichier spool
+
+0         Le numéro numéro d'erreur (NoError) du code d'erreur
+
+_____________________________________________________________________________
+
+
+Structure de données
+
+TPrPort
+TPrPort spécifie le port que le Print Manager utilise comme environnement d'impression. Cette structure de données est à peu près la meme que la structure de données Quickdraw GrafPort. En fait, le premier élément de la structure TPrPort est un GrafPort. Les champs supplémentaires dans TPrPort sont privés et ne doivent etre changés qu'en utilisant les routines de Print Manager.
+
+TPrinfo
+La structure de données TPrinfo est l'enregistrement d'information d'imprimante, contenant les informations de la composition d'une page.
+
+_____________________________________________________________________________
+
+   DIM aTPrinfo%(6)
+
+Element   Valeur    Définition
+
+0         Entier    Usage interne
+1         Entier    Résolution verticale de l'imprimante
+2         Entier    Résolution horizontale de l'imprimante
+3...6     Rect      Rectangle de définition de page
+
+_____________________________________________________________________________
+
+<page-footer>
+<page-break>
+
+Page 439
+TPrStl
+La structure de données TPrStl défini le style d'information obtenu de l'utilisateur à travers le style dialog, aussi bien que le job dialog. Les champs dans cet enregistrement ont des significations différentes pour des imprimantes différentes.
+
+_____________________________________________________________________________
+
+   DIM aTPrStl%(6)
+
+Element   Valeur    Définition
+
+0         Entier    Usage interne
+1         Entier    Résolution verticale de l'imprimante
+2         Entier    Résolution horizontale de l'imprimante
+3...6     Rect      Rectangle page définition
+
+_____________________________________________________________________________
+
+
+TPrXinfo
+La structure de données TPrXinfo contient des informations supplémentaires dont une application peut avoir besoin.
+
+_____________________________________________________________________________
+
+
+   DIM aTPrXinfo%(N)
+
+Element   Valeur    Définition
+0         Entier    Usage interne
+1         Entier    Réservé pour usage interne
+2         Entier    Réservé pour usage interne
+3         Entier    Taille en octet du buffer utilisé pour l'impression Spool
+4         Entier    Informations supplémentaires pour un usage interne
+*         *         *
+*         *         *
+*         *         *
+N         Entier    Fin des informations supplémentaires pour usage interne
+
+_____________________________________________________________________________
+
+<page-footer>
+<page-break>
+
+Page 440
+TPrJob
+La structure de données TPrJob contient une information particulière à propos d'un travail donné. Son contenu est le résultat d'un job dialog.
+
+_____________________________________________________________________________
+
+   DIM aTPrJob!(11)
+
+Element   Valeur    Définition
+
+0...1     Entier    Première page à imprimer
+2...3     Entier    Dernière page à imprimer
+4...5     Entier    Nombre de copies à imprimer
+6         Entier    Méthode d'impression (ex : 0 = brouillon)
+7         Entier    Usage interne
+8...1     Double    Pointeur vers un processus de fond : ProcPtr
+          entier
+_____________________________________________________________________________
+
+
+TPrint
+La structure de données TPrint est utilisée primitivement pour regrouper la plupart des autres structures de données Print Manager en un endroit. Cette structure de données est de taille variable, puisque TPxXinfo est de taille variable.
+
+_____________________________________________________________________________
+
+   DIM aTPrint!(I+29)
+
+Element   Valeur    Définition
+
+0...1     Entier    Version du Print Manager
+2...15    TPrInfo   Sous enregistrement d'information sur l'imprimante
+16...23   Rect      Rectangle papier
+24...37   TPrStl    Information sur le style d'impression
+38...51   TPrInfo   Usage interne
+52...I    TPrXinfo  Informations supplémentaires
+I+1..I+11 TPrJob    Sous enregistrement de travail d'impression
+I+12.I+29 Buffer!(18) Structure de données non utilisée
+
+_____________________________________________________________________________
+
+<page-footer>
+<page-break>
+
+Page 441
+TPrStatus
+
+_____________________________________________________________________________
+
+   DIM aTPrStatus!(22)
+
+Element   Valeur         Définition
+
+0...1     Entier         Nombre total de pages dans un fichier spool
+2...3     Entier         Page en cours d'impression
+3...4     Entier         Nombre total de copies demandées
+5...6     Entier         Usage interne
+7...8     Entier         Usage interne
+9         Entier         Valeur boléenne vraie si la page à commencé à etre                            imprimée
+10        Entier         Usage interne
+11...14   Double entier  Handle pour l'enregistrement d'impression TPrint
+15...18   Double entier  Pointeur pour TPrPort
+19...22   Double entier  Handle pour une picture : PicHndl
+
+_____________________________________________________________________________
+
+Routines
+--------
+
+Chargement
+
+DEF PROC PMStartup(UserID%,DPageAddr%)                             TOOL 2,19
+DEF PROC PMShutDown                                                TOOL 3,19
+DEF FN   PMVersion%                                                TOOL 4,19
+DEF PROC PMReset                                                   TOOL 5,19
+DEF FN   PMStatus%                                                 TOOL 6,19
+
+Enregistrements et dialogues d'impression
+
+DEF PROC PrDefault(THPrintHndlà)                                   TOOL 9,19
+DEF FN   PrValidate%(THPrintHndlà)                                 TOOL 10,19
+DEF FN   PrStlDialog%(THPrintHndlà)                                TOOL 11,19
+DEF FN   PrJobDialog%(THPrintHndlà)                                TOOL 12,19
+DEF FN   PrChoosePrinter%(THPrintHndlà)                            TOOL 22,19
+
+Impression
+
+DEF FN   PrOpenDocà(THPrintHndlà,TPPrPortà)                        TOOL 14,19
+DEF PROC PrCloseDoc(TPPrPortà)                                     TOOL 15,19
+DEF PROC PrOpenPage(TPPrPortà,PageFrameTPRectPtrà))                TOOL 16,19
+DEF PROC PrClosePage(TPPrPortà)                                    TOOL 17,19
+DEF PROC PrPicFile(THPrintHndlà,TPPrPortà,TPPrStatusà))            TOOL 18,19
+
+Erreur de chargement (error handling)
+
+DEF FN   PrError%                                                  TOOL 20,19
+DEF PROC PrSetError(iErr%)                                         TOOL 21,19
+<page-footer>
+<page-break>
+
+Page 442
+QUICKDRAW
+---------
+Quickdraw  est l'ensemble d'outils qui controle l'environnement graphique du IIGS et dessine des objets simples et du texte dans l'écran graphique SuperHiRes. Tous les autres outils qui créent des objets graphiques tels le Menu et le Window Manager, appelent l'ensemble d'outils Quickdraw .
+
+Valeurs spéciales
+
+Modes de transfert
+
+Les modes de transfert déterminent la façon dont les bits sont finalement affichés quand on place une image par dessus, ou au dessus d'une autre image.
+
+_____________________________________________________________________________
+
+Valeur         Description de la valeur
+
+0              srcCopy
+1              srcOr
+2              srcXor
+3              srcBic
+32768          notSrcCopy
+32769          notSrcOr
+32770          notSrcXor
+32771          notSrcBic
+
+_____________________________________________________________________________
+
+
+
+Modes de transfert de texte spécial
+
+Les modes suivants sont exclusivement réservés pour du transfert du texte.
+
+_____________________________________________________________________________
+
+Valeur         Description de la valeur
+4              foreCopy
+5              foreOr
+6              foreXor
+7              foreBic
+32772          notforeCopy
+32773          notforeOr
+32774          notforeXor
+32775          notforeBic
+
+_____________________________________________________________________________
+
+<page-footer>
+<page-break>
+
+Page 443
+Différents styles de texte
+
+Le type de style de caractères de texte est déterminé par les valeurs spéciales suivantes. Certaines fontes, y compris la fonte du système, peuvent ne pas supporter tous les styles donnés, ou leurs attributs.
+
+_____________________________________________________________________________
+
+Valeur         Description de la valeur
+
+0              Plain (plein = normal)
+1              Bold (gras)
+2              Italic
+4              Underline (en exposant)
+8              Outline (en indice)
+16             Shadow (ombré)
+
+_____________________________________________________________________________
+
+Structure de données
+
+BufSizeRec
+
+La structure de données BufSizeRec est utilisée pour stocker de l'information que Quickdraw utilise pour manipuler ses buffers internes de texte.
+
+_____________________________________________________________________________
+
+   DIM BufSizeRec%(3)
+
+Element(s)     Valeur         Description
+
+0              Entier         Largeur maximum
+1              Entier         Hauteur du buffer texte
+2              Entier         Rangée de mots du buffer texte
+3              Entier         Largeur de la fonte
+
+_____________________________________________________________________________
+
+
+ColorTable
+
+La structure de données ColorTable est utilisée pour contenir de l'information qui spécifie les intensités de la couleur. La table est composée de 16 entrées à deux octets. Les deux octets d'une entrée sont divisés en 4 nibbles (demi octet) de 4 bits, dont seuls les trois nibbles les plus bas sont utilisés. Le nibble le plus bas contient l'intensité de la couleur bleue, le nibble suivant spécifie l'intensité de la couleur verte et le dernier nibble spécifie l'intensité de la courleur rouge. Apple a réservé le nibble le plus haut de l'octet le plus haut, pour un usage futur. Les couleurs vraiment réalisées dépendent du mode de résolution (320 ou 640) ainsi que des techniques dithering utilisées (voir chapitre 12 Quickdraw pour plus d'informations).
+<page-footer>
+<page-break>
+
+Page 444
+_____________________________________________________________________________
+
+   DIM aColorTable!(31)
+
+Elément(s)     Valeur         Description
+
+0...1          Entier         Entrée numéro 1
+2...3          Entier         Entrée numéro 2
+4...5          Entier         Entrée numéro 3
+*              *              *
+*              *              *
+*              *              *
+30...31        Entier         Entrée numéro 16
+_____________________________________________________________________________
+
+
+CString
+
+La structure de données CString se réfère à la façon dont le langage C spécifie une chaine en mémoire. Une CString est différente d'une chaine Pascal comptée, par le fait que la CString n'a pas d'octet de longueur et n'indique pas ainsi le nombre de caractères de la chaine. Au lieu de l'octet de longueur, la CString à un caractère de fin pour spécifier o| le dernier caractère de la chaine est stocké. Le caractère de fin est un zéro. A chaque fois que Quickdraw, ou toute autre routine de toolbox, se réfère à cette convention de chaine, il parlera clairement dans sa documentation de "CString".
+
+_____________________________________________________________________________
+
+   DIM aCString!(N)
+
+Elément(s)     Valeur    Description
+
+0              Entier    Valeur ASCII du caractère numéro 1 dans la chaine
+1              Entier    Valeur ASCII du caractère numéro 2 dans la chaine
+*              *         *
+*              *         *
+*              *         *
+N-1            Entier    Valeur ASCII du DERNIER caractère de la chaine
+N              Entier    Caractère de fin de la chaine, doit etre zéro (0)
+
+_____________________________________________________________________________
+
+
+Cursor (curseur)
+
+La structure de données Cursor est une structure de longueur variable qui défini un curseur Quickdraw utilisé pour indiquer la position en cours de la souris. Les octets de définition du Cursor, et le masque du curseur doivent etre spécifiés rang par rang. Les coordonnées point chaud (Hot Spot) indiquent la position dans le rectangle qui est aligné avec la position de la souris, par exemple, le hot spot du curseur du curseur flèche, est la pointe de la flèche.
+<page-footer>
+<page-break>
+
+Page 445
+_____________________________________________________________________________
+
+   DIM aCursor!(P+3)
+
+Elément(s)     Valeur    Description
+
+0...1          Entier    Hauteur (en rangs) du rectangle enfermant le curseur
+2...3          Entier    Largeur (en rangs) du rectangle enfermant le curseur
+4              Entier    Octet numéro 1 de définition du curseur
+5              Entier    Octet numéro 2 de définition du curseur
+*              *         *
+*              *         *
+*              *         *
+R              Entier    Octet numéro R de définition du curseur
+R+1            Entier    Octet numéro 1 du masque du curseur
+R+2            Entier    Octet numéro 2 du masque du curseur
+*              *         *
+*              *         *
+*              *         *
+P...P+1        Entier    Position verticale du point chaud (hot spot) souris
+P+2...P+3      Entier    Position horizontale du hot spot de la souris
+_____________________________________________________________________________
+
+
+FontInfoRec
+
+La structure de données FontInfoRec est utilisée pour contenir l'information qui concerne la fonte en cours.
+
+_____________________________________________________________________________
+
+   DIM aFontInfoRec%(3)
+
+Elément(s)     Valeur    Description
+
+0              Entier    Ascendant (Ascent) : le nombre de rangs de pixels au                                               dessus de la ligne de base
+1              Entier    Descendant (Descent) : le nombre de rangs de pixels                                                  sous la ligne de base
+
+2              Entier    Largeur maximum du caractère de tous les caractères
+3              Entier    Leading : nombre recommandé de rang entre Ascent et
+                                   Descent
+
+_____________________________________________________________________________
+
+
+FontGlobalsRec
+
+La structure de données FontGlobalsRec est une structure à longueur variable qui contient l'information concernant la fonte en cours. La structure de données a une taille dynamique pour permettre une extension future. La taille est renvoyée par la routine Quickdraw  GetFGSize. Les éléments en cours de cette structure de données sont définis comme des entiers, bien que leur gestion puisse changer dans le futur. 
+<page-footer>
+<page-break>
+
+Page 446
+_____________________________________________________________________________
+
+   DIM aFontGlobalsRec%(N)
+
+Elément(s)     Valeur    Description
+
+0              Entier    Numéro de la famille
+1              Entier    Style
+2              Entier    Taille
+3              Entier    Version
+4              Entier    Largeur maximum
+5              Entier    Extension du rectangle bounds de la fonte
+*              *         *
+*              *         *
+*              *         *
+N              Entier    Champs additionnels qu'Apple peut ajouter.
+
+_____________________________________________________________________________
+
+
+GrafPort
+
+La définition courante de l'environnement de dessin est stocké dans la structure de données GrafPort. Bien que le contenu de la structure soit défini ici, l'utilisation des routines Quickdraw pour manipuler le GrafPort est très fortement recommandée. Un GrafPort est analogue à la palette d'un artiste, ou au brouillon du dessinateur. Il peut y avoir plus d'un GrafPort sur le bureau en meme temps, chacun avec ses propres réglages d'environnement.
+
+_____________________________________________________________________________
+
+   DIM aGrafPort!(169)
+
+Elément(s)     Valeur         Description
+
+0...15         LocInfoRec     Caractérise l'endroit o| Quickdraw doit                                       dessiner
+16...23        Rect           Port rectangle
+24...27        Double entier  Handle de la région clip
+28...31        Double entier  Handle de la région visible
+32...63        Pattern        Pattern (modèle) du fond
+64...67        Qui            Localisation de la plume
+68...71        Point          Taille de la plume
+72...73        Entier         Mode de la plume
+74...105       Pattern        Pattern (modèle) de la plume
+106...113      Mask           Masque de la plume
+114...115      Entier         Code visible de la plume
+116...119      Double entier  Handle de la fonte
+120...123      Double entier  Identificateur de la fonte
+124...125      Entier         Drapeau de la fonte
+126...127      Entier         Taille du texte
+128...129      Entier         Face du texte
+130...131      Entier         Mode du texte
+132...135      Double entier  Espace supplémentaire
+<page-footer>
+<page-break>
+
+Page 447
+136...139      Double entier  Caractère supplémentaire
+140...141      Entier         Couleur du premier plan
+142...143      Entier         Couleur du fond
+144...147      Double entier  Handle de sauvegarde d'image
+148...151      Double entier  Handle de sauvegarde de région
+152...155      Double entier  Handle de sauvegarde de polygon
+156...159      Double entier  Pointeur QDProcs
+160...161      Entier         Rotation d'arc
+162...165      Double entier  Champ utilisateur
+166...169      Double entier  Champ système
+
+_____________________________________________________________________________
+
+
+LocInfoRec
+
+La structure de données LocInfoRec contient les informations caractéristiques d'une aire de mémoire spécifique que Quickdraw peut utiliser comme son aire de dessin.
+
+_____________________________________________________________________________
+
+   DIM aLocInfoRec!(15)
+
+Elément(s)     Valeur         Description
+
+0              Entier         Octet de controle de balayage (SCB)
+1              Entier         Réservé pour un usage futur
+2...5          Double entier  Pointeur vers une image pixel
+6...7          Entier         Largeur
+8...15         Rect           Rectangle bounds 
+_____________________________________________________________________________
+
+
+Masque
+
+Un masque est une structure de données qui détermine la façon dont les pixels d'une image sont vraiment affichés. Seuls les pixels dans l'affichage de l'image désiré correspondant aux bits ON (égaux à 1) dans le masque, sont déssinés. Si le masque à tous ses bits mis à 1, alors l'image originale entière est dessinée. Un masque est simplement un tableau de nombres entiers, o| chaque élément représente une certaine disposition de BIT.
+
+   DIM aMask%(3)
+<page-footer>
+<page-break>
+
+Page 448
+PaintParam
+
+La structure de données PaintParam est uniquement utilisée pour les routines PaintPixels Quickdraw. Cette structure de données contient l'information nécessaire pour transférer une région de pixels, sans se référencer au GrafPort en cours.
+
+_____________________________________________________________________________
+
+   DIM aPaintParam!(21)
+
+Element(s)     Valeur         Description
+
+0...3          Double entier  Pointeur sur l'information donnant la                                         localisation de la source
+4...7          Double entier  Pointeur sur l'information donnant la
+                              localisation de la destination
+8...11         Double entier  Pointeur vers le rectangle source
+12...15        Double entier  Pointeur vers le rectangle destination
+16...17        Entier         Mode
+18...21        Double entier  Mask Handle (ClipRgn)
+
+_____________________________________________________________________________
+
+
+Pattern
+
+Un pattern (modèle) est un tableau de nombres entiers qui représentent certaines dispositions de bits utilisés par la plume Quickdraw pour dessiner. Le pattern de la plume est aligné selon les pixels de telle façon qu'ils forment un pattern continu dans l'endroit o| il apparait sur l'écran. Les patterns du IIGS ont une certaine épaisseur qui signifie que chaque pixel est associé avec 2 ou 4 bits de couleurs dans le pattern suivant le mode graphique en cours. Un pattern est défini comme un tableau de 16 nombres entiers.
+
+   DIM aPattern%(15)
+
+PenState
+
+La structure de données PenState est utilisée pour manipuler l'état en cours de la plume Quickdraw. Ceci est utile pour des routines qui doivent changer briévement l'état de la plume, puis remettre les valeurs de la plume comme elles etaient.
+
+_____________________________________________________________________________
+
+   DIM aPenState!(47)
+
+Element(s)     Valeur    Description
+
+0...3          Point     Localisation de la plume
+4...7          Point     Taille de la plume
+8...39         Pattern   Pattern (modèle ou forme) de la plume
+40...47        Mask      Masque de la plume
+
+_____________________________________________________________________________
+<page-footer>
+<page-break>
+
+Page 449
+Picture (Pic)
+-------------
+La strucure de donnees Pic est une structure de donnees privee qui definit une image QuickDraw picture. Une picture est un objet graphique constitue d'un ou plusieurs objets QuickDraw primitifs (lignes; rectangles, ovales, etc). La structure de donnees picture ne devrait etre manipulee qu'en utilisant les routines QuickDraw appropriees.
+
+Point
+-----
+La structure de donnees point definit un emplacement dans l'espace de dessin bidimensionnel de QuickDraw.
+_____________________________________________________________________________
+
+     DIM aPoint%(1)
+
+     Elements(s)       Valeur           Description
+
+     0                 entier           Coordonnee horizontale
+     1                 entier           Coordonnee verticale
+_____________________________________________________________________________
+
+Polygone (Poly)
+--------
+
+La stucture de donnees Poly est une structure de donnees privee qui definit un polygone Quickdraw. Un polygone est un objet graphique compose d'une ou plusieurs lignes assemblees qui constituent ensemble une figure fermee. La structure de donnees polygone ne devrait etre manipulee qu'en utilisant les routines QuickDraw appropriees.
+
+QDProcs
+-------
+Il est possible de personnaliser QuickDraw en utilisant la stucture de donnees QDProcs. La structure de donnees QDProcs est composee de pointeurs vers les routines de bas niveau que les autres routines QuickDraw appelleront pour  accomplir leurs taches particuileres. Par exemple, FrameRect, PaintRect, FillRect, InvertRect appellent toutes au meme point la meme routine de bas niveau pour tracer le rectangle.
+<page-footer>
+<page-break>
+
+Page 450
+_____________________________________________________________________________
+     
+     DIM aQDProcsà(12)
+
+     Elements   Valeur             Description
+
+                                   Pointeur vers procedure ...
+     0          Double entier      ...trace texte
+     1          Double entier      ...trace ligne
+     2          Double entier      ...trace rectangle
+     3          Double entier      ...trace rectangle coins arrondis
+     4          Double entier      ...trace ovale
+     5          Double entier      ...trace arc ou portion de camembert
+     6          Double entier      ...trace polygone
+     7          Double entier      ...trace region
+     8          Double entier      ...transfert de bit
+     9          Double entier      ...traitement du commentaire de l'image
+     10         Double entier      ...de mesure de la largeur du texte
+     11         Double entier      ...de recuperation d'une image
+     12         Double entier      ...de sauvegarde d'image
+_____________________________________________________________________________
+
+
+Rectangle (Rect)
+----------------
+La structure de donnees Rect definit un rectangle en donnant la coordonnee du coin haut, gauche et du coin bas, droit de ce rectangle.
+
+_____________________________________________________________________________
+
+     DIM aRect%(3)
+
+     Element(s) Valeur             Description
+
+     0          entier             Coordonnee du sommet
+     1          entier             Coordonnee cote gauche
+     2          entier             Coordonnee du bas
+     3          entier             Coordonnee cote droit
+_____________________________________________________________________________
+
+
+Region (Rgn)
+------------
+La structure de donnees Rgn est une structure de donnees privee qui definit une region QuickDraw. Une region est une zone arbitraire ou un ensemble de zones dans l'espace de dessin de Quickdraw. Le perimetre d'une region doit etre une ou plusieurs boucles fermees. La structure de donnees region ne devrait etre manipulee qu'avec les routines QuickDraw appropriees.
+
+<page-footer>
+<page-break>
+
+Page 451
+SCB
+---
+Le SCB ou octet de controle de balayage determine la largeur du pixel et la palette de couleur pour une ligne horizontale specifique. QuickDraw definit aussi un SCB Maitre qui est utilise par les routines comme InitPort pour decider quelles valeurs standards devraient primitivement etre assignees dans un GrafPort.
+String
+------
+Une chaine est une sequence de zero ou plusieurs caracteres ASCII. La chaine contient aussi un octet de longueur, qui contient le nombre de caracteres courants dans la chaine. Cet octet precede le premier caractere de la chaine. La structure de donnees chaine est quelquefois appelee chaine comptee ou chaine Pascal. TML BASIC convertit automatiquement les chaines BASIC en chaines qui peuvent etre utilisees par la Toolbox.
+
+ROUTINES
+--------
+
+L'intendance (HouseKeeping)
+---------------------------
+DEF PROC        QDStartUp(DPageAddr%,MasterSCB%,MaxWidt%, UserID%) TOOL   2,4
+DEF PROC        QDShutDown                                         TOOL   3,4
+DEF FN          QDVersion%                                         TOOL   4,4
+DEF PROC        QDReset                                            TOOL   5,4
+DEF FN          QDStatus%                                          TOOL   6,4
+
+Environnement Global
+--------------------
+DEF FN          GetStandardSCB%                                    TOOL  12,4
+DEF PROC        SetMasterSCB(MasterSCB*)                           TOOL  22,4
+DEF FN          GetMasterSCB%                                      TOOL  23,4
+DEF PROC        InitColorTable(ColorTablePtrà)                     TOOL  13,4
+DEF PROC        SetColorTable(TableNumber%,SrcColorTablePtrà)      TOOL  14,4
+DEF PROC        GetColorTable(TableNumber%,DestColorTablePtrà)     TOOL  15,4
+DEF PROC        SetColorentry(TableNumber%,EntryNumber%,NewColor%) TOOL  16,4
+DEF FN          GetColorentry%(TableNumber%,EntryNumber%)          TOOL  17,4
+DEF PROC        SetSCB(ScanLine%,NewSCB%)                          TOOL  18,4
+DEF FN          GetSCB%(ScanLine%)                                 TOOL  19,4
+DEF PROC        SetAllSCBs(NewSCB%)                                TOOL  20,4
+DEF PROC        SetSysFont(FontHndlà)                              TOOL 178,4
+DEF FN          GetSysFontà                                        TOOL 179,4
+DEF PROC        ClearScreen(Color%)                                TOOL  21,4
+DEF PROC        GrafOn                                             TOOL  10,4
+DEF PROC        GrafOff                                            TOOL  11,4
+
+Manipulation du GrafPort
+------------------------
+DEF PROC        OpenPort(GrafPortPtrà)                             TOOL  24,4
+DEF PROC        InitPort(GrafPortPtrà)                             TOOL  25,4
+DEF PROC        ClosePort(GrafPortPtrà)                            TOOL  26,4
+<page-footer>
+<page-break>
+
+Page 452
+DEF PROC        SetPort(GrafPortPtrà)                              TOOL  27,4
+DEF FN          GetPortà                                           TOOL  28,4
+DEF PROC        SetPortLoc(LocInfoRecPtrà)                         TOOL  29,4
+DEF PROC        GetPortLoc(LocInfoRectPtrà)                        TOOL  30,4
+DEF PROC        SetPortRect(RectPtrà)                              TOOL  31,4
+DEF PROC        GetPortRect(RectPtrà)                              TOOL  32,4
+DEF PROC        SetPortSize(Width%,Height%)                        TOOL  33,4
+DEF PROC        MovePortTo(H%,V%)                                  TOOL  34,4
+DEF PROC        SetOrigin(H%,V%)                                   TOOL  35,4
+DEF PROC        SetClip(RgnHndlà)                                  TOOL  36,4
+DEF PROC        GetClip(RgnHndlà)                                  TOOL  37,4
+DEF PROC        ClipRect(RectPtrà)                                 TOOL  38,4
+
+Pen, Pattern et Drawing (Plume, Motif et Tracage)
+-------------------------------------------------
+DEF PROC        HidePen                                            TOOL  39,4
+DEF PROC        ShowPen                                            TOOL  40,4
+DEF PROC        GetPen(PointPtrà)                                  TOOL  41,4
+DEF PROC        SetPenState(PenStatePtrà)                          TOOL  42,4
+DEF PROC        GetPenStatePtrà)                                   TOOL  43,4
+DEF PROC        SetPenSize(Width%,Height%)                         TOOL  44,4
+DEF PROC        GetPensize(PointPtr)                               TOOL  45,4
+DEF PROC        SetPenMode(PenMode%)                               TOOL  46,4
+DEF FN          GetPenMode%                                        TOOL  47,4
+DEF PROC        SetPenPat(PatternPtrà)                             TOOL  48,4
+DEF PROC        GetPenPat(PatternPtrà)                             TOOL  49,4
+DEF PROC        SetPenMask(MaskPtrà)                               TOOL  50,4
+DEF PROC        GetPenMask(MaskPtrà)                               TOOL  51,4
+DEF PROC        SetBackPat(PatternPtrà)                            TOOL  52,4
+DEF PROC        GetBackPat(PatternPtrà)                            TOOL  53,4
+DEF PROC        SetSolidPattern(PaternPtrà,ColorNum%)              TOOL  56,4
+DEF PROC        PenNormal                                          TOOL  54,4
+DEF PROC        MoveTo(H%,V%)                                      TOOL  58,4
+DEF PROC        Move(DH%,DV%)                                      TOOL  59,4
+
+DEF PROC        SetFont(NewFontHndlà)                              TOOL 148,4
+DEF FN          GetFontà                                           TOOL 149,4
+DEF PROC        SetFontID(FontIDHndlà)                             TOOL 208,4
+DEF FN          GetFontIDà                                         TOOL 209,4
+DEF PROC        GetFontInfo(FontInfoRecHndl)                       TOOL 150,4
+DEF FN          GetFGSize%                                         TOOL 207,4
+DEF PROC        GetFontGlobals(FontGlobalsRecà)                    TOOL 151,4
+DEF PROC        SetFontFlags(Flags%)                               TOOL 152,4
+DEF FN          GetFontFlags%                                      TOOL 153,4
+
+DEF PROC        SetTextFace(TextFace%)                             TOOL 154,4
+DEF FN          GetTextFace%                                       TOOL 155,4
+DEF PROC        SetTextMode(TextMode%)                             TOOL 156,4
+DEF FN          GetTextMode%                                       TOOL 157,4
+DEF PROC        SetSpaceextra(SpaceextraPtrà)                      TOOL 158,4
+DEF FN          SpaceextraPtrà                                     TOOL 159,4
+<page-footer>
+<page-break>
+
+Page 453
+DEF PROC        SetTextSize(Size%)                                 TOOL 210,4
+DEF FN          GetTextSize%                                       TOOL 211,4
+
+DEF PROC        SetCharextra(ChextraPtrà)                          TOOL 212,4
+DEF FN          GetCharextraà                                      TOOL 213,4
+DEF PROC        SetForeColor(ForeColor%)                           TOOL 160,4
+DEF FN          GetForeColor%                                      TOOL 161,4
+DEF PROC        SetBackColor(BackColor%)                           TOOL 162,4
+DEF FN          GetBackColor%                                      TOOL 163,4
+DEF PROC        SetBufDims(MaxWidth%,MaxFontHeight%,MaxFBRextent%) TOOL 203,4
+DEF PROC      ForceBufDims(MaxWidth%,MaxFontHeight%,MaxFBRextent%) TOOL 204,4
+DEF PROC        SaveBufDims(SizeInfoPtrà)                          TOOL 205,4
+DEF PROC    RestoreBufDims(MaxWidth%,MaxFontHeight%,MaxFBRextent%) TOOL 206,4
+DEF PROC        SetClipHandle(ClipRgnHndlà)                        TOOL 198,4
+DEF FN          GetClipHandleà                                     TOOL 199,4
+DEF PROC        SetVisRgn(VisRgnHndlà)                             TOOL 180,4
+DEF PROC        GetVisRgn(VisRgnHndlà)                             TOOL 181,4
+DEF PROC        SetVisHandle(VisRgnHndlà)                          TOOL 200,4
+DEF PROC        GetVisHandle(VisRgnHndlà)                          TOOL 201,4
+DEF FN          GetPicSaveà                                        TOOL  63,4
+DEF FN          GetRgnSaveà                                        TOOL  65,4
+DEF FN          GetPolySaveà                                       TOOL  67,4
+
+DEF PROC        SetGrafProcs(GrafProcsPtrà)                        TOOL  68,4
+Def FN          GetGrafProcsPtrà                                   TOOL  69,4
+DEF PROC        SetUserField(UserfieldPtrà)                        TOOL  70,4
+DEF FN          GetUserFieldPtrà                                   TOOL  71,4
+DEF FN          GetSysFieldPtrà                                    TOOL  73,4
+
+Tracage de Lignes
+-----------------
+DEF PROC        LineTo(H%,V%)                                      TOOL  60,4
+DEF PROC        Line(DH%,DV%)                                      TOOL  61,4
+
+Tracage de Rectangles
+---------------------
+DEF PROC        FrameRect(RectPtrà)                                TOOL  83,4
+DEF PROC        PaintRect(RectPtrà)                                TOOL  84,4
+DEF PROC        EraseRect(RectPtrà)                                TOOL  85,4
+DEF PROC        InvertRect(RectPtrà)                               TOOL  86,4
+DEF PROC        FillRect(RectPtrà)                                 TOOL  87,4
+
+Tracage de Region
+-----------------
+DEF PROC        FrameRgn(RgnHndlà)                                 TOOL 121,4
+DEF PROC        PaintRgn(RgnHndlà)                                 TOOL 122,4
+DEF PROC        EraseRgn(RgnHndlà)                                 TOOL 123,4
+DEF PROC        InvertRgn(RgnHndlà)                                TOOL 124,4
+DEF PROC        FillRgn(RgnHndlà,PatternPtrà)                      TOOL 125,4
+<page-footer>
+<page-break>
+
+Page 454
+Tracage de polygones
+--------------------
+DEF PROC        FramePoly(PolyHndlà)                               TOOL 188,4
+DEF PROC        PaintPoly'PolyHndlà)                               TOOL 189,4
+DEF PROC        ErasePoly(PolyHndlà)                               TOOL 190,4
+DEF PROC        InvertPoly(PolyHndlà)                              TOOL 191,4
+DEF PROC        FillPoly(PolyHndlà,PatternPtrà)                    TOOL 192,4
+
+Tracage d'Ovales
+----------------
+DEF PROC        FrameOval(RectPtrà)                                TOOL  88,4
+DEF PROC        PaintOval(RectPtrà)                                TOOL  89,4 
+DEF PROC        EraseOval(RectPtrà)                                TOOL  90,4
+DEF PROC        InvertOval(RectPtrà)                               TOOL  91,4
+DEF PROC        FillOval(RectPtrà,PatternPtrà)                     TOOL  92,4
+
+Tracage de Rectangles aux Coins Arrondis
+----------------------------------------
+DEF PROC        FrameRRect(RectPtrà,OvalWidth%,OvalHeight%)        TOOL  93,4
+DEF PROC        PaintRREct(RectPtrà,OvalWidth%,OvalHeight%)        TOOL  94,4
+DEF PROC        EraseRRect(RectPtrà,OvalWidth%,OvalHeight%)        TOOL  95,4
+DEF PROC        InvertRRect(RectPtrà,OvalWidth%,OvalHeight%)       TOOL  96,4
+DEF PROC    FillRRect(RectPtrà,OvalWidth%,OvalHeight%,PatternPtrà) TOOL  97,4  
+
+Tracage d'Arcs
+--------------
+DEF PROC        FrameArc(RectPtrà,StartAngle%,ArcAngle%)           TOOL  98,4
+DEF PROC        PaintArc(RectPtrà,StartAngle%,ArcAngle%)           TOOL  99,4
+DEF PROC        EraseArc(RectPtrà,StartAngle%,ArcAngle%)           TOOL 100,4
+DEF PROC        InvertArc(RectPtrà,StartAngle%,ArcAngle%)          TOOL 101,4
+DEF PROC       FillArc(RectPtrà,StartAngle%,ArcAngle%,PatternPtrà) TOOL 102,4
+
+Transfert de Pixels
+-------------------
+DEF PROC        ScrollRect(DstRectPtrà,DH%,DV%.UpdateRgnHndlà)     TOOL 126,4
+DEF PROC        PaintPixels(PaintParamPtrà)                        TOOL 127,4
+DEF PROC        PPToPort
+                (SrcLocInfoRectPtrà,
+                SrcRectPtrà,
+                DestX%,
+                DestY%,modeà)                                      TOOL 214,4
+
+Tracage et Mesure de Textes
+---------------------------
+DEF PROC        DrawChar(Char%)                                    TOOL 164,4
+DEF PROC        DrawText(TextPtrà,TextLength%)                     TOOL 167,4
+DEF PROC        DrawString(Strings$)                               TOOL 165,4
+DEF PROC        DrawCString(CStringPtrà)                           TOOL 166,4
+
+DEF FN          CharWidth%(Char%)                                  TOOL 168,4
+DEF FN          TextWidth%(TextPtrà,TextLength%)                   TOOL 171,4
+DEF FN          StringWidth%(String$)                              TOOL 169,4
+DEF FN          CStringWidth%(CStringPtrà)                         TOOL 170,4
+<page-break><page-footer>
+<page-break>
+
+Page 455
+DEF PROC        CharBounds(Char%,RectPtrà)                         TOOL 172,4
+DEF PROC        TextBounds(TextPtrà,TextLength%,RectPtrà)          TOOL 175,4
+DEF PROC        StringBounds(String$,RectPtrà)                     TOOL 173,4
+DEF PROC        CStringBounds(StringPtrà,RectPtrà)                 TOOL 174,4
+
+Calculs avec des Rectangles
+---------------------------
+DEF PROC        SetRect(RectPtrà,Left%,Top%,Right%,Bottom%)        TOOL  74,4
+DEF PROC        OffsetRect(RectPtrà,DH%,DV%)                       TOOL  75,4
+DEF PROC        InsetRect(RectPtrà,DH%,DV%)                        TOOL  76,4
+DEF FN          SectRect%(ScrlRectPtrà,Src2RectPtrà,DstRectPtrà)   TOOL  77,4
+DEF PROC        UnionRect%(ScrlRectPtrà,Src2RectPtrà,DstRectPtrà)  TOOL  78,4
+DEF FN          PtInRect%(PointPtrà,RectPtrà)                      TOOL  79,4
+DEF PROC        Pt2Rect(Point1Ptrà,Point2Ptrà,DstRectPtrà)         TOOL  80,4
+DEF FN          EqualRect%(Rect1Ptrà,Rect2Ptrà)                    TOOL  81,4
+DEF FN          EmptyRect%(RectPtrà)                               TOOL  82,4
+
+Calculs avec des Points
+-----------------------
+DEF PROC        AddPt(SrcPointPtrà,DstPointPtrà)                   TOOL 128,4
+DEF PROC        SubPt(SrcPointPtrà,DstPointPtrà)                   TOOL 129,4
+DEF PROC        SetPT(PointPtrà,H%,V%)                             TOOL 130,4
+DEF FN          EqualPt%(Point1Ptrà,Point2Ptrà)                    TOOL 131,4
+DEF PROC        LocalToGlobal(PointPtrà)                           TOOL 132,4
+DEF PROC        GlobalToLocal(PointPtrà)                           TOOL 133,4
+
+Calculs avec des régions
+------------------------
+DEF FN          NewRgnà                                            TOOL 103,4
+DEF PROC        DisposeRgn(RgnHndl%)                               TOOL 104,4
+DEF PROC        CopyRgn(SrcRgnHndlà,DstRgnHndlà)                   TOOL 105,4
+DEF PROC        SetEmptyRgn(RgnHndlà)                              TOOL 106,4
+DEF PROC        SetRectRgn(RgnHndlà,Left%,Top%,Right%,Bottom%)     TOOL 107,4
+DEF PROC        RectRgn(RgnHandle,RectPtrà)                        TOOL 108,4
+DEF PROC        OpenRgn                                            TOOL 109,4
+DEF PROC        CloseRgn(DstRgnHndlà)                              TOOL 110,4
+DEF PROC        OffsetRgn(RgnHndlà,DH%,DV%)                        TOOL 111,4
+DEF PROC        InsetRgn(RgnHndlà,DH%,DV%)                         TOOL 112,4
+DEF PROC        SectRgn(SrcRgn1Hndlà,SrcRgn2Hndlà,DstRgnHndlà)     TOOL 113,4
+DEF PROC        UnionRgn(SrcRgn1Hndlà,SrcRgn2Hndlà,DstRgnHndlà)    TOOL 114,4
+DEF PROC        DiffRgn(SrcRgn1Hndlà,SrcRgn2Hndlà,DstRgnHndlà)     TOOL 115,4
+DEF PROC        XorRgn(SrcRgn1Hndlà,SrcRgn2Hndlà,DstRgnHndlà)      TOOL 116,4
+DEF PROC        PtInRgn%(PointPtrà,RgnHndlà)                       TOOL 117,4
+DEF PROC        RectInRgn%(RectPtrà,RgnHndlà)                      TOOL 118,4
+DEF PROC        EqualRgn%(Rgn1Handleà,Rgn2Hndlà)                   TOOL 119,4
+DEF PROC        EmptyRgn%(RgnHndlà)                                TOOL 120,4
+
+Calculs avec des Polygones
+--------------------------
+DEF FN          OpenPolyà                                          TOOL 193,4
+DEF PROC        ClosePoly                                          TOOL 194,4
+DEF PROC        KillPoly(PolyHndlà)                                TOOL 195,4
+<page-footer>
+<page-break>
+
+Page 456
+DEF PROC        OffsetPoly(PolyHndlà,DH%,DV%)                      TOOL 196,4
+
+Operations avec les Images
+--------------------------
+DEF FN          OpenPictureà(picFrameRectPtrà)                     TOOL 183,4
+DEF PROC        PicComment(kind%,dataSize%,dataHndlà)              TOOL 184,4
+DEF PROC        ClosePicture                                       TOOL 185,4
+DEF PROC        DrawPicture(myPictureHndlà,dstRcetPtrà)            TOOL 186,4
+DEF PROC        KillPicture(myPictureHndlà)                        TOOL 187,4
+
+Utilitaires de mise a l'echelle
+-------------------------------
+DEF PROC        MapPt(PointPtrà,fromSrcRectPtrà,toDestRectPtrà)    TOOL 138,4
+DEF PROC        MapRect(RectPtrà,fromSrcRectPtrà,toDestRectPtrà)   TOOL 139,4
+DEF PROC        MapRgn(RgnHndlà,fromSrcRectPtrà,toDestRectPtrà)    TOOL 140,4
+DEF PROC        MapPoly(PolyHndlà,fromSrcRectPtrà,toDestRectPtrà)  TOOL 197,4
+DEF PROC        ScalePt(PointPtrà,,fromSrcRectPtrà,toDestRectPtrà) TOOL 137,4
+
+Divers
+------
+DEF FN          Random%                                            TOOL 134,4
+DEF PROC        SetRandSeed(Seedà)                                 TOOL 135,4
+DEF FN          GetPixel%(H%,V%)                                   TOOL 136,4
+
+Personnalisation de QuickDraw
+-----------------------------
+DEF PROC        SetStdProcs(QDProcsPtrà)                           TOOL 141,4
+DEF FN          GetAddress%                                        TOOL   9,4
+
+Maniement du Curseur
+--------------------
+DEF PROC        SetCursor(CursorPtrà)                              TOOL 142,4
+DEF FN          GetCursorAdrà                                      TOOL 143,4
+DEF PROC        HideCursor                                         TOOL 144,4
+DEF PROC        ShowCursor                                         TOOL 145,4
+DEF PROC        ObscureCursor                                      TOOL 146,4
+DEF PROC        InitCursor                                         TOOL 202,4
+
+DEF PROC        InflateTextBuffer(NewWidth%,NewHeight%)            TOOL 215,4
+DEF PROC        GetROMFont(ROMFontInfoRectPtrà)                    TOOL 216,4
+DEF FN          GetFontLore(GlobalsPtrà,GlobalsSz%)                TOOL 217,4
+<page-footer>
+<page-break>
+
+Page 457
+QUICKDRAW AUXILIARY
+===================
+Le jeu d'outils QuickDraw Auxiliary contient des routines graphiques supplementaires qui completent le jeu d'outils QuickDraw. Les routines QuickDraw Auxiliary sont indispensables pour utiliser le Print Manager.
+
+Valeurs spéciales
+-----------------
+Pas de valeur spéciale definie pour QuickDraw Auxiliary.
+
+Structures de donnees
+---------------------
+Pas de structure de donnee definie pour QuickDraw Auxiliary
+
+ROUTINES
+--------
+
+L'Intendance (HouseKeeping)
+---------------------------
+DEF PROC        QDAuxStartUp                                       TOOL  2,18
+DEF PROC        QDAuxShutDown                                      TOOL  3,18
+DEF FN          QDAuxVersion%                                      TOOL  4,18
+DEF PROC        QDAuxReset                                         TOOL  5,18
+DEF FN          QDAuxStatus%                                       TOOL  6,18
+
+Divers
+------
+DEF PROC        CopyPixels
+                (SrcLocInfoRectPtrà,
+                DstLocInfoRectPtrà,
+                SrcRectPtrà,
+                DstRectPtrà,
+                Mode%,
+                ClipRgnHndlà)                                      TOOL  9,18
+DEF PROC        WaitCursor                                         TOOL 10,18
+DEF PROC        DrawIcon(IconPtrà,DisplayMode%,Xpos%,Ypos%)        TOOL 11,18
+<page-footer>
+<page-break>
+
+Page 458
+SCHEDULER  (Outil qui gere l'emploi du temps)
+=============================================
+Le jeu d'outils Scheduler prend en charge le chronometrage des taches du systeme et des accessoires de bureau jusqu'a ce que les ressources necessaires a la tache ou a l'accessoire deviennent disponibles. Cette librairie est necessaire pour ecrire des applications qui manipulent des interruptions qui ont acces a ProDos16 ou aux routines des jeux d'outils. Un exemple de gestionnaire d'interruptions est une application qui execute des impressions en tache de fond. Cette librairie donne acces aux operations systeme de bas niveau du Scheduler.
+
+Valeurs Speciales
+-----------------
+Pas de valeur speciale definie pour le Scheduler.
+
+Structures de Donnees
+---------------------
+Pas de structure de donnee definie pour le Scheduler
+
+ROUTINES
+--------
+
+Intendance (HouseKeeping)
+-------------------------
+DEF PROC        SchStartUp                                         TOOL  2,7
+DEF PROC        SchShutDown                                        TOOL  3,7
+DEF FN          SchVersion%                                        TOOL  4,7
+DEF PROC        SchRest                                            TOOL  5,7
+DEF PROC        SchStatus%                                         TOOL  6,7
+
+File d'attente (Queue Access)
+-----------------------------
+DEF FN          SchAddTask%(TaskProcPtrà)                          TOOL  9,7
+DEF PROC        SchFlush                                           TOOL 10,7
+<page-footer>
+<page-break>
+
+Page 459
+SCRAP MANAGER (Gestionnaire de Presse-papier)
+=============================================
+Le Scrap Manager permet le transfert de donnees entre une application et une zone de rangement des donnees appelee le clipboard (bloc-note). Ces routines sont utilisees pour implementer les options standard Couper, Copier, Coller dans le conventionnel menu d'Edition.
+
+Valeur Speciales
+----------------
+Pas de valeur speciale definie pour le Scrap Manager.
+
+Structure de donnees
+--------------------
+Pas de structure definie pour le Scrap Manager.
+
+ROUTINES
+--------
+
+Intendance (HouseKeeping)
+-------------------------
+DEF PROC        ScrapStartup                                       TOOL  2,22
+DEF PROC        ScrapShutDown                                      TOOL  3,22
+DEF FN          ScrapVersion%                                      TOOL  4,22
+DEF PROC        ScrapReset                                         TOOL  5,22
+DEF FN          ScrapStatus%                                       TOOL  6,22
+
+Miscellaneous
+-------------
+DEF PROC        UnloadScrap                                        TOOL  9,22
+DEF PROC        LoadScrap                                          TOOL 10,22
+DEF PROC        ZeroScrap                                          TOOL 11,22
+DEF PROC        PutScrap(Numbyteà,ScrapType%,SCRPtrà)              TOOL 12,22
+DEF PROC        GetScrap(DestHndlà,ScrapType%)                     TOOL 13,22
+DEF FN          GetScrapCount%                                     TOOL 18,22
+DEF FN          GetScrapState%                                     TOOL 19,22
+DEF FN          GetScrapHandleà(ScrapType%)                        TOOL 14,22
+DEF FN          GetScrapSizeà(ScrapType%)                          TOOL 15,22
+DEF FN          GetScrapPathà                                      TOOL 16,22
+DEF PROC        SetScrapPath(PathString$)                          TOOL 17,22
+<page-footer>
+<page-break>
+
+Page 460
+SOUND MANAGER (Gestionnaire de son)
+===================================
+Le Sound Manager permet l'acces aux circuits sonores sans connaissance des adressses specifiques d'Entree/Sortie des circuits.Depuis que les routines du  Sound Manager peuvent creer des sons de base, d'autres jeux d'outils l'utilisent pour creer des sons plus complexes.
+
+Valeurs speciales
+-----------------
+Pas de valeur speciale definie pour le Sound manager
+
+Structures de donnees
+---------------------
+La Structure de donnees ParamBlkSoundRec contient toutes l'information necessaire definissant un son que le Sound Manager communiquera au circuit Ensoniq (DOC). La frequence de l'onde sonore utilisee dans les elements de structure 5 et 6 peut etre calculee par la formule suivante:
+
+     FREQUENCE = ((32 * Frequence de diffusion en hertz) / 1645)
+
+Les ondes sonores sont definies plus loin dans la librairie Note Synthesizer.
+_____________________________________________________________________________
+
+DIM ParamBlkSoundRec!(13)
+
+     Elements   Valeurs       Description
+
+     0..1       Entier        Adresse de depart de l'onde sonore
+     2          Entier        Bank de depart de l'onde sonore
+     3..4       Entier        Taille de l'onde sonore en pages, de 1 a $FFFF
+     5..6       Entier        Frequence de diffusion de l'onde sonore
+     7..8       Entier        Adresse de depart du buffer du DOC
+     9          Entier        Code pour specifier la taille du buffer DOC
+     10..11     Entier        Adresse de depart de la prochaine onde sonore
+                              = 0 si derniere
+     12         Entier        Bank de depart de la prochaine onde sonore
+                              = 0 si derniere
+     13         Entier        Reglage du volume de l'onde sonore
+_____________________________________________________________________________
+
+
+ROUTINES
+--------
+
+Intendance (Housekeeping)
+-------------------------
+DEF PROC        SoundStartUp(DPageAddr%)                           TOOL   2,8
+DEF PROC        SoundShutDown                                      TOOL   3,8
+DEF FN          SoundVersion%                                      TOOL   4,8
+DEF PROC        SoundReset                                         TOOL   5,8
+DEF FN          SoundStatus%                                       TOOL   6,8
+<page-footer>
+<page-break>
+
+Page 461
+RAM et Volume
+-------------
+DEF PROC        WriteRamBlock(SrcPtrà,DOCstart%,ByteCount%)        TOOL   9,8
+DEF PROC        ReadRamBock(DsPtrà,DOCstart%,ByteCount%)           TOOL  10,8
+DEF FN          GetTableAddressà                                   TOOL  11,8
+DEF FN          GetSoundVolume%(Generator%)                        TOOL  12,8
+DEF PROC        SetSoundVolume(Volume%,Generator%)                 TOOL  13,8
+
+Free-Form Synthesizer
+---------------------
+DEF PROC        FFStartSound(DOCGenMode%,ParamBlkSoundRectPtrà)    TOOL  14,8
+DEF PROC        FFStopSound(Generator%)                            TOOL  15,8
+DEF FN          FFSoundStatus%                                     TOOL  16,8
+DEF FN          FFGeneratorStatus%(Generator%)                     TOOL  17,8
+DEF PROC        SetSoundMIRQV(IRQVProcPtrà)                        TOOL  18,8
+DEF FN          SetUserSoundIRQVà(newUserIRQVProcPtrà)             TOOL  19,8
+DEF FN          FFSounDoneStatus%(Generator%)                      TOOL  20,8
+<page-footer>
+<page-break>
+
+Page 462
+STANDARD FILE (Fichier Standard)
+================================
+Le jeu d'outils Operations sur les Fichiers standards fournit un interface utilisateur standard pour ouvrir et sauver les fichiers, en proposant des boites de dialogues standard et des routines pour les manipuler.
+
+Valeurs Speciales
+-----------------
+Pas de valeur speciale definie pour le Standard File
+
+Structures de donnees
+---------------------
+
+Liste des Types (TypeList)
+--------------------------
+La structure de donnees TypeList definit le jeu de types de fichiers qui sera utilise pour determiner les types de fichiers qui seront affiches par les Operations sur les Fichiers Standards. Si le type de fichier est mis à zero, tous les types de fichiers seront affiches.
+_____________________________________________________________________________
+
+DIM aTypeList!(8)
+
+     Element(s)    Valeur         Description
+
+     0             Entier     Nombre de Types de fichiers dans cette stucture
+     1             Entier         Type du fichier 1
+     2             Entier         Type du fichier 2
+     3             Entier         Type du fichier 3
+     4             Entier         Type du fichier 4
+     5             Entier         Type du fichier 5
+     6             Entier         Type du fichier 6
+     7             Entier         Type du fichier 7
+     8             Entier         Type du fichier 8
+_____________________________________________________________________________
+
+Enregistrement de Reponse (ReplyRecord)
+---------------------------------------
+La stucture de donnees ReplyRecord definit l'information retournee par les Operations sur les Fichiers standards pour indiquer quel fichier a ete choisi. Si l'element zero contient un zero (0), alors les elements suivants n'ont pas de signification.
+<page-footer>
+<page-break>
+
+Page 463
+_____________________________________________________________________________
+     
+     DIM AReplyRecord!(149)
+
+     Element(s)    Valeur         Description
+     
+     0             Entier         <>0 si bouton Pomme Ouverte enfonce
+                                  0 si Cancel
+     1             Entier         Champ inutilise
+     2..3          Entier         Type de fichier du fichier choisi
+     4..5          Entier         Type auxiliaire du fichier choisi
+     6..31         String!(15)    Nom du fichier range comme chaine Pascal
+     32..159       String!(127)   Chemin complet range comme chaine Pascal
+_____________________________________________________________________________
+
+ROUTINES
+--------
+
+Intendance (Housekeeping)
+-------------------------
+DEF PROC           SFStartUp(UserID%,DPageAddr%)                   TOOL  2,23
+DEF PROC           SFShutDown                                      TOOL  3,23
+DEF FN             SFVersion%                                      TOOL  4,23
+DEF PROC           SFRest                                          TOOL  5,23
+DEF FN             SFStatus%                                       TOOL  6,23
+
+Prendre et Ranger Standard (Standard Get and Put)
+-------------------------------------------------
+
+DEF PROC           SFGetFile
+                   (WhereX%,
+                   WhereY%,
+                   PromptString$,
+                   FilterProcPtrà,
+                   ReplyRecordPtrà)                                TOOL  9,23
+
+DEF PROC           SFPutFile
+                   (WhereX%,
+                   WhereY%,
+                   PromptString$,
+                   OrigNameStringPtrà,
+                   MaxLen%,
+                   ReplyRecordPtrà)                                TOOL 10,23
+<page-footer>
+<page-break>
+
+Page 464
+Prendre et Ranger personnalise (Custom Get and Put
+---------------------------------------------------
+DEF PROC           SFPGetFile
+                   (WhereX%,
+                   WhereY%,
+                   PromptString$,
+                   FilterProcPtrà,
+                   TypeListPtrà,
+                   TheDialogPtrà,
+                   DialogHookProcPtrà,
+                   ReplyRecordPtrà)                                TOOL 11,23
+
+DEF PROC           SFPPutFile
+                   (WhereX%,
+                   WhereY%,
+                   PromptString$,
+                   OrigNameString$,
+                   MaxLen%,
+                   TheDialogPtrà,
+                   DialogHookProcPtrà,
+                   ReplyRecordPtrà)                                TOOL 12,23
+
+DEF PROC           SFAllCaps(AllCaps%)                             TOOL 13,23
+<page-footer>
+<page-break>
+
+Page 465
+TEXT TOOLS (Outils Texte)
+-------------------------
+Le jeu d'Outils Textes fournit un interface entre les drivers des mecanismes de gestion des caracteres Apple II (Ecran, clavier, imprimante...), qui doivent etre executes en mode emulation, et les nouvelles applications fonctionnant en mode natif. Le jeu d'outils supporte aussi les redirections des Entrees/Sorties vers les ports de l'Apple II GS aussi bien que les echanges avec l'ecran texte sans commuter les modes de fonctionnement du processeur 65816.
+
+Valeurs Speciales
+-----------------
+Pas de valeur speciale pour les Outils Textes
+
+Structures de Donnees
+---------------------
+Pas de structure de donnees pour les Outils Textes
+
+ROUTINES
+--------
+
+Intendance (HouseKeeping)
+-------------------------
+DEF PROC           TextStartUp                                     TOOL  2,12
+DEF PROC           TextShutDown                                    TOOL  3,12
+DEF FN             TextVersion%                                    TOOL  4,12
+DEF PROC           TextReset                                       TOOL  5,12
+DEF PROC           TextStatus%                                     TOOL  6,12
+
+Manipulations Globales (Globals Manipulation)
+---------------------------------------------
+DEF PROC           SetInGlobals(ANDMask%,ORMask%)                  TOOL  9,12
+DEF PROC           SetOutGlobals(ANDMask%,ORMask%)                 TOOL 10,12
+DEF PROC           SetErrGlobals(ANDMask%,ORMask%)                 TOOL 11,12
+DEF FN             GetInGlobals%[2]                                TOOL 12,12
+DEF FN             GetOutGlobals%[2]                               TOOL 13,12
+DEF FN             GetErrGlobals%[2]                               TOOL 14,12
+
+Direction des Entrees/Sorties (I/O Direction)
+---------------------------------------------
+DEF PROC           SetInputDevice(DeviceType%,SlotOrInitProcPtrà)  TOOL 15,12
+DEF PROC           SetOutputDevice(DeviceType%,SlotOrInitProcPtrà) TOOL 16,12
+DEF PROC           SetInputDevice(DeviceType%,SlotOrInitProcPtrà)  TOOL 17,12
+DEF FN             GetInputDevice![6]                              TOOL 18,12
+DEF FN             GetOutputDevice![6]                             TOOL 19,12
+DEF FN             GetErrorDevice![6]                              TOOL 20,12
+
+Entrees/Sorties des Textes (Text I/O)
+-------------------------------------
+DEF PROC           InitTextDev(DeviceNumber%)                      TOOL 21,12
+DEF PROC           CtrlTextDev(DeviceNumber%,ControlCode%)         TOOL 22,12
+DEF PROC           StatusTDev(DeviceNumber%,RequestCode%)          TOOL 23,12
+DEF PROC           WriteChar(Char%)                                TOOL 24,12
+DEF PROC           ErrWriteChar(Char%)                             TOOL 25,12
+DEF PROC           WriteLine(Strings$)                             TOOL 26,12
+<page-footer>
+<page-break>
+
+Page 466
+DEF PROC           ErrWriteLine(String$)                           TOOL 27,12
+DEF PROC           WriteString(String$)                            TOOL 28,12
+DEF PROC           ErrWriteString(String$)                         TOOL 29,12
+DEF PROC           TextWriteBlock(TextPtrà,Offset%,ByteCount%)     TOOL 30,12
+DEF PROC           ErrWriteBlock(TextPtrà,Offset%,ByteCount%)      TOOL 31,12
+DEF PROC           WriteCString(CStringPtrà)                       TOOL 32,12
+DEF PROC           ErrWriteCString(CStringPtrà)                    TOOL 33,12
+DEF FN             ReadChar%(Echo%)                                TOOL 34,12
+DEF PROC          TextReadBlock(TextPtrà,Offset%,ByteCount%,Echo%) TOOL 35,12
+DEF FN             ReadLine%(TextPtrà,ByteCount%,EOLChar%,Echo%)   TOOL 36,12
+<page-footer>
+<page-break>
+
+Page 467
+TOOL LOCATOR (Localisateur d'outils)
+------------------------------------
+Le Localisateur d'Outils est le jeu d'outils le plus important de l'Apple IIGS. Le Localisateur d'outils permet a un programme de charger les jeux d'outils depuis le disque vers la RAM et est prend en charge la localisation d'une routine d'un jeu d'outils quand un programme appelle une procedure ou une fonction de la boite a outils (Toolbox).
+
+Valeurs Speciales
+-----------------
+Pas de valeur speciale definie pour le Tool Locator.
+
+Structures de Donnees
+---------------------
+
+ToolTable (Table des Outils)
+----------------------------
+La Table des Outils est un tableau d'entiers utilise pour decrire quel jeu d'outils de la Boite a Outils du IIGS doit etre charge vers la memoire pour qu'un programme puisse utiliser la routine requise, du jeu d'outils. La taille de la stucture de la Table des Outils peut varier d'une application a une autre ou meme pendant l'utilisation d'une application. Les routines qui utilisent cette structure determinent le nombre d'outils a charger d'apres le premier element qui indique aussi indirectement la taille de la structure.
+
+Beaucoup de programmes TML BASIC n'utiliseront pas cette structure de donnees parce que la declaration TML BASIC LIBRARY genere automatiquement un appel vers la procedure LoadOneTool du Localisateur d'Outils de façon a charger le jeu d'outils specifie.
+_____________________________________________________________________________
+
+     DIM aToolTable%(N)
+
+     Element(s)    Valeur   Description
+
+     0             Entier   Specifie le nombre de jeux d'outils dans la table
+     1             Entier   Numero du jeu d'outils
+     2             Entier   Version minimum du jeu d'outils decrit en 1
+     3             Entier   Numero du jeu d'outils
+     4             Entier   Version minimum du jeu d'outils decrit en 3
+     5             Entier   Numero du jeu d'outils
+     6             Entier   Version minimum du jeu d'outils decrit en 5
+     *
+     *
+     *
+     N             Entier   Version minimum du jeu d'outils decrit en N-1
+_____________________________________________________________________________
+<page-footer>
+<page-break>
+
+Page 468
+ROUTINES
+--------
+
+Intendance (HouseKeeping)
+-------------------------
+DEF PROC           TLStartup                                       TOOL  2,1
+DEF PROC           TLShutDown                                      TOOL  3,1
+DEF FN             TLVersion%                                      TOOL  4,1
+DEF PROC           TLReset                                         TOOL  5,1
+DEF FN             TLStaus%                                        TOOL  6,1
+
+Localisateur (Locator)
+----------------------
+DEF FN             GetTSPtrà(UserOrSystem%,TSNum%)                 TOOL  9,1
+DEF PROC           SetTSPtr(UserOrSystem%,TSNum%,FPTptrà)          TOOL 10,1
+DEF FN             GetFuncPtrà(UserOrSystem%,TSFuncNum%)           TOOL 11,1
+DEF FN             GetWAPà(UserOrSystem%,TSNum%)                   TOOL 12,1
+DEF PROC           SetWAP(UserOrSystem%,TSNum%,WAptrà)             TOOL 13,1
+DEF PROC           LoadTools(ToolTablePtrà)                        TOOL 14,1
+DEF PROC           LoadOneTool(TSNum%,MinVersion%)                 TOOL 15,1
+DEF PROC           UnLoadOneTool(TSNum%)                           TOOL 16,1
+
+DEF FN             TLMountVolume%
+                   (WhereX%,
+                   WhereY%,
+                   Line1String$,
+                   Line2String$,
+                   Button1String$,
+                   Button2String$)                                 TOOL 17,1
+
+DEF FN             TLTextMountVolume%
+                   (Line1String$,
+                   Line2String$,
+                   Button2String$)                                 TOOL 18,1
+<page-footer>
+<page-break>
+
+Page 469
+WINDOW MANAGER (Gestionnaire de Fenetres)
+-----------------------------------------
+Le Gestionnaire de Fenetres cree l'environnement du bureau (desktop) et prend en charge la creation et la manipulation des fenetres.
+
+Valeurs Speciales
+-----------------
+Le resultat de la fonction FindWindow% indique dans quelle partie de quelle fenetre le bouton de la souris a ete enfonce, s'il y a lieu.
+_____________________________________________________________________________
+     Valeurs       Descriptions des Valeurs
+
+     0             Bouton souris presse dans la zone du bureau
+     1             Bouton souris presse dans la zone contenu de la fenetre
+     2             Bouton souris presse dans la case fermeture
+     3             Bouton souris presse dans la barre de titre (deplacement)
+_____________________________________________________________________________
+
+Le resultat retourne par la fonction GetWKind% est un entier qui indique quelle sorte de fenetre est la fenetre specifiee par le parametre passe.
+_____________________________________________________________________________
+
+     Valeurs       Description des Valeurs
+
+     -32768        Fenetre d'un accessoire de bureau
+     autres        Fenetre d'une application
+_____________________________________________________________________________
+
+Structures de Donnees
+---------------------
+
+Fenetre (Window)
+----------------
+La structure de donnees Window est une structure de donnees privee retournee par la fonction NewWindowà du Gestionnaire de Fenetres. Le contenu de la structure de donnees Window n'est pas defini puisqu'un programme ne devrait jamais actuellement faire reference aux divers constituants de la structure de donnees, mais au lieu de cela utiliser les differentes routines du  Gestionnaire de Fenetres.
+<page-footer>
+<page-break>
+
+Page 470
+Table de Couleur de Fenetre (WindowColorTable)
+----------------------------------------------
+La structure de donnees WindowColorTable definit les valeurs de couleurs pour les differents composants d'une fenetre.
+_____________________________________________________________________________
+
+     DIM aWindowColorTbl%(4)
+
+     Element(s)    Valeurs  Description
+     0             Entier   Couleur du cadre de la fenetre
+     1             Entier   Couleur du titre de la fenetre
+     2             Entier   Couleur de la barre de titre de la fenetre
+     3             Entier   Couleur de la case de controle de taille
+     4             Entier   Couleur de la barre d'information 
+_____________________________________________________________________________
+
+Bloc de Paramétres pour une Nouvelle Fenetre (NewWindowParamBlk)
+----------------------------------------------------------------
+La structure de donnees NewWindowParamBlk indique a la fonction NewWindowà la valeur des elements pour creer une fenetre. Voir le Chapitre 13 pour une information plus complete sur l'utilisation de cette structure de donnees.
+_____________________________________________________________________________
+
+     DIM aNewWindowParamBlk!(73)
+
+     Element(s)    Valeurs  Description
+     0..1          Entier   Nombre d'octets dans NewWindowParamBlk(=74)
+     2..3          Entier   Vecteur de bit qui decrit la fenetre
+     4..7   Double Entier   Pointeur vers le titre de la fenetre : StringPtr
+     8..11  Double Entier   RefCon de l'application
+     12..19        Rect     Taille et position du contenu lors d'un zoom
+     20..23 Double Entier   Pointeur vers la table de couleur de la fenetre :
+                            WindowColorTblPtr
+     24..25        Entier   Origine verticale du contenu
+     26..27        Entier   Origine horizontale du contenu
+     28..29        Entier   Hauteur totale du document
+     30..31        Entier   Largeur totale du document
+     32..33        Entier   Hauteur maximum pour le controle de taille
+     34..35        Entier   Largeur maximum pour le controle de taille
+     36..37        Entier   Nombre de pixels a scroller vert. par les fleches
+     38..39        Entier   Nombre de pixels a scroller hori. par les fleches
+     40..41        Entier   Nombre de pixels a scroller vert. par page
+     42..43        Entier   Nombre de pixels a scroller hori. par page
+     44..47 Double Entier   RefCon de la barre d'information
+     48..49        Entier   Hauteur de la barre d'information
+     50..53 Double Entier   Adresse de la procedure standard de definition
+                            de la fenetre : ProcPtr
+     54..57 Double Entier   Adresse de la procedure de barre d'information :                              ProcPtr
+     58..61 Double Entier   Adresse de la procedure de mise a jour du dessin 
+                            du contenu de la fenetre : ProcPtr
+     62..65        Rect     Position de depart et taille de la fenetre
+<page-footer>
+<page-break>
+
+Page 471
+     66..69 Double Entier   Plan de depart de la fenetre
+     70..73 Double Entier   Adresse de la memoire a utiliser pour enregistrer                             la fenetre
+_____________________________________________________________________________
+
+ROUTINES
+--------
+
+Intendance (HouseKeeping)
+-------------------------
+DEF PROC           WindStartup(UserID%)                            TOOL  2,14
+DEF PROC           WindShutDown                                    TOOL  3,14
+DEF FN             WindVersion%                                    TOOL  4,14
+DEF PROC           WindReset                                       TOOL  5,14
+DEF FN             WindStatus%                                     TOOL  6,14
+DEF PROC           WindNewRes                                      TOOL 37,14
+
+Creation et Destruction (Creating and Disposing)
+------------------------------------------------
+DEF FN             NewWindowà(NewWindowParamBlkPtrà)               TOOL  9,14
+DEF PROC           CloseWindow(Window(WindowPtrà)                  TOOL 11,14
+
+Enregistrement de Fenetre et Acces Global (Window Record and Global Access)
+---------------------------------------------------------------------------
+DEF FN             GetWMgrPortà                                    TOOL 32,14
+DEF FN             SetWindowIconsà(NewFontHndlà)                   TOOL 78,14
+DEF PROC           SetWRefCon(RefConà,WindowPtrà)                  TOOL 40,14
+DEF FN             GetWRefConà(WindowPtrà)                         TOOL 41,14
+DEF PROC           SetWTitle(TitleString$,WindowPtrà)              TOOL 13,14
+DEF FN             GetWTitleà(WindowPtrà)                          TOOL 14,14
+DEF PROC           SetFrameColor(WindowColorTblPPtrà,WindowPtrà)   TOOL 15,14
+DEF PROC           GetFrameColor(WindowColorTblPPtrà,WindowPtrà)   TOOL 16,14
+DEF FN             FrontWindowà                                    TOOL 21,14
+DEF FN             GetNextWindowà(WindowPtrà)                      TOOL 42,14
+DEF FN             GetWKind%(WindowPtrà)                           TOOL 43,14
+DEF FN             GetWFrame%(WindowPtrà)                          TOOL 44,14
+DEF PROC           SetWFrame(WFlag|,WindowPtrà)                    TOOL 45,14
+DEF FN             GetStructRgnà(WindowPtrà)                       TOOL 46,14
+DEF FN             GetContentRgnà(WindowPtrà)                      TOOL 47,14
+DEF FN             GetUpdateRgnà(WindowPtrà)                       TOOL 48,14
+DEF FN             GetDefProcà(WindowPtrà)                         TOOL 49,14
+DEF PROC           SetDefProc(WDefProcPtrà,WindowPtrà)             TOOL 50,14
+DEF FN             GetWControlsà(WindowPtrà)                       TOOL 51,14
+DEF FN             GetZoomRectà(WindowPtrà)                        TOOL 55,14
+DEF PROC           SetZoomRect(WFullSizeRectPtrà,WindowPtrà)       TOOL 56,14
+DEF FN             GetSysWFlag%(WindowPtrà)                        TOOL 76,14
+DEF PROC           SetSysWindow(WindowPtrà)                        TOOL 75,14
+DEF FN             GetContentOriginà(WindowPtrà)                   TOOL 62,14
+DEF PROC           SetContentOrigin(XOrigin%,YOrigin%,WindowPtrà)  TOOL 63,14
+DEF PROC           SetOriginMask(OriginMask%,WindowPtrà)           TOOL 52,14
+DEF PROC           StartDrawing(WindowPtrà)                        TOOL 77,14
+DEF FN             GetDataSizeà(WindowPtrà)                        TOOL 64,14
+DEF PROC           SetDataSize(DataWidth%,DataHeight|,WindowPtrà)  TOOL 65,14
+DEF FN             GetMaxGrowà(WindowPtrà)                         TOOL 66,14
+<page-footer>
+<page-break>
+
+Page 472
+DEF PROC           SetMaxGrow(MaxWidth%,MaxHeight%,WindowPtrà)     TOOL 67,14
+DEF FN             GetScrollà(WindowPtrà)                          TOLL 68,14
+DEF PROC           SetScroll(HScroll%,VScroll%,WindowPtrà)         TOOL 69,14
+DEF FN             GetPageà(WindowPtrà)                            TOOL 70,14
+DEF PROC           SetPage(HPage%,VPage%,WindowPtrà)               TOOL 71,14
+DEF FN             GetContentDrawà(WindowPtrà)                     TOOL 72,14
+DEF PROC           SetContentDraw(ContDrawProcPtrà,WindowPtrà)     TOOL 73,14
+
+Acces a la barre d'information (Information Bar Access)
+-------------------------------------------------------
+DEF FN             GetInfoDrawà(WindowPtrà)                        TOOL 74,14
+DEF PROC           SetInfoDraw(InfoDrawProcPtrà, WindowPtrà)       TOOL 22,14
+DEF FN             GetInfoRefConà(WindowPtrà)                      TOOL 53,14
+DEF PROC           SetInfoRefCon(InfoRefConà,WindowPtrà)           TOOL 54,14
+DEF PROC           GetRectInfo(InfoRectPtrà,WindowPtrà)            TOOL 79,14
+DEF PROC           StartInfoDrawing(InfoRectPtrà,WindowPtrà)       TOOL 80,14
+DEF PROC           EndInfoDrawing                                  TOOL 81,14
+
+Reorganisation des fenetres(Window Shuffling)
+---------------------------------------------
+DEF PROC           SelectWindow(WindowPtrà)                        TOOL 17,14
+DEF PROC           HideWindow(WindowPtrà)                          TOOL 18,14
+DEF PROC           ShowWindow(WindowPtrà)                          TOOL 19,14
+DEF PROC           ShowHide(ShowFlag%,WindowPtrà)                  TOOL 35,14
+DEF PROC           BringToFront(WindowPtrà)                        TOOL 36,14
+DEF PROC           SendBehind(BehindWindowPtrà,WindowPtrà)         TOOL 20,14
+
+Tracage des fenetres (Window Drawing)
+-------------------------------------
+DEF PROC           HiliteWindow(WindowPtrà)                        TOOL 34,14
+DEF PROC           Refresh(ClobberedRectPtrà)                      TOOL 57,14
+
+Interaction avec l'Utilisateur (User Interaction)
+-------------------------------------------------
+DEF FN             FindWindow%(WindowPtrà,PointX%,PointY%)         TOOL 23,14
+DEF PROC           DragWindow
+                   (Grid%,
+                   StartX%,
+                   StartY%,
+                   Grace%,
+                   BoundsRectPtrà,
+                   WindowPtrà)                                     TOOL 26,14
+DEF FN             GrowWindowà
+                   (MinWidth%,
+                   MinHeight%,
+                   StartX%,
+                   StartY%,
+                   WindowPtrà)                                     TOOL 27,14
+DEF FN             TrackGoAway%(StartX%,StartY%,WindowPtrà)        TOOL 24,14
+DEF FN             TrackZoom%(StartX%,StartY%,WindowPtrà)          TOOL 38,14
+DEF FN             TaskMaster%(EventMask%,EventRecordPtrà)         TOOL 29,14
+<page-footer>
+<page-break>
+
+Page 473
+Definir la taille et la Position (Sizing and Positioning)
+---------------------------------------------------------
+DEF PROC           MoveWindow(NewX%,NewY%,WindowPtrà)              TOOL 25,14
+DEF PROC           SizeWindow(NewWidth%,NewHeight%,WindowPtrà)     TOOL 28,14
+DEF PROC           ZoomWindow(WindowPtrà)                          TOOL 39,14
+
+Mise a Jour des regions (Update Region Maintenance)
+---------------------------------------------------
+DEF PROC           InvalRect(BadRectPtrà)                          TOOL 58,14
+DEF PROC           InvalRgn(BadRgnHndlà)                           TOOL 59,14
+DEF PROC           ValidRect(GoodRectPtrà)                         TOOL 60,14
+DEF PROC           ValidRgn(GoodRgnHndlà)                          TOOL 61,14
+DEF PROC           BeginUpdate((WindowPtrà)                        TOOL 30,14
+DEF PROC           EndUpdate(WindowPtrà)                           TOOL 31,14
+
+Divers (Miscellaneous)
+----------------------
+DEF FN             PinRectà5TheXPt%,TheYPt%,TheRectPtrà)           TOOL 33,14
+DEF FN             CheckUpdate%(EventRecordPtrà)                   TOOL 10,14
+DEF FN             WindowGlobal%(ChgFlag%)                         TOOL 86,14
+DEF FN             GetFirstWindowà                                 TOOL 82,14
+
+Fin de l'appendice C
+
+
+
+Page 382

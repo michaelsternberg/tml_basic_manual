@@ -1,0 +1,199 @@
+Page 11
+CHAPTER 1
+----------
+START WITH TML BASIC
+-----------------------
+
+Before you start using TML BASIC, make a working copy of the distribution disc and store the original in a safe place. This chapter explains how to do this, it also describes the files that are on the TML BASIC distribution disk, allowing you to see which files are included and which ones you will need to use TML BASIC. We will also talk about the languages ​​compiled with respect to the interpreted languages, and also the names of the lines in TML BASIC.
+
+Before going any further, you should familiarize yourself with your IIGS. You should know how to kick your machine, use the mouse, copy files, choose and launch an application using the IIGS finder. If you are unfamiliar with any of these operations, you should consult your IIGS User Guide, as well as the Disk System User Guide, for more information.
+
+MAKE A COPY OF THE DISTRIBUTION DISK
+-----------------------------------------
+
+TML BASIC is delivered on a 3K 1.5 floppy disk of 800K PRODOS 16 and includes the files of the IIGS SYSTEM DISC (version 3.1 or later). Following the spirit of the TML system philosophy, ie the sale of unprotected programs, the distribution disk is not copy-protected. So you should make a backup copy of the distribution disc and put the original in a safe place. This manual refers to the backup copy of the TML BASIC disk as the working copy. You should put the original TML BASIC diskette aside and use it only if your working copy is damaged.
+
+Although TML BASIC can be copied, the specific license authorization says that you can only make such a copy for your own use, and only for the purpose of making backup copies. Any other copy is prohibited and would violate US copyright laws.
+
+In order to make a backup copy, you will need a blank 3P 1.5 floppy disk and a floppy copy utility. The TML BASIC distribution disk contains the IIGS system files, including the IIGS finder. The finder will allow you to format a blank floppy disk and copy the TML BASIC distribution diskette to this floppy disk you just formatted. Figure 1-1 gives you the contents of the TML BASIC distribution diskette as it appears in an open window on the IIGS desktop. Refer to the book, the IIGS User Guide, for more information on how to use the finder and the Disk System User Guide for more information on formatting and copying. floppy disk.
+<Page-footer>
+
+
+
+Page 12
+
+______________________________________________________________________
+
+
+Figure 1-1
+TML BASIC distribution disk (presentation by name)
+
+TMLBASIC (program)
+TMLBASIC.OPTS
+LIBRARIES (file)
+PART1.EXAMPLES (folder)
+PART3.EXAMPLES (folder)
+MORE.EXAMPLES (folder)
+PRODOS
+SYSTEM
+ICONS
+
+______________________________________________________________________
+
+
+FILES ON DISTRIBUTION DISK
+--------------------------------------
+Table 1-1 lists the contents of the TML BASIC distribution disk. The files delivered on the distribution diskette can be grouped into 4 categories. The TML BASIC compiler, the TML BASIC sample programs, the IIGS toolbox libraries, and the IIGS system files needed to boot your computer and launch the TML BASIC, or any other applications you might create.
+
+Remember that not all the files on the distribution diskette are needed to launch TML BASIC. In the following table, the files needed to launch TML BASIC are preceded by a star. The files listed below are valid for the TML BASIC 1.0 version of the distribution diskette. The following editions of this product may include other files, or different files.
+
+______________________________________________________________________ Table 1-1
+          The contents of the TML BASIC distribution diskette
+
+______________________________________________________________________
+
+  / TML / The prefix of the TML distribution floppy disk
+                    BASIC
+* TMLBASIC The TML BASIC compiler
+<Page-footer>
+
+
+
+Page 13
+* TMLBASIC.OPTS This file saves various options for
+                    TML BASIC, such as tab width,
+                    printer port etc.
+LIBRARIES / This folder contains all the files
+                    of the library interface for the toolbox of the
+                    IIGS. These files are described in detail in the
+                    Chapter 11 and Appendix C.
+PART1.EXAMPLES / This folder contains the program source code
+                    Basic examples used in Part 1 of the manual
+                    of the TML BASIC user
+PART3.EXAMPLES / This folder contains the program source code
+                    Basic examples used in Part 3 of the manual
+                    of the TML BASIC user
+MORE.EXAMPLES / This folder contains program source code
+                    Basic examples, additional, showing several
+                    possibilities of TML BASIC
+* PRODOS The prodos file is used for launching
+                    your IIGS
+* SYSTEM / A folder containing Prodos 16 and files
+                    of the IIGS system required for the use of the
+                    IIGS. This file contains only a sub
+                    together necessary for TML BASIC, of ​​all
+                    files that can be found for the system of
+                    IIGS.
+     * P16 This is the operating system prodos 16
+     * START A program that determines whether or not you need to
+                    launch the launcher program, or the IIGS finder
+       LAUNCHER This is the IIGS program launcher
+     * FINDER This is the IIGS finder
+     * SYSTEM.SETUP / A folder that contains all the files
+                     needed at boot time, initialization
+                     IIGS.
+     * TOOLS / A folder containing all tool sets
+                    (Toolset) stored in RAM for the IIGS
+     * DESK.ACCS / A folder containing NDAs (New Desk
+                    Accessories, new office accessories) and
+                    CDA (Classic Desk Accessories)
+                    classic office)
+                    This folder contains only NDA TML CLOCK
+<Page-footer>
+
+
+
+Page 14
+     * DRIVERS / A folder containing different drivers for
+                    printer and modem
+     * FONTS / A folder containing the IIGS font files.
+                    These files are used by the Font Manager. This
+                    folder is empty on the distribution diskette
+                    TML BASIC.
+       ICONS / A folder containing the definition files
+                    icons.
+                    These files are used by the Finder for
+                    display
+                    applications and documents with their icon.
+______________________________________________________________________
+
+
+TEXTBOOK PROGRAMMING, IN RELATION TO TOOLBOX PROGRAMMING
+-------------------------------------------------- ---------------
+The introduction to this book mentions two different kinds of programs, which can be written in TML BASIC. The first type of program is referred to as a TEXTBOOK program, which is the kind of program typically found in most basic programming books - that is, traditional programs using screen text of the computer. The second type of program uses the special features and capabilities of the IIGS Toolbox.
+
+Chapter 5 of this manual discusses TEXTBOOK program techniques and requires that all files and folders preceded by a star, listed in Table 1-1, be present on your working copy of the TML BASIC distribution diskette. In addition, you will need the AVERAGE.BAS sample program, which is located in the PART1.EXAMPLES folder.
+
+The third part of this manual introduces the concept of programming the IIGS toolbox and describes the content of this toolbox. In addition, file names that appear preceded by a star in Table 1-1, programs designated to use the IIGS toolbox will require the files in the LIBRARIES folder. You may also need the files in the PART3.EXAMPLES folder.
+
+INSTALLATION
+--------------
+
+The following three sections describe how to set up a working environment to use TML BASIC with a system that has only one 3P 1.5, 800K floppy disk drive, or a system with two floppy disk drives, using either two 800K drives or an 800K reader and a 5P 1/4 player, or a hard drive.
+<Page-footer>
+
+
+
+Page 15
+                        NOTE
+______________________________________________________________________
+
+As mentioned previously, TML BASIC comes with the contents of the IIGS system disk version 3.1 or later and includes the FINDER IIGS. The finder requires a minimum of 512K of RAM. During startup, system 3.1 identifies the amount of available memory. If you have at least 512k of memory, the finder is displayed. If only 256K RAM is available, neither the finder nor TML BASIC will be launched. This system assumes that your computer has at least 512K RAM and a 3P 1.2 floppy disk drive
+______________________________________________________________________
+
+THE SYSTEM WITH A SINGLE DISKETTE READER
+--------------------------------------------
+Users who only have a single 3P 1/2, 800K floppy drive will find that TML BASIC can be used exactly as it is delivered on the floppy disk without sacrificing any functionality or performance. You should create a working diskette by making a copy of the distribution diskette as described in the "Making a copy of the diskette" chapter at the beginning of this chapter.
+
+The only restriction imposed by a system on a single diskette drive is that the size of the programs you develop will be limited to the free space remaining on the floppy disk so that you can save them. On your TML BASIC work disk, you should not hesitate to erase the different folders that contain the sample programs. The PART1.EXAMPLES folder contains the sample programs used in the first part of this manual that you should keep on your floppy disk if you intend to follow with the examples what we are going to talk about in the next four chapters.
+
+But you will still have access to all the sample programs you have chosen to erase, by copying them from your original distribution disk, if necessary. Never erase a file from the original distribution diskette.
+
+SYSTEMS WITH TWO DISKETTE READERS
+-----------------------------------------
+If you have a second floppy drive, whether it's another 3P1 / 2, 800K drive, or a 5P1 / 4 drive (formatted for PRODOS 16), you can use this extra storage capacity to develop larger programs. important. In use, you may find it easier to keep all sample programs, as well as any other new programs you could create, on a separate floppy disk and access them using your second floppy disk drive. The LIBRARIES folder (see Table 1-1) should be kept on the TML BASIC disk to allow the files in this folder to be used by all programs.
+
+A SYSTEM WITH HARD DISK
+--------------------------
+Although a hard disk is not needed to use TML BASIC, you will enjoy the benefit of faster disk access and large disk storage capacity for creating very large programs.
+To use any hard drive formatted under PRODOS 16 with TML BASIC, you simply need to copy the necessary TML BASIC files to your hard drive as it is underlined on page 16 in Table 1-1.
+<Page-footer>
+
+
+
+Page 16
+If your hard disk contains IIGS system files older than version 3.1, TML BASIC will not work. In this case, you should copy the system files from the distribution disk to your hard disk.
+
+A NOTE ON RAM DISCS
+----------------------------
+Traditionally, the users of the Apple II, have found the use of RAM disks very advantageous, and have done so, without stealing the available memory for an application due to the restriction of the Apple II that allows only 128K or less of memory, for an application.
+
+However, TML BASIC and IIGS are different. TML BASIC is a resident application in memory. Thus, it is not advantageous to store TML BASIC on a disk RAM. In addition, TML BASIC contains in memory, a complete copy of the file or files that it is editing, including the files libraries, the compiled code etc ... and uses the Memory Manager (manager of memory) of the IIGS to know where we are for the available memory. Thus, any use of RAM space that you could allocate to a disk RAM would only decrease the amount of available memory that TML BASIC needs for editing and compiling.
+
+LANGUAGES COMPILED IN RELATION TO INTERPRETED LANGUAGES
+-------------------------------------------------- --------
+TML BASIC is a compiled language. Thus considered, in the same way as the other compiled languages, it differs from the interpreted languages ​​such as the Apple GS BASIC. A programming language is characterized by a set of instrutions, expressions, and other components commonly known as syntax or language structure. While programs written in a computer language are generally understandable to a human user, they are completely incomprehensible for the computer, and more precisely, in the case of IIGS, for the 65816 microprocessor.
+
+Before an instruction written in computer language can be executed by the computer, it must first be translated into code understood by the computer, ie machine language. The machine language consists of a long list of binary numbers, (0's and 1's) that are understood by the computer as a series of out of service and in-service states, representing commands that the computer is capable of 'execute. Obviously, humans do not understand or easily read long successions of zeros and 1s.
+
+A major component of any computer language system is the way it translates programs into machine language. In an interpreted language, the translation is done at the time the program is executed. What we sometimes talk about as "on the fly". If an instruction in a program is executed a hundred times, the translation is also executed 100 times. The interpreted languages ​​execute themselves more slowly than the compiled languages ​​because the language must be translated during the execution of the program.
+
+With a compiled language, on the contrary, the program is translated into a machine language before starting the program.
+<Page-footer>
+
+
+
+Page 17
+Thus, only one program line is translated - during the compilation process. In addition, the compilation process detects all syntax errors before the program is executed. Obviously, he can not find the errors in the logic of the program such as infinite loops for example. Compiled programs execute significantly faster than the interpreted programs and they can also be executed and launched independently of any language processor. That is, compiled TML BASIC programs can be run on their own, under prodos 16, without TML BASIC being on the floppy disk.
+
+In addition, TML BASIC supports an integrated environment as a resident-in-memory application that compiles programs with the same interactivity as an interpreter. This means that TML BASIC integrates its editor, compiler and runs programs in memory at the same time, thus avoiding the need to read or write files to disk, which makes a conventional compiler much slower than interpreter to translate a basic program.
+
+NUMBERS OF LINES IN TML BASIC
+----------------------------------
+Historically, basic management has required the use of line numbers in programs. However, TML BASIC does not require a line number. In fact, TML BASIC does not allow the use of line numbers.
+
+Basic language managements that use an interpreter require the line numbers in the source code of the programs so that the interpreter can locate at the time of the execution of the program, the instructions and the functions that are not in a sequential order . Line numbers are also used fundamentally during the editing process of a program.
+
+TML BASIC does not need a line number because it uses alphanumeric labels to locate instructions and functions in the source code of a program. For example, instead of entering GOTO 1000, in TML BASIC, write GOTO SetUpProcess, o | SetUpProcess is an alphanumeric label used to identify the SetUpProcess routine. The use of alphanumeric labels is illustrated in most of the sample programs, discussed in Chapter Three of this manual, as well as in the sample programs contained on the TML BASIC distribution diskette.
+
+End of Chapter 1

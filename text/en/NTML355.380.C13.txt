@@ -1,0 +1,840 @@
+Page 355
+CHAPTER 13
+-----------
+CREATE A DESKTOP APPLICATION
+-----------------------------
+
+This chapter will discuss important points and techniques for creating desktop applications that use the IIGS Toolbox. In addition, in the context of an example of a GS DEMO.BAS application, we will talk about TML BASIC language functions and instructions for implementing Desktop programs.
+
+Desktop applications are one of the most advanced types of programs you can create for the IIGS. Not only do you need good programming skills, but you have a very good understanding of the IIGS toolbox, especially for Desktop toolkits.
+
+This chapter only serves as an introduction to the creation of Desktop applications. Although we will pay attention @ some details for the use of certain routines of the Toolbox and more particularly @ those used to create menus and windows, we will not describe the way which runs all the routines of the Toolbox. The book IIGS TOOLBOX REFERENCE, is the absolute reference for the Toolbox and anyone trying to write programs from simple basic programs will find that this book is necessary.
+
+Appendix C provides a complete list of Toolbox libraries provided with TML BASIC and Chapter 11 describes the use of libraries in a program.
+
+THE DESKTOP INTERFACE
+-------------------
+The Apple Desktop Interface is a set of general ideas on the human interface, developed by Apple Computer, which defines the visual and the look and feel of applications using the IIGS Toolbox. The look and feel of an application represents the communication between the computer and the user.
+
+The goal of general ideas is to create standard behavior for applications, which is accessible, non-threatening, and has a predictive behavior for the user. The applications that will eventually follow these general ideas will be familiar to the user and so will have a much more likely success.
+
+The complete set of general ideas is contained in the book published by Apple Computer: The Human Guidelines.
+
+GENERAL IDEAS ON THE HUMAN INTERFACE
+---------------------------------------
+Following is a brief summary of the principles found in Human Guidelines. If you want to write a desktop application, general ideas should be followed in such a way that whatever the functionality of your program, it will communicate with the user. one constant and standard.
+
+<Page-footer>
+<Page-break>
+
+Page 356
+Metaphors from the real world.
+Use concrete masks and do the simple ones so that the user can expect a number of things from the computer environment and whenever appropriate, use effects. visual and sound, which will help @ better convey the message of the m {taphore.
+
+Direct manipulation.
+Users want to feel that they are supported by the activities of the computer. They expect their actions to have results and therefore the tools should provide feedback to their actions.
+
+See-and-point instead of remember-and-type.
+The user chooses an action from a choice of several actions displayed on the screen. The user is based on recognition and not on memory. The user should not have @ remember anything that the computer already knows.
+
+The constancy.
+Effective applications are constant within themselves and consistent with other applications. An application should develop a standard mechanism for manipulating objects. If some operations are common to multiple applications (Cut, Copy, Paste), the mechanism for using these operations should be the same.
+
+WYSIWYG - What You See Is What You Get.
+(CQVVECQVO - What You See Is What You Get)
+There should be no secret for users, no abstract command whose result is not quite certain. There should be no significant difference between what the user sees on the screen and what is finally printed {.
+
+Actions left @ the user's initiative.
+The user and not the computer, initiates and controls all actions.
+
+Feedback and dialogue.
+Keep the user informed and give feedback, following each of his actions.
+
+Forgiveness.
+Users make mistakes, forgive them.
+
+Stability per se.
+Users feel comfortable in a computer environment that remains understandable and familiar, rather than in an environment that changes in a random way.
+
+The beauty {aesthetics.
+Confusing or unattractive displays are effective at the human-computer interaction. Users should be allowed to control the superficial appearance of what they see on the screen, to display their own style and individuality.
+<Page-footer>
+<Page-break>
+
+Page 357
+THE ELEMENTS OF THE DESKTOP
+-----------------------
+To solve the overarching principles of the human interface, Apple has defined two classes of standard interface elements for the Apple Desktop interface.
+
+The {elements {notches, defining the visual aspect of the interface
+
+The human-computer interactions that are the sensitive cost of the interface.
+
+The {elements {screen provide the basic visual context for the applications. There are three basic elements. Desktop, windows and menus. (See Figure 13-1). The Desktop is the m {taphore for the interface. The desktop is the surface on which the other elements of the interface are located. A window is a frame for viewing the objects an application manipulates. The windows in the IIGS finder are used to view files and directories on a disk, while TML BASIC windows are used to view text files that contain basic source code. Finally, the rolling menus provide the central mechanism for the user to command an application to perform an operation. The menus hide the details of an application, but at the same time make these details fast and easily accessible.
+
+Figure 13-1: The Desktop Finder
+See @ TML BASIC paper documentation
+
+The direct manipulation by the user, is what is most important for the human-computer interaction. A system for pointing to something, such as the mouse, allows the user to directly control the objects on the desktop. The user can point to objects on the screen, select them with a mouse click, move them and choose the actions that apply to the selected objects.
+<Page-footer>
+<Page-break>
+
+Page 358
+The keyboard is also part of the interaction between the user and the computer. While the keyboard is mainly used to enter data, it can also provide alternatives for moving or selecting objects.
+
+PROGRAMS CONTROLLED BY EVENTS
+-------------------------------------------
+Writing programs that run the desktop and provide direct manipulation possibilities, require a programming style that differs from the one you may be used to.
+
+In the past, computer programs were in batch mode. A stack of cards was taken inside the computer, which treated the cards one after the other, in the same order, each time the program was started. Then there were the computer terminals. Users could then interact with a program while the program was running. The program allowed users to send commands affecting the way the program was {x {cut {. While the user was interacting with the program, the program controlled all the choices and the order in which the operations were {x {cut {es. The user was still controlled by the program.
+
+Programming directed by events, with the Apple Desktop Interface, is the opposite of these traditional ways of programming. Programming led by events simply means that it is the user who has control, not the program. The basic principle of programming directed by events is that there are many choices, at any time available to the user, and the user controls the order in which the operations will be {x {{es cut. For example, the user can perform operations from rolling menus, open or close windows, or work, such as using a word processor, or drawing. With a few exceptions, all these operations are available at the same time. That is, the program is unmistakable.
+
+The activities that cause these actions are called events. Examples may be key depression, mouse click, inserting a disk into a floppy disk drive, data arriving at a serial port, or threats } by the program itself.
+
+THE MAIN EVENT LOOP
+-------------------------------
+The basic structure of a program run by events is actually quite simple. The program spends most of its time in a loop called MAIN EVENT LOOP. The only activity in this loop is waiting for something. When something happens, the loop decides what kind of event has happened, and takes the appropriate action.
+
+Figure 13-2 presents a conceptual representation of the rotation of the implementation in a program directed by the events described in TML BASIC. A program contains a simple loop that calls the TASKPOLL statement. Whenever the TASKPOLL statement is {x {cut {e, it looks at the event queue to see if any of the events happened. If yes, the ticket is removed from the queue and sent to a credit management sub-program. This subroutine is chosen from the Event Dispatch Table.
+<Page-footer>
+<Page-break>
+
+Page 359
+Figure 13-2: Main Event Loop
+See @ TML BASIC paper documentation
+
+EVENT MANAGEMENT
+-------------------------
+(Event Handling)
+There are 29 different types of events commonly defined by the Toolbox. Each of these events is detected by the TASKPOLL instruction. Table 13-1 lists each of these events. The first 16 events (numbers from 0 to 15) are the events of the Event Manager. These events are the lowest level events, and are detected by the Event Manager tool set. Numbers {@ {16 @ 28 are the events of Window Manager TaskMaster Events. These are high-level events, such as a mouse gesture in a special part of the office, either the window or a menu. They represent the result values ​​of the subroutine of the FindWindow Toolbox.
+
+_____________________________________________________________________________
+
+                      Table 13-1
+            Types of Events in Event Manager
+
+_____________________________________________________________________________
+
+
+Code of
+Description Meaning Description
+
+0 Null event Renvoy {when there is no other available
+    (NullEvent)
+1 Mouse presses G {n {r {when the user presses the mouse button
+    (Mouse-Down)
+2 Mouse released when the user releases the mouse button
+    (Mouse-Up)
+3 Press G {n {r {key when the user presses a key-down key, or the numeric keypad. The character keys include all but the keys: SHIFT, CAPSLOCK, CONTROL, OPTION and APPLE, which are modifier keys.
+<Page-footer>
+<Page-break>
+
+Page 360
+4 Not finished
+5 G {n {r {when the user presses a key.
+    key The repeat is generated after a certain initial time, (Auto-Key) then @ regular intervals.
+6 Updating This is an internal event, indicating (UpDate) that the contents of a window @ need to be updated. ({Redraw).
+7 Not finished
+8 Active This is an internal event when an
+    (Activate) window becomes active or inactive. That is, when the window moves from the bottom to the foreground or
+                    foreground towards the bottom respectively.
+9 Contact G {n {r {when a contact control is pressed {.
+    (Switch)
+10 Accessory of G {n {r {when the Classic Desk Accesories (CDA) menu is
+    office call {with the sequence CTRL APPLE ESC
+    (Desk-Accessory)
+11 Driver of G {n {r {when a driver driver {x {cute a
+    post-vention after certain circumstances, the most
+    (Device Driver) often when there has been data transmission or
+                    when a data transmission has been interrupted.
+12-15 Application There are four different definitions of events de fi ned by applications. The meaning of these
+                    {venements is defined by the application and is stored in the queue using
+                    Post-event.
+16 In the office, a Mouse-down animation came to the Desktop (but
+    (InDesk) not in one of the windows)
+17 In Menu Bar A Mouse-down menu arrived in the (InMenuBar) menu bar and then went to a menu item that was not a desktop accessory from the Apple menu. ,
+                    or a menu added by a desk accessory.
+                    TaskMaster take note of what the mouse does, up to
+                    the button has been released on a particular menu item, allowing you to select
+                    this.
+18 In Window A Mouse-down event has arrived in the system system window.
+    (InSysWindow)
+19 In the content A {venement Mouse-down has arrived in the region
+    (InContent) content of a window.
+20 Pulling a Mouse-down move has arrived in the area to
+    (InDrag) pull from a window
+21 Expand One Mouse-down release has arrived in the window (InGrow) window enlargement
+22 Going Away {venement Mouse-down arrived in the box of
+    (InGoAway) closing a window
+23 In the zoom A {venement Mouse-down is in the box Zoom
+    (InZoom) of a window
+24 In Info A Mouse-down event came to the information (InInfo) bar of a window
+25 Not defined
+26 Not defined
+27 In the body One Mouse-down revenge arrived in the body of a
+    (InFrame) window
+28 In the Same as InMenuBar menu, except that the special menu item you selected was a Close, Cancel, (InSpecialMenu) item Cut, Copy, Paste, or Erase, which does not apply to office accessories
+
+_____________________________________________________________________________
+
+When TASKPOLL detects something, the type of payment is used as an index in a special data structure, internally generated by TML BASIC - the switchboard Event Dispatch Table.
+The table contains the labels for the subroutines that handle the events. To enter a label in this table, use the EVENTDEF instruction. For example, the instruction
+
+   EVENTDEF 3, HandleKeyDown
+
+between the HandleKeyDown label, in the index 3 of the table. Thus, when TASKPOLL detects a key press, the HandleKeyDown subroutine is automatically called to return the event. The subroutine management routines must end with the RETURN 0 instruction rather than the normal RETURN statement.
+<Page-footer>
+<Page-break>
+
+Page 361
+TML BASIC runs a second data structure called the Menu Dispatch Tabble.
+This table allows a program to specify tags to subroutines that each store menu items in a program. The array contains 128 numeric entries from 0 to 127, the subroutine labels are entered in this array using the MENUDEF statement. For example, the instruction:
+
+   MENUDEF 6, DoAbout
+
+between the DoAbout lable in the index 6 of the table. Thus, when TASKPOLL detects an InMenuBar {venement 17}, or an InSpecialMenu {venement 28} and it has not {specified {sub-program label for the However, in the Event Dispatch Table, the appropriate menu item management subroutine is invoked using the Item Dispatch Table menu.
+
+As indicated (later in this chapter, in the "SetUpMenus" section, @ each menu item, we give a unique integer identifier. The menu item identifiers are in the range 250 @ 377. Thus, TASKPOLL displays the menu item identifier 250 to get the index in the Menu Item Dispatch table. Table.
+
+To use the TASKPOLL statement, a program must first initialize the processing of events. This is achieved with the TASKPOLL INIT instruction. The statement has an argument, which is the TaskMask value. TaskMask controls the type of action that the TASKPOLL statement is allowed to perform. As before, the 29 types of events are divided into two categories: Event Manager and TaskMaster. Event Manager events are low-level events that are always detected. However, TaskMaster high level {venements and other operations are controlled by TaskMask.
+
+TaskMaster events are detected as the result of a deeper analysis of a Mouse-Down event in a menu, or in a window. Since each desktop program contains menus and windows, event handling for some Mouse-Down events can be handled in a standard way. For example, each time the mouse button is clicked on the menu bar, you have to follow the mouse in order to roll out menus and choose a menu item. In addition, if a desktop accessory is chosen, the desktop accessory must be open. The code to achieve this operation can be done in a standard way for all programs. TaskMaster (that is, TASKPOLL) can execute these operations if you request it. The operations that TaskMaster should undertake are specified by the value of TaskMask in the TASKPOLL INIT statement. A mask is the sum of all individual values. Table 13-2 lists the values ​​of TaskMask.
+<Page-footer>
+<Page-break>
+
+Page 362
+_____________________________________________________________________________
+
+                         Table 13-2
+                TASKPOLL INIT mask values
+_____________________________________________________________________________
+
+Value Description
+1 Detect a menu key
+2 Ex {automatic window update
+4 Execute FindWindow (window search)
+8 Execute MenuSelect (choice in a menu)
+16 Execute the opening of a NDA
+32 Execute SystemClick
+64 Execute DragWindow (pull a window)
+128 Execute SelectWindow if the mouse button is
+          press {in the contents of the window
+256 Execute TrackGoAway
+512 Execute TrackZoom
+1024 Execute GrowWindow (enlarge the window)
+2048 Executes a scrolling support
+4096 Generating Special Menu Items (Cut / Paste menu etc.)
+_____________________________________________________________________________
+
+For example, a TaskMask value of 8191 (the sum of each value) specifies that TaskMaster should perform all possible processing of high-level events.
+
+Finally, it is possible to filter certain events to prevent them from being detected, by using the EventMask argument of the TASKPOLL statement. Table 13-3 lists the values ​​of the EventMask. Once again, a complete Event Mask is obtained by adding the individual values. Of course, a program should normally treat all events.
+_____________________________________________________________________________
+
+                         Table 13-3
+               Values ​​of the TASKPOLL
+
+_____________________________________________________________________________
+
+Value Description
+2 Mouse button press {(Mouse Down)
+4 Mouse Button Releases (Mouse Up)
+8 Key down key
+32 Key Repetition (Auto Key)
+64 Update (UpDate)
+256 Activation (of window) (Activate)
+<Page-footer>
+<Page-break>
+
+Page 363
+512 Contact (Switch)
+1024 Desk Accessory
+2048 Device Driver Driver
+4096 D finite for application number 1
+8192 D {finite for application number 2
+16384 D {finished for application number 3
+-32768 Finished for application number 4
+
+_____________________________________________________________________________
+
+
+An admission mask with a value of -1 indicates that no filter is filtered.
+
+AN EXAMPLE OF DESKTOP APPLICATION
+--------------------------------
+The rest of this chapter is devoted to illustrating programming techniques for programs controlled by events in the context of the Apple Desktop interface. The discussions will revolve around the sample application GS.DEMO.BAS. This program is a simple desktop application that has two windows and four menus.
+
+The GS.DEMO.BAS program uses the Desktools library, which is found in the LIBRARIES subdirectory. The Desktools library contains several procedures and functions that handle the operations that are required by most desktop applications. The complete source code of the library is included, so that you can change its behavior as appropriate for your own application.
+
+Before continuing, you should compile this program and try it out, in order to better appreciate the code needed to create each program element.
+
+THE LIBRARY DESKTOOLS
+----------------------
+Several operations related to Desktop applications must be saved in the source code of each Desktop program. These applications include loading and initializing IIGS toolbox tool sets, used by the application, creating menus and windows, and decommissioning (Shutdown). ) sets of tools, when the program is finished {. Since these operations are almost identical in all programs, TML BASIC gives you the total source code for a library of procedures and functions that handle these tasks. This DESKTOOLS.BAS library is located in the LIBRARIES subdirectory of the distribution disk.
+
+Following is a list of procedures and functions that are declared in the Desktools Library:
+<Page-footer>
+<Page-break>
+
+Page 364
+DEF LIBRARY Desktools
+     DEF PROC StartUpTools (ScreenMode%, LoadPrintTools%)
+     DEF PROC ShutDownTools
+
+     DEF PROC StdAppleMenu
+     DEF PROC StdEditMenu
+     DEF PROC StdFileMenu (FullMenu%)
+     DEF PROC DrawMenus
+
+     DEF FN StdWindow @ (Left%, Top%, Right%, Bottom%, Title @, DrawingProc @)
+     DEF FN StdDialog% (Msg1 $, Msg2 $, NumButtons%)
+END LIBRARY
+
+The complete source code of this library is in the DESKTOOLS.BAS file. The procedures and functions of this library are central to the management of the GS.DEMO.BAS program. As such, we will talk about the context of the GS.DEMO.BAS program, @ through the following paragraphs. Because TML BASIC libraries can be used in any program that uses the LIBRARY statement, you will find that the routines in this library are very valuable when you create your Desktop program.
+
+In fact, you should create your own libraries running routines common to all your applications, for example a library that handles printing would surely be a very practical library.
+
+WRITING A DESKTOP APPLICATION
+------------------------------------
+The main part of most Desktop programs consists of only six procedure calls. They are:
+
+     PROC StartUpTools (320,0)
+     PROC SetUpMenus
+     PROC SetUpWindows
+     PROC SetUpEventTables
+     PROC MainEventLoop
+     PROC ShutDownTools
+
+The StarUpTools and ShutDownTools procedures support loading, initializing, and closing toolbox tool sets used in this program. The SetUpMenus and SetUpWindows procedures are used to create the menus and windows of the application. The SetUpEventTables procedure returns the lables of the subroutines in the event dispatch table and the table of distribution of the menu items. And finally, the MaintEventLoop procedure detects and processes the events.
+
+The next six sections of this chapter review the operations of each of these procedures as implemented in the GS.DEMO.BAS program, as well as in the DESKTOOLS.BAS library.
+<Page-footer>
+<Page-break>
+
+Page 365
+While the examples are specific to these source code files, what is explained is applicable to any Desktop program.
+
+THE STARTUPTOOLS PROCEDURE
+-------------------------
+StartUpTools is always the first method to be {x {cut {e in applications using the IIGS toolbox. The procedure supports the loading and initialization of each set of tools used by the application. As noted in Chapter 11, not all tool sets reside in the IIGS ROM, but some are on the system disk. These disk-based tool sets must be loaded into RAM before they can be used.
+
+The IIGS Toolbox typically contains 28 sets of tools, although most applications use only a few of these tools. In fact, most desktop applications use only the following 12 sets of tools:
+
+MEMORY MEMORY
+MISCELLANEOUS TOOLS Various tools
+QUICKDRAW Quickdraw
+EVENT MANAGER Security Manager
+WINDOW MANAGER Window Manager
+CONTROL MANAGER Control Manager
+MENU MANAGER Menu Manager
+LINE EDIT Line Editor
+DIALOG MANAGER Dialogue Manager
+STANDARD FILE Standard file
+SCRAP MANAGER Manager tools cut paste etc
+DESK MANAGER Office Manager
+
+Programs that use the Print Manager for printing documents also use the following four sets of tools:
+
+QUICKDRAW AUXILIARY Quickdraw auxiliary
+LIST MANAGER List Manager
+FONT MANAGER Cast Iron Manager
+PRINT MANAGER Print Manager
+
+Of course, a particular program can use a subset of these tool sets or other non-list items, the most notable of them being the sound tool sets.
+
+This is followed by the source code of the StartUpTools procedure, part of the DESKTOOLS library, which illustrates the technique for loading and initializing tool sets.
+<Page-footer>
+<Page-break>
+
+Page 366
+DEF PROC StartUpTools (ScreenMode%, LoadPrintTools%)
+
+'Save startup parameters globally
+svScreenMode% = ScreenMode%
+svLoadPrintTools% = LoadPrintTools%
+
+'Initialize the graphic screen
+GRAF INIT ScreenMode%
+GRAF ON
+
+'Give a message during the loading and the departure of the tools
+_MoveTo (40.40)
+_SetBackColor (0)
+_SetForeColor (15)
+_DrawString ("Please wait, starting tools ...")
+
+'Load standard tools in memory (as well as TML .LIB files)
+LIBRARY LOAD "Memory"
+LIBRARY LOAD "IntMath"
+LIBRARY LOAD "MiscTool"
+LIBRARY LOAD "QuickDraw"
+LIBRARY LOAD "Event"
+LIBRARY LOAD "Window"
+LIBRARY LOAD "Control"
+LIBRARY LOAD "Menu"
+LIBRARY LOAD "LineEdit"
+LIBRARY LOAD "Dialog"
+LIBRARY LOAD "StdFile"
+LIBRARY LOAD "Scrap"
+LIBRARY LOAD "Desk"
+
+'Load the print tools if an application requests them
+IF LoadPrintTools% THEN
+LIBRARY LOAD "QDAux"
+LIBRARY LOAD "List"
+LIBRARY LOAD "Font"
+LIBRARY LOAD "Print"
+ELSE
+LIBRARY "QDAux"
+LIBRARY "List"
+LIBRARY "Font"
+LIBRARY "Print"
+END IF
+
+'Start the memory manager
+AppMemoryID% = EXFN_MMStartUp
+
+'Assigns 10 pages of 0 benchmark for global tool sets
+'(1 page = 256K bytes)
+ToolZeroPageH @ = EXFN_NewHandle (6 * 256, AppMemoryID%, - 16379,0)
+ToolZeroPageP @ = VAR (ToolZeroPageH @, 3)
+ToolZeroPage% = EXFN_LoWord (ToolZeroPageP @)
+<Page-footer>
+<Page-break>
+
+Page 367
+'D {marre the standard tools of the office
+_MTStartUp
+_WindStartUp (AppMemoryID%)
+_CtlStartUp (AppMemoryID% ToolZeroPage%)
+_MenuStartUp (AppMemoryID% ToolZeroPage% + 256)
+_LEStartUp (AppMemoryID% ToolZeroPage% + 512)
+_DialogStartUp (AppMemoryID%)
+_SFStartUp (AppMemoryID% ToolZeroPage% + 768)
+_ScrapStartUp
+_DeskStartUp
+
+'D {pens the printing tools if they are required
+IF LoadPrintTools% THEN
+_QDAuxStartUp
+_ListStartUp
+_FMStartUp (AppMemoryID% ToolZeroPage% + 1024)
+_PMStartUp (AppMemoryID% ToolZeroPage% + 1280)
+END IF
+
+'Draw the desk
+_RefreshDeskTop (0)
+
+'Initialize and display the mouse cursor
+_InitCursor
+_ShowCursor
+END PROC StartUpTools
+
+The StartUpTools procedure is written in such a way that it can be used by most programs using the toolbox. As such, she has two parameters. The first parameter indicates whether the Desktop should be initialized in 320 or 640 mode, and the second parameter indicates whether the printing tools are needed.
+
+The LIBRARY statement is used to load the necessary tool sets into memory. The LOAD clause is added after the word "LIBRARY" to indicate that the code needed for loading the tool set in memory must be set. Note that print tool sets are only loaded if the LoadPrintTools% parameter is different from zero.
+
+After the tool sets have been loaded, they must be initialized. This is done by calling the Startup procedure for each set of tools. The order in which the tool sets are VERY IMPORTANT. The order shown in the StartUpTools procedure is the order required for proper initialization. If you use other tool sets in addition, they must be executed after those listed in the StartUpTools procedure. Most Startup procedures require the application's MemoryID (MemoryID) and a memory block for storing its global variables. The memory required for the start of several sets of tools must be allocated to the IIGS memory bank as indicated by the NewHandle function parameters.
+
+The final operation of this procedure is to draw the desktop and display the mouse cursor.
+<Page-footer>
+<Page-break>
+
+Page 368
+THE SHUTDOWN PROCEDURE
+---------------------
+The ShutDownTools procedure is always the last method called by a Desktop application. The procedure informs the toolbox that the application has finished using each of the sets of tools it has initialized with the StartUpTools procedure, by allocating the memory used by these sets. tools and off the graph.
+
+To signal @ the toolbox that an application has finished using a set of tools, the SHUTDOWN procedure is called. Again the order in which the tool sets are taken out of service is VERY IMPORTANT. The order must be the reverse of the order in which the tool sets were started. Follows the ShutDownTools procedure that is in the Desktools library.
+
+
+DEF PROC ShutDownTools
+This procedure is used to make a Shut Down of each set
+toolbox tools, started by the StartUpTools procedure. TML BASIC
+'Stop Event Manager and Memory Manager for an application.
+
+GRAF OFF
+
+IF svLoadPrintTools% THEN
+_PMShutDown
+_FMShutDown
+_ListShutDown
+_QDAuxShutDown
+END IF
+
+_DeskShutDown
+_ScrapShutDown
+_SFShutDown
+_DialogShutDown
+_LEShutDown
+_MenuShutDown
+_CtlShutDown
+_WindShutDown
+_MTShutDown
+
+_DisposeHandle (ToolsZeroPageH @)
+END PROC ShutDownTools
+
+The first instruction in the procedure is GRAF OFF. This instruction disables the Super HiRes graphical screen and is equivalent to calling the corresponding Quickdraw procedure.
+<Page-footer>
+<Page-break>
+
+Page 369
+Note that DisposeHandle is called {to unallocate memory before the MMShutDown routine is called. It is obvious that it would not make much sense to allocate memory (a Memory Manager routine) after decommissioning the Memory Manager tool set.
+
+THE SETUPMENUS PROCEDURE
+------------------------
+As indicated earlier, the rolling menus are one of the basic elements of the Apple desktop interface. The rolling menus are made of three parts. The menu bar, the title menu and the menu item.
+
+The bar menu is the area at the top of the screen that contains each of the individual menu titles. Each menu title represents a different rolling menu. Three menu titles are considered standard and should be present in every desktop application. These are the Apple, File and Edit menus (apple, file, edit). These menus should appear in this order, like the first menus in the menu bar. The menu titles specific to the application appear on the right of these menus. Finally, menu items are the lists of sentences contained in each menu. Menu items correspond to the operations available in an application. If a menu item is unclear {(dimmed), it means that you can not choose it and therefore, the operation is not available.
+
+The Apple menu normally contains a menu item "About ...", followed by a list of desktop accessories installed on the current system. The menu changes as the user installs NDAs or removes existing NDAs. The File menu contains operations related to creating, opening, closing, and printing documents. At a minimum, the File menu contains the Quit menu item to exit the application. The Edit menu contains the standard editing operations of the Clipboard. The Edit menu should always contain the Undo, Cut, Copy, Paste and Clear menu items. Even if the app does not use them, they should be included for office accessories. Obviously, application-specific editing operations such as Select All or Show Clipboard can be added to the editing menu.
+
+Each menu and menu item must have an identifier. The identifier is a unique integer value that the Menu Manager uses to identify each menu and menu item. Menu identifiers are numbers from 1 to the left by moving to the right through the menu bar. The menu item identifiers are numeric in the range of 250 @ 377. Some menu item identifiers are reserved. Table 13-4 lists the identifiers of menu items that are available.
+<Page-footer>
+<Page-break>
+
+Page 370
+_____________________________________________________________________________
+
+                         Table 13-4
+               Identifiers for menu items
+
+_____________________________________________________________________________
+
+Value Meaning
+
+250 Undo (Cancel) Values ​​Retained from the Menu Manager
+251 Cut (cut)
+252 Copy
+253 Paste (paste)
+254 Clear
+255 Close (close)
+
+256 About ... (values) Desktop TML BASIC
+257 New (new)
+258 Open (open)
+259 Save (save)
+260 Save As
+261 Chooser (selector)
+262 Page Setup (layout)
+263 Print (print)
+Quit 264
+
+265 First identifier specific to the application
+
+_____________________________________________________________________________
+
+
+To create a menu, the NewMenu function of the Menu Manager is used. The menu is finished using a menu strings parameter. A menu chain contains the title of the menu, followed by the names of one or more menu items. Associated with each name is a set of attributes that define the appearance of elements, as well as the identifier of the element. The following menu string is used in the PteAppMenu procedure in the Desktools library to define the Apple menu.
+
+   MenuStr $ = ">> @ / XN1 / 0 == About ... / N256 / 0 == - N377D / 0."
+
+Signs / Represents the Inverse Bar Here {e: Backslash)
+
+As you can see, the menu chain is rather difficult to quantify. The title of the menu appearing first in the menu chain is preceded by two signs 'greater than' (>) followed by the name of the menu title, its attributes and finally a byte z {ro. Each menu item is preceded by two symbols (gal (=) followed by the name of the menu item, its attributes, and finally a byte z {ro. The last character in the menu chain must always be a dot (.). In TML BASIC, the null character (a byte z {ro) is created using the Backslash character followed by a zero.
+
+<Page-footer>
+<Page-break>
+
+Page 371
+Since it is impossible to type the name of the apple symbol in color, the arrobad symbol is used instead. The letters "'Backslash'XN1" are the title attribute of the menu. Similarly, the attribute for the menu item "About ..." "'Backslah'N256". The attributes in the menu strings use special codes recognized by the NewMenu function. Table 13-5 shows the attributes of attributes allowed for menu strings. Any attribute combination can be used although the N or H attribute must always be specified in order to define the menu item identifier.
+
+_____________________________________________________________________________
+
+                         Table 13-5
+                  Attributes of menu items
+
+_____________________________________________________________________________
+
+
+Backslash Purpose of Special Attribute Characteristics
+* Followed by a primary character then by an alternate character {
+               to be used as a keyboard shortcut
+B Title menu in bold
+C followed by a character to mark the element
+D To shade (dimmed) the element (to not allow it)
+H Menu indentifier h {xad {cimal follows
+I The title menu is italicized
+N A decimal menu identifier follows (between 256 and 3xx)
+U Emphasizes the title menu
+V Place a division line under the element, without using a
+               {s {s
+X Uses the substitute color and not the XOR enhancement
+_____________________________________________________________________________
+
+
+Because the Menu Manager keeps pointers pointing to the application @ where o | the menu chains are ordered, it is necessary that the menu chains are ranked as global variables. In addition, the storage of global variables can not be moved during the execution of a program. Since string datas are stored in a string server that can be moved from time to time, the only alternative is to put the string menus in an array of structural variables. The SET statement is used to assign a string value @ to a struct array {. For example,
+
+   AppleMenuStr DIM (38)
+   MenuStr $ = ">> @ / XN1 / 0 == About ... / N256 / 0 == - N377D / 0."
+   SET (AppleMenuStr! (0)) = ^ MenuStr $
+
+After a menu has been created using the NewMenu function, it is added to the menu bar by calling the InsertMenu procedure. The menus are located in the menu bar, in the reverse order in which they appear on the screen. After all menus have been set, the menu bar is drawn. See the StdEditMenu, SdtFileMenu, and SetUpMenus proce- dures for more examples on creating menus.
+<Page-footer>
+<Page-break>
+
+Page 372
+
+THE SETUPWINDOW PROCEDURE
+
+windows are the 3rd element of the apple desktop interface.A window is a frame that presents information. windows can be of any shape or size and you can find windows overlapping on the desk ...
+In a window there are several elements. Figure 13.3 illustrates these Figure 13.3
+                               
+Note that windows do not necessarily have all of these elements. Some windows (dialog, for example) have only one frame and one content, others may contain just one title and one scrollbar while others may contain each. of these elements ... Here is a description of each of these elements:
+-the title bar contains the title of the window and can contain the box to close and for the zoom effect. This zone can also be used to move the window
+-the box to close is used to remove the window of the screen
+-the zoom box is uitliser to enlarge the window to its maximum size and bring it back to its original size
+<Page-footer>
+<Page-break>
+
+Page 372
+-the scrollbars are used for the horizontal and vertical scrolling of the data
+the enlargement box is used to change the size of the
+ the window
+-the information bar is used to display information that is not affected by the scrollbars
+
+To create a new window we use the Window Manager's NewWindow function. The function has a single parameter that fully describes the components and the behavior of the window. While a simple function is needed to create a new window its parameter is very complex. The parameter is a pointer to NewWindowParamBlk.Sa definition follows (according to appendix C)
+
+-------------------------------------------------- -----
+ DIM aNewWindowParamblk! (73)
+
+
+element (s) value description
+
+0..1 integer byte number in newwindowparamblk (= 74)
+2..3 integer bitt vector that describes the window
+4..7 double integer pointer to window letter: stringptr
+8..11 double integer refcon application
+12..19 rect size and position of the content when it is zoomed
+20..23 double integer pointer to the color table of the window
+                            : windowcolorTblPtr
+24..25 entire vertical origin of the content
+26..27 entire horizontal origin of the contents
+28..29 integer total height of the document
+30..31 integer total width of the document
+32..33 max height of content allowed by Growwindow
+34..35 integer width max --------------------------------
+36..37 integer number of pixels to unroll vertically for arrows
+38..39 integer number of pixels @ to run horizontally for arrows
+40..41 integer number of pixels @ d {roll vertically for the page
+42..43 integer number of pixels @ d {roll horizontally for the page
+44..47 double integer information bar refcon
+48..49 integer height of the information bar
+50..53 double integer address of the standard definition procedure of the window: procptr
+54..57 double integer address of the information bar procedure
+58..61 double integer --------------- drawing of update @ content: procptr
+62..65 rect starting position and size of the window
+66..69 double whole starting plan of the window
+70..73 double integer memory address to use for window recording
+-------------------------------------------------- ---------------------------
+<Page-footer>
+<Page-break>
+
+Page 374
+
+One of the most important fields in this data structure and the window frame bit vector range in elements 2 and 3.The vector bit is used to indicate the type of window frame to draw and which elements to create for the window .The definition for each bit in the vector is:
+
+bit0 1 = highlighted frame, 0 = not highlighted
+bit1 1 = zoom in progress, 0 = opposite
+bit2 1 = record has been allocated, 0 = record provided by the application
+bit3 1 = control state is independant, 0 = inactive window has inactive controls
+bit4 1 = window with info bar, 0 = the opposite
+bit5 1 = currently visible, 0 = invisible
+bit6 1 = mouse pressed into the content reports even when used {to activate the window
+bit7 1 = we can move the window from the title bar, 0 = opposite
+bit8 1 = zoom box in the title, 0 = opposite
+bit9 1 = growwindow and zoomwindow will not change the origin
+bit10 1 = magnification box in the window, 0 = opposite
+bit11 1 = window frame has a horizontal scroll bar, 0 = opposite
+bit12 1 = window frame has a green scrollbar. 0 = otherwise
+bit13 1 = window frame of alarm type, 0 = window frame of document type
+bit14 1 = close box in title bar, 0 = opposite
+bit15 1 = title bar, 0 = no title bar
+
+
+So to create a window all that is necessary is the declaration of a structure array variable and to assign the appropriate values ​​in the structure using the set instruction. An example of this is found in the function StdWindow @ decdlare in the Desktools library
+
+The next section examines how the StdWindow @ function creates the parameter block of a new NewwindowparamBlk window. In particular, the definition of the vector bit of the window frame and the drawing procedure. For more information on Newwindowparamblk referer in window manager window of Apple IIgs toolbox reference.
+
+The following information is used to assign the window frame bit vector in the StdWindow function:
+
+
+       Set (myWind (2)!) = Conv% (- 8800)
+
+The conv% function is used to ensure that the SET statement assigns
+  two bytes in the structure variable as integer (see the description of SET in chapter 10). the b-value of -8800 is equivalent to the binary value "1101 1101 1010 0000". thus based on the definition of the vector bit given above the window is defined as follows
+<Page-footer>
+<Page-break>
+
+Page 375
+
+
+bit0 0 not highlighted
+bit1 0 not zoome
+bit2 0 registration provided by the application
+bit3 0 inactive window => inactive control
+
+bit4 0 no info bar
+bit5 1 currently visible
+bit6 0 mouse pressed in content not reported when active
+bit7 1 title bar = region that moves the window
+
+bit8 1 zoom box in the title bar
+bit9 0 growwindow and zoomwindow change the origin
+bit10 1 box of aggrandissement in the window
+bit11 1 the frame of the window has a horizontal scroll bar
+
+bit12 1 "" "" "" "" "" vertical
+bit13 0 window frame of document type
+bit14 1 closing box in the title box
+bit15 1 title bar
+
+
+ The second information that has a significant interest is the one that assigns the address of the subprogram of drawing for the update of the window
+
+      SET (mywind! (58)) = @ Updateproc
+
+This statement defines the address of the subroutine that draws the contents of the window: for example the second window in the example gsdemo.bas draws the message "TML BASIC IS GREAT!" several times.The following routine supports the display of the message
+
+    Drawwindow2:
+        FORr i% = 1 TO 10
+           _MOVETO (i * 11% + 20% i * 9 + 10)
+           _Drawstring ("TML BASIC IS GREAT !!")
+        NEXT i%
+        RETURN 0
+
+To get the address of this subroutine his label is first entered in one of the last 32 entries of the event dispatch table using the statement event def. for example:
+       EVENT DEF63, DrawWindow2
+ensyte the address is obtained by using the function EXEvent @. For example
+          Updateproc @ = @ EXEVENT (63)
+
+This subroutine is then automatically called by TASKPOLL @ whenever the contents of the window need to be redrawn.
+
+<Page-footer>
+<page-break> Page 376
+Study the Stdwindow @ function in Desktools and other desktop applications in the MORE.EXAMPLES subdirectory for more information on creating windows.
+
+THE PROCEDURE FOR INSTALLING EVENT TABLES (SetUpEventTables)
+
+The SetUpEventTables procedure supports label entry, for subroutines managing events, in the event dispatch table and in the Item Dispatch table menu.
+As described earlier in the event handling section, the TASKPOLL assertion transfers the control to the event management subprograms automatically when an event is detected. This is done by indexing the event dispatch table and the item dispatch table menu with the type event to locate the event management subprogram.
+
+The GSdemo.bas application is a simple desktop application that relies on TASKPOLL to manage most events in the standard way. Remember that this is done by positioning Taskmask in 8191 in the Taskpoll init assertion. However, GSdemo.bas implements the InGoAway event and 7 menu items.
+
+Ingoaway is implemented by the handlegoaway subroutine. Since the ingoaway event is Item 22 (see Table 13.1), the handlegoaway tag is in the 22nd element of the Event Dispatch Table using the Eventdef statement.
+
+       EVENTDEF 22, HandleGoaway
+
+the following 7 menu items are implemented in GSDEMO.BAS: about, quit, window 1, window 2, rects, ovals and rounds rects.The menu items are not implemented by entering any subroutine labels in the menu. Event Dispatch Table for {venements 17 (inmenubar) and 28 (inspecialmenu) but rather by entering the menu items managing the subroutine labels in Menu Item dispatch Table.This is done with the statement MENUDEF.The position of The index used for a menu item is its minus 250 menu item identifier. Thus, the following statements are used to enter the menu items managing the subroutine labels in the Item dispatch Table menu:
+
+
+MENUDEF 6, Doabout 'menu identifier 256
+MENUDEF 14, doquit 'menu identifier 264
+MENUDEF 15, dowindow1 'menu identifier 265
+MENUDEF 16, dowindow2 'menu identifier 266
+MENUDEF 17, dorects' menu identifier 267
+MENUDEF 18, doOvals' menu identifier 268
+MENUDEF 19, doRRects' menu identifier 269
+<Page-footer>
+<Page-break>
+
+Page 377
+
+Subprograms that implement event management must end with the return 0 variant of the return statement. This is because the TASKPOLL statement has applied the subroutine and not the gosub statement. As such, the conventions for calling an event management subroutine are different.
+  
+--The MAINEVENTLOOP procedure (main event loop)
+
+The heart of any application controlled by events is the procedure
+MainEventLoop.This is the procedure that supports the detection of events such as mouse press, keypad pressed, menu selection, window active, etc.When an event is detected it gives control to the appended subprogram that manages the event. While this sounds like a rather complicated procedure it is actually very simple.
+
+The MainEventLoop procedure consists of a loop that repeatedly calls the taskpoll statement to detect events. When an event is detected, the taskpoll assertion automatically invokes the appropriate event management subroutine as specified in the Event dispatch Table. The following source code is the MainEventLoop procedure of the GSdemo.bas program
+   
+    DEF PROC MainEventLoop
+         Quit% = 0
+         DO
+          PROC cCheckmenus
+          taskpoll -1
+        until quit%
+      end PROC
+
+The first statement assigns the value 0 @ to the global variable Quit%. The variable Quit% is set to a value other than 0 when the user has chosen the menu item quit from the file menu. This is what is done. in the DoQuit subroutine.When the value of Quit% becomes diffferent of 0 we exit the loop.
+
+Note that the loop does not contain a call to the Doquit subroutine, instead it is called directly by the Taskpoll statement when an INmenu event is detected that chooses the Quit menu item. The subroutine is automatically called because the procedure SetUpeventTables has between its label in the item menu dispatch table.
+
+Like the Doquit procedure, the other event management subprograms with the label in the Event Dispatch Table, or in the Item Dispatch Table Menu, are automatically called by the Taskpoll statement when the matching event is detected. .
+
+In many cases, the event management subroutine needs to know more about the event that has happened. For example, an application that draws in the content of a window must know where | a mouse event has occurred so that it can draw @ the place to indicate. Information about the event can be obtained by using the functions TASKREC% and TASKREC @. These functions return an integer value or a value integer double in the data structure TaskRecord.TaskRecord is an internal variable @ Tml Basic which is declared as Event Manager Event record.The definition of an Event record follows (from appendix c):
+<Page-footer>
+<Page-break>
+
+Page 378
+-------------------------------------------------- ---------------------------
+     DIM anEventRecord! (19)
+
+element (s) value Description
+
+0..1 integer (What) code of the event specifying which event has happened
+2..5 double integer (message) Event message that provides additional information about the event
+6..9 double integer (when) number of clicks since startup
+10..13 Point (o |) Position of the mouse when the event has arrived
+14..15 integer (modifiers) flag modifier
+16..17 double integer (Task data) gives Task for TaskMaster
+18..19 double integer (Task mask) task mask for TaskMaster
+-------------------------------------------------- ---------------------------
+
+Each of the TaskRec functions has an integer parameter. The parameter specifies a word (2 bytes) of offset in Taskrecord. So, to determine the mouse position for a supported mouse event, TaskREC @ (5) is called to send the Point field from Taskrecord as an integer double value. Obviously Taskrec% (5) and Taskrec% (6) can be called to send Point's horizontal and vertical components
+
+The meaning of each field of the type of event sent, Table 13.6 gives the meaning of the Taskrecord fields.
+
+-------------------------------------------------- ---------------------------
+                   table 13.6
+                Taskrecord Fields
+-------------------------------------------------- ---------------------------
+
+What (what) indicates what kind of event happened
+Message contains a specific information about the event that has just happened
+               Mouse pressed button number in the lower password
+               released mouse "" "" "" "" "" Key pressed ASCII code in the lower order byte
+               Ascii repetition key in the lower order byte
+               Pointer activation to the window to enable (disable)
+               update pointer to the window @ update @
+               Device driver defined by the device driver
+               application defined by the application
+<Page-footer>
+<Page-break>
+
+Page 379
+
+When This is the moment the event is happening, the time is given by using clicks (1 click = 1/60 second) that have elapsed since you booted the Apple IIgs
+OR specify the location of the mouse when the event has arrived (given in global coordinates)
+Modifiers give more specific information if appropriate. Each bit of this field gives a different info, for example some bit indicates if you have pressed the shift, option, control or open apple keys.
+Taskdata this field contains the menu identifier and the menu item identifier for INmenubar and INspecials.For all other Taskmaster events, this field contains the window pointer where the event occurred (effected Window)
+TaskMask This field contains the value of TaskMask specified in the TaskPOLL INIT statement
+-------------------------------------------------- ---------------------------
+ 
+
+  The use of the Taskrec function is illustrated in the handleingoaway subroutine. When the user clicks the closing box of a window, it is hidden. The window can be made visible again by selecting its window. name in the window menu.When Taskpoll detects an ingoaway event the handleigoaway subroutine is called so that it determines which window to close it must examine the taskdata field of Taskrecord.For example:
+
+       Handleingoaway
+       thewindow @ = Taskrec @ (8)
+       _hidewindow (theWindow @)
+       RETURN 0
+
+The main event loop may contain other operations that maintain the current state of the desktop (Desktop). For example, the program GSdemo.bas allows or disables edit menu items depending on the type of the topmost window. (topmost) .The windows gsdemo.bas do not support the edition of the operations found in the menu Edit.So it should be prohibited to communicate to the user that they have no effects.However if the window of a desktop accessory is topmost editing operations can be supported and thus allowed. The main events loop contains a call to the checkmenus procedure that checks the topmost window and allows or disables menu events edit appropriately. most desktop applications should implement the checkmenus procedure and depending on the nature of the application other operations might be appropriate or not.
+
+<Page-footer>
+<Page-break>
+
+Page 380
+
+--ABSTRACT
+
+This chapter introduces well-designed desktop application principles that follow Apple's interface guidelines. In addition, techniques for writing event-controlled programs that use the Apple Toolbox. IIgs have been viewed through the GSDEMO.BAS application.
+Other desktop applications can be found in the MORE.EXAMPLES subdirectory. These examples further illustrate event-controlled program writing techniques.
+
+End of Chapter 13
+
+
+

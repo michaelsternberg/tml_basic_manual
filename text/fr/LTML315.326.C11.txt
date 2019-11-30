@@ -1,0 +1,389 @@
+CHAPITRE 11
+-----------
+Programmer avec la TOOLBOX
+
+Dans ce chapitre et dans les deux chapitres suivants, on parlera des techniques pour écrire des programmes TML BASIC qui utilisent les caractéristiques de la TOOLBOX du IIGS. La toolbox est le nom utilisé pour désigner un large ensemble de routines logiciels développées par APPLE COMPUTER et qui sont incorporées dans tous les IIGS. Les routines TOOLBOX implémentent des caractéristiques telles que le dessin sur les écrans graphiques Super HiRes, le son, les menus, les fenetres, les dialogues et beaucoup plus encore. Chacune des routines Toolbox sont disponibles en TML BASIC pour la création de programmes utilisant ces possibilités avancées du IIGS. 
+
+Le Software de la Toolbox est organisé en plusieurs composants fonctionnels appelés TOOLSET (ou appelés Manager) chaque ToolSet défini un ensemble de procédures, de fonctions et de structures de données. Par exemple, l'outil qui prends en charge la création et la manipulation des fenetres sur l'écran est appelé le Window Manager. Le ToolSet qui prends en charge le dessin sur les écrans graphiques Super HiRes est appelé QUICKDRAW et ainsi de suite. En plus de la fourniture d'un ensemble puissant de Software, la toolbox sert également à isoler votre programme des problèmes de détail dus à la construction de la machine. En utilisant les Toolset, APPLE COMPUTER peux en fait changer le hardware du IIGS, fournir des nouvelles versions des Toolset sans pour cela affecter les possibilités de fonctionnement de votre programme.
+
+Ce chapitre passe en revue la Toolbox du IIGS et son organisation. On parlera également des caractéristiques disponibles dans le langage TML BASIC pour la programmation à l'aide des Toolbox. Le chapitre 12 fourni une description détaillé de l'outil graphique Quickdraw. L'écran graphique SuperHiRes et l'outil graphique Quickdraw forment ensemble la base de toutes les possibilités graphiques du IIGS. L'implémentation de la plupart des autres toolset repose sur Quickdraw et donc une bonne comprehension de la façon dont Quickdraw fonctionne est nécessaire pour pouvoir programmer avec succès les autres Toolset. Enfin, le chapitre 13 montre les points importants et les caractéristiques de TML BASIC relatif à la création de programmes controlés par les évenements qui utilisent l'interface Desktop. Les programmes utilisant le Desktop sont ceux utilisant la souris, les menus, les fenetres, les boites de dialogue etc...
+
+L'appencide C fourni une référence complète aux librairies toolbox prédéfinies de TML BASIC. L'appendice contient la liste de chaque procédure et fonction contenues dans les Toolset.
+<page-footer>
+
+
+
+Page 316
+Une revue de la Toolbox du IIGS
+-------------------------------
+Les paragraphes suivants sont une introduction aux différents Toolset de la Toolbox du IIGS. Bien que ceci ai l'intention de vous donner une bonne comprehension du contenu et de l'organisation de la Toolbox, l'information donnée ici n'est en aucun cas complète. Les livres APPLE IIGS TOOLBOX REFERENCE VOLUME 1 ET 2 publiés par APPLE COMPUTER constituent la documentation la plus complète et la plus détaillée sur la Toolbox et sont absolument nécessaires pour l'écriture de programmes utilisant la Toolbox.
+
+La Toolbox du IIGS est constituée d'un grand nombre de Toolset qui implémentent une large gamme d'operations. Les Toolset peuvent etre regroupés en 5 grandes catégories fonctionnelles. Les six outils de base, les outils de l'interface Desktop, les outils de l'interface périphériques, les outils de l'environnement opérationnel et les outils spécialisés. Ci-dessous l'illustration l'organisation fonctionnelle des Toolset.
+
+
+          ________________     _______________
+          I  Menu ManagerI     I Scrap ManagerI     !  ____________________
+            ________________     _______________    !  I Apple Desktop BusI
+            I Dialog ManagerI    I Desk ManagerI    !  ____________________
+              __________________   _______________  !   I Text ToolsI
+              I Control ManagerI   I List ManagerI  !    ________________
+                _________________   _______________ !    I Print ManagerI
+                I Window ManagerI   I Line Edit   I !     _______________
+                 _________________   _______________!     I Standard FileI
+                                     I Font ManagerI!      _______________
+                                      ______________!
+                                                    !OUTILS INTERFACE PERIPH.
+                OUTILS DE L'INTERFACE DESKTOP       !
+
+  ________________
+  I  Tool LocatorI             !                             
+   ________________            !                                     
+   I Event ManagerI            !                             
+    _________________          !                               
+    I Memory ManagerI          !                             
+     _____________             !  ____________               
+     I Misc ToolsI             !  I SchedulerI               
+      ____________             !   ________________          
+      I QuickdrawI             !   I System LoaderI          
+       ______________________  !    ________________         
+       I Quickdraw AuxiliaryI  !                             
+        _____________________  !                             
+                               !  OUTILS DE L'ENVIRONNEMENT OPERATIONNEL
+LES SIX OUTILS DE BASE         !
+
+                        _______
+                        I SANEI
+                          _______________
+                          I Integer MathI
+                            ________________
+                            I Sound ManagerI
+                              ___________________
+                              I Note SynthetizerI
+                                _________________
+                                I Note SequencerI
+                                 _________________
+
+                               OUTILS SPECIALISES
+
+
+<page-footer>
+
+
+
+Page 317
+LES SIX OUTILS DE BASE
+----------------------
+
+Les six outils de base fournissent la structure sur laquelle repose tous les autres outils. Tous ces outils sont utilisés dans des programmes controlés par des évenements.
+
+Tool Locator
+Le Tool Locator (localisateur d'outils) est le plus important des ensemble d'outils du IIGS. Il vous permet de charger en mémoire des outils depuis le disque et prends en charge la localisation des routines Toolset quand un programme appelle une procédure ou une fonction Toolbox. 
+
+Memory Manager
+Le memory manager (gestionnaire de mémoire) est le deuxième ensemble d'outils le plus important. Cet outils est entièrement responsable de l'allocation, la desallocation et le repositionnement des blocs mémoire du IIGS. Le memory manager prends note de la quantité de mémoire libre, de quelle partie de mémoire est allouée et à qui elle est allouée. A chaque fois qu'un programme à besoin de mémoire, il doit demander au memory manager de lui allouer.
+
+Miscellaneous Tools
+Le miscellaneous tools (outils divers) est constitué essentiellement de routines agissant au niveau du système et devant etre disponibles pour la plupart des autres outils.
+
+Quickdraw
+Quickdraw (dessin rapide) est l'ensemble d'outils qui controle l'environnement graphique du IIGS, qui dessine des objets simples et du texte dans l'écran graphique Super HiRes. Tous les autres outils qui créent des objets graphiques tel que le menu et le window manager appellent Quickdraw.
+
+Quickdraw Auxiliary
+(l'auxiliaire de Quickdraw) Cet ensemble d'outils contient des routines graphiques supplémentaires qui complètent quickdraw.
+
+Event Manager
+L'event manager (gestionnaire d'évenements) est responsable de la détection des évenements du système tels que des clicks souris, frappe de touches au clavier, mises à jour de fenetres, etc... Il place les évenements dans une file d'attente puis délivre les évenements à l'application qui le lui demande.
+
+LES OUTILS DE L'INTERFACE DESKTOP
+---------------------------------
+Les ensembles d'outils de ce groupe supportent l'interface Apple Desktop. Cette interface est l'interface visuelle entre l'utilisateur d'une application et l'utilisateur. Elle comprends la barre des menus et la surface de couleur bleue à l'écran. Les applications ont usuellement des documents affichés dans des fenetres, sur le Desktop et peut etre d'autres objets graphiques, tels que les icones.
+<page-footer>
+
+
+
+Page 318
+Les applications qui implémentent le desktop utiliseront toujours la barre des menus, la fenetre et les gestionnaires de controle ainsi que la plupart des autres outils. Les NDA nouveaux accessoires de bureau sont supportés par le Desk Manager.
+
+Control manager
+Le control manager (gestionnaire de controle) est constitué de toutes les routines nécessaires pour manipuler les controles. Les exemples de controle sont les ascenseurs, les boutons radios, les boites de dialogue etc...
+
+Desk Manager
+Le Desk Manager (gestionnaire de bureau) est l'outil qui permets à une application de supporter les CDA et les NDA, classique et nouveaux accessoires de bureau.
+Les CDA sont accessibles dans le tableau de bord en faisant CTRL POMME ESC
+Les NDA sont accessibles dans le menu POMME de la barre des menus.
+
+Dialog Manager
+Le dialog manager (gestionnaire de dialogue) fourni les routines autorisant une application à créer et utiliser les boites de dialogue et les alarmes comme moyen de communication entre un utilisateur et le programme.
+
+Font Manager
+Le font manager (gestionnaire des fontes) est l'ensemble d'outils qui permet à une application d'utiliser les différentes fontes de caractères, styles etc... à l'intérieur de quickdraw.
+
+Line Edit
+Line edit (editeur de lignes) est utilisé pour afficher et éditer une ligne de texte sur l'écran et permettre à l'utilisateur d'éditer du texte.
+
+List Manager
+Le list manager (gestionnaire de liste)  est utilisé pour créer, afficher et permettre la selection d'une variable parmis d'autres données analogues.
+
+Menu Manager
+Le menu manager (gestionnaire des menus) controle et maintient opérationnel l'utilisation des menus déroulants et des éléments qui sont dans les menus.
+
+Scrap Manager
+Le scrap manager (gestionnaire de couper/coller) gère le desk scrap qui gère les opérations couper/copier/coller d'une application.
+
+Window Manager
+Le window manager (gestionnaire de fenetre) crée l'environnement desktop et prends en charge la création et la manipulation des fenetres.
+
+
+OUTILS D'INTERFACE PERIPHERIQUE
+-------------------------------
+Les ensembles d'outils de ce groupe sont utilisés pour gérer les entrées et les sorties entre l'ordinateur et les appareils périphériques, et le programme.
+<page-footer>
+
+
+
+Page 319
+Apple Desktop Bus
+L'Apple Desktop Bus est la méthode et le protocole pour connecter les appareils servant à entrer des données, tels que le clavier et la souris pour le IIGS. Les routines de cet outil sont utilisées pour envoyer des commandes et des données entre le micro controlleur de l'Apple Desktop Bus et le reste du système.
+
+Print Manager
+Le print manager (gestionnaire d'impression)  autorise une application à utiliser les routines Quickdraw pour afficher du texte et des graphiques sur une Imagewriter ou une Laserwriter.
+
+Standard File
+L'ensemble d'outils standard file (fichier standard) gère l'interface utilisateur standard pour l'ouverture ou la sauvegarde d'un fichier.
+
+Text Tools
+Les text tools (outils texte) fournissent une interface entre les caractères de drivers de périphériques de l'apple II (Apple II character device drivers) qui doivent etre éxécutés dans le mode émulation et entre les applications qui fonctionnent en mode natif.
+
+LES OUTILS DE L'ENVIRONNEMENT OPERATIONNEL
+------------------------------------------
+Les outils de l'environnement opérationnel controlent l'interaction entre les fonctions hardware bas niveau et les fonctions software. Bien qu'on n'en parle pas ici, le memory manager et le miscallaneous tools gèrent des opérations de bas niveau, similaires, caractéristique des outils de l'environnement opérationnel et dans de nombreux cas interragissent avec ces outils.
+
+Scheduler
+Le scheduler retarde l'activation d'un accessoire de bureau ou d'une autre tache système jusqu'à ce que les éléments nécessaires au desk accorie ou à la tache soient disponibles. Cela évite des plantages éventuels du système quand une ou plusieurs taches appellent les memes éléments en meme temps.
+
+System Loader
+Le system loader prends en charge le chargement et la rellocation du code pour les applications et les accessoires de bureau chargés en mémoire.
+
+LES OUTILS SPECIALISES
+----------------------
+Les outils spécialisés sont ceux qui n'appartiennent pas à l'un des groupes précédents. Ces outils peuvent etre rangés en deux catégories. Ceux relatifs aux sons et ceux relatifs aux opérations mathématiques. Les outils relatif aux sons permettent l'accès aux possibilités sonores puissantes du hardware du IIGS, en particulier à la puce Ensoniq DOC. Les outils mathématiques gèrent les calculs à virgule flottante et les calculs entiers.
+<page-footer>
+
+
+
+Page 320
+Sound Manager
+Le sound manager (gestionnaire de son) fourni l'accès au hardware son du IIGS pour la création des sons de base
+
+Note Synthesizer
+Le note synthesizer (synthétiseur de note) est utilisé pour créer des sons musicaux complexes simulant des instruments de musique en utilisant le Hardware sonore du IIGS
+
+Note Sequencer
+Le note sequencer (séquenceur de note) est utilisé pour relier ensemble des notes du note synthesizer en des phrases constituant un champ.
+
+Integer Math
+Cet ensemble d'outils est constitué d'un ensemble varié d'opération pour les nombres entiers, les entiers longs et pour les nombres fractionnels signés. Ces outils comprennent la multiplication, la division, les conversions etc...
+
+SANE
+SANE gère l'environnement numérique Apple standard. C'est une gestion de fonction transcendantales et arithmétiques à virgule flottante conforme au bus IEEE 754 à précision étendue.
+
+OU SONT LES OUTILS
+------------------
+Selon la version du disque systeme 3.1, 28 ensembles d'outils ont été définis pour la toolbox IIGS. La plupart de ces outils sont localisés en ROM, contenue dans chaque IIGS. Les autres ensembles d'outils sont localisés sur disque et doivent chargés en RAM avant de pouvoir etre utilisés. Certains de ces ensembles d'outils sont rangés en RAM car il n'y avait pas suffisamment de place en ROM, et d'autres sont en RAM soit parcequ'ils n'étaient pas terminés, soit parcequ'ils ont été ajoutés après la création de la ROM. Heureusement, un programme n'a pas à se préoccuper de la localisation d'une procédure ou fonction particulière dans un ensemble d'outils. Ceci est sous la responsabilité du Tool Locator. Cette architecture de la Toolbox, permets à APPLE COMPUTER de déplacer des ensembles d'outils existant déjà en ROM, de déplacer la localisation d'ensembles d'outils qui se trouvent soit en ROM soit en RAM, voire meme ajouter de nouveaux ensembles d'outils dans la Toolbox sans affecter pour cela, des programmes déjà existants.
+
+La seule exigence requise pour un programme utilisant la Toolbox est de s'assurer que les ensembles d'outils utilisés qui ne sont pas en ROM, sont disponibles sur le disque système de telle façon qu'ils puissent etre chargés en RAM. Les ensembles d'outils rangés sur disque doivent localisés dans le dossier TOOLS, qui se trouve lui meme dans le dossier systeme du disque systeme utilisé pour booter le IIGS. Le nom d'un fichier Toolset est TOOLXXX o| XXX est un nombre à trois chiffres qui corresponds au numéro d'outil assigné au Toolset. Par exemple, le fichier window manager à le nom TOOL014 car le window manager est l'ensemble d'outils numéro 14. Le disque de distribution TML BASIC est livré avec tous les Toolsets fonctionnant en RAM qui sont disponibles sur le disque système IIGS.
+
+Le tableau 11.1 donne la liste des 28 ensembles d'outils IIGS avec leur nom et l'indication de si oui ou non l'ensemble est couramment en ROM ou en RAM.
+<page-footer>
+
+
+
+Page 321
+Cette information est précise pour le disque système version 3.1 et la version de ROM 0.1
+
+_____________________________________________________________________________
+                        
+                        TABLEAU 11.1
+                    TOOLBOX DE L'APPLE IIGS
+
+Numéro d'outil      Nom de l'outil                RAM       ROM
+1                   TOOL LOCATOR                   .         X
+2                   MEMORY MANAGER                 .         X
+3                   MISCELLANEOUS TOOLS            .         X
+4                   QUICKDRAW II                   .         X
+5                   DESK MANAGER                   .         X
+6                   EVENT MANAGER                  .         X
+7                   SCHEDULER                      .         X
+8                   SOUND MANAGER                  .         X
+9                   APPLE DESKTOP BUS              .         X
+10                  SANE                           .         X
+11                  INTEGER MATH                   .         X
+12                  TEXT TOOLS                     .         X
+13                  Reserved for System Use        .         .
+14                  WINDOW MANAGER                 X         .
+15                  MENU MANAGER                   X         .
+16                  CONTROL MANAGER                X         .
+17                  SYSTEM LOADER                  X         .
+18                  QUICKDRAW AUXILIARY ROUTINES   X         .
+19                  PRINT MANAGER                  X         .
+20                  LINE EDIT                      X         .
+21                  DIALOG MANAGER                 X         .
+22                  SCRAP MANAGER                  X         .
+23                  STANDARD FILE                  X         .
+24                  DISK UTILITIES                 X         .
+25                  NOTE SYNTHETIZER               X         .
+26                  NOTE SEQUENCER                 X         .
+27                  FONT MANAGER                   X         .
+28                  LIST MANAGER                   X         .
+_____________________________________________________________________________
+
+
+LES LIBRAIRIES TOOLBOX
+----------------------
+Souvenez vous d'après ce qui a été dit dans le chapitre 8, qu'une librairie est un ensemble indépendant de code sources TML BASIC qui est compilé séparemment d'un programme. Une librairie compilée peut etre utilisée dans d'autres librairies et dans d'autres programmes. TML BASIC autorise les librairies définies par l'utilisateur mais il fourni en plus plusieurs librairies prédéfinies, qui définissent les interfaces à chaque Toolset de la Toolbox du IIGS. Ces librairies prédéfinies sont appelées Toolbox Librairies. Les librairies toolbox se trouvent dans le dossier LIBRARIES se trouvant lui meme sur le disque de distribution TML BASIC.
+<page-footer>
+
+
+
+Page 322
+Chacune des librairies Toolbox contient des déclarations de procédures et des déclarations de fonctions pour un ensemble d'outils particulier. Le code source de ces librairies n'est pas livré avec TML BASIC, toutefois, l'appencide C fournie une liste complète du code source de ces librairies. Par exemple, la librairie Quickdraw contient des déclarations pour chaque procédure et fonction définie pour l'ensemble d'outils Quickdraw. Notez que le code gérant chaque procédure et fonction n'est pas donné après les instructions DEF PROC et DEF FN. Au lieu de cela, une directive TOOL spéciale est spécifiée après la liste de paramètres. La directive TOOL est suivie par deux entiers, respectivement le FUNCTION NUMBER ( numéro de fonction) et le TOOL SET NUMBER (numéro d'ensemble d'outils). TML BASIC utilise cette information pour dire au TOOL LOCATOR comment localiser le code d'une procédure ou d'une fonction TOOLBOX. Notez qu'une directive TOOL n'est pas autorisée par TML BASIC et donc ne peux pas etre utilisée dans vos propres programmes. La directive TOOL est une extension spéciale utilisée uniquement pour définir les librairies Toolbox. 
+
+A chacun des TOOLSETS de la Toolbox est assigné un numéro unique appelé TOOLSET NUMBER (numéro d'ensemble d'outils). Ce nombre étant donné, le Tool Locateur sait à quel toolset appartient une procédure ou une fonction toolbox. De plus à chaque procédure et fonction à l'intérieur d'un Toolset donné est assigné un entier unique appelé le FONCTION NUMBER (numéro de fonction. Ensemble, le numéro de toolset et le numéro de fonction sont utilisés par le tool locator pour identifier de façon unique chaque procédure et fonction de la toolbox. Par exemple, la procédure MOVETO du Toolset quickdraw est déclare :
+
+   DEF PROC MoveTo(H%,V%)  TOOL 58,4
+
+Cette déclaration dicte à la procédure MoveTo qu'elle a deux paramètres entiers (représentant la position horizontale et la position verticale pour la location de la plume quickdraw) et dit que la procédure est gérée comme le numéro de fonction 58 du toolset quickdraw (toolset numéro 4).
+
+L'INSTRUCTION LIBRARY
+---------------------
+Pour utiliser une librairie Toolset dans un programme, son nom doit etre spécifié dans une instruction LIBRARY. Quand l'instruction LIBRARY est utilisée, TML BASIC charge dans sa table de symboles, toutes les déclarations de fonctions et de procédures de la librarie exactement comme si les déclarations avaient été faites dans le code source. Par exemple, la librairie Quickdraw peut etre utilisée dans un programme avec l'instruction suivante :
+
+   LIBRARY "Quickdraw"
+
+L'instruction LIBRARY peut apparaitre n'importe ou dans un programme. Avant que TML compile un programme, il recherche d'abord à travers le fichier toutes les occurences de l'instruction LIBRARY. A chaque fois qu'il rencontre l'instruction LIBRARY, les déclarations de cette librairie sont rangées dans la table des symboles du programme et rends ces déclarations disponibles pour le programme.
+<page-footer>
+
+
+
+Page 323
+L'instruction LIBRARY serts également à autre chose. Comme vu plus haut, plusieurs ensembles d'outils ne sont pas disponibles en ROM mais sont stockés sur des fichiers disque devant etre chargés en RAM. Quand une instruction LIBRARY nomme un ensemble d'outils qui n'est pas ROM, TML BASIC génère automatiquement le code qui permettra de charger le fichier disque en RAM. Pour ce faire, TML BASIC génère un appel Toolbox à la procédure LoadOneTool qui se trouve dans le Tool Locator. Voir le chapitre 13 pour plus d'informations sur le chargement des ensembles d'outils en RAM.
+
+LA RECHERCHE D'UNE LIBRAIRIE
+----------------------------
+Quand un nom de LIBRARY est spécifié dans l'instruction LIBRARY, TML BASIC recherche la librairie compilée LIBRARY FILE. Library File n'est pas le code source de la LIBRARY, mais son code et ses déclarations compilés. Comme décreit dans le chapitre 3, le nom d'un fichier LIBRARY est le nom de la LIBRARY avec le suffixe ".LIB". Par exemple, le nom de fichier de la librairie Quickdraw est QUICKDRAW.LIB.
+
+TML BASIC cherche en trois endroits pour trouver un fichier LIBRARY. Tout d'abord, il cherche en mémoire, puis il recherche dans le meme dossier que le fichier du code source qui contient l'instruction LIBRARY. Finallement, s'il ne trouve pas le fichier dans ce dossier, il recherche dans le répertoire spécifié dans l'option Library Search Path du Preferences Dialog (Voir chapitre 6 pour plus d'informations sur le Preferences Dialog). Si le fichier n'est pas trouvé dans un de ces trois endroits, TML BASIC retourne une erreur.
+
+Il est possible de passer outre à ces trois endroits en spécifiant le chemin complet du fichier LIBRARY. Par exemple, l'instruction suivante indique que le fichier LIBRARY QUICKDRAW est dans le sous répertoire /TML/LIBRARIES :
+   
+   LIBRARY "/TML/LIBRARIES/QUICKDRAW"
+
+Notez, que bien que le chemin complet soit spécifié, le suffixe ".LIB" n'est pas inclus. C'est parce que TML BASIC rajoute automatiquement le suffixe sans tenir compte du fait que le chemin complet ait été utilisé ou non.
+
+L'INSTRUCTION CALL
+------------------
+Bien que les procédures et les fonctions Toolbox soient déclarées en utilisant les instructions DEF PROC et DEF FN comme indiqué dans l'appendice C, ce ne sont pas des procédures et des fonctions normales. En tant que telles elles ne sont pas appelées en utilisant les mots réservés PROC et FN, mais en utilisant l'instruction CALL. L'instruction CALL est un mot réservé spéciale utilisé pour indiquer qu'un programme appelle une procédure ou une fonction Toolbox. Par exemple, la procédure MoveTo de Quickdraw est appelée comme suit : 
+
+   CALL MoveTo(10,23)
+<page-footer>
+
+
+
+Page 324
+TML BASIC permets l'utilisation du symbole underscore (_) comme une forme raccourcie du mot réservé CALL. Ainsi l'instruction ci-dessus peut etre réecrite comme suit :
+
+   _MoveTo(10,23)
+
+Si un programme essaye d'appeler avec l'instruction CALL une procédure ou une fonction Toolbox dans un Toolset qui n'a pas été nommé dans une instruction LIBRARY, à l'intérieur du programme, TML BASIC retournera l'erreur "Tool procedure XXX is not defined" (la procédure d'outil XXX n'est pas définie), ou XXX est le nom de la procédure ou de la fonction.
+
+Quand on appele une procédure Toolbox, le nombre et le type de paramètres doivent correspondre à ceux de la déclaration de la procédure dans son fichier LIBRARY. Si la liste des paramètres ne corresponds pas, TML BASIC retourne une erreur. La règle pour faire correspondre les paramètres est la meme que pour les fonctions et procédures basic normales. 
+
+Comme indiqué dans le chapitre 7, TML BASIC range les chaines de caractères dans une structure de donnée appelé String Pool, et la valeur d'une variable String est un entier de décalage (Integer Offset) dans le String pool o| la chaine donnée est stockée. A chaque fois qu'une procédure Toolbox a un paramètre chaine, TML BASIC convertit automatiquement la valeur d'une variable chaine en l'adresse machine de la donnée chaine et passe cette valeur pour le paramètre. Les procédures Toolbox avec des paramètres chaines attendent l'adresse de la donnée chaine, o| la donnée chaine est rangée en tant que chaine comptée (counted string). Une chaine comptée est représentée comme un octet entier dont la valeur est le nombre de caractères dans la chaine, suivi par les caractères qui constituent vraiment la chaine. De manière différente du GS BASIC, TML BASIC range les données chaines dans le String Pool comme des chaines comptées et donc il n'est pas besoin de les convertir.
+
+LES FONCTIONS R.STACK
+---------------------
+Un grand nombre des routines Toolbox sont gérées comme des fonctions qui renvoient des valeurs. De plus chaque routine Toolbox renvoie un code d'erreur indiquant si la routine a été exécutée avec succès ou non. Les valeurs du code d'erreur et du résultat de la fonction sont sauvegardées dans une structure de données spéciale, appelée la pile de retour Stack (Call Return Stack). La pile est un buffer de 32 octets (16 mots). Les fonctions R.STACK sont utilisées pour lire les valeurs à partir de la pile. La syntaxe pour l'appel des fonction R.STACK est la suivante :
+
+   R.STACK%(NumericExpression)
+   R.STACKà(NumericExpression)
+   R.STACK&(NumericExpression)
+
+Comme chaque fonction Toolbox peut renvoyer une quantité d'informations différentes et des types de données différents, on peut accéder à la pile de retour d'appel pour aller y chercher soit des valeurs entières, soit des valeurs constituées d'entiers doubles ou des valeurs constituées d'entiers longs. Le paramètre NumericExpression est un mot de décalage dans la pile. Le nombre d'octets lus à partir du début de la pile dépends de la fonction R.STACK qui est appelée.
+<page-footer>
+
+
+
+Page 325
+R.STACK% retourne une valeur entière en lisant deux octets de donnés dans la pile
+R.STACKà retourne un double entier en lisant quatre octets de donnés dans la pile
+R.STACK& retourne un entier long en lisant huit octets de donnés dans la pile.
+Ainsi, R.STACK% peut etre indéxé dans la gamme 0 à 16, R.STACKà dans la gamme 0 à 15 et R.STACK& dans la gamme 0 à 13.
+
+R.STACK%(0) renvoie le code d'erreur retourné par la procédure ou la fonction Toolbox. Si la valeur est zéro, il n'y a pas eu d'erreur. Si la valeur est différente de zéro, il y a eu une erreur pendant l'éxécution de la routine Toolbox et le programme devra réagir en conséquence.
+
+R.STACK%(1) est le premier mot de donné qui est renvoyé sur la pile CALL.
+
+La portion de code suivante illuste la façon dont la fonction R.STACK est utilisée :
+
+CALL NewHandle(1024, MyMemoryID%,0,0)
+
+IF R.STACK%(0) = 0 THEN
+   myHandleà = R.STACKà(1)
+ELSE
+   PRINT "Impossible d'attribuer un chargement mémoire, error : ";R.STACK%(0)
+
+UTILISER EXFN AU LIEU DE CALL
+-----------------------------
+Le mot réservé EXFN est une alternative à l'instruction CALL, utilisé pour appeler des fonction Toolset depuis une expression. En utilisant EXFN , le résultat de la fonction peut etre utilisé directement dans une expression sans avoir référence à la fonction R.STACK. La syntaxe pour l'utilisation de EXFN est la suivante :
+
+   EXFN < % I à I & I # I $ > _Functionname (Parameter list)
+
+Notez que le symbole underscore (_) doit précéder le nom du Toolset.
+L'exemple suivant montre la façon dont on peut réecrire l'exemple du paragraphe précédent en utilisant le mot réservé EXFN :
+
+myHandleà = EXFNà_NewHandle(1024,myMemoryID%,0,0)
+
+IF R.STACK%(0) <> 0
+   THEN PRINT "Impossible d'attribuer un chargement mémoire, error : ";R.STACK%(0)
+
+Dans l'exemple ci-dessus, le caractère de type à (arobad) a été utilisé après le mot réserve EXFN. Ce caractère signifie que la valeur du résultat de la fonction est un entier double. L'utilisation d'un caractère de type après EXFN est strictement optionnel puisque TML BASIC connait le type du résultat d'après la déclaration de la fonction.
+<page-footer>
+
+
+
+Page 326
+En fait, TML BASIC ignore le type de caractère s'il n'est pas correcte. Par exemple, soit la variante ci-dessous de l'exemple précédent :
+
+myHandleà = EXFN%_NewHandle(1024,myMemoryID%,0,0)
+
+Ici, le caractère type % est utilisé. Toutefois, TML BASIC ignorera le caractère de type et NewHandle renverra un entier double.
+
+Une routine Toolset qui est définie comme une procédure peut également etre appelée en utilisant le mot réservé EXFN_. Toutefois, dans ce cas, la valeur résultante est le code d'erreur renvoyé par la procédure puisqu'une procédure n'a pas un résultat de fonction.
+
+UN EXEMPLE
+----------
+Ci-dessous, un petit programme exemple utilisant la librairie Quickdraw pour mettre l'écran HiRes en blanc et dessiner quelques lignes à l'écran.
+
+LIBRARY "Quickdraw"           'Rends l'ensemble d'outils Quickdraw disponible
+
+GRAF INIT 320                 'Initialise l'écran Super HiRes en mode 320
+GRAF ON                       'Active l'écran graphique
+
+_ClearScreen(-1)              'Peints l'écran en blanc
+
+FOR i% = 0 TO 100 STEP 20 
+    _MoveTo(30+i%,50+i%)      'Déplace le crayon Quickdraw
+    _LineTo(70+i%,90+i%)      'Dessine une ligne
+NEXT i%
+
+GET$ Key$                     'Attends l'appuie d'une touche clavier
+GRAF OFF                      'Désactive l'écran graphique et passe en texte
+END
+
+Cet exemple montre comme il est simple de programmer des graphiques simples en utilisant la Toolbox. Vous devriez lire à présent le chapitre 12 pour en savoir plus sur les graphiques Quickdraw puis le chapitre 13 pour en savoir plus sur la façon de créer des programmes beaucoup plus sophistiqués utilisant la Toolbox. Vous trouverez des programmes exemples dans les dossiers PART3.EXAMPLES et MORE.EXAMPLES qui montrent des programmes utilisant la Toolbox.
+
+Fin du chapitre 11
+
+
+
+Page 327

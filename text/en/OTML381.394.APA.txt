@@ -1,0 +1,370 @@
+   -------- APPENDIX A: ERROR MESSAGES --------------
+
+
+This appendix lists all the editor, compiler, linker and runtime errors that can occur when using TMl BASIC. All errors are reported in the standard error dialog box as described. in chapter III.Each error is also displayed with an icon that indicates the component of TML BASIC that has detected the error. The errors of the editor are displayed with the sign reverse yield (??), compiler errors are posters with a green insect, linker errors with 2 chain links, runtime with an exploding bomb.
+
+Explanatory notes follow most of the error messages to help clarify their contents, and in some cases notes appear to explain how to correct the error.
+
+Some messages contain the caret character (^) that is replaced by TML BASIC when | the error message is displayed by an identifier, a label, or some other values ​​that help clarify error messages. For example, the compiler error:
+
+      Procedure "^" is not declared
+
+could appear in the error dialog box as:
+
+      Procedure "DrawBoxes" is not declared
+
+if TML BASIC has detected that the DrawBoxes procedure was called but not delimited
+
+
+            <- EDITOR ERRORS OF TML BASIC ->
+
+
+--Memory is getting low .close a document window
+
+TML BASIC has detected that you will soon be out of
+In order to avoid potential loss of data, we recommend you to restore memory by closing a window. You can also choose the option "compact memory" in the choice
+Preferences.see chapter 6
+
+--Error reading file
+
+An error occurred while reading a file on disk.This can happen if the file is damaged or if the disk has been removed from the drive.
+<Page-footer>
+
+
+
+Page 384
+
+--Error saving file
+
+This error is reported when TML BASIC is unable to save the contents of a document window on a disk. In general, this happens because the disk is locked, removed from the drive, or because the disk is full.
+
+--Error deleting file
+
+this error is returned after you have chosen to delete a disk file using the DELETE ... command in the ProDOS menu when the disk has been removed from the floppy disk drive or the disk is locked.
+
+--Error renaming file
+
+this error is returned after you have chosen to rename a disk file using the command RENAME ... of the ProDOS menu when you have given an unauthorized file name (oh the naughty !!), or that the disk has been removed diskette drive or that the disk is locked.
+
+--Error occured while loading Print Tools
+
+This error can only occur with the network version of TML BASIC. The message indicates that one or more of the system files needed for the Print Manager could not be loaded into memory.
+
+--Can't open that file.File already open in another window
+
+You are not allowed to open the same file more than once
+
+--Unable to complete that operation.File will become too wide
+
+You tried to do an editing operation that would have made the file size become larger than 32 KB.
+
+--File too large to open.Maximum file size is 32KB
+
+TML BASIC can only open files whose size is less than or equal to 32 KB.
+<Page-footer>
+
+
+
+Page 385
+--Insufficient memory available to open
+
+Although the size of the file you tried to open is less than 32 KB, there is not enough memory available to load the file in memory ...
+
+--Insufficient memory to complete taht operation
+
+Operation failed due to lack of available memory
+
+
+           <- COMPRESSOR ERRORS OF TML BASIC ->
+
+   ----> LEXICON errors
+
+--String constant must not exceed source line
+
+In the expression of a contantste chain it is missing the quotes of closures
+
+--Error in numeric literal
+
+The syntax for expressing the numeric literal value is incorrect.
+
+--Illegal caracter in input
+
+an illegal character has been detected in the source file. See chapter 7 for basic allowed characters
+
+   ----> Syntax errors
+
+--identifier expected
+--string constant expected
+--integer constant expected
+- ")" expected
+- "(" expected
+- ":" expected
+- "," expected
+- ";" expected
+- "THEN" expected
+- "END PROC" or "END FN" expected
+- "END LIBRARY" expected
+--Unexpected symbol (symbol that has nothing to do here)
+
+These error messages indicate that the program contains basic unauthorized syntaxes. Although the error message indicates the expected symbol when | the error has been detected, it is possible that other symbols can help to eliminate the syntax error. If you are not familiar with the syntax of Basic, study chapters 7 to 10.
+<Page-footer>
+
+
+
+Page 386
+
+--Error in Expression
+
+An expression containing an unauthorized basic syntax has been found for which there is no specific error message.
+
+--Error in Statement
+
+We found a statement with an unauthorized Basic syntax that contains an error for which there is no specific error message
+
+--THEN without matching IF
+--ELSE without matching IF
+
+the statement THEN or ELSE appears on a single line without there having previously been an affirmation IF
+
+--Block IF statement without matching END IF
+--ELSEIF / END IF statement without matching Block IF statement
+
+The statement Block IF, ELSEIF or END IF appears without the corresponding statement required. For more information see chapter 10
+
+--UNTIL without matching DO or WHILE
+--WHILE without matching UNTIL
+--DO without matching UNTIL
+
+the statement DO, WHILE, or UNTIL appears without the corresponding statement required.For more information see chapter 10
+
+--NEXT without matching FOR
+--FOR without matching NEXT
+
+the FOR or NEXT statement appears without the corresponding information needed. For more information see chapter 10
+<Page-footer>
+
+
+
+Page 387
+
+  ----> Semantic errors
+
+--Type mismatch error
+
+The type of an expression is not appropriate for the context in which it is used. For example, the assignment of a string expression has a numeric variable or vice versa.
+
+--May not declare LOCAL arrays
+
+LOCAL statement can only be used to declare simple variables
+
+--Duplicate declaration of LOCAL variable or parameter
+
+A LOCAL statement tried to use a name that has already been used in a LOCAL statement, or tries to use a name that is a parameter name.
+
+--Ilegal use of the LOCAL statement
+
+The program tries to use the LOCAL statement in the main program or in a procedure or function, but after an executable assertion
+
+--Ilegale parameter Type
+
+it is not allowed to use a structured array element as the parameter type.
+
+--Procedure "^" is not declared
+
+The procedure or function used by the referenced user in a PROC or FN statement is not defined in the program.
+
+--Toolbox procedure "^" is not defined
+
+The procedure or function of the Toolbox referenced in a CALL or in an EXFN_ is not defined. Make sure that the name is written correctly and that the necessary Library name Toolbox appears in a statement LIBRARY
+<Page-footer>
+
+
+
+Page 388
+
+--Number of parameters does not match
+
+The number of parameters in a parameter list in a procedure, function, or Toolbox call does not match the declaration correctly. Check the declaration of the procedure, the function, or the Toolbox routine.
+
+--Label "^" is referenced but not defined
+
+The specified label is referenced in an affirmation GOTO, GOSUB, EVENTDEF, or MENUDEF, but is not defined anywhere else in the program
+
+--Duplicate declaration of a static array
+
+An array variable can only appear once in the entire program in a DIM. If an array is to be resized in a program, the DIM DYNAMIC assertion must be used.
+
+--Static arrays must have constant dimensions
+
+An array variable in a DIM must be dimmned with fixed values. If a table is to be dynamically dimmed the statement DIM DYNAMIC must be used.
+
+--Arrays limited to eight dimensions
+
+the maximum number of dimensions of a table is 8
+
+  ----> Library errors
+
+- Unable to find / open library file
+
+The ".LIB" file of the named library can not be found either in the prefix of the current unit or in the library file search directory specified in the Preferences dialog
+
+--Unable to write compiled library file
+
+The compiler can not create, open or write the ".LIB" file of the library. The disk can be protected, either remove from the drive or full ...
+<Page-footer>
+
+
+
+Page 389
+
+--Incompatible version of library file
+
+Whenever you receive a new version of TML BASIC you have to recompile all your libraries
+
+--Symbol Table space exhausted
+
+The number of declarations in this library has filled the amount of available memory allocated for the symbol table of the libraries. You should adjust the size of symbol tables in the Preferences dialog. See Chapter 6
+
+
+                <- TML BASIC LINKER ERRORS ->
+
+--Out of memory
+
+The linker does not have enough free memory to store the data structure it needs to link the program. Try to close a document window to free memory
+
+--Segment "^" specified as both CODE years DATA
+
+You specified the same segment name in a compiler directive ($ CodeSegment segname) and ($ Datasegment segname)
+
+--Seed "^" too large
+
+A CODE or DATA segment has become larger than 64 KB. You must resegmenter your program so that the segment does not exceed this limit. See Appendix B
+
+--Unresolved linker reference to symbol "^"
+
+You can not find an externally defined label in the linker. You should double-check the symbol's name to make sure it's correct.
+
+--Unable to create / open application file
+
+After a To Disk Compile has been successfully completed, the linker tries to write the application file to the disk. The error is reported if you can not create or open this file. Usually this happens when the disk is protected or that it was removed from the drive
+<Page-footer>
+
+
+
+Page 390
+
+--Error in writing to application file
+
+This error is reported when TML BASIC was able to create and / or open the application file but there was an error while writing. This is usually caused because the disk is locked or because the disk is too full for the file to be fully written to the disk.
+
+
+          <- RUNTIME ERRORS OF TML BASIC ->
+
+
+Runtime errors occur during the execution of a program. That is, the compiler compiled the program successfully without finding any lexicon, syntax, or semantics errors, and thus generated the machine code of the program. However, when the program executes an error happens. If the program is started directly from TML BASIC using the To Memory & Run compilations option, TML BASIC chooses the line of text containing the runtime error and displays the error message in the dialog box. standard errors.If the error is detected in a compilation on disk, the execution is aborted and the number of runtime errors is displayed. The error number should be compared with the numbers below to know the error that happened
+
+1 -> Overflow error
+
+This error occurs when the result of a numerical calculation produces a value that is too large (or too small) to be represented under the specified numeric type.
+
+2 -> Illegal quantity error
+
+A parameter of a function or affirmation was not within the specified value range for the function or assertion
+
+3 -> Out of date
+
+A READ was not enough of DATA values
+
+4 -> Divide by 0
+
+We tried to make a division by 0 or to raise 0 to a negative power
+
+<Page-footer>
+
+
+
+Page 391
+
+5 -> RETURN / POP without matching GOSUB
+
+A RETURN or POP statement was executed without having a corresponding GOSUB. That is, there are no places to return to
+
+6 -> Program interrupted
+
+the STOP statement was executed or the program aborted when CTRL-C was typed
+
+7 -> Out of memory
+
+A large number of situations can cause this error. If your program has tried to create a dynamic array using the DIM DYNAMIC assertion for which there is not enough memory, the error occurs. Or then there is a overflow in the "string pool"
+
+8 -> Resume without an error
+
+The program ran a summary statement while it was not handling an error
+
+9 -> File not open
+
+the program tried to use a file reference number that was not associated with a file through the OPEN statement
+
+10 -> File open
+
+This error occurs if a program tries to open, rename, or delete a file that is currently open
+
+11 -> File (Path) Not Found
+
+the prefix specified in an input / output assertion of the TML BASIC or in a function is either unused or the file does not exist.
+
+12 -> Volume not Found
+
+The volume name specified in a prefix of an I / O statement does not match the volume name of the current device
+<Page-footer>
+
+
+
+Page 392
+
+13 -> Locked file
+
+The program tries to edit a locked file
+
+14 -> File type error
+
+This error occurs when the program tries to refer to a file in a way that is incompatible with its file type. See Chapter 10 for input-output assertions
+
+15 -> Duplicate file error
+
+This error occurred when the CREATE statement is used to create an already existing file
+
+16 -> Write protect error
+
+The program tried to edit a file on a protected disk ...
+
+17 -> Device not found
+
+this error occurs when the program specifies a device name that contains an unauthorized character ...
+
+18 -> Bad path error
+
+this error occurs whenever an illegal character appears in a prefix (pathname)
+
+19 -> Disk full
+
+this error occurs when there is not enough space on the disk to complete the input-output assertion
+
+20 -> Illegal using Specification
+
+the using specification or the IMAGE statement contains a definition of unauthorized specification
+<Page-footer>
+
+
+
+Page 393
+
+21 -> Stack Overflow error
+
+The program contains too many calls to procedures, functions, or subroutines, or there are too many local variables declared for the runtime stack size. This error is detected only if the check option Stack is provisioned in the Preferences dialog.
+
+End of Appendix A
+
+
+
+Page 395

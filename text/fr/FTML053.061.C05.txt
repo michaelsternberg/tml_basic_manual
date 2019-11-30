@@ -1,0 +1,300 @@
+CHAPITRE 5
+----------
+VOTRE PREMIER PROGRAMME
+-----------------------
+Ce chapitre suppose que vous etes familiarisé avec l'environnement de programmation TML BASIC. Si vous n'etes pas familiarisé avec la façon dont travaille TML BASIC, en particulier avec les techniques d'édition, de compilation et d'éxécution de programmes, vous devriez prendre le temps de lire les chapitres 1 à 4 avant de continuer.
+
+TML BASIC peut etre utilisé pour créer deux types différents de programme : les programmes TEXTBOOK, et les programmes TOOLBOX. Les programmes TEXTBOOK représentent le style de programmation traditionnel, crée en utilisant l'écran texte du IIGS. Nous utilisons le terme TEXTBOOK, car c'est le genre de programme qu'il est probable que vous trouverez dans les livres généraux de programmation en basic. D'un autre coté, les programmes TOOLBOX sont ceux qui utilisent la toolbox (boite à outils) du IIGS. Ces programmes opèrent à l'intérieur de l'écran graphique Super HiRes du IIGS et sont couramment des applications à detection d'évenements qui utilisent la souris. Ce chapitre parle seulement des programmes TEXTBOOK. La troisième partie de ce manuel, Programmation Toolbox, documente la toolbox, et la façon d'écrire des programmes toolbox.
+
+Bien que TML BASIC fournisse un grand nombre d'instructions et de fonctions de programmation prédéfinies, vous vous apercevrez que seulement un petit nombre de ces instructions et fonctions sont nécessaires pour commencer à programmer. Pour une référence totale à chacune des instructions et fonctions de TML BASIC, reportez vous au chapitre 10.
+
+Instructions introduites dans ce chapitre :
+   
+   REM
+   LET
+   PRINT
+   GET$
+   INPUT
+
+LE PREMIER PROGRAMME
+--------------------
+Pour commencer cette discussion sur la programmation TEXTBOOK, lancez TML BASIC depuis votre disque de travail, et ouvrez le fichier AVERAGES.BAS (average = moyenne) qui se trouve dans le dossier PART1.EXAMPLES. Si vous n'avez pas déjà fait une copie de travail de TML BASIC, vous devriez la faire maintenant, avant de continuer, afin de protéger votre disquette de distribution d'un dommage possible. De plus, si vous n'etes pas familier sur la façon de lancer TML BASIC, d'ouvrir, d'éditer, de compiler et de lancer des programmes, reportez vous aux chapitres 1 à 4 de ce manuel.
+<page-footer>
+
+
+
+Page 54
+Après avoir ouvert le programme AVERAGES.BAS, vous devriez voir apparaitre dans la fenetre édition le code source suivant :
+
+   REM A program to compute the average of three numbers
+   REM Un programme pour calculer la moyenne de trois nombres
+   LET Avg = (43 + 27 + 23) /3
+   PRINT "The average of the three numbers is ";Avg
+   REM La moyenne des trois nombres est
+   GET$ Key$
+
+Exécutez le programme AVERAGES.BAS en choisissant la commande TO MEMORY AND RUN du menu COMPILE. Le programme est immédiatement compilé, puis éxécuté par TML BASIC. Le résultat de ce programme devrait apparaitre comme montré à la ligne suivante sur l'écran texte de l'ordinateur :
+
+   The average of the three numbers is 31
+
+Appuyez sur une touche quelconque de votre clavier, et votre programme terminera son éxécution. L'environnement TML BASIC réapparait avec la fenetre ouverte qui contient encore le code source du programme AVERAGES.BAS. Maintenant, examinons le programme, pour voir comment il fonctionne vraiment.
+
+Le programme est constitué de quatre lignes de code source. Chaque ligne contient une instruction. Les instructions sont les composantes fondamentales d'un programme TML BASIC, utilisées pour dire à l'ordinateur quelle action ilCHAPITRE 5
+----------
+VOTRE PREMIER PROGRAMME
+-----------------------
+Ce chapitre suppose que vous etes familiarisé avec l'environnement de programmation TML BASIC. Si vous n'etes pas familiarisé avec la façon dont travaille TML BASIC, en particulier avec les techniques d'édition, de compilation et d'éxécution de programmes, vous devriez prendre le temps de lire les chapitres 1 à 4 avant de continuer.
+
+TML BASIC peut etre utilisé pour créer deux types différents de programme : les programmes TEXTBOOK, et les programmes TOOLBOX. Les programmes TEXTBOOK représentent le style de programmation traditionnel, crée en utilisant l'écran texte du IIGS. Nous utilisons le terme TEXTBOOK, car c'est le genre de programme qu'il est probable que vous trouverez dans les livres généraux de programmation en basic. D'un autre coté, les programmes TOOLBOX sont ceux qui utilisent la toolbox (boite à outils) du IIGS. Ces programmes opèrent à l'intérieur de l'écran graphique Super HiRes du IIGS et sont couramment des applications à detection d'évenements qui utilisent la souris. Ce chapitre parle seulement des programmes TEXTBOOK. La troisième partie de ce manuel, Programmation Toolbox, documente la toolbox, et la façon d'écrire des programmes toolbox.
+
+Bien que TML BASIC fournisse un grand nombre d'instructions et de fonctions de programmation prédéfinies, vous vous apercevrez que seulement un petit nombre de ces instructions et fonctions sont nécessaires pour commencer à programmer. Pour une référence totale à chacune des instructions et fonctions de TML BASIC, reportez vous au chapitre 10.
+
+Instructions introduites dans ce chapitre :
+   
+   REM
+   LET
+   PRINT
+   GET$
+   INPUT
+
+LE PREMIER PROGRAMME
+--------------------
+Pour commencer cette discussion sur la programmation TEXTBOOK, lancez TML BASIC depuis votre disque de travail, et ouvrez le fichier AVERAGES.BAS (average = moyenne) qui se trouve dans le dossier PART1.EXAMPLES. Si vous n'avez pas déjà fait une copie de travail de TML BASIC, vous devriez la faire maintenant, avant de continuer, afin de protéger votre disquette de distribution d'un dommage possible. De plus, si vous n'etes pas familier sur la façon de lancer TML BASIC, d'ouvrir, d'éditer, de compiler et de lancer des programmes, reportez vous aux chapitres 1 à 4 de ce manuel.
+<page-footer>
+
+
+
+Page 54
+Après avoir ouvert le programme AVERAGES.BAS, vous devriez voir apparaitre dans la fenetre édition le code source suivant :
+
+   REM A program to compute the average of three numbers
+   REM Un programme pour calculer la moyenne de trois nombres
+   LET Avg = (43 + 27 + 23) /3
+   PRINT "The av doit éxécuter. Chaque instruction commence avec un mot spécial TML BASIC, appelé Mot Réservé. Le mot réservé indique quelle genre d'instruction est sur la ligne. Une liste de tous les mots réservés du TML BASIC se trouve dans le chapitre 7, dans le tableau 7-2. 
+
+Si vous etes familier avec d'autres langages basic, vous remarquerez immédiatement qu'il n'y a pas de numéro de ligne dans un programme TML BASIC. Les numéros de ligne ont traditionnellement fait partie des langages basic puisque les éditeurs de programme utilisés avec ces anciens langages basic en avaient besoin. De plus, les numéros de ligne étaient utilisés dans certaines instructions basic. D'un autre coté, TML BASIC utilise des labels alphanumériques au lieu de numéros de lignes. Les labels alphanumériques sont détaillés en détail dans le chapitre 7.
+
+L'INSTRUCTION REM
+-----------------
+La première instruction utilisée dans le programme AVERAGES.BAS est l'instruction REMark (remarque). L'instruction REM est utilisée dans un programme TML BASIC pour y inclure des notes sur le but du programmen ce qu'il fait, la façon dont il fonctionne, ou toute autre information que vous pouvez trouver utile pour décrire le programme. C'est également une bonne pratique de programmation d'inclure des instructions REM dans vos programmes, afin de documenter leurs actions.
+
+L'instruction REM n'indique pas à l'ordinateur d'éxécuter une opération spécifique. En fait, TML BASIC ignore le reste de la ligne qui contient une instruction REM.
+<page-footer>
+
+
+
+Page 55
+Le programme AVERAGES.BAS inclus une instruction REM utilisée pour décrire le but du programme.
+
+TML BASIC offre une alternative à l'instruction REM, appelée le commentaire (comment). Un commentaire se comporte exactement comme une instruction REM, excepté qu'il consiste seulement en un simple signe apostrophe (') suivi par la documentation appropriée; par exemple, le programme AVERAGES.BAS peut etre réecris comme suit :
+
+   ' A program to compute the average of three numbers
+   ' Un programme pour calculer la moyenne de trois nombres
+   LET Avg = (43 + 27 + 23) /3
+   PRINT "The average of the three numbers is ";Avg
+   ' La moyenne des trois nombres est
+   GET$ Key$
+
+La différence importe entre l'instruction REM et un commentaire est que le commentaire n'est pas une instruction. Si un programme a une instruction REM apparaissant sur la meme ligne après une autre instruction, le signe deux points (:) doit etre utilisé pour séparer les deux instructions (le signe deux points peut etre utilisé plusieurs fois sur la meme ligne de programme, pour séparer plusieurs instructions). Toutefois, un commentaire ne necessite pas d'etre précédé par le signe deux points, puisque ce n'est pas une instruction. Considérez l'exemple suivant :
+
+   LET Avg = (43 + 27 + 23) / 3  : REM Calcule la moyenne
+   LET Avg = (43 + 27 + 23) / 3  'Calcule la moyenne
+
+La première ligne de programme comporte deux instructions sur la meme ligne, séparées par le signe deux points. La seconde ligne ne contient qu'une instruction de programme, suivie par un commentaire qui documente le but de la ligne.
+
+L'INSTRUCTION LET
+-----------------
+L'instruction LET, également appelée instruction d'assignation est utilisée pour assigner une valeur à une variable. Suivant le mot réservé LET, on trouve un nom de variable suivi par le signe égal, puis une expression. A la variable qui se trouve du coté gauche du signe égal, on donne la valeur de l'expression qui se trouve à la droite du signe égal.
+
+Une variable est une entité à laquelle on donne un nom et qui contient une valeur numérique, ou une valeur chaine. La valeur de la variable peut changer durant l'éxécution du programme en utilisant l'instruction LET. Un nom de variable est toute séquence de caractère alphanumérique qui commence avec une lettre, et qui ne s'epelle pas comme un mot réservé du TML BASIC. Un nom de variable peut avoir une longueur quelconque, et tous ses caractères sont significatifs. Si la variable contient une valeur chaine, son nom doit se terminer avec le signe $. Pour plus d'informations sur les variables, reportez vous à la section Variables dans le chapitre 7. Dans le programme AVERAGES.BAS, Avg est une variable numérique et Key$ est une variable chaine.
+
+Une expression représente une valeur. Une expression est constituée d'opérandes, combinés avec des opérateurs qui produisent une valeur quand ils sont évalués durant l'éxécution du programme.
+<page-footer>
+
+
+
+Page 56
+Les opérateurs sont des symboles spéciaux représentants une opération particulière que l'on doit éxécuter. Par exemple, l'instruction LET, utilisée dans le programme AVERAGES.BAS, contient en meme temps l'opérateur addition (+) et l'opérateur division (/). Les opérandes sont des constantes, des variables et des appels de fonctions, sur lesquels les opérateurs travaillent. Dans l'instruction LET, les constantes 43, 27, 23 et 3 sont des opérandes. Une fois encore, on peut avoir plus d'informations sur les expressions, dans le chapitre 7, dans la section Expressions.
+
+L'exemple suivant montre comment le programme AVERAGES.BAS peut etre réecris en utilisant plusieurs instructions LET et plusieurs variables à l'intérieur d'une expression.
+
+   REM Un programme pour calculer la moyenne de trois nombres
+   LET Count = 3
+   LET Chiffre1 = 43
+   LET Chiffre2 = 27
+   LET Chiffre3 = 23
+   LET Avg = (Chiffre1 + Chiffre2 + Chiffre3) / Count
+   PRINT "La moyenne des trois nombres est ";Avg
+   GET$ Key$
+
+Comme mentionné précedemment, chaque instruction de programme TML BASIC doit commencer avec un mot réservé. La seule exception à cette règle est l'instruction LET. Dans le cas de l'instruction LET, le mot réservé LET est optionnel, et il n'est pas nécessaire qu'il apparaisse. Ainsi, TML BASIC assume que toute instruction qui commence avec une variable est en fait une instruction LET.
+
+L'exemple suivant montre comment on peut réecrire le programme AVERAGES.BAS, en utilisant l'instruction LET, sans le mot réservé LET.
+
+
+   REM Un programme pour calculer la moyenne de trois nombres
+   Count = 3
+   Chiffre1 = 43
+   Chiffre2 = 27
+   Chiffre3 = 23
+   Avg = (Chiffre1 + Chiffre2 + Chiffre3) / Count
+   PRINT "La moyenne des trois nombres est ";Avg
+   GET$ Key$
+
+Rentrez ces changements dans le programme AVERAGES.BAS et essayez de lancer le programme, pour voir par vous meme comment fonctionne l'instruction LET.
+
+L'INSTRUCTION PRINT
+-------------------
+L'instruction PRINT affiche du texte sur l'écran texte du IIGS. L'instruction PRINT est utilisée pour imprimer les valeurs d'expressions numériques et d'expressions chaine. L'instruction PRINT peut contenir tout nombre d'expressions, séparés soit par une virgule (,), soit par un point virgule (;). Chaque expression est appelée un élément d'impression (print item). En fait, de multiples expressions peuvent etre séparées par des espaces, mais c'est une bonne pratique de programmation d'utiliser une virgule ou un point virgule pour montrer clairement qu'il y a plus d'une expression incluse dans une instruction PRINT.
+<page-footer>
+
+
+
+Page 57
+L'instruction PRINT, utilisée dans le programme AVERAGES.BAS contient deux éléments d'impression, séparés par un point virgule. Le premier élément d'impression est la constante chaine 
+
+"La moyenne des trois nombres est "
+
+et le second élément d'impression est la variable numérique Avg.
+
+Quand une expression chaine apparait dans une instruction PRINT, les caractères exacts de la chaine sont affichés sur l'éran texte, à la position texte en cours (la position du curseur). Quand une expression numérique est affichée, la représentation binaire de la valeur numérique est tout d'abord convertie en une chaine, puis affichée à la position du texte en cours.
+
+Quand on utilise le point virgule comme séparateur entre des expressions multiples dans une instruction PRINT, TML BASIC positionne le curseur immédiatement après le dernier caractère affiché. Ainsi, l'expression suivante est affichée de façon adjacente à l'élément d'impression précédent. L'utilisation d'une virgule comme séparateur fait que TML BASIC exécute un saut au taquet de tabulation suivant, avant d'imprimer l'élément d'impression suivant. La largeur de tabulation de l'instruction PRINT est de 16 caractères. Les espaces entre chaque tabulation sont appelés une zone d'impression. Le diagramme suivant illustre comment un écran texte 80 colonnes est divisé en cinq zones d'impressions.
+
+
+   1         17         33         49        65         80
+  _________________________________________________________
+  !          !          !          !          !          !
+2 !          !          !          !          !          !
+4 ! PRINT    ! PRINT    ! PRINT    ! PRINT    ! PRINT    !
+  ! Zone 1   ! Zone 2   ! Zone 3   ! Zone 4   ! Zone 5   !
+L !          !          !          !          !          !
+I !          !          !          !          !          !
+G !          !          !          !          !          !
+N !          !          !          !          !          !
+E !          !          !          !          !          !
+S _________________________________________________________
+
+   La largeur d'une zone est de 16 caractères
+
+<page-footer>
+
+
+
+Page 58
+Si l'instruction PRINT du programme AVERAGES.BAS est réecrite pour utiliser le séparateur virgule comme montré ci-dessous,
+
+   PRINT "La moyenne des trois nombres est ", Avg
+
+l'affichage à l'écran sera comme suit :
+
+   La moyenne des trois nombres est                31
+   ^               ^               ^               ^
+Colonne 1      Colonne 17      Colonne 33      Colonne 49
+
+Parce que la position du curseur texte est à la 36 ème colonne, après l'impression de la constante chaine, la virgule fait que le curseur de tabulation se déplace à la prochaine zone d'impression qui commence à la colonne 49.
+
+Après que tous les éléments d'impression à l'intérieur d'une instruction PRINT ait été affichés, le curseur texte est déplacé à la première colonne de la ligne suivante. Si le curseur est sur la dernière ligne de l'écran, le contenu tout entier de l'écran est déroulé vers le haut, d'une ligne. Ainsi, une instruction PRINT ne contenant pas d'élément d'impression, imprimera une ligne blanche.
+
+Dans certains cas, un programme peut ne pas vouloir qu'une instruction PRINT avance la localisation du texte à la ligne suivante après qu'il ait affiché tous ses éléments d'impression. A chaque fois qu'une instruction PRINT se termine avec une virgule, ou un point virgule, l'instruction PRINT ne provoquera pas un avancement à la ligne suivante. Par exemple, l'instruction PRINT dans le programme AVERAGES.BAS peut etre réecrite en utilisant deux instructions PRINT et provoquer l'affichage sur une seule ligne comme précedemment.
+
+   REM Un programme pour calculer la moyenne de trois nombres
+   LET Avg = (43 + 27 + 23) / 3
+   PRINT "La moyenne des trois nombres est ";
+   PRINT Avg
+   GET$ Key$
+
+Le langage TML BASIC a plusieurs autres variantes et fonctions, qui fonctionnent en conjonction avec l'instruction PRINT. Elles comprennent l'instruction PRINT USING, aussi bien que SHOWDIGITS, SPC et TAB. Ce sont des fonctions évoluées décrites en détail dans le chapitre 10.
+
+L'INSTRUCTION GET$
+------------------
+L'instruction GET$ est utilisée pour assigner un caractère unique du clavier à une variable chaine. Sans l'afficher sur l'écran, sans que l'on ait besoin d'appuyer sur la touche RETURN.
+<page-footer>
+
+
+
+Page 59
+En examinant le programme AVERAGES.BAS, vous remarquerez que l'instruction GET$ est utilisée sans que l'on se serve du caractère lu sur le clavier, à un autre endroit dans le programme. Cette instruction GET$, qui apparait dans ce programme (comme elle apparait dans d'autres programmes exemples que vous pouvez trouver sur le disque), est utilisée pour arreter temporairement l'éxécution du programme avant que le controle ne soit redonné à l'environnement TML BASIC. Si cette instruction n'apparaissait pas ici, la sortie du programme serait affichée sur l'écran, et le controle serait rendu à TML BASIC si rapidement, que vous ne pourriez pas voir l'affichage produit par le programme.
+
+Effacez l'instruction GET$ du programme AVERAGES.BAS, puis compilez le programme pour voir à quelle vitesse le programme redonne le controle à TML BASIC, après qu'il ait terminé son éxécution.
+
+Evidemment, vous pouvez utiliser l'instruction GET$ à travers tous vos programmes, dans un but bien spécifique et recevoir des données de l'utilisateur, puis d'agir en conséquence. Toutefois, pour le besoin de ce chapitre, tout ce dont vous avez besoin est de réaliser que l'instruction est utilisée pour empecher temporairement un programme de redonner le controle à TML BASIC de telle façon que vous puissiez voir l'affichage produit par le programme.
+
+L'INSTRUCTION INPUT
+-------------------
+AVERAGES.BAS est un bon premier programme, mais comporte un grave problème, il fait seulement la moyenne de trois nombres, 43, 27 et 23. Après avoir éxécuté ce programme quelques fois, il devient évident que la moyenne est 31. En prenant ceci en compte, le programme serait beaucoup plus utile s'il pouvait donner la moyenne de trois nombres entrés par l'utilisateur.
+
+L'instruction INPUT est le moyen pour TML BASIC d'obtenir une ou plusieurs valeurs numériques ou valeurs texte, rentrées au clavier. Quand l'instruction INPUT est éxécutée, TML BASIC accepte une valeur rentrée au clavier, et l'assigne à la première variable qui se trouve dans l'instruction INPUT. Considérez la variante suivante du programme AVERAGES.BAS :
+
+   REM Un programme pour calculer la moyenne de trois nombres
+   Count = 3
+   INPUT Chiffre1 
+   INPUT Chiffre2 
+   INPUT Chiffre3 
+   Avg = (Chiffre1 + Chiffre2 + Chiffre3) / Count
+   PRINT "La moyenne des trois nombres est ";Avg
+   GET$ Key$
+
+Quand l'instruction INPUT est éxécutée, un point d'intérrogation (?) est affiché sur l'écran, indiquant que le programme attends une entrée. Essayez d'entrer ce programme, et compilez le avec TML BASIC pour voir comment fonctionne l'instruction INPUT.
+<page-footer>
+
+
+
+Page 60
+L'instruction INPUT peut maintenant accepter plusieurs valeurs à un moment, à l'aide de la liste de plusieurs variables dans l'instruction, séparées par des virgules. Par exemple, le programme ci-dessus pourrait etre réecris avec seulement une instruction INPUT comme suit :
+
+
+   REM Un programme pour calculer la moyenne de trois nombres
+   Count = 3
+   INPUT Chiffre1, Chiffre2, Chiffre3
+   Avg = (Chiffre1 + Chiffre2 + Chiffre3) / Count
+   PRINT "La moyenne des trois nombres est ";Avg
+   GET$ Key$
+
+Quand plus d'une variable est donnée dans la liste d'une instruction INPUT, chacune des valeurs rentrées au clavier doit etre soit séparée par une virgule, soit par la touche RETURN. Si une touche RETURN est appuyée et qu'il y a encore des variables auxquelles on n'a pas encore donné de valeur, TML BASIC affiche le ? indiquant qu'il y a encore des données à rentrer pour l'instruction INPUT.
+
+L'instruction INPUT peut également contenir une chaine qui est affichée comme le message d'INPUT, à la place du point d'interrogation normal. La chaine doit apparaitre immédiatement après le mot réservé INPUT et doit etre une constante chaine et non pas une variable chaine, ou une expression. L'exemple suivant montre comment on peut utiliser cette variante de l'instruction INPUT dans le programme AVERAGES.BAS
+
+
+   REM Un programme pour calculer la moyenne de trois nombres
+   Count = 3
+   INPUT "Entrez trois chiffres : ";Chiffre1, Chiffre2, Chiffre3
+   Avg = (Chiffre1 + Chiffre2 + Chiffre3) / Count
+   PRINT "La moyenne des trois nombres est ";Avg
+   GET$ Key$
+ 
+Evidemment, une instruction INPUT peut etre utilisée pour rentrer des variables chaine aussi bien que des variables numériques simplement en mettant dans la liste de l'instruction INPUT une variable chaine comme argument. Exemple :
+
+   INPUT "Entrez trois chiffres : "; Nom1$, Nom2$, Nom3$
+ 
+INSTRUCTIONS MULTIPLES
+----------------------
+Les programmes TML BASIC consistent en lignes de programme, o| chaque ligne contient une instruction de programme. Si vous le désirez, il est en fait possible d'inclure plusieurs lignes de code source en séparent les instructions par le signe deux points (:) la seule limite aux nombres d'instructions qui peut apparaitre sur une ligne est la restriction que les lignes de code source TML BASIC ne peuvent pas exéceder 255 caractères.
+<page-footer>
+
+
+
+Page 61
+L'exemple suivant illustre comment notre version modifiée du programme AVERAGES.BAS peut etre réecrite pour inclure quatre instructions LET sur une ligne unique. Notez qu'entre chaque instruction on trouve le signe deux points pour séparer deux instructions adjacentes.
+
+   REM Un programme pour calculer la moyenne de trois nombres
+   Count = 3 : Chiffre1 = 43 : Chiffre2 = 27 : Chiffre3 = 23
+   Avg = (Chiffre1 + Chiffre2 + Chiffre3) / Count
+   PRINT "La moyenne des trois chiffres est ";Avg
+   GET$ Key$
+
+Alors que cette technique réduit le nombre de lignes dans un programme, elle rends le programme beaucoup plus difficile à lire. De façon différente d'autres programmes basic interprétés, TML BASIC n'impose pas d'en tete pour l'utilisation de lignes de programmes supplémentaires. En fait, vous pouvez meme inclure des lignes blanches en TML BASIC, sans pour cela créer d'erreurs.
+
+RESUME
+------
+Ce chapitre a introduit certaines des instructions les plus fondamentales utilisées par tout programme TML BASIC. Ces instructions sont REM, LET, PRINT, GET$ et INPUT.
+
+Bien que le programme exemple utilisé dans ce chapitre semble relativement simple, vous pouvez aisément imaginer quels programmes compliqués il est possible d'écrire en utilisant ces instructions. Malgré cela, votre habileté en programmation va certainement augmenter rapidement et exiger des instructions plus puissantes, que vous pourrez inclure dans vos programmes.
+
+Comme indiqué dans le début de ce chapitre, le chapitre 10 est un guide complet pour toutes les instructions et les fonctions disponibles en TML BASIC. Quand vous programmerez, référez vous au chapitre 10 à chaque fois que vous aurez besoin d'aide pour chaque instruction et chaque fonction.
+
+Fin du chapitre 5
+
+
+
+Page 63

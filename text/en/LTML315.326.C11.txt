@@ -1,0 +1,390 @@
+CHAPTER 11
+-----------
+Program with the TOOLBOX
+
+In this chapter and in the next two chapters, we will discuss techniques for writing TML BASIC programs that use the IIGS TOOLBOX features. The toolbox is the name used to designate a large set of software routines developed by APPLE COMPUTER that are incorporated into all IIGS. TOOLBOX routines implement features such as drawing on Super HiRes graphical displays, sound, menus, windows, dialogs and much more. Each of the Toolbox routines are available in TML BASIC for creating programs using these advanced IIGS capabilities.
+
+The Toolbox Software is organized into several functional components called TOOLSET (or called Manager). Each ToolSet defines a set of procedures, functions and data structures. For example, the tool that supports creating and manipulating windows on the screen is called the Window Manager. The ToolSet that supports drawing on Super HiRes graphics is called QUICKDRAW and so on. In addition to providing a powerful set of Software, the toolbox is also used to isolate your program from the detail problems caused by the construction of the machine. Using the Toolset, APPLE COMPUTER can actually change the hardware of the IIGS, provide new versions of the Toolset without affecting the operating possibilities of your program.
+
+This chapter reviews the IIGS Toolbox and its organization. We will also talk about the features available in the TML BASIC language for programming using Toolboxes. Chapter 12 provides a detailed description of the Quickdraw graphical tool. The SuperHiRes graphical display and the Quickdraw graphical tool together form the basis of all IIGS graphical possibilities. The implementation of most other toolset is based on Quickdraw and therefore a good understanding of how Quickdraw works is necessary in order to successfully program the other Toolset. Finally, Chapter 13 shows the important points and features of TML BASIC for creating event-driven programs that use the Desktop interface. The programs using the Desktop are those using the mouse, the menus, the windows, the dialog boxes etc ...
+
+The C appencide provides a complete reference to TML BASIC's predefined toolbox libraries. The appendix contains the list of each procedure and function contained in the Toolset.
+<Page-footer>
+
+
+
+Page 316
+A review of the IIGS Toolbox
+-------------------------------
+The following paragraphs are an introduction to the different Toolsset of the IIGS Toolbox. While this is intended to give you a good understanding of the content and organization of the Toolbox, the information given here is by no means complete. The APPLE IIGS TOOLBOX REFERENCE books VOLUME 1 and 2 published by APPLE COMPUTER are the most complete and detailed documentation on the Toolbox and are absolutely necessary for writing programs using the Toolbox.
+
+The IIGS Toolbox consists of a large number of Toolset that implement a wide range of operations. Toolset can be grouped into 5 major functional categories. The six basic tools, Desktop Interface Tools, Peripheral Interface Tools, Operational Environment Tools, and Specialized Tools. Below is an illustration of the functional organization of the Toolset.
+
+
+          ________________     _______________
+          I  Menu ManagerI     I Scrap ManagerI     !  ____________________
+            ________________     _______________    !  I Apple Desktop BusI
+            I Dialog ManagerI    I Desk ManagerI    !  ____________________
+              __________________   _______________  !   I Text ToolsI
+              I Control ManagerI   I List ManagerI  !    ________________
+                _________________   _______________ !    I Print ManagerI
+                I Window ManagerI   I Line Edit   I !     _______________
+                 _________________   _______________!     I Standard FileI
+                                     I Font ManagerI!      _______________
+                                      ______________!
+                                                    ! TOOLS INTERFACE PERIPH.
+                TOOLS OF THE DESKTOP INTERFACE!
+
+  ________________
+  I  Tool LocatorI             !                             
+   ________________            !                                     
+   I Event ManagerI            !                             
+    _________________          !                               
+    I Memory ManagerI          !                             
+     _____________             !  ____________               
+     I Misc ToolsI             !  I SchedulerI               
+      ____________             !   ________________          
+      I QuickdrawI             !   I System LoaderI          
+       ______________________  !    ________________         
+       I Quickdraw AuxiliaryI  !                             
+        _____________________  !
+                               ! TOOLS OF THE OPERATING ENVIRONMENT
+THE SIX BASIC TOOLS!
+
+                        _______
+                        I SANEI
+                          _______________
+                          I Integer MathI
+                            ________________
+                            I Sound ManagerI
+                              ___________________
+                              I Note SynthetizerI
+                                _________________
+                                I Note SequencerI
+                                 _________________
+
+                               SPECIALIZED TOOLS
+
+
+<Page-footer>
+
+
+
+Page 317
+THE SIX BASIC TOOLS
+----------------------
+
+The six basic tools provide the structure on which all other tools are based. All these tools are used in programs controlled by events.
+
+Tool Locator
+The Tool Locator is the most important tool set in the IIGS. It allows you to load tools from disk into memory and supports the location of Toolset routines when a program calls a Toolbox procedure or function.
+
+Memory Manager
+The memory manager is the second most important set of tools. This tool is fully responsible for the allocation, desallocation and repositioning of IIGS memory blocks. The memory manager takes note of the amount of free memory, how much memory is allocated and to whom it is allocated. Whenever a program needs memory, it must ask the memory manager to allocate it.
+
+Miscellaneous Tools
+The miscellaneous tools consist essentially of system-level routines that should be available for most other tools.
+
+Quickdraw
+Quickdraw is the set of tools that controls the IIGS graphical environment, which draws simple objects and text in the Super HiRes graphical display. All other tools that create graphical objects such as menu and window manager call Quickdraw.
+
+Quickdraw Auxiliary
+(Quickdraw helper) This set of tools contains additional graphical routines that complement quickdraw.
+
+Event Manager
+The event manager is responsible for detecting system events such as mouse clicks, keystrokes, window updates, etc. He places the events in a queue. waiting then delivers the events to the application that asks him.
+
+THE TOOLS OF THE DESKTOP INTERFACE
+---------------------------------
+The tool sets in this group support the Apple Desktop interface. This interface is the visual interface between the user of an application and the user. It includes the menu bar and the blue color surface on the screen. Applications usually have documents displayed in windows, on the Desktop, and may be other graphic objects, such as icons.
+<Page-footer>
+
+
+
+Page 318
+Applications that implement the desktop will always use the menu bar, window and control managers, and most other tools. NDA new office accessories are supported by the Desk Manager.
+
+Control manager
+The control manager consists of all the routines needed to manipulate the controls. Examples of control are lifts, radio buttons, dialogs etc ...
+
+Desk Manager
+The Desk Manager is the tool that allows an application to support CDA and NDA, classic and new desktop accessories.
+The CDAs are accessible in the dashboard by making CTRL APPLE ESC
+NDAs are accessible in the APP menu on the menu bar.
+
+Dialog Manager
+The dialog manager provides routines that allow an application to create and use dialogs and alarms as a means of communication between a user and the program.
+
+Font Manager
+The font manager is the set of tools that allows an application to use different fonts, styles etc ... inside quickdraw.
+
+Line Edit
+Line edit is used to display and edit a line of text on the screen and allow the user to edit text.
+
+List Manager
+The list manager is used to create, display and enable the selection of a variable among other similar data.
+
+Menu Manager
+The menu manager controls and keeps operational the use of drop-down menus and items in the menus.
+
+Scrap Manager
+The scrap manager manages the scrap desk that manages the cut / copy / paste operations of an application.
+
+Window Manager
+The window manager creates the desktop environment and supports the creation and manipulation of the windows.
+
+
+PERIPHERAL INTERFACE TOOLS
+-------------------------------
+The tool sets in this group are used to manage the inputs and outputs between the computer and the peripheral devices, and the program.
+<Page-footer>
+
+
+
+Page 319
+Apple Desktop Bus
+The Apple Desktop Bus is the method and protocol for connecting devices used to enter data, such as the keyboard and mouse for the IIGS. The routines in this tool are used to send commands and data between the micro controller of the Apple Desktop Bus and the rest of the system.
+
+Print Manager
+The print manager allows an application to use Quickdraw routines to display text and graphics on an Imagewriter or Laserwriter.
+
+Standard File
+The standard tool set file (standard file) manages the standard user interface for opening or saving a file.
+
+Text Tools
+Text tools provide an interface between Apple II character device drivers that must be run in emulation mode and between applications that run in native mode.
+
+OPERATIONAL ENVIRONMENTAL TOOLS
+------------------------------------------
+The tools in the operational environment control the interaction between low-level hardware functions and software functions. Although not discussed here, the memory manager and the miscallaneous tools handle similar low level operations that are typical of the operational environment tools and in many cases interact with these tools.
+
+Scheduler
+The scheduler delays activation of a desktop accessory or other system task until the necessary items at the desk or task are available. This avoids possible crashes of the system when one or more spots call the same elements at the same time.
+
+System Loader
+The system loader supports code loading and rellocation for applications and desktop accessories loaded into memory.
+
+SPECIALIZED TOOLS
+----------------------
+Specialized tools are those that do not belong to one of the previous groups. These tools can be divided into two categories. Those relating to sounds and those relating to mathematical operations. The sound tools provide access to the powerful sound capabilities of the IIGS hardware, especially the Ensoniq DOC chip. Math tools handle floating point calculations and integer calculations.
+<Page-footer>
+
+
+
+Page 320
+Sound Manager
+The sound manager provides access to IIGS sound hardware for creating basic sounds
+
+Note Synthesizer
+The note synthesizer (note synthesizer) is used to create complex musical sounds simulating musical instruments using the IIGS Sound Hardware
+
+Note Sequencer
+The note sequencer is used to link together notes of the synthesizer note into phrases that make up a field.
+
+Integer Math
+This set of tools consists of a varied set of operations for integers, long integers, and signed fractional numbers. These tools include multiplication, division, conversions etc ...
+
+SANE
+SANE manages the standard Apple digital environment. It is a transcendental and floating-point arithmetic function management conforming to the IEEE 754 extended precision bus.
+
+WHERE ARE THE TOOLS
+------------------
+Depending on the system disk version 3.1, 28 sets of tools have been defined for the IIGS toolbox. Most of these tools are located in ROM, contained in each IIGS. The other tool sets are located on disk and must be loaded in RAM before they can be used. Some of these tool sets are stored in RAM because there was not enough space in ROM, and others are in RAM either because they were not completed or because they were added after creation of the ROM. Fortunately, a program does not have to worry about locating a particular procedure or function in a set of tools. This is the responsibility of the Tool Locator. This Toolbox architecture allows APPLE COMPUTER to move existing tool sets in ROM, to move the location of tool sets that are in ROM or RAM, or even to add new sets of tools. tools in the Toolbox without affecting for that, already existing programs.
+
+The only requirement for a program using the Toolbox is to make sure that used tool sets that are not in ROM are available on the system disk in such a way that they can be loaded into RAM. Disk-based tool sets must be located in the TOOLS folder, which is itself located in the system disk folder of the system disk used to boot the IIGS. The name of a Toolset file is TOOLXXX where XXX is a three-digit number that corresponds to the tool number assigned to the Toolset. For example, the window manager file with the name TOOL014 because the window manager is the tool set number 14. The TML BASIC distribution disk comes with all the Toolsets running in RAM that are available on the IIGS system disk.
+
+Table 11.1 lists the 28 sets of IIGS tools with their names and whether or not the set is currently ROM or RAM.
+<Page-footer>
+
+
+
+Page 321
+This information is accurate for the system disk version 3.1 and ROM version 0.1
+
+_____________________________________________________________________________
+                        
+                        TABLE 11.1
+                    APPLE IIGS TOOLBOX
+
+Tool Number         Tool Name                     RAM       ROM
+1                   TOOL LOCATOR                   .         X
+2                   MEMORY MANAGER                 .         X
+3                   MISCELLANEOUS TOOLS            .         X
+4                   QUICKDRAW II                   .         X
+5                   DESK MANAGER                   .         X
+6                   EVENT MANAGER                  .         X
+7                   SCHEDULER                      .         X
+8                   SOUND MANAGER                  .         X
+9                   APPLE DESKTOP BUS              .         X
+10                  SANE                           .         X
+11                  INTEGER MATH                   .         X
+12                  TEXT TOOLS                     .         X
+13                  Reserved for System Use        .         .
+14                  WINDOW MANAGER                 X         .
+15                  MENU MANAGER                   X         .
+16                  CONTROL MANAGER                X         .
+17                  SYSTEM LOADER                  X         .
+18                  QUICKDRAW AUXILIARY ROUTINES   X         .
+19                  PRINT MANAGER                  X         .
+20                  LINE EDIT                      X         .
+21                  DIALOG MANAGER                 X         .
+22                  SCRAP MANAGER                  X         .
+23                  STANDARD FILE                  X         .
+24                  DISK UTILITIES                 X         .
+25                  NOTE SYNTHETIZER               X         .
+26                  NOTE SEQUENCER                 X         .
+27                  FONT MANAGER                   X         .
+28                  LIST MANAGER                   X         .
+_____________________________________________________________________________
+
+
+
+TOOLBOX LIBRARIES
+----------------------
+Remember from what has been said in chapter 8 that a library is an independent set of TML BASIC source code that is compiled separately from a program. A compiled library can be used in other libraries and programs. TML BASIC allows user-defined libraries, but additionally provides several predefined libraries that define interfaces to each Toolset in the IIGS Toolbox. These predefined libraries are called Toolbox Libraries. The toolbox libraries are located in the LIBRARIES folder itself on the TML BASIC distribution disk.
+<Page-footer>
+
+
+
+Page 322
+Each of the Toolbox libraries contains procedure declarations and function declarations for a particular tool set. The source code for these libraries is not bundled with TML BASIC, however, the C appencide provides a complete list of the source code for these libraries. For example, the Quickdraw library contains declarations for each procedure and function defined for the Quickdraw tool set. Note that the code handling each procedure and function is not given after the instructions DEF PROC and DEF FN. Instead, a special TOOL directive is specified after the parameter list. The TOOL directive is followed by two integers, FUNCTION NUMBER (function number) and TOOL SET NUMBER, respectively. TML BASIC uses this information to tell the TOOL LOCATOR how to locate the code for a TOOLBOX procedure or function. Note that a TOOL directive is not allowed by TML BASIC and therefore can not be used in your own programs. The TOOL directive is a special extension used only to define Toolbox libraries.
+
+Each TOOLSET of the Toolbox is assigned a unique number called TOOLSET NUMBER (tool set number). Given this number, the Finder Tool knows which toolset a toolbox procedure or function belongs to. In addition to each procedure and function within a given Toolset is assigned a single integer called the FUNCTION NUMBER (function number.) Together, the toolset number and the function number are used by the tool locator to identify unique way each procedure and function of the toolbox.For example, the MOVETO procedure of the quickdraw Toolset is declared:
+
+   DEF PROC MoveTo (H%, V%) TOOL 58,4
+
+This statement dictates to the MoveTo procedure that it has two integer parameters (representing the horizontal position and the vertical position for renting the quickdraw pen) and says that the procedure is handled as the function number 58 of the toolset quickdraw (toolset number 4).
+
+INSTRUCTION LIBRARY
+---------------------
+To use a Toolset library in a program, its name must be specified in a LIBRARY statement. When the LIBRARY statement is used, TML BASIC loads into its symbol table all function and procedure declarations of the library exactly as if the declarations were made in the source code. For example, the Quickdraw library can be used in a program with the following statement:
+
+   LIBRARY "Quickdraw"
+
+The LIBRARY statement can appear anywhere in a program. Before TML compiles a program, it first looks through the file for all occurrences of the LIBRARY statement. Each time it encounters the LIBRARY statement, declarations from that library are stored in the program's symbol table and make those declarations available to the program.
+<Page-footer>
+
+
+
+Page 323
+The LIBRARY statement will also be something else. As seen above, several sets of tools are not available in ROM but are stored on disk files to be loaded in RAM. When a LIBRARY statement names a set of tools that is not ROM, TML BASIC automatically generates the code that will load the disk file into RAM. To do this, TML BASIC generates a Toolbox call to the LoadOneTool procedure found in the Tool Locator. See Chapter 13 for more information on loading tool sets into RAM.
+
+SEARCH FOR A LIBRARY
+----------------------------
+When a LIBRARY name is specified in the LIBRARY statement, TML BASIC searches for the LIBRARY FILE compiled library. Library File is not the source code of the LIBRARY, but its code and statements compiled. As decreed in Chapter 3, the name of a LIBRARY file is the name of the LIBRARY with the suffix ".LIB". For example, the file name of the Quickdraw library is QUICKDRAW.LIB.
+
+TML BASIC searches in three places to find a LIBRARY file. First, it looks in memory, and then looks in the same folder as the source code file that contains the LIBRARY statement. Finally, if it does not find the file in this folder, it looks in the directory specified in the Library Search Path option of the Preferences Dialog (See Chapter 6 for more information on Dialog Preferences). If the file is not found in one of these three places, TML BASIC returns an error.
+
+It is possible to override these three places by specifying the full path of the LIBRARY file. For example, the following statement indicates that the LIBRARY QUICKDRAW file is in the / TML / LIBRARIES subdirectory:
+   
+   LIBRARY "/TML/LIBRARIES/QUICKDRAW"
+
+Note that although the full path is specified, the suffix ".LIB" is not included. This is because TML BASIC automatically adds the suffix regardless of whether the full path has been used or not.
+
+INSTRUCTION CALL
+------------------
+Although Toolbox procedures and functions are declared using the DEF PROC and DEF FN statements as shown in Appendix C, they are not normal procedures and functions. As such they are not called using the reserved words PROC and FN, but using the CALL statement. The CALL statement is a special reserved word used to indicate that a program calls a Toolbox procedure or function. For example, the MoveTo Quickdraw procedure is called as follows:
+
+   CALL MoveTo(10,23)
+<Page-footer>
+
+
+
+Page 324
+TML BASIC allows the use of the underscore symbol (_) as a shortened form of the reserved word CALL. So the above statement can be rewritten as follows:
+
+   _MoveTo(10,23)
+
+If a program tries to call with the CALL statement a procedure or Toolbox function in a Toolset that has not been named in a LIBRARY statement, inside the program, TML BASIC will return the error "Tool procedure XXX is not defined ", where XXX is the name of the procedure or function.
+
+When calling a Toolbox procedure, the number and type of parameters must match those of the procedure declaration in its LIBRARY file. If the parameter list does not match, TML BASIC returns an error. The rule for matching parameters is the same as for normal basic functions and procedures.
+
+As mentioned in Chapter 7, TML BASIC stores strings in a data structure called String Pool, and the value of a String variable is an Integer Offset in the String pool where the given chain is stored. Whenever a Toolbox procedure has a string parameter, TML BASIC automatically converts the value of a string variable to the machine address of the string data and passes this value for the parameter. Toolbox procedures with string parameters wait for the string data address, where the string data is stored as a counted string. A counted string is represented as an integer byte whose value is the number of characters in the string, followed by the characters that really make up the string. In a different way from the GS BASIC, TML BASIC stores the string data in the String Pool as counted strings and therefore there is no need to convert them.
+
+R.STACK FUNCTIONS
+---------------------
+Many of the Toolbox routines are handled as functions that return values. In addition, each Toolbox routine returns an error code indicating whether the routine has been successfully executed or not. The values ​​of the error code and the result of the function are saved in a special data structure, called the Stack return stack (Call Return Stack). The stack is a buffer of 32 bytes (16 words). R.STACK functions are used to read values ​​from the stack. The syntax for calling R.STACK functions is as follows:
+
+   R.STACK%(NumericExpression)
+   R.STACKà(NumericExpression)
+   R.STACK&(NumericExpression)
+
+Since each Toolbox function can return a different amount of information and different data types, you can access the call return stack to find either integer values ​​or double integer values ​​or values. made up of long integers. The NumericExpression parameter is an offset word in the stack. The number of bytes read from the beginning of the stack depends on the R.STACK function that is called.
+<Page-footer>
+
+
+
+Page 325
+R.STACK% returns an integer value by reading two bytes of data in the stack
+R.STACKà returns a double integer by reading four bytes of data in the stack
+R.STACK& returns a long integer reading eight bytes of data in the stack.
+Thus R.STACK% can be indexed in the range 0 to 16, R.STACKà in the range 0 to 15 and R.STACK& in the range 0 to 13.
+
+R.STACK%(0) returns the error code returned by the procedure or Toolbox function. If the value is zero, there was no error. If the value is nonzero, there was an error during the execution of the Toolbox routine and the program will have to respond accordingly.
+
+R.STACK%(1) is the first data word that is returned on the CALL stack.
+
+The following portion of code illustrates how the R.STACK function is used:
+
+CALL NewHandle (1024, MyMemoryID%, 0,0)
+
+IF R.STACK%(0) = 0 THEN
+   myHandleà = R.STACKà(1)
+ELSE
+   PRINT "Unable to allocate memory load, error:"; R.STACK%(0)
+
+USE EXFN INSTEAD OF CALL
+-----------------------------
+The reserved word EXFN is an alternative to the CALL statement, used to call Toolset functions from an expression. By using EXFN, the result of the function can be used directly in an expression without reference to the R.STACK function. The syntax for using EXFN is as follows:
+
+   EXFN <% I to I & I # I $> _Functionname (Parameter list)
+
+Note that the underscore (_) symbol must precede the Toolset name.
+The following example shows how we can rewrite the example of the previous paragraph using the reserved word EXFN:
+
+myHandleà = EXFNà_NewHandle (1024, myMemoryID%, 0,0)
+
+IF R.STACK% (0) <> 0
+   THEN PRINT "Unable to assign memory load, error:"; R.STACK% (0)
+
+In the above example, the (arobad) type character was used after the word EXFN. This character means that the result value of the function is a double integer. The use of a type character after EXFN is strictly optional since TML BASIC knows the type of the result according to the declaration of the function.
+<Page-footer>
+
+
+
+Page 326
+In fact, TML BASIC ignores the character type if it is not correct. For example, the following variant of the previous example:
+
+myHandleà = EXFN% _NewHandle (1024, myMemoryID%, 0,0)
+
+Here, the type character% is used. However, TML BASIC will ignore the type character and NewHandle will return a double integer.
+
+A Toolset routine that is defined as a procedure can also be called using the reserved word EXFN_. However, in this case, the resulting value is the error code returned by the procedure since a procedure does not have a function result.
+
+AN EXAMPLE
+----------
+Below is a small sample program that uses the Quickdraw library to put the HiRes screen blank and draw a few lines on the screen.
+
+LIBRARY "Quickdraw" 'Make the Quickdraw toolset available
+
+GRAF INIT 320 'Initializes the Super HiRes screen in 320 mode
+GRAF ON 'Turns on the graphic display
+
+_ClearScreen(-1) 'Painted the screen in white
+
+FOR i% = 0 TO 100 STEP 20
+    _MoveTo (30 + i%, 50 + i%) 'Move the Quickdraw pencil
+    _LineTo (70 + i%, 90 + i%) 'Draw a line
+NEXT i%
+
+GET$ Key$ 'Wait for a key press
+GRAF OFF 'Disables the graphic screen and switches to text
+END
+
+This example shows how easy it is to program simple graphics using the Toolbox. You should now read chapter 12 to learn more about Quickdraw charts and then chapter 13 to learn more about how to create much more sophisticated programs using the Toolbox. You will find sample programs in the PART3.EXAMPLES and MORE.EXAMPLES folders that show programs using the Toolbox.
+
+End of Chapter 11
+
+
+
+Page 327

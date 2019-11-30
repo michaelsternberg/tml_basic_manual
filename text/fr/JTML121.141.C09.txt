@@ -1,0 +1,587 @@
+CHAPITRE 9
+----------
+LES FICHIERS
+------------
+Ce chapitre discute des caractéristiques du langage et des possibilités du TML BASIC concernant la manipulation des fichiers sur disquette et des périphériques. Si vous n'etes pas familiers avec les concepts de fichiers, de volume, de disquette et de prodos, vous devriez étudier le guide de l'utilisateur du IIGS pour une introduction sur le système d'exploitation prodos.
+
+L'ESSENTIEL SUR PRODOS 16
+-------------------------
+Prodos 16 est le système d'exploitation du IIGS. En tant que tel il prends en charge la gestion d'une grande partie de l'interface entre le Hardware IIGS et les applications. Il gère la création et la modification des fichiers. Il gère les lecteurs de disquettes sur lesquels les fichiers sont rangés puis Lus. Il distribue les signaux d'interruptions vers les gestionnaires d'interruptions. Il controle également certains aspects de l'environnement opérationnel du IIGS, tels que les préfix de chemin (pathname) ainsi que les routines pour sortir des programmes et en démarrer de nouveaux. 
+
+LES NOMS DE FICHIERS
+Un fichier disque est un ensemble ordonné d'informations qui est rangé sur une disquette et a plusieurs attributs, y compris un nom de fichier et un type de fichier. Parce que TML BASIC opére depuis l'intérieur du système d'exploitation prodos 16, les conventions pour nommer les fichiers et les opérations en TML BASIC doivent respecter les règles de PRODOS 16.
+
+Un nom de fichier pour un fichier disque en TML BASIC, peut etre constitué de toutes séquences de 15 lettres ou moins (de A à Z et de a à z), de chiffres (0 à 9) ou de points (.). Le premier caractère dans un nom de fichier devant etre une lettre. Si un programme essaie d'utiliser un nom de fichier qui a une longueur supérieur à 15 caractères, ou un nom qui contient un caractère illégal, une erreur se produira.
+
+Les appareils périphériques, tels que le clavier, l'écran et l'imprimante connectés au IIGS sont également traités comme des fichiers en TML BASIC. Ils sont appelés des fichiers caractères plutot que des fichiers disquettes. Les conventions pour nommer ces fichiers caractères sont les memes que celles pour nommer les fichiers disquettes, excepté que le nom commence avec un point. Par exemple ".PRINTER" se réfère à l'appareil imprimante connecté au slot 1. TML BASIC prédéfini certains noms de fichiers caractères et un programme peut en définir d'autres en utilisant l'instruction ASSIGN. Voir le chapitre 10 pour une discussion de l'instruction ASSIGN et des noms de fichiers caractères prédéfinis. En traitant les appareils périphériques comme des fichiers, TML BASIC vous fourni une méthode simple et régulière pour éxécuter les entrées et sorties dans un programme.
+
+L'attribut type de fichier (filetype) est une valeur entière spéciale qui indique le contenu d'un fichier. Il y a des types de fichiers indiquant les fichiers texte, les dossiers PRODOS 16, les fichiers de données basic etc... L'appendice F vous donne une liste des types de fichiers les plus courants.
+<page-footer>
+
+
+
+Page 122
+Pour ouvrir un fichier pour une entrée et/ou une sortie, on doit utiliser l'instruction OPEN. L'instruction OPEN associe au fichier caractère ou au fichier disquette, un numéro de fichier qui est utilisé par les instructions de fichier d'entrée sortie de TML BASIC. TML BASIC peut supporter jusqu'à 32 fichiers ouverts dans un programme, numérotés de 0 à 31. Le fichier numéro 31 à un but spécifique en TML BASIC. Il est utilisé par l'instruction CATALOG, pour lire le répertoire d'une disquette. Si un programme a ses 32 fichiers d'ouverts et qu'il éxécute l'instruction CATALOG, on obtiendra une erreur. Couramment, PRODOS 16, version 1.X autorise seulement l'ouverture de 8 fichiers en meme temps. Toutefois, quand de nouvelles versions de PRODOS 16 seront disponibles et qu'elles supporteront l'ouverture de plus de 8 fichiers en meme temps, TML BASIC pourra ouvrir jusqurà 32 fichiers.
+
+LES NOMS DE CHEMIN
+Les types de fichiers prodos 16 comprennent le type de fichier spécial dossier. Un fichier dossier contient les noms et l'emplacement sur disquette des autres fichiers de la disquette. Un fichier dossier peut contenir d'autres fichiers dossiers créant ainsi une hierarchie pour l'organisation des fichiers sur une disquette. Ces dossiers imbriqués les uns dans les autres sont quelques fois appelés sous dossiers, ou sous répertoires, ou sous directory. Chaque volume contient au moins un dossier appelé le dossier racine. Ainsi, le fichier dossier racine a le meme nom que le volume. Tous les autres fichiers et dossiers sont contenus dans ce dossier.
+
+Suit une figure qui illuste une partie de l'organisation du dossier de la disquette de distribution TML BASIC.
+
+TML-!
+    !-TMLBASIC
+    !
+    !-PART3.EXAMPLES
+    !
+    !-PART1.EXAMPLES---HELLOWORLD.BAS
+    !
+    !-SYSTEM---DESK.ACCS----TMLCLOCK
+             !
+             !-TOOLS----TOOL014
+             !        !-TOOL015
+             !        !-TOOL016
+             !
+             !-FONTS
+
+Un nom de fichier n'est pas suffisant pour accèder à un fichier en utilisant prodos 16. Prodos 16 nécessite un chemin (pathname) pour spécifier complètement un fichier. Un chemin n'est rien de plus qu'une série de noms de fichiers, chacun d'entre eux étant précédé par le caractère slash (/) (barre de fraction). Le premier nom de fichier dans le chemin est le nom de fichier du dossier racine (le nom du volume). Les noms de fichiers successifs indiquent le chemin que prodos 16 doit suivre depuis le dossier racine jusqu'au fichier, pour trouver un fichier particulier. Par exemple, le nom de chemin pour le fichier TMLCLOCK dans le schéma ci-dessus est le suivant :
+
+<page-footer>
+
+
+
+Page 123
+   /TML/SYSTEM/DESK.ACCS/TMLCLOCK
+
+La longueur maximum pour un chemin est de 64 caractères.
+
+Un chemin qui commence avec le nom de fichier du dossier racine (nom du volume) est appelé un chemin complet (full pathname). Des fichiers peuvent également etre désignés avec des chemins partiels. Un chemin partiel est une portion du chemin qui ne commence pas avec le nom du dossier racine et qui ne commence pas avec le caractère slash (/). Suivent des chemins partiels pour le fichier TMLCLOCK.
+
+   TMLCLOCK
+   DESK.ACCS/TMLCLOCK
+   SYSTEM/DESK.ACCS/TMLCLOCK
+
+A chaque fois qu'un chemin partiel est utilisé, prodos 16 rajout automatiquement un préfix au chemin partiel pour créer un chemin complet. Un préfix est un chemin qui indique un dossier. Un préfix commence toujours avec un slash et le nom du dossier racine, suivi par zéro ou plusieurs noms de dossiers. Suivent des chemins précis, préfix autorisés d'après l'exemple ci-dessus :
+
+   /TML/
+   /TML/SYSTEM/
+   /TML/SYSTEM/DESK.ACCS/
+   /TML/PART1.EXAMPLES/
+
+Les slashs à la fin de ces préfix sont optionnels, mais sont utiles pour vous aider à vous rappeler que ce sont des chemins prefix et non pas des chemins complets vers les fichiers dossiers respectifs.
+
+PRODOS 16 stock 8 préfix numérotés de 0 à 7. Le préfix 0 est appelé le préfix par défaut. A chaque fois qu'un chemin partiel est donné, PRODOS 16 adjoint automatiquement le préfix 0 au début du chemin partiel pour créer un chemin complet. Un chemin préfix peut avoir une longueur maximum de 64 caractères. Puisque les chemins partiels peuvent également avoir une longueuer de 64 caractères, il est possible de créer des chemins ayant une longueur maximum de 128 caractères. La valeur réservée modifiable de TML BASIC PREFIX$ contient la valeur du prefix 0 de prodos 16. TML BASIC vous fourni également l'instruction PREFIX et la fonction PFX$ pour manipuler les prefix.
+
+Enfin, il est possible de passer outre à l'utilisation du prefix 0 quand on utilise des chemins partiels, et il est possible de désigner tout préfix en faisant précéder un nom de chemin partiel avec un numéro de préfix et un caractère slash. Par exemple :
+
+   1/DESK.ACCS/TMLCLOCK
+   6/HELLOWORLD.BAS
+<page-footer>
+
+
+
+Page 124
+LA MANIPULATION DES FICHIERS
+----------------------------
+TML BASIC fourni plusieurs instructions permettant l'accès direct au système d'exploitation prodos 16 pour la manipulation des fichiers. Ces instructions permettent au programme de créer et d'effacer des fichiers, de renommer des fichiers, de vérouiller et dévérouiller des fichiers, de faire le catalogue d'un dossier et de déterminer quels volumes sont disponibles. On discute en détail de chacune de ces instructions dans le chapitre 10. Toutefois, on trouvera une revue rapide de ces opérations ci-dessous.
+
+L'INSTRUCTION CREATE (CREER)
+L'instruction CREATE est utilisée pour créer des fichiers disquette. L'instruction CREATE peut etre utilisée pour créer des dossiers, des fichiers textes, des fichiers de données basic et tout autre type de fichier prodos 16 autorisé. Suit la syntaxe de l'instruction CREATE :
+
+   CREATE Pathname <,FILTYP= DIR I TXT I SRC I BDF I Filetype <, SubType>>
+
+Le mot réservé CREATE est suivi par le chemin du fichier à créer. Optionnellement, un chemin peut etre suivi par la spécification du type de fichier, et la spécification du sous type. Si la spécification optionnelle du type de fichier n'apparait pas dans une instruction CREATE, un fichier texte est crée. La table suivante montre les noms de type de fichiers prédéfinis, leur noms alternatifs ou leurs autres noms et leur signification.
+
+______________________________________________________________________
+
+                          Tableau 9-1
+                          FILTYP=noms
+______________________________________________________________________
+
+Type de fichier          Alternatif
+Mnemonic                 Mnemonic            Signification
+
+DIR                      CAT                 Sous répertoire
+TXT                      TEXT                Fichier texte
+SRC                                          Fichier source
+BDF                      DATA                Fichier de données basic
+
+______________________________________________________________________
+
+L'appendice F vous donne une liste des types de fichiers les plus fréquemment utilisés en prodos 16. 
+
+Si l'argument FILTYP= apparait dans une instruction CREATE, il peut optionnellement etre suivi par une spécification de sous type de fichier. Le sous type est une valeur entière non signée comprise dans la gamme allant de 0 à 65535. Si le sous type n'est pas spécifié, la valeur par défaut de 0 est utilisée, sauf dans le cas de fichiers de données basic. Si le type de fichier spécifié est un sous répertoire (DIR), alors le sous type est 0 quelque soit la valeur spécifiée. La signification du sous type varie avec le type de fichier.
+
+Les fichiers de données basic nécessitent que la valeur du sous type soient compris dans la gamme allant de 3 à 32767.
+<page-footer>
+
+
+
+Page 125
+La raison en est que TML BASIC utilise le sous type d'un fichier de données basic comme la taille d'enregistrement logique du fichier. La taille d'un enregistrement logique d'un fichier de données basic doit etre connue afin de permettre un accès aléatoire aux enregistrements du fichier. Voir la section "l'accès aux fichiers de données basic", plus loin dans ce chapitre, pour plus d'informations sur les fichiers de données basic.
+
+Essayer de créer un fichier déjà éxistant en utilisant l'instruction CREATE provoque l'erreur "duplicate file error" (erreur fichier dupliqué). Suivent trois exemples d'utilisation de l'instruction CREATE. Les instructions CREATE créent respectivement un dossier, un fichier texte et un fichier de données basic :
+
+   CREATE "/TML/MY.EXAMPLES", FILTYP=DIR   'Crée un nouveau sous répertoire
+
+   CREATE "GRADES"                         'Crée un fichier texte
+
+   CREATE "MYROLODEX", FILTYP=BDF,100      'Crée un fichier de données basic
+                                           'avec taille d'enregistrement                                                 '(sous type) de 100
+
+INSTRUTION DELETE (EFFACER)
+L'instruction DELETE est utilisée pour enlever un fichier sur disquette d'un volume. Un fichier dossier ne peut etre effacé que si tous les fichiers du dossier ont été éffacés. Il est évidemment impossible d'effacer le dossier racine. Suit la syntaxe de l'instruction DELETE
+
+   DELETE Pathname
+
+Un certain nombres d'erreurs peuvent se produire quand on utilise l'instruction DELETE, si le fichier est en cours d'utilisation, verouillé, s'il est situé sur une disquette protégée en écriture etc.. Voir l'appendice A pour une liste complète des erreurs possibles de runtime.
+
+L'INSTRUCTION RENAME (RENOMMER)
+L'instruction RENAME est utilisée pour modifier le nom d'un volume, d'un dossier ou de tout autre fichier. La syntaxe pour l'instruction RENAME inclus le vieux chemin, suivi par une virgule, puis le nouveau chemin.
+
+   RENAME OldPathname, NewPathname <,FILTYP= TXT I SRC I BDF I Filetype>
+
+OldPathname doit etre le nom d'un fichier éxistant et NewPathname, peut etre tout nom de chemin autorisé Prodos 16. En utilisant RENAME, il est possible de modifier le nom d'un fichier, et meme de déplacer le fichier dans un dossier différent. Toutefois, il est impossible de déplacer un fichier sur une autre disquette  simplement en changeant son nom de chemin. Par exemple :
+
+   RENAME "HELLOWORLD.BAS", "HELLO.BAS"      'Change le nom du fichier
+   RENAME "HELLO.BAS", "/TML/HELLO.BAS"      'Change le fichier de dossier
+<page-footer>
+
+
+
+Page 126
+Si l'argument optionnel FILTYP= est utilisé, le type du fichier renommé est également changé. Il est possible de changer seulement le type d'un fichier en utilisant l'argument FILTYP= quand OldPathname et NewPathname sont les memes.
+
+INSTRUCTIONS LOCK ET UNLOCK (VEROUILLER ET DEVEROUILLER)
+Les instructions LOCK et UNLOCK sont utilisées pour modifier la protection d'un fichier. La syntaxe de ces instructions inclus seulement le mot réservé LOCK ou UNLOCK suivi par le chemin du fichier dont on doit modifier la protection.
+
+   LOCK Pathname
+   UNLOCK Pathname
+
+L'instruction LOCK interdit l'écriture et l'effacement d'un fichier disquette et empeche également de le renommer. Tous les types de fichier y compris les dossiers, peuvent etre vérouillés, excepté le dossier racine. L'instruction UNLOCK enlève la protection d'un fichier protégé par l'instruction LOCK.
+
+L'INSTRUCTION CATALOG
+L'instruction CATALOG est utilisée pour afficher la liste des fichiers contenus dans un dossier. L'instruction CAT est une forme raccourcie de l'instruction CATALOG, et affiche seulement un sous ensemble des informations du dossier. Optionnellement, après le mot réservé CATALOG, on peut mettre le chemin d'un répertoire. 
+
+   CATALOG <Pathname>
+   CAT <Pathname>
+
+Si le chemin Pathname est un nom de volume, tous les fichiers du dossier racine du volume sont affichés. Sinon, le chemin Pathname devrait spécifier le nom d'un fichier sous dossier, auquel cas, tous les fichiers de ce sous dossier sont affichés. Si le chemin est omis, le chemin affiché est celui du préfix 0 de prodos 16.
+
+L'instruction CATALOG permets d'afficher le nom, le type, la taille, la date de modification, la date de création et le sous type de chaque fichier dans un dossier spécifié.
+
+L'INSTRUCTION VOLUMES
+L'instruction VOLUMES est utilisée pour lire le nom de volume de chaque appareil prodos 16 et afficher son nom. Les appareils PRODOS 16 sont numérotés de .D1 à .D9 inclus. L'affichage donne la liste du nom de l'appareil, du nom de volume, et du nombre d'octet libre disponible sur le volume.
+<page-footer>
+
+
+
+Page 127
+L'OUVERTURE ET LA FERMETURE DES FICHIERS
+Avant qu'un programme puisse lire ou écrire sur un fichier qui a été crée, ce fichier doit etre ouvert. Après qu'un programme ait terminé d'accèder à un fichier, de fichier doit etre fermé. Comme vu précedemment, TML BASIC autorise l'ouverture simultanée de 32 fichiers. Toutefois, les versions courantes de PRODOS 16 (version 1.X) supportent seulement l'ouverture de 8 fichiers. Seules des versions plus récentes du système d'exploitation permettront de prendre avantage de la possibilité qu'a TML BASIC d'ouvrir jusqu'à 32 fichiers.
+
+L'INSTRUCTION OPEN
+L'instruction OPEN est utilisée pour ouvrir des fichiers afin que l'on puisse y accèder et doit précéder toute routine d'entrée/sortie vers un fichier accèdant à un fichier donné. Suit la syntaxe générale de l'instruction OPEN
+
+   OPEN Pathname, <FILTYP= DIR I TXT I SRC I BDF I Filetype>
+        <FOR INPUT I OUTPUT I APPEND I UPDATE > AS # Filenumber <,recordsize>
+
+Les arguments minimums requis devant suivre le mot réservé OPEN sont le chemin du fichier, suivi par une virgule, le mot réservé AS et le numéro de référence du fichier. Le fichier doit avoir été ouvert au préalable et doit éxister sur une disquette se trouvant effectivement à l'intérieur du lecteur de disquette. Si un chemin partiel est utilisé, il lui est adjoint le préfix 0 pour créer un nom de chemin complet. Le numéro de référence de fichier est utilisé dans toutes les instructions suivantes d'entrées/sorties de TML BASIC pour accèder au fichier. Suivent quelques exemples de l'instruction OPEN
+
+   OPEN "HELLOWORLD.BAS", AS #10
+   OPEN "/TML/MYSTUFF/INVOICES", AS #20
+   OPEN ".PRINTER", AS #1
+   OPEN ".MODEM", AS #2
+
+C'est une bonne pratique de programmation d'adopter une convention pour l'utilisation des numéros de référence des fichiers. Une convention est d'utiliser les numéros de référence de fichiers allant de 1 à 7 pour les appareils contenant des fichiers caractères, o| le numéro de référence de fichier correspond à son slot et utiliser les numéros allant de 10 à 31 pour les fichiers disquettes. 
+
+La clause optionnelle FOR dans l'instruction OPEN est utilisée pour qualifier le mode d'accès pour le fichier. Les modes d'accès supportés sont INPUT, OUTPUT, APPEND et UPDATE. Si la clause FOR n'est pas utilisée, le fichier est ouvert pour UPDATE. La clause FOR INPUT spécifie que le fichier est ouvert pour des accès lecture uniquement et qu'on ne peut pas y écrire. Par exemple 
+
+   OPEN myFile$, FOR INPUT AS #10
+<page-footer>
+
+
+
+Page 128
+La clause FOR OUTPUT spécifie que le fichier est ouvert pour des accès en écriture seulement et que l'on ne peut pas le lire. Par exemple 
+
+   OPEN myFile$, FOR OUTPUT AS #10
+
+L'option FOR APPEND est une variante de la clause FOR OUTPUT. Elle est utilisée pour l'accès séquentiel (dont on parlera plus tard) et permets aux instructions PRINT# et WRITE# d'ajouter de nouvelles informations à la fin d'un fichier sans dérranger les données éxistant déjà dans le fichier. Par exemple 
+
+   OPEN myFile$, FOR APPEND AS #10
+ 
+Enfin, la clause FOR UPDATE est utilisée pour ouvrir des fichiers pour des accès en lecture/écriture, aussi longtemps que le type de fichier supporte un tel accès. Par exemple, vous ne pouvez pas lire une imprimante.
+
+La clause optionnelle FILTYP= d'une instruction OPEN est utilisée pour spécifier le type de fichier. La clause FILTYP= est utilisée primitivement pour s'assurer qu'un fichier déjà ouvert est du type de fichier attendu. Si un programme essaie d'ouvrir un fichier en utilisant la clause FILTYP= et que le type du fichier ne correspond pas au type du fichier spécifié, le fichier n'est pas ouvert et on obtient une erreur. Tous les noms de types de fichiers prédéfinis (voir CREATE) peuvent etre utilisés avec la clause FILTYP= ou avec une valeur entière non signée.
+
+La clause FILTYP= est également utilisée avec l'instruction OPEN pour ouvrir des fichiers qui n'ont pas été crées. Si l'instruction OPEN s'apercoit que le fichier spécifié n'éxiste pas et si la clause FILTYP= est donnée, l'instruction OPEN appelera implicitement en premier l'instruction CREATE et ouvrira ensuite le fichier nouvellement crée.
+
+Enfin, l'argument record size (taille d'enregistrement) est utilisé pour spécifier la taille de l'enregistrement pour l'accès aléatoire au fichier en utilisant les instructions INPUT# et GET# pour les fichiers de données non Basic. Si le fichier qui est ouvert est un fichier de données basic éxistant, l'argument taille d'enregistrement est ignoré et la taille d'enregistrement utilisée est la taille spécifiée quand le fichier a été crée. Pour plus d'informations sur l'accès aléatoire en fichiers, voir "l'accès aux fichiers textes", "l'accès aux fichiers de données basic" et "l'accès aux fichiers binaires", ci-dessous.
+
+L'INSTRUCTION CLOSE (FERMER)
+L'instruction CLOSE est utilisée pour fermer un fichier préalablement ouvert avec l'instruction OPEN. Après qu'un fichier ait été fermé, on ne peut plus y accèder. Un programme devrait toujours fermer un fichier après qu'il ait terminé d'y accèder. Suit la syntaxe de l'instruction CLOSE:
+
+   CLOSE
+   CLOSE# FileNumber
+
+L'instruction CLOSE seule ferme tous les fichiers couramment ouverts. De plus, TML BASIC ferme tous les fichiers ouverts quand les instructions RUN et END sont éxécutées et qu'un programme se termine.
+<page-footer>
+
+
+
+Page 129
+Une variante de l'instruction CLOSE est l'instruction CLOSE# qui peut etre utilisée pour fermer un fichier unique. Avec cette instruction, un programme spécifie le numéro de référence du fichier à fermer. Par exemple :
+
+   CLOSE #10
+
+LES TECHNIQUES D'ACCES AUX FICHIERS
+Chacune des six instructions d'accès aux fichiers, étudiées dans les trois prochaines sections, peut etre utilisée en meme temps pour l'accès aux fichiers séquentiels et aux fichiers aléatoires. L'accès à un fichier séquentiel est analogue à la lecture d'un livre. L'accès commence au début du fichier et continue dans l'ordre jusqu'à la fin du fichier. L'accès aléatoire à un fichier d'un autre coté, permets à un programme de lire ou d'écrire en des endroits arbitraires du fichier.
+
+Les paragraphes suivants définissent la façon dont sont relatées à TML BASIC les concepts d'accès séquentiels et aléatoires aux fichiers. Pour une information spécifique sur les différentes instructions qui accèdent aux fichiers, voir les sections "l'accès aux fichiers textes" "l'accès aux fichiers données basic" et "l'accès aux fichiers binaires", un peu plus loin dans ce chapitre.
+
+L'ACCES SEQUENTIEL
+TML BASIC stocke une position de fichier en cours pour chaque fichier ouvert avec l'instruction OPEN. Quand un fichier est ouvert pour la première fois, la position du fichier en cours est positionnée au début du fichier, à moins que le fichier n'ait été ouvert avec l'option FOR APPEND, auquel cas, la position du fichier en cours est positionnée à la fin du fichier. La position du fichier en cours est l'endroit o| chaque instruction d'entrée/sortie TML BASIC lit le fichier ou écrit sur le fichier.
+
+L'accès séquentiel est la technique la plus commune d'accès à un fichier. Quand on lit un fichier, ou quand on écrit sur un fichier, on accède au fichier à la position du fichier en cours. Après que l'on ait accédé au fichier, la position du fichier en cours est mise à jour à l'endroit o| l'on doit écrire le prochain élément de donnée dans le fichier, de telle façon que le prochain accès du fichier commence là o| le précédent accès au fichier s'est arreté. Si un programme écrit sur un fichier et que la position du fichier en cours  atteint la fin du fichier, la taille du fichier est augmentée par la taille de la donnée que l'on est en train d'écrire sur le fichier. Après que la donnée ait été écrite, la position du fichier en cours est mise à jour et contient l'endroit de la nouvelle fin du fichier.
+
+Les fichiers séquentiels ouverts en utilisant le mode d'accès FOR UPDATE (le mode d'accès par défaut) pose certaines questions interessantes. En utilisant ce mode d'accès, la position du fichier en cours est positionnée initialement au début du fichier. Après que le programme ait écrit une nouvelle information sur le fichier, o| se trouve la fin du fichier? et quelle donnée ce fichier contient-il vraiment? Est ce que la fin du fichier se trouve à la fin du contenu original du fichier, ou à la fin du nouveau contenu du fichier? Suivant la situation, la réponse pourrait etre soit la fin originale du fichier, soit la nouvelle fin du fichier.
+<page-footer>
+
+
+
+Page 130
+Si le contenu originel du fichier a été complètement réecris, par dessus les anciennes informations, toute information originelle est perdue et la fin du fichier est à la fin du nouveau contenu du fichier. Si on a seulement réecris sur une partie de l'information originelle, alors une partie de l'information originelle éxiste encore dans le fichier, et la fin du fichier est à la fin du contenu originel du fichier.
+
+Pour éviter le problème du contenu du vieux fichier, qui reste dans un fichier après qu'on ait écrit sur ce fichier en utilisant le mode d'accès FOR UPDATE, un programme devrait tout d'abord effacer le fichier éxistant, puis le recréer et ouvrir le fichier.
+
+L'ACCES ALEATOIRE
+De façon différente à l'accès séquentiel, l'accès aléatoire à un fichier autorise chacune des instructions d'entrée/sortie TML BASIC de spécifier un numéro d'enregistrement de fichier comme nouvel endroit de position de fichier en cours pour le fichier, avant que ne se produise un accès au fichier. Mais pour que l'on puisse spécifier un numéro d'enregistrement, il faut tout d'abord qu'un fichier soit organisé en un ensemble d'enregistrements. Un enregistrement est une structure de données, constituée d'un nombre d'octets fixé. Le premier enregistrement dans un fichier est numéroté 0, le second enregistrement est numéroté 1 etc... chaque enregistrement successif est adjacent au précédent, et il n'y a pas d'espace entre les deux. Ainsi, pour un fichier contenant N enregistrements, chacun ayant B octets de longueur, contient des enregistrement numérotés dans la gamme allant de 0 à N-1 et une taille de fichier qui est de N * B Octets.
+
+Quand on écrit un fichier en utilisant l'accès aléatoire, pour un enregistrement qui n'éxiste pas encore dans le fichier, le fichier est étendu pour créer l'enregistrement spécifié.
+
+Les fichiers de données Basic sont toujours organisés en enregistrements car la taille d'enregistrement doit etre spécifiée quand le fichier est crée, lorsque l'on utilise l'instruction CREATE. Une fois qu'un fichier de données Basic est crée, sa taille d'enregistrement ne peut plus etre changée. On peut donner une taille d'enregistrement différente aux fichiers d'autres types quand le fichier est ouvert en utilisant l'instruction OPEN, comme on l'a vu plus haut. 
+
+Souvenez vous que les fichiers texte sont organisés comme des lignes de caractères de longueur variable, chaque ligne se terminant avec le caractère RETURN. Ainsi, cela a un sens d'accèder à un fichier texte de façon aléatoire, si l'on sait que chaque ligne a exactement la meme longueur et que cette longueur est égale à la taille d'enregistrement. Les fichiers textes qui contiennent des longueurs de ligne variable et auquel on accède de façon aléatoire avec l'instruction INPUT# ne liront certainement pas les lignes partielles.
+
+ACCES AUX FICHIERS TEXTE
+Un fichier texte est un type spécial de fichier qui contient des caractères ASCII, organisés sous la forme de lignes. Une ligne est une séquence qui contient jusqu'à 255 caractères et qui se termine avec le caractère RETURN (ASCII 13). Un fichier texte est crée avec l'instruction TML BASIC CREATE, dont l'argument FILTYP= a la valeur TXT.
+
+TML BASIC fourni deux instructions pour accèder aux fichiers textes (disquette) et aux fichiers caractères (appareils) :
+<page-footer>
+
+
+
+Page 131
+INPUT# et PRINT#. Ces instructions ne fonctionnent qu'avec les fichiers texte. Si un programme utilise ces instructions pour d'autres types de fichiers, TML BASIC donnera l'erreur "File Type Error" (erreur de type de fichier).
+
+L'INSTRUCTION INPUT#
+L'instruction INPUT# lit une ligne de texte dans un fichier, la range dans un buffer d'entrée, puis traite le texte que l'on vient de rentrer, conformément à la liste de variable INPUT, de sa liste d'arguments. Si l'instruction INPUT# ne rencontre pas un caractère RETURN après avoir lu 255 caractères, elle finit la lecture du fichier, rajoute un caractère RETURN au buffer entrée et traite ensuite les caractères de la meme façon qu'une ligne unique. 
+
+Suit la syntaxe de l'instruction INPUT#
+
+   INPUT# FileNumber <, RecordNumber > <;VariableName <,VariableName>>
+
+Le mot réservé INPUT# est suivi par le numéro de réference de fichier d'un fichier ouvert, un point virgule, puis une liste de variables séparées par des virgules. Suit un exemple de l'instruction INPUT# qui lit une ligne et la range dans une variable chaine.
+
+   INPUT #10; aLine$
+
+Cette forme de l'instruction INPUT# éxécute un accès séquentiel, lit une ligne de texte, en commencant à la position du fichier en cours. Pour éxécuter un accès aléatoire en utilisant l'instruction INPUT#, il faut inclure un numéro d'enregistrement après le numéro de référence du fichier. Souvenez vous que le fichier doit etre ouvert en utilisant l'instruction OPEN, l'argument optionnel de taille d'enregistrement étant spécifié, afin de définir la taille de l'enregistrement pour le fichier texte. Considerez les instructions suivantes :
+
+   OPEN "AFILE", AS #10, 15
+   INPUT #10,4; aLine$
+
+L'instruction OPEN ouvre le fichier AFILE en définissant une taille d'enregistrement de 15 octets. L'instruction INPUT# lit ensuite une ligne de texte en commencant au quatrième enregistrement du fichier. La position dans le fichier du quatrième enregistrement est calculée à l'aide de l'équation (Numéro d'enregistrement - 1) * Taille d'enregistrement 
+(RecordNumber - 1 ) * RecordSize. Ainsi, la nouvelle position en cours du fichier de l'instruction INPUT# est calculée comme étant :
+
+   (4-1) * 15 = 45
+
+Donc, TML BASIC se positionnera dans le fichier au 45ème octet du fichier avant de lire la ligne. Souvenez vous que l'on compte les numéros d'enregistrement et les octets à partir de zéro.
+
+L'instruction INPUT# peut contenir des chaines et des variables numériques en meme temps. Si une variable numérique est utilisée dans une instruction INPUT#, TML BASIC converti automatiquement la représentation chaine d'un nombre dans le type numérique approprié (de façon similaire à l'instruction VAL)
+<page-footer>
+
+
+
+Page 132
+Quand une variable numérique est utilisée dans une instruction INPUT#, et que la ligne lue ne contient pas une chaine qui représente une valeur numérique légale, on obtient l'erreur "Type Mismatch Error" (erreur type non correspondant). S'il n'y a pas suffisamment de données dans la ligne lue, le fichier est lu à nouveau, jusqu'à ce que l'on ait donné une valeur à toutes les variables. 
+
+L'INSTRUCTION PRINT#
+L'instruction PRINT# écrit une ligne de texte sur un fichier, de la meme façon que l'instruction print l'écrit sur l'écran. Suit la syntaxe de l'instruction PRINT# :
+
+   PRINT# FileNumber <, RecordNumber> <;expression <, I ; expression > >
+
+Le mot réservé PRINT# est suivi par le numéro de référence d'un fichier ouvert, un point virgule, puis une liste d'expressions séparées par des virgules ou des points virgules. Suit un exemple d'instruction PRINT# qui écrit plusieurs variables sur un fichier :
+ 
+   PRINT #10. anInt%, aReal, aStr$
+
+PRINT# éxécute automatiquement toute conversion de type numérique vers chaine, avant d'écrire sur un fichier. Les valeurs numériques sont formatées en utilisant les memes règles que l'instruction PRINT, c'est à dire SHOWDIGITS controle le format des nombres générés par PRINT#. En utilisant la virgule comme séparateur entre les expressions, on éxécute une tabulation à la prochaine zone d'impression avant d'écrire l'expression, alors que le point virgule n'éxécute pas cette opération. Les fonctions SPC et TAB peuvent également etre utilisées.
+
+Cette forme d'instruction PRINT# éxécute un accès séquentiel en écrivant une ligne de texte, en commencant à la position du fichier en cours. Pour éxécuter un accès aléatoire en utilisant l'instruction PRINT#, il faut inclure un numéro d'enregistrement, après le numéro de référence du fichier. Souvenez vous que le fichier doit etre ouvert en utilisant l'instruction OPEN, l'argument optionnel de taille d'enregistrement étant spécifié pour définir la taille d'un enregistrement dans le fichier texte. Considérez les instructions suivantes :
+
+   OPEN "AFILE", AS #10, 20
+   PRINT #10,6; aLine$
+
+L'instruction OPEN ouvre le fichier AFILE, en définissant une taille d'enregistrement de 20 octets. L'instruction PRINT# écrit ensuite une ligne de texte en commencant au sixième enregistrement dans le fichier. L'instruction PRINT# commence au début de l'enregistrement aléatoire spécifié et écrit la valeur toute entière de chaque expression contenue dans sa liste d'arguments, sans considérer la taille d'enregistrement ou les limites entre les enregistrements. Ce comportement est différent de celui de l'instruction WRITE# que l'on verra dans la section suivante.
+<page-footer>
+
+
+
+Page 133
+L'ACCES AUX FICHIERS DE DONNEES BASIC
+Un fichier de données basic est type de fichier spécial codé binaire, qui permets un accès au fichier beaucoup plus rapide qu'un accès aux fichiers texte. Les fichiers de données basic sont également appelés BDF (Basic Data File) ou les fichiers data. Les fichiers BDF sont plus rapides que les fichiers texte standards parcequ'il n'est pas nécessaire d'effectuer des traductions texte vers binaire quand on écrit ou lit un fichier. Les fichiers BDF rangent les données en utilisant la meme représentation binaire que pour les valeurs rangées en mémoire.
+
+TML BASIC fourni deux instructions pour accèder aux fichiers BDF : READ# et WRITE#.
+
+STRUCTURE D'UN FICHIER BDF
+Les fichiers de données basic sont rangés dans un format spécial de structure de fichier. De façon différente des autres types de fichiers, les fichiers BDF sont toujours organisés avec des tailles d'enregistrement fixes, sans considérer si on accède au fichier de façon séquentielle ou aléatoire. La taille d'enregistrement d'un fichier BDF est spécifiée quand le fichier est crée et ne peut pas etre changé. Si la taille d'enregistrement n'est pas spécifiée dans l'instruction CREATE, une taille d'enregistrement par défaut de 512 octets est utilisée. Quand une taille d'enregistrement est spécifiée dans une instruction OPEN pour un fichier BDF, cette valeur est ignorée et la taille d'enregistrement spécifiée quand le fichier a été crée est utilisée. La taille d'enregistrement d'un fichier BDF est stockée comme le type de fichier d'un fichier prodos 16.
+
+Comme mentionné ci-dessus, les valeurs de données rangées dans un fichier BDF sont sous le meme format binaire que les valeurs stockées en mémoire. Pour identifier le type d'une valeur, les fichiers BDF stockent également un octet étiquette (tag byte) précédant immédiatement une valeur, qui défini uniquement le type de la donnée. Le tableau 9-2 montre les valeurs et la signification de chaque octet étiquette BDF. Le tableau montre également le nombre d'octets nécessaires pour ranger une valeur d'un type donné dans un fichier BDF.
+
+______________________________________________________________________
+
+                             Tableau 9-2
+                 Les valeurs des octets étiquette BDF
+
+______________________________________________________________________
+
+Octet étiquette     Signification            Octets dans un fichier BDF
+
+0                   Fin de fichier           1
+1                   Non utilisé
+2                   Entier                   3
+3                   Double entier            5
+4                   Entier long              9
+5                   Réel simple précision    5
+6                   Réel double précision    9
+7                   Chaine                   2 + le nombre de caractère de la                                              chaine
+______________________________________________________________________
+
+<page-footer>
+
+
+
+Page 134
+L'ensemble constitué d'une donnée et de son octet étiquette correspondant est appelé un champ (field). Tous les octets d'un champ doivent tenir à l'intérieur d'un enregistrement. Un champ ne peut pas s'étendre au dela des limites d'un enregistrement. S'il n'est pas laissé suffisamment d'espace dans un enregistrement pour que l'on puisse écrire un champ, le champ est écrit sur l'enregistrement suivant. Si le champ ne tient pas à l'intérieur de tout enregistrement, une erreur se produit.
+
+Suit un diagramme illustrant la façon dont des données variées peuvent etre écrite sur un fichier BDF contenant 4 enregistrements et dont la taille d'enregistrement est de 10 octets. Les valeurs entières dans les enregistrements sont les octets étiquette, suivis par une description de la donnée comprise entre crochets. Les octets montrés en gris à l'intérieur de chaque enregistrement indiquent un espace non utilisé dans le fichier, parce que le champ suivant dans le fichier ne pouvait pas tenir à l'intérieur de l'enregistrement.
+
+        Octet
+        0    1   2   3   4   5   6   7   8   9   Enregistrement 0
+       !---!---!---!---!---!---!---!---!---!---!
+       ! 2 !V. Ent ! 2 !V. Ent ! 2 !V. Ent !!!!!  V. Ent = Valeur Entière
+       !---!---!---!---!---!---!---!---!---!---!           2 octets
+
+       !---!---!---!---!---!---!---!---!---!---! Enregistrement 1
+       ! 3 ! V. Double Ent ! 2 !V. Ent !!!!!!!!!  V. Double Ent =  
+       !---!---!---!---!---!---!---!---!---!---!  Valeur double entiere 
+                                                  4 octets
+
+       !---!---!---!---!---!---!---!---!---!---! Enregistrement 2
+       ! 7 !Oct Long + 4 C. Ch !!!!!!!!!!!!!!!!! Octet de longueur et 
+       !---!---!---!---!---!---!---!---!---!---! 4 caractères de chaine
+
+       !---!---!---!---!---!---!---!---!---!---! Enregistrement 3
+       ! 3 ! V. Double Ent ! 3 ! V. Double Ent !
+       !---!---!---!---!---!---!---!---!---!---!
+
+Si un programme essayait d'écrire à une valeur chaine sur ce fichier hypothétique, une valeur dont la taille serait plus grande que 10 octets, on obtiendrait une erreur parce que la valeur ne pourrait pas tenir à l'intérieur d'un enregistrement unique de longueur 10 octets.
+
+L'INSTRUCTION READ#
+L'instruction READ# lit des informations sur un fichier BDF pour une ou plusieurs variables. Suit la syntaxe générale de l'instruction READ# :
+
+   READ# FileNumber <,RecordNumber> <;VariableName <,VariableName>>
+
+Le mot réservé READ# est suivi par le numéro de référence d'un fichier BDF ouvert, un point virgule et ensuite une liste de variables séparées par des virgules. Suit un exemple d'instruction READ# qui lit 3 entiers :
+
+   READ #10; anInt1%, anInt2%, anInt3%
+<page-footer>
+
+
+
+Page 135
+Cette forme d'instruction READ# éxécute un accès séquentiel lisant un champ après l'autre sur les enregistrements successifs du fichier. Si les valeurs rangées à la position du fichier en cours du fichier BDF ne sont pas des valeurs entières (octet étiquette différent de 2), la valeur doit etre convertie. 
+
+Si une instruction READ contient une variable numérique, la valeur à la position du fichier en cours du fichier BDF doit également etre une valeur numérique. Si le fichier contient une valeur chaine, on obtiendra l'erreur "type mismatch error". Si le fichier contient effectivement une valeur numérique et que son type ne corresponds pas à la variable qui se trouve dans l'instruction READ#, la valeur est convertie en utilisant les memes règles que les fonctions CONV. Ainsi, il est possible que la conversion provoque une perte de précision ou bien qu'elle cause une erreur de dépassement. Si l'instruction READ# contient  une variable chaine, la valeur à la position du fichier en cours doit etre une valeur chaine. Sinon, on obtiendra l'erreur "type mismatch error".
+
+Une forme optionnelle de l'instruction READ# permets l'accès aléatoire à un fichier BDF. Pour éxécuter un accès aléatoire en utilisant l'instruction READ#, il faut inclure un numéro d'enregistrement après le numéro de référence de fichier. Considérez l'instruction suivante :
+
+   READ #10,3; aStr$, aDblIntà
+
+Cette instruction READ# lit une valeur chaine en commencant au troisième enregistrement dans le fichier et lit ensuite une valeur double entière. Souvenez vous que les numéros d'enregistrement et les octets sont comptés à partir de la valeur zéro.
+
+L'INSTRUCTION WRITE#
+L'instruction WRITE# écrit des informations sur un fichier BDF. Suit la syntaxe de l'instruction WRITE#
+
+   WRITE#  FileNumber <, RecordNumber> <;expression <, I ; expression > >
+
+Le mot réservé WRITE# est suivi par le numéro de référence de fichier d'un fichier ouvert, d'un point virgule, puis d'une liste d'expressions séparées par des virgules ou points virgule. Suit un exemple de l'instruction WRITE# qui écrit plusieurs variables sur un fichier :
+
+   WRITE #10; anInt%, aReal, aStr$
+
+Cette forme d'instruction WRITE# éxécute un accès séquentiel en écrivant les valeurs successives à la position du fichier en cours. Chaque expression de la liste d'arguments WRITE# provoque l'écriture d'un champ sur le fichier BDF. Souvenez vous qu'un champ est constitué d'un octet étiquette, suivi par la représentation binaire de la valeur. Si un enregistrement n'a pas suffisamment de place pour contenir tous les champs qu'on essaie d'écrire, on écrit les champs suivants sur le prochain enregistrement. Si un champ ne peut pas tenir à l'intérieur de tout enregistrement (s'il est plus grand que la taille de l'enregistrement), on obtient une erreur.
+<page-footer>
+
+
+
+Page 136
+Une forme optionnelle de l'instruction WRITE# permets un accès aléatoire à un fichier BDF. Pour éxécuter un accès aléatoire en utilisant l'instruction WRITE#, il faut inclure un numéro d'enregistrement après le numéro de référence de fichier. Considérez la variante suivante de l'instruction ci-dessus :
+
+   WRITE #10,6; anInt%, aReal, aStr$
+
+ACCES AUX FICHIERS BINAIRES
+Un fichier binaire est simplement un fichier constitué d'une séquence d'octets sans organisation particulière ou sans structure, telle que la structure des fichiers BDF ou des fichiers TXT. Quand on accède à un fichier binaire, le nombre spécifié d'octets à la position du fichier en cours est transféré sans traduction dans un tableau structuré. On peut ouvrir et accèder à tout type de fichier comme à un fichier binaire, y compris les fichiers BDF et les fichiers TXT. Une utilisation importante des fichiers binaires en TML BASIC est la lecture et l'écriture de fichiers graphiques. 
+
+Les instructions TML BASIC GET# et PUT# gèrent l'accès aux fichiers binaires. Par défaut, ces instructions transfèrent un nombre d'octet égal à la taille d'enregistrement du fichier ouvert auquel on accède. Ainsi, un fichier auquel on accède en utilisant ces instructions devrait spécifier l'argument optionnel taille d'enregistrement dans l'instruction OPEN.
+
+L'INSTRUCTION GET#
+L'instruction GET# lit un certain nombres d'octets dans un fichier binaire et les range dans un tableau structuré. Suit la syntaxe de l'instruction GET# :
+
+   GET# FileNumber <, <Length><,RecordNumber>>; StructureVariableReference
+
+Le mot réservé GET# est suivi par le numéro de référence de fichier d'un fichier binaire ouvert, d'un point virgule, puis d'une référence de variable de tableau structuré. (qui comprends un indice). Le nombre d'octets transférés est égal à la taille d'enregistrement du fichier. Les instructions suivantes illustrent l'utilisation de l'instruction GET# :
+
+   DIM myData!(99)
+   OPEN "SomeFile", AS #10, 100
+   GET #10; myData!(0)
+
+L'instruction DIM déclare un tableau structuré qui contient 100 éléments et occupe donc 100 octets de stockage. L'instruction OPEN ouvre un fichier binaire dont la taille d'enregistrement est de 100 octets et positionne la position du fichier en cours au premier enregistrement du fichier. Enfin, l'instruction GET# lit le premier enregistrement (100 octets) du fichier et le range dans le tableau structuré en commencant à la position d'indice 0.
+Notez que c'est l'instruction OPEN, et elle seulement, qui est responsable de la détermination du nombre d'octets transférés par l'instruction GET# en définissant la taille d'enregistrement.
+<page-footer>
+
+
+
+Page 137
+L'utilisation de l'argument optionnel LENGTH dans l'instruction GET#, permets à un programme de ne pas tenir compte de la taille d'enregistrement et de transférer un nombre d'octets différent de la taille de l'enregistrement. Toutefois, l'argument LENGTH doit avoir une valeur inférieure ou égale à la taille d'enregistrement. Par exemple l'instruction suivante GET# transfère seulement 50 octets depuis le fichier.
+
+   GET #10,50; myData!(0)
+
+Chacune des formes ci-dessus de l'instruction GET# éxécute un accès séquentiel sur le fichier binaire. On peut également utiliser l'instruction GET# pour l'accès aléatoire au moyen de l'argument optionnel RecordNumber. Par exemple l'instruction suivante lit le second enregistrement de 100 octets (le numérotage des enregistrements commence à 0) sur le fichier binaire :
+
+   GET #10,,1; myData!(0)
+
+Et l'instruction suivante ne lit que 50 octets dans le second enregistrement de 100 octets :
+
+   GET #10,50,1; myData!(0)
+
+L'INSTRUCTION PUT#
+L'instruction PUT# écrit un nombre d'octets rangés dans un tableau structuré sur un fichier binaire. Suit la syntaxe de l'instruction PUT#
+
+   PUT# FileNumber <, <Length><,RecordNumber>>; StructureVariableReference
+
+Le mot réservé PUT# est suivi par le numéro de référence de fichier d'un fichier binaire ouvert, suivi d'un point virgule puis d'une référence de variable de tableau structuré (qui comprends un indice). Le nombre d'octets transféré est égal à la taille de l'enregistrement du fichier. Les exemples suivants illustrent l'utilisation de l'instruction PUT# :
+
+   DIM myData!(99)
+   FOR i% = 0 TO 99
+       myData!(i%) = i%
+   NEXT I%
+   OPEN "SomeFile", AS #10, 100
+   PUT #10; myData!(0)
+
+L'instruction DIM déclare un tableau structuré qui contient 100 éléments et occupe donc 100 octets de stockage. Le tableau structuré est initialisé avec la boucle FOR. L'instruction OPEN ouvre un fichier binaire dont la taille d'enregistrement est 100 octets et positionne la position du fichier en cours au premier enregistrement du fichier. Enfin, l'instruction PUT# écrit le contenu du tableau structuré dans le premier enregistrement (100 octets) du fichier. Notez que c'est l'instruction OPEN qui est la seule responsable pour la détermination du nombre d'octets transférés par l'instruction PUT# en définissant la taille d'enregistrement.
+
+L'utilisation de l'argument optionnel LENGTH dans l'instruction PUT# permets de ne pas tenir compte de la taille de l'enregistrement pour ce qui concerne le nombre d'octets transférés sur le fichier.
+<page-footer>
+
+
+
+Page 138
+Toutefois la valeur du paramètre optionnel length doit etre inférieure ou égale à la taille d'enregistrement. Par exemple, l'instruction PUT# suivante ne transfère que 50 Octets vers le fichier.
+
+   PUT #10,50; myData!(0)
+
+Chacune des formes d'instruction PUT# ci-dessus éxécute un accès séquentiel vers le fichier binaire. L'instruction PUT# peut également etre utilisée pour l'accès aléatoire en utilisant l'argument optionnel RecordNumber. Par exemple, l'instruction suivante écrit sur le second enregistrement de 100 octets (les numéros d'enregistrement commencent à zéro) sur le fichier binaire :
+
+   PUT #10,,1;myData!(0)
+
+Et l'instruction suivante n'écrit que 50 octets sur le deuxième enregistrement de 100 Octets :
+
+   PUT #10,50,1;myData!(0)
+
+LES AUTRES OPERATIONS SUR LES FICHIERS
+En plus des opérations sur les fichiers dont on a discuté jusqu'à présent, TML BASIC offre plusieurs autres instructions et fonctions relatives à la manipulation des fichiers. Les plus significatives de ces instructions concernent la détection et la manipulation des conditions de fin de fichier. Ces instructions et d'autres instructions et fonctions sont décrites ci-dessous.
+
+L'INSTRUCTION ON EOF#
+L'instruction ON EOF# permet de dire à un programme quelle action à entreprendre quand une instruction de chargement de fichier telle que INPUT# ou READ# essaie de lire au-delà du marqueur (EOF) de fin de fichier du fichier. L'instruction ON EOF# a un argument unique, le numéro de référence de fichier, suivi par une séquence d'une ou plusieurs instructions. Par exemple : 
+
+   ON EOF #10 PRINT "Fin de fichier" : CLOSE #10: END
+
+Quand l'éxécution normale d'un programme rencontre l'instruction ON EOF#, il note que le fichier associé avec le numéro de référence de fichier donné est concerné par une instruction active ON EOF#. Les instructions se trouvant sur la meme ligne que l'instruction ON EOF# ne sont pas éxécutées.
+
+Quand le marqueur de fin de fichier d'un fichier a été atteint, il n'éxiste plus de donnée utilisable dans le fichier pour une instruction INPUT, donc l'instruction INPUT ne peut pas renvoyer de valeur. Sans l'instruction ON EOF#, le programme avorterait son éxécution et donnerait le message d'erreur "Out of Data Error" (manque de donnée erreur). Toutefois, s'il a été rencontré une instruction ON EOF# pour un fichier dont le numéro de référence de fichier corresponds à celui qui se trouve dans l'instruction ON EOF#, le controle est tranféré automatiquement aux instructions qui se trouvent après l'instruction ON EOF#.
+
+Le programme suivant montre comment on peut utiliser l'instruction ON EOF# dans un programme très simple.
+<page-footer>
+
+
+
+Page 139
+   OPEN "Test", AS #10
+   ON EOF #10 CLOSE #10: END
+   ReadAgain: INPUT #10; aLine$
+              PRINT aLine$
+              GOTO ReadAgain
+
+Le programme ouvre un fichier texte, éxécute l'instruction ON EOF#, puis lit ligne par ligne ce qui se trouve dans le fichier et l'imprime à l'écran. Quand on rencontre la fin du fichier, TML BASIC transfère automatiquement le controle aux instructions qui se trouvent après l'instruction ON EOF#. Dans cet exemple, les instructions ferment le fichier ouvert et terminent l'éxécution du programme.
+
+L'INSTRUCTION OFF EOF#
+L'instruction OFF EOF# annule l'effet d'une instruction ON EOF#. Après qu'une instruction OFF EOF# ait été rencontrée pour un numéro de référence d'un fichier donné, la lecture au-delà de la fin de fichier de ce fichier provoquera l'avortement du programme par TML BASIC et donnera le message d'erreur "Out of Data Error".
+
+LA VARIABLE RESERVEE EOF
+Quand TML BASIC rencontre une fin de fichier, il assigne le numéro de référence de fichier de ce fichier à la variable réservée EOF. Les variables réservées EOF peuvent etre utilisées dans le code qui gère les conditions de fin de fichier pour un ou plusieurs fichiers pour déterminer éxactement quel fichier a atteint son marqueur de fin de fichier. Suit un exemple simple de l'utilisation de la variable réservée EOF :
+
+   ON EOF #10 GOTO HandleEOF
+   ON EOF #15 GOTO HandleEOF
+   ON EOF #17 GOTO HandleEOF
+   ***
+   HandleEOF: PRINT "Fin de fichier rencontré pour le fichier #";EOF
+              CLOSE #EOF
+   ***
+
+LA FONCTION EOFMARK
+La fonction EOFMARK est utilisée pour déterminer l'endroit exact du marqueur de fin de fichier d'un fichier ouvert. La fonction a un paramètre unique qui est le numéro de référence de fichier d'un fichier ouvert. Si le fichier n'est pas ouvert, on obtiendra une erreur. L'exemple suivant montre l'utilisation de la fonction EOFMARK
+
+   FileSizeà = EOFMARK(10)
+
+EOFMARK ne peut etre utilisé qu'avec les fichiers disquette. Les fichiers caractères comme les imprimantes ou les modems ne peuvent pas avoir de marqueur de fin de fichier.
+<page-footer>
+
+
+
+Page 140
+LA FONCTION FILE
+La fonction FILE est utilisée pour déterminer si un fichier éxiste en tant que fichier disquette. La fonction FILE a un paramètre chaine qui spécifie le chemin du fichier pour tester son existence. Si les fichiers existent vraiment, la fonction FILE renvoie une valeur 1 (vrai), sinon elle renvoie une valeur de 0 (faux). L'exemple suivant démontre comment on peut utiliser la fonction FILE
+
+   FileOk = 0
+   DO
+       INPUT "Taper un fichier à ouvrir: ";theFilename$
+       IF FILE(theFilename$)
+          THEN FileOk = 1
+          ELSE PRINT "Désolé, ce fichier n'éxiste pas"
+   UNTIL FileOk
+   OPEN theFilename$, AS #10
+
+La fonction FILE peut également comporter un deuxième paramètre optionnel qui spécifie un type de fichier. Si le deuxième paramètre est donné, la fonction FILE vérifie non seulement l'éxistence du fichier, mais également si le type de fichier corresponds au type de fichier spécifié dans le deuxième paramètre. Le second paramètre utilise le mot réservé FILETYP= comme précédemment décrit avec l'instruction CREATE.
+
+LA FONCTION FILTYP
+La fonction FILTYP est utilisée pour obtenir le type de fichier d'un fichier ouvert. La fonction a un paramètre unique qui doit etre un numéro de référence de fichier d'un fichier ouvert. La fonction renvoie un entier qui est le type du fichier.
+
+LA FONCTION TYP
+La fonction TYP est utilisée uniquement avec les fichiers de données basic. La fonction éxamine le type de la prochaine qu'on doit lire dans un fichier de données basic et renvoie un entier qui est l'octet étiquette de la prochaine valeur du fichier. La fonction a un paramètre unique qui est le numéro de référence du fichier d'un ficher ouvert. Le tableau 9-2 défini la valeur de l'octet étiquette.
+
+LA FONCTION REC
+La fonction REC est utilisée avec les fichiers à accès aléatoire pour obtenir le numéro d'enregistrement en cours d'un fichier. La fonction a un paramètre unique qui doit etre le numéro de référence de fichier d'un fichier ouvert. La fonction renvoie un entier double qui est le numéro d'enregistrement correspondant à la position en cours du fichier. Suit un exemple simple de la fonction REC :
+
+   CurrentRecordPosà = REC(10)
+<page-footer>
+
+
+
+Page 141
+RESUME
+TML BASIC fourni un large ensemble d'instructions et de fonctions pour la manipulation des fichiers. Ce chapitre vous a fourni une vue générale sur les concepts de fichier PRODOS 16, le système d'exploitation du IIGS, ainsi qu'une revue, élément par élément, des instructions, fonctions et variables réservées de TML BASIC, qui permettent de manipuler des fichiers dans des programmes TML BASIC. Vous devriez également vous référer au chapitre 10, pour plus d'informations concernant chacune des instructions et fonctions étudiées dans ce chapitre.
+
+Fin du chapitre 9
+
+
+
+Page 143

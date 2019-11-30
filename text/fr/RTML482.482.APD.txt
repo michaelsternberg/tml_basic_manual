@@ -1,0 +1,19 @@
+Transférer des programmes GS BASIC vers TML BASIC
+
+GS BASIC stocke le code source des programmes sous forme de fichier binaire avec un codage spécial. Comme TML BASIC stocke le code source des programmes sous forme de fichiers texte ASCII, un programme GS BASIC doit etre converti en fichier texte avant que TML BASIC puisse le compiler. Sauvegarder un programme GS BASIC sous forme de fichier texte ne demande que quelques minutes.
+
+Tout d'abord, le programme devant etre converti doit etre chargé en mémoire avec GS BASIC. Ensuite, il faut créer et ouvrir le fichier texte qui contiendra le programme transcrit. La sortie standard sera ensuite dirigée vers le fichier ouvert et le code source GS BASIC sera listé vers ce fichier. Enfin, le fichier sera fermé. Les commandes suivantes illustrent comment réaliser cette opération pour le programme GS BASIC appelé "GSBasicProg", transféré en fichier texte sous le nom de "TMLBasicProg".
+
+
+LOAD GSBasicProg
+CREATE TMLBasicProg,FILTYP=TXT
+OPEN TMLBasicProg, AS #1
+OUTREC = 0 : LISTTAB = 128
+OUTPUT #1 : LIST : OUTPUT #0
+OUTREC = 80 : LISTTAB = 5
+CLOSE #1
+
+Dans cet exemple, l'instruction OUTREC=0 est utilisée pour indiquer à GS BASIC de ne pas recouvrir les lignes trop longues du code source en le listant car TML BASIC ne supporte que 255 caractères par ligne. L'instruction LISTTAB=128 indique à GS BASIC de ne pas lister les numéros de ligne avec le code source. La commande OUTPUT #1 redirige la sortie de l'instruction LIST vers le fichier ouvert #1. L'instruction LIST liste le code source vers le fichier ouvert, sans les numéros de ligne et sans recouvrir les lignes trop longues. Une sortie normale est restaurée en utilisant l'instruction OUTPUT #0. Les réglages standards pour OUTREC et LISTTAB sont restaurés et le fichier est fermé.
+
+Fin de l'appendice D
+

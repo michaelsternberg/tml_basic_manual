@@ -1,0 +1,390 @@
+CHAPTER 8
+----------
+SUB-PROGRAMS, PROCEDURES, FUNCTIONS, LIBRARIES
+--------------------------------------------------
+Subroutines, procedures, functions, and libraries provide TML BASIC with mechanisms to divide and organize the source code of a program into a more organized structure that is easier to maintain. They are often used to organize a set of instructions that must be frequently executed in a program.
+
+A subroutine is a set of statements that has a label and executes when a GOSUB statement specifying that label is executed. A procedure is a named code set that behaves much like a subroutine, except that it provides additional advanced programming techniques. A function is also a named set of codes, like a procedure, but when it is executed, it returns a value. The value can then be used in an expression.
+
+In TML BASIC, procedures and functions provide significant advantages over traditional program organization techniques using GOSUBs and RETURNs. The procedures and functions provide options for parameterization, local variables and recursion. If you have never programmed with this kind of possibility offered by the languages, you should make the effort to do it, and thus discover their programming power.
+
+Finally, a library is a special source code construct that groups together statements of procedures and functions in such a way that they can be compiled separately from any program. One can think of a library as a code repository used by one or more programs.
+
+The following sections will discuss the management of TML BASIC subroutines, procedures, functions, and libraries, as well as the programming implications you should be aware of by using these language features.
+
+SUB PROGRAMS
+---------------
+A sub program represents the traditional technique for Basic programmers who organize a program into different pieces. A subroutine starts with a label, followed by a group of instructions, and ends with the RETURN statement. A subroutine is executed using the GOSUB instruction.
+
+A GOSUB instruction indicates that the execution must be temporarily suspended from the current instruction, and that the control must be transferred to the instruction indicated by the label, in the GOSUB instruction. When the RETURN statement is encountered, the subroutine ends and control is returned to the statement immediately after the calling GOSUB. The following code portion illustrates the use of a subroutine.
+<Page-footer>
+
+
+
+Page 108
+GOSUB CalculateGrade
+PRINT Grade
+END
+
+CalculateGrade:
+   total = 0
+   FOR i = 1 TO NumGrades
+       Total = Total + Ranks (i)
+   NEXT i
+   Grade = Total / NumGrades
+RETURN
+
+A subroutine can call other subroutines, which in turn call other subroutines. TML BASIC take note of where o | the execution must resume when the RETURN instruction is encountered, using a data structure called the Runtime Stack. Whenever a GOSUB instruction is executed, TML BASIC stores the program counter on the stack, the program counter indicating the instruction immediately after GOSUB. Thus, when a RETURN instruction is encountered, the counter of the program is read from the stack and thus becomes the counter of the current program, that is to say the place where | the execution of the program continues.
+
+In special cases, a program may not want to return from a subroutine to the caller. This can happen when an error occurs and a program decides that it should continue running elsewhere. For this, the program must first remove the counter value from the program that is stored in the runtime stack, using the POP instruction. When the POP instruction is executed, it removes the program counter from the runtime stack and then the execution is resumed with the instruction immediately following POP.
+
+When using RETURN and POP instructions, your program must be certain that a corresponding GOSUB has been executed so that a counter value of the program has been placed on the runtime stack. If your program tries to execute a RETURN or POP without a corresponding GOSUB, you will get the "RETURN / POP without matching GOSUB" runtime error (RETURN / POP without corresponding GOSUB). If you compile a program with the DEBUG option not provisioned, this error will not be detected and the course of your program will probably be incorrect, in other words, you will have a crash.
+
+A subroutine can also be called using the ON ... GOSUB instruction. The ON ... GOSUB statement works just like the normal GOSUB statement except that it chooses between different routines to call following the value of an expression. For example, the following statement calls the IssuePayCheck, IssueBonusCheck, or IssueExpenseCheck subroutine, depending on the value of the doCheck% variable.
+
+   ON doCheck% GOSUB IssuePayCheck, IssueBonusCheck, IssueExpenseCheck
+
+If the value of doCheck% is 1 then the first named subroutine is called (IssuePayCheck). If the value is 2, the second named program is called etc ... If the value of the expression is 0 or greater than the number of named subroutines, then we proceed to the next statement.
+<Page-footer>
+
+
+
+Page 109
+As with the GOSUB instruction, the control is returned to the instruction immediately following ON ... GOSUB, when a RETURN is executed.
+
+For more information on the TML BASIC Runtime Stack, see "A Lesson on Stacks" later in this chapter and the discussion on the Preferences dialog box in Chapter 6. See also about the topic. metain $ StackSize in Appendix B.
+
+THE PROCEDURES
+--------------
+The procedures are a group of instructions, surrounded by the instructions DEF PROC and END PROC. The behavior of a procedure is much like a subroutine, except that the PROC statement is used to call a procedure. When a procedure is called using the PROC instruction, the execution of the program is temporarily suspended from the current instruction and the control is given to the procedure. When returning from the procedure, the execution of the program continues with the first instruction following the PROC instruction.
+
+However, the procedures provide several additional features. Zero or more parameters, local variables and local labels. These procedures allow you to write code blocks, which are isolated from the rest of the program. The ability to hide parameter names and local variables from the main program allows you to use names that are also used in the main program, but keep separate values ​​and do not affect those used in the main program. Local label names can also be the same as those in the main program (or other procedures) since they are also hidden.
+
+The use of local variables and local labels, allows a truly modular design of your programs. In fact, you can create procedures that work in many different programs, without having to consider the consequences of duplicate variable names. TML BASIC offers a powerful language feature for sharing procedures (and functions) between different programs - the library. The libraries allow you to group together the very useful procedures and functions, and then allow you to automatically offer them to several different programs. We are talking about bookstores later in this chapter.
+
+DEFINITION OF PROCEDURES
+----------------------------
+A procedure definition starts with the DEF PROC statement and continues until the corresponding END PROC statement is encountered. It is necessary that the instruction DEF PROC, be the first instruction on a line. Using the notation defined in Chapter 7, the general syntax for defining a procedure is as follows:
+
+   DEF PROC ProcedureName <(parameter <, parameter>)>
+       LOCAL variable <, variable>
+       *
+       * instructions
+       *
+   END PROC <ProcedureName>
+<Page-footer>
+
+
+
+Page 110
+ProcedureName declares the name of the procedure. The name of the procedure must follow the same rules as the variable names and must not appear in any other DEF PROC statement. The procedure names do not have a character type at the end of their name. Following are examples of procedure names
+
+   DEF PROC MaProc
+   DEF PROC Proc123
+   DEF PROC Do.It
+
+After ProcessName, there is an optional list of formal parameters. The list of formal parameters defines the names and types of variables that are passed to the procedure when it is called. Parameters are separated by commas and can be any type of simple variable. The parameters receive their value when the procedure is called, and therefore they do not retain their value between calls to the procedure. If a procedure must retain variable values ​​between calls, it must use global variables or arrays.
+
+Each parameter becomes a local variable when a procedure is called and it has an initial value really equal to the corresponding parameter given in the PROC statement. Additional local variables can be defined using the LOCAL statement described below. The procedures are limited to 16 parameters.
+
+The instructions between DEF PROC and END PROC are called the body of the procedure. When the procedure is called, the execution starts with the first statement that follows DEF PROC and continues until the corresponding PROC END is encountered. Inside the body of a procedure, it is not allowed to define another procedure or function. It is also not possible for a GOTO or GOSUB statement to attach to a label outside the body of the procedure. However, other procedures and functions may be called. TML BASIC also restricts the use of the DIM statement within the body of a procedure for dynamic arrays (see Chapter 7).
+
+LOCAL VARIABLES
+---------------------
+Procedures (and functions) provide a mechanism for defining temporary variables that are created when the procedure is called and are destroyed when the procedure terminates and returns to the caller. These variables are called local variables. Variables that are not local variables are called global variables because they exist and can be used by all procedures, functions, and the main program.
+
+As mentioned above, the parameters are equivalent to the local variables, except that they have an initial value that really corresponds to the corresponding parameters. The LOCAL statement creates additional local variables. Following is an example of the LOCAL statement.
+<Page-footer>
+
+
+
+Page 111
+   DEF PROC MaProc
+     LOCAL year%, aDblIntà, aString $
+     LOCAL OneOtherChaine $
+       *
+       * Instructions
+       *
+   END PROC
+
+A procedure can contain zero or more LOCAL statements, and each LOCAL statement can declare one or more variables. However, TML BASIC restricts the use of the LOCAL statement. LOCAL statements in a procedure must appear after DEF PROC, but before any other statement. The only exception is the REM statement that can appear before a LOCAL statement.
+
+When a procedure is called, a storage space is created on the runtime stack for local variables. Local numeric variables are initialized to zero and local string variables are initialized with the empty string value. When the procedure returns control to the calling instruction, storage for local variables is deallocated. Thus, local variables do not retain their values ​​between procedure calls. For example, the following procedure will always print a blank line regardless of the number of times it is called.
+
+   DEF PROC ProcBete (newMsg $)
+       LOCAL Msg $
+       PRINT Msg $
+       Msg $ = Msg $ + newMsg $
+   END PROC
+
+When a value is assigned to a variable that is not declared as a local variable, the value is assigned to the global variable that has the corresponding name. If the global variable does not exist, TML BASIC automatically creates the global variable and then assigns the value to it. It is possible to guarantee that the assignment instruction refers to a local variable using the form of the assignment instruction FN.
+
+   FN anyVar = expression
+
+If the assignment statement is preceded by the reserved word FN, TML BASIC checks to ensure that the anyVar variable is declared as a local variable and if it does not, gives the error "Variable is not local" ( the variable is not local).
+
+USE OF PROCEDURES
+----------------------------
+A procedure is called using the PROC instruction in a program. The PROC statement specifies the name of the procedure to call followed by any necessary parameters included in parentheses. For example :
+
+   PROC PrintLine ("Totals", TotalDebitsà, TotalCreditsà)
+
+<Page-footer>
+
+
+
+Page 112
+In this example, the PrintLine procedure has three parameters - a string parameter, followed by two integer double parameters. To call the procedure, TML BASIC first creates the formal parameters of the procedure and then assigns them the value of their corresponding parameter really. The control is then passed to the PrintLine procedure. When returning from the procedure, the execution continues, with the first statement following the PROC instruction.
+
+FUNCTIONS
+-------------
+There are two types of functions in TML BASIC. Single-expression (single-expression) functions and multi-line functions. Functions are used to group together one or more statements that execute a calculation and return a value. Simple-expression functions contain only one expression to calculate the value of the function. These are the traditional style functions found in older versions of Basic, such as the Basic Applesoft. Multi-line functions are constructed similarly to the procedures except that the DEF FN and END FN statements are used to delimit the function's instructions. Single-phrase and multi-line functions can have formal parameters. In addition, multi-line functions can have local variables.
+
+DEFINITION OF FUNCTIONS
+As mentioned above, TML BASIC supports two types of functions. Simple expression functions and multi-line functions. A simple expression function is one whose code is contained on a single line of source code. The general syntax for a simple expression function is as follows:
+
+   DEF FN functionname <% IàI & I # I $> <(Parameter <, Parameter>)> = expression
+
+Functionname declares the name of the function. After the name of the function, we find an optional type character used to specify the type of the result value of the function. If no type character is specified, the function returns a single precision real value. A function may optionally have a sequence of parameters whose values ​​are used to calculate the value of the function. TML BASIC limits the number of these parameters to 16.
+
+Expression specifies the calculation that must be executed when the function is called. If the function returns a string value, expression must be evaluated to a string. Similarly, if the function returns a numeric value, the expression must be evaluated to one of the numeric types. There are examples of single-expression functions that convert between degrees Celsius and degrees Fahrenheit.
+
+   DEF FN CtoF (degreesC) = 1.8 * degreesC + 32
+   DEF FN FtoC (degreesF) = (degreesF - 32) * 0.555555
+
+<Page-footer>
+
+
+
+Page 113
+The second type of function supported in TML BASIC is the multi-line function. The general syntax for defining a multi-line function is as follows:
+
+   DEF FN functionname <% IaI & I # I $> <(Parameter <, Parameter>)>
+       LOCAL variable <, variable>
+       *
+       * instructions
+       *
+       FN functionname <% IàI & I # I $> = expression
+       *
+   END FN <functionname>
+
+The syntax of a multi-line function is exactly the same as that of a procedure with two exceptions. First, the name of the function is followed by an optional type character, which specifies the type of the result value of the function. Second, the statements in the body of the function must contain at least one assignment statement that gives its value to the function.
+
+The assignment statement that gives value to the function must begin with the reserved word FN, followed by the function name and optional type character. As with single-expression functions, expression, which is assigned to the function, must be compatible with the type of the function. Follows an example of a multi-line function that calculates a factorial.
+
+   DEF FN Factorial # (n #)
+       LOCAL total #
+       IF n # <0 THEN
+          FN Factorial # = 1
+       ELSE
+          FOR i% = n% TO 2 STEP -1
+              total # = total # * i%
+          NEXT i%
+          FN Factorial # = total #
+       END IF
+   END FN Factorial #
+
+USE OF FUNCTIONS
+Functions return values. As such, functions are used inside expressions to compute values. A function is called using the reserved word FN, followed by the function name. The function name is then followed by the appropriate number of actual parameters included in parentheses. For example :
+
+   tempF = 100
+   tempC = FN FtoC (tempF)
+   PRINT tempF, tempC
+
+<Page-footer>
+
+
+
+Page 114
+In this example, the FtoC function is called to convert degrees Fahrenheit to degrees Celsius. After the reserved word FN, we find the name of the function FtoC, together with the parameters of the function.
+
+FORMAL PARAMETERS IN RELATION TO REAL PARAMETERS
+-------------------------------------------------- -----
+The procedures and functions actually have two types of parameters. Formal parameters and true parameters. Parameters that appear in the parameter list of a DEF PROC or DEF FN statement are called formal parameters. Formal parameters are essentially local variables of the defined procedure or function and are completely separate from the rest of the program. To illustrate this, consider the following instructions:
+
+   height% = 16
+   DEF FN Perimeter% (height%, width%) = 2 * height% + 2 * width%
+   PRINT height%, FN Perimeter% (8.4), height%
+
+The height% variable in the first and third lines is not related to the formal height% parameter found in the function definition on the second line. When these statements are executed, the value of height% in the third line is not affected by the call of the function.
+
+The parameters of the Parimeter% function in the third line are true parameters. The values ​​of the true parameters are implicitly copied into the formal parameters when the function is called. If the value of a formal parameter changes during the execution of the function, the value of the true parameter remains unchanged.
+
+THE PROGRESS OF THE PROGRAM
+---------------------------
+Locating a procedure or function definition in the source code of a program is not important. The PROC and FN statements can be used to call a procedure or function anywhere | in the program, even if the procedure or function is declared later in the source code. Before TML BASIC compiles a program, it searches the entire source file for all DEF PROC and DEF FN statements, and records their names, as well as their number and type of their parameters. Thus, when a procedure or function is called using the PROC or FN instructions, TML BASIC will know if the procedure and function has been defined and if the correct number of parameters has been given.
+
+A program does not need to direct its flow around the definitions of procedures and functions. When executing the instructions of the main program, the program encounters instructions DEF PROC and DEF FN, the next instruction that will be executed is the instruction that appears after the corresponding END PROC or END FN. DEF PROC ... END PROC and DEF FN ... END FN behave like broad comments that encompass the instructions they understand. The only way to execute the instructions of a procedure or function is to call them respectively using the PROC or FN instructions.
+<Page-footer>
+
+
+
+Page 115
+Consider the following code snippet:
+
+   PROC PrintMessage
+   DEF PROC PrintMessage
+       PRINT "Hello"
+   END PROC
+   PRINT "Goodbye"
+   END
+ 
+The result of this code is:
+
+   Hello
+   Goodbye
+
+and no
+
+   Hello
+   Hello
+   Goodbye
+
+The second Hello is not printed because the flow of the program goes around the PrintMessage procedure and continues with the PRINT "Goodbye" instruction
+
+RECURSIVITY
+--------------
+TML BASIC procedures and functions are recursive. By recursive, we want a procedure or function to call itself, or call another procedure or function which in turn calls the same procedure or function. Following is an example of how to write recursive multi-line procedures that calculate a factorial.
+
+   
+   DEF FN Factorial (n%)
+       IF n%> 1 THEN
+          FN Factorial = n% * Factorial (n% -1)
+       ELSE
+          FN Factorial = 1
+       END IF
+   FN Factorial END
+
+As you can see, recursion is a very powerful mechanism for the expression of certain algorithms. In the case of the Factorial function, the factorial of a number is computed without any loops or local variables.
+
+Writing programs that use recursive procedures and recursive functions can sometimes force you to increase the size of the runtime stack. Since each time a procedure or function is called, its parameters, local variables and return address are placed on the runtime stack, it is possible to fill the available space on the runtime stack, when a program uses recursion extensively.
+<Page-footer>
+
+
+
+Page 116
+To increase the size of the runtime stack, use the $ StackSize build, or modify the K_Byte Stack Size option found in the Dialog Preferences. See also "A lesson on batteries" below for more information.
+
+While recursion is a very powerful programming technique, it can also be a source of very complicated errors. The most common mistake, when using recursion, is the omission of an exit condition. If an output condition is not provided for recursion, a procedure or function may continue to call itself permanently, until eventually the available memory space is full and the machine crashes. In the Factorial function above, the recursion ends when the n% parameter is less than or equal to 1.
+
+A LESSON ON BATTERIES
+-----------------------
+Before leaving this chapter, we will discuss the runtime stack used by TML BASIC programs. As discussed in previous sections of this chapter, TML BASIC provides the user with defined subroutines, procedures, and functions. Procedures and functions can have local parameters and variables and can also be called recursively.
+
+To support these language features, TML BASIC maintains a data structure called the runtime stack. This stack is used to save the program counter of the instruction that immediately follows the GOSUB, PROC, and FN instructions, so that when you return from the routine, the program knows exactly where | resume execution. The stack is also used to reserve storage space for local parameters and variables of procedures and functions. If a procedure or function is called recursively, then there are multiple copies of parameters and local variables in the runtime stack.
+
+The runtime stack is not an unlimited size. In fact, the default size allocated to the runtime stack is 8K bytes. Although this amount of storage is quite sufficient for most TML BASIC programs, it is quite possible that a program that uses a lot of recursion and declares many parameters and local variables may need a stack size. much bigger runtime.
+
+TML BASIC gives you two ways to change the size of the runtime stack. In the Preferences dialog box, you can edit the Edit Text element that appears next to the "K-Byte Stack" message, as described in Chapter 6. After this change has been made, all the following compilations will create a stack runtime of the new size you have chosen. The second technique, which is also the preferred technique for programs that require a larger stack, is to use the TML BASIC metaintransition, $ StackSize. (See Appendix B). If a program uses the $ StackSize meta-construction, it overrides the value specified in the Preferences dialog box and ensures that the required size of the runtime stack is allocated.
+<Page-footer>
+
+
+
+Page 117
+The amount of memory that can be requested for the runtime stack is not unlimited. The smallest size that can be requested for the runtime stack is 1K byte and the largest size is 32K bytes. This is a very large amount for a runtime stack and no program should need this size of memory. The TML BASIC runtime stack is allocated in bank 0 of the IIGS. The total memory available in this bank is approximately 40K bytes, and since this memory is also needed for many other uses, it is not wise to waste it by allocating more memory than necessary for your program.
+
+TML BASIC also gives you a way to determine if a program uses more space for the runtime stack than it has been allocated. If you select the Check Stack Size option found in the Preferences dialog box, TML BASIC will generate code to check the available space for the runtime stack whenever a procedure or function is called. If there is not enough space in the runtime stack to make the call, we will get the runtime error "Stack Overflow". To determine the size of the stack needed for a given program, repeatedly increase the K-Byte Stack Size option in the Preferences dialog box until the program proceeds normally without causing the Stack Overflow error.
+
+LIBRARIES
+--------------
+A library is a special source code construct that groups together definitions of procedures and functions, so that they can be compiled separately from any program. TML BASIC allows to use the code that is compiled in a library in other libraries and programs, just as the code was included textually in the source code of the file. We can think of a library as a repository for code.
+
+Libraries give you two specific advantages. First, libraries provide an easy way to share code between different programs. A set of commonly used functions and procedures can be grouped together in a library and made available to one or more different programs. Second, libraries give you a way to more easily manage the creation of large programs. Using libraries, it is possible to partition your program into smaller pieces, which can be developed and tested separately from the rest of the program. Because the libraries are compiled separately, they also preserve you from the need to have to recompile an entire program while you have modified only a small part of the source code.
+
+Libraries are also used by TML BASIC to define interfaces with the IIGS toolbox. The libraries and the toolbox are described in detail in chapter 11.
+
+The source code of a library is almost exactly the same as that of a program, with the exception of two simple rules. First, the source code must start with the DEF LIBRARY statement and end with the END LIBRARY statement. The DEF LIBRARY statement must be the first statement in the source code since this is the only way TML BASIC can tell the difference between a program and a library.
+<Page-footer>
+
+
+
+Page 118
+And secondly, the only legal instructions that can appear in the body of a library are REM, DIM, DEF PROC and DEF FN. Any basic allowed statement can appear inside the body of a procedure definition or multi-line function.
+
+Here is an example of a simple library handling a stack of fixed-size integers.
+
+   DEF LIBRARY IntegerStack
+
+      REM This library manages 100 integer elements of the stack.
+
+     DIM LaPile% (99) 'Declares the stack
+
+     DEF PROC ErasePile 'Empty battery
+          stackTop% = -1
+     END PROC ErasePile
+
+     DEF PROC Enter (aValue%) 'Enter a new value in the stack
+          IF stackTop% <99 THEN
+             stackTop% = stackTop% + 1
+             LaPile% (stackTop%) = aValue%
+          END IF
+     END PROC Rentre
+
+     DEF FN Pop% 'Removes the item from the top of the stack
+          IF stackTop%> = 0 THEN
+             FN Pop% = LaPile% (stackTop%)
+             stackTop% = stackTop% - 1
+          END IF
+     END FN Pop%
+
+   END LIBRARY
+
+This simple library manages two procedures, a function and declares two global variables. Note that only REM, DIM, DEF PROC, and DEF FN statements are used in the body of the library, but assignment, IF statements, or any other statements are allowed in the body of a procedure or function from the bookstore. No other instructions are allowed in the body of a library because a library can not be run as a program. The only code that can be executed in a library is the procedures and functions that are called by a program.
+
+THE USE OF A LIBRARY
+The code defined by a library can be used by other libraries or a program. The LIBRARY statement is used to make the code of a library available for a program. When the LIBRARY statement appears in a program, TML BASIC behaves as if all the code in the specified library was really in the program, where | the LIBRARY statement is located. Thus, a program can call the procedures and functions defined in the library or use its global variables.
+<Page-footer>
+
+
+
+Page 119
+For example, the following program uses the IntegerStack library defined above.
+
+   LIBRARY "IntegerStack"
+
+   PROC ErasePile
+
+   DO
+     HOME
+     PRINT "Integer Stack Demo"
+     PRINT "(1) Enter an integer"
+     PRINT "(2) Deletes an integer"
+     PRINT "(3) Quit"
+     INPUT "Enter an option:"; option%
+
+     IF option% = 1 THEN
+        INPUT "Enter integer:"; NewValue%
+        PROC Enter (NewValue%)
+     ELSEIF option% = 2 THEN
+        PRINT "The top element of the stack was:"; FN Pop%
+     END IF
+   UNTIL option% = 3
+   END
+
+By simply including the LIBRARY statement at the beginning of the program, all declarations of the IntegerStack library are available to the program. In addition, the same library can be used by different programs, without having to edit or recompile the IntegerStack library.
+
+You should use the libraries to develop your own set of very useful procedures and functions that can be shared by the different types of programs you write.
+
+COMPILATION OF LIBRARIES
+
+Since a library is not a program, it can not be executed. Thus, the behavior of the COMPILE TML BASIC, TO MEMORY AND RUN, and TO DISK commands will not be the same as when you compile a program. When you choose to compile a library in memory using the TO MEMORY AND RUN command, TML BASIC compiles its source code and then returns to the editor without executing the source code. The compiled source code is kept in memory, so other programs can use the source code without having to recompile the library.
+
+The TO DISK command compiles the source code of the library and then creates a .LIB file, which contains a permanent copy of the compiled code of the library. Thus, when a program specifies a particular library in the LIBRARY statement, and its compiled code is not in memory, TML BASIC can read it directly to the floppy disk without having to recompile the source code of the library again.
+
+For more information on compilation techniques, see Chapter 3.
+<Page-footer>
+
+
+
+Page 120
+PREDEFINED LIBRARIES
+TML BASIC provides a set of predefined libraries that define the interface with the IIGS toolbox. Using these libraries, Basic programs can call the toolbox to use graphics and sound, create menus, windows, etc. These libraries are described in Appendix C and are in the LIBRARIES folder on the diskette. TML BASIC distribution.
+
+See chapters 11 through 13 for more information on how to use these libraries for programming the toolbox.
+
+End of Chapter 8
+
+
+
+
+Page 121

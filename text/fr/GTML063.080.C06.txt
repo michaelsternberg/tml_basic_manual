@@ -1,0 +1,383 @@
+----------------------!  !
+               !   Continuous                    !
+               !   Cut Sheet                     !
+               !         60   Lines Per Page     !
+               !   OK         CANCEL             !
+               !_________________________________!
+
+
+
+
+La boite de dialogue Page Setup est utilisée pour configurer la façon dont TML BASIC imprime une page. Il y a deux options, continuous (continu) et Cut Sheet (pages séparées). Si on choisi continuous, l'en tete n'est imprimé que sur la première page et il n'est pas imprimé de ligne blanche à la fin, ou au début, d'une nouvelle page. Cette option permets d'imprimer un maximum de nombres de lignes sur une page. Toutefois, si le papier n'est pas aligné correctement, il se peut qu'une ligne de texte soit imprimée à cheval sur deux pages. 
+
+Si l'option Cut Sheet est choisie, on imprime l'en tete en haut de chaque page, ainsi que des lignes blanches au début et à la fin de chaque page. Quand on choisi cette option, il faut également choisir le nombre de lignes par page. Le réglage par défaut est pour du papier standard de 8 Inchs 1/2 sur 11 Inchs.
+
+Finallement, la boite de dialogue Page Setup vous permets de rentrer une séquence ce caractère spéciale qui représente une commande imprimante.
+<page-footer>
+
+
+
+Page 68
+La séquence de caractères est envoyée à l'imprimante avant toute impression de fichiers. La commande d'imprimante peut etre utilisée pour dire à une imprimante d'utiliser une fonte spéciale incorporée dans l'imprimante, ou une taille spéciale de fonte, une taile de page particulière etc... Pour envoyer un caractère de controle à l'imprimante, vous devez utiliser le caractère accent circonflexe (^) suivi par la lettre appropriée définissant le caractère de controle. Par exemple, ^? envoie en ASCII ?? (le caractère escape). Voir l'appendice E qui concerne ces codes.
+
+CHOOSER... (Selecteur)
+L'élément de menu chooser permets de dire à TML BASIC à quel port série (le port imprimante ou le port modem) votre imprimante est connectée. Votre choix est sauvegardé dans le fichier TMLBASIC.OPS, de telle façon que vous n'avez pas besoin de le spécifier à chaque fois que vous utilisez TML BASIC. Si vous avez mofidié le panneau de controle du IIGS de telle façon que soit le slot 1 ou le slot 2 n'utilise pas le port incorporé mais une carte qui se trouve dans le slot correspondant, TML BASIC obeira à cette modification de telle sorte que vous pourrez utiliser une imprimante parallèle avec une carte appropriée.
+
+PRINT (Impression) (Pomme P)
+L'élément de menu Print provoque l'impression du contenu de la fenetre active, sur l'imprimante, par l'intermédiaire du port série ou du slot qui a été sélectionné. Le texte est imprimé en utilisant les fontes incorporées dans l'imprimante. TML BASIC n'utilise pas le Print Manager du IIGS pour imprimer. 
+
+Si on appuie sur la touche OPTION pendant que l'on choisi cette commande, TML BASIC n'imprimera que le texte qui est sélectionné dans la fenetre active, au lieu de tout le contenu de la fenetre. Ceci est surtout utile quand on est en train de traiter de très grands fichiers
+
+QUIT (Quitter) (Pomme Q)
+Quit ferme toutes les fenetres ouvertes, vous permettant de vérifier que les modifications apportées dans le fenetres sont ou non sauvegardées, puis on quitte TML BASIC pour se retrouver dans le finder du IIGS.
+
+LE MENU EDIT
+------------
+Le menu edit contient plusieurs commandes d'édition très pratiques. Le menu est sous le format standard Apple IIGS, ce qui permet de l'utiliser avec les accessoires de bureau. Voir la figure 6-6
+
+UNDO (Annuler) (Pomme Z)
+Undo ne supporte pas les fenetres d'édition TML BASIC et est donc désactivé. Toutefois, Undo est activé à chaque fois qu'une fenetre Accessoire de bureau est la fenetre active de telle façon que cette commande devient disponible pour l'accessoire de bureau.
+<page-footer>
+
+
+
+Page 69
+Figure 6-6
+Le menu edition
+______________________________________________________________________
+
+
+Pomme  Edit           Search  Windows  Compile  Prodos
+       Undo  PZ
+      --------------
+       Cut   PX
+       Paste PV
+       Clear
+      --------------
+       Select All PA
+
+______________________________________________________________________
+
+
+CUT (Couper) (Pomme X)
+Cette commande coupe le texte sélectionné en cours. Cette opération éfface le texte choisi de la fenetre active et le sauvegarde pour le placer dans le presse papier (clipboard).
+
+COPY (Copier) (Pomme C)
+Cette commande copie le texte sélectionné en cours, mais ne l'efface pas de la fenetre active et le sauvegarde pour le placer dans le presse papier.
+
+PASTE (Coller) (Pomme V)
+L'élément de menu Paste copie le contenu du presse papier à l'intérieur de la fenetre active, à la position d'insertion en cours. S'il éxiste du texte sélectionné en cours, ce texte est éffacé avant que la commande Paste ne soit éxécutée.
+
+CLEAR (Effacer)
+L'élément de menu Clear efface le texte sélectionné en cours, dans la fenetre active, mais ne le sauvegarde pas dans le presse papier.
+<page-footer>
+
+
+
+Page 70
+SELECT ALL (Tout sélectionner) (Pomme A)
+Cette commande sélectionne tout le texte contenu dans la fenetre active. C'est un raccourci permettant de choisir tout le texte et d'éviter d'avoir à se déplacer au début du texte, cliquer la souris, se déplacer à la fin du texte, puis faire un chiffre-click.
+
+LE MENU SEARCH (RECHERCHE)
+--------------------------
+Le menu Search contient un ensemble de commandes qui servent à effectuer des recherches et des remplacements (figure 6-7). Le menu Search contient également deux commandes Goto différentes, qui déplacent le point d'insertion à un endroit spécifié dans votre code source.
+
+______________________________________________________________________
+
+Pomme   File   Edit   Search                Windows   Compile   Prodos
+                      What to Find...   PF
+                      Find Next         PG
+                      Change Then Find  PH
+                      --------------------
+                      Goto Line...      PJ
+                      Goto Selection
+
+______________________________________________________________________
+
+Figure 6-7
+Menu Recherche
+
+WHAT TO FIND... (Quoi rechercher) (Pomme F)
+Let élément de menu affiche la boite de dialogue FInd du TML BASIC, vous permettant de spécifier une chaine à chercher et une chaine de remplacement optionnelle. Si, quand vous choisissez cette commande, le texte sélectionné dans la fenetre active réside sur une seule ligne, alors TML BASIC considère automatiquement, que ce texte est par défaut la chaine à chercher.
+
+Quand vous choisissez le bouton FIND de la boite de dialogue, la recherche commence depuis la position d'insertion en cours (pas nécessairement au début du fichier). Si vous sélectionnez le bouton CHANGE ALL, TML BASIC remplacera toute occurence de la chaine à rechercher, avec la chaine de remplacement, en commancant la recherche depuis le point d'insertion en cours, jusqu'à la fin du fichier.
+<page-footer>
+
+
+
+Page 71
+FIND NEXT (Trouver le suivant) (Pomme G)
+Cette commande recherche plus loin dans la fenetre active, depuis le point d'insertion, la prochaine occurence de la chaine spécifiée dans Find What de la boite de dialogue Find. Quand l'occurence suivante est localisée, le contenu de la fenetre active défile, jusqu'à afficher la chaine qu'on a trouvé. S'il n'est trouvé aucune occurence de la chaine, alors on obtient un message d'erreur.
+
+CHANGE THEN FIND (Changer puis rechercher) (Pomme H)
+Le texte sélectionné dans la fenetre active est remplacé par la dernière chaine spécifiée dans CHANGE TO de la boite de dialogue FIND. La commande recherche alors dans la suite de la fenetre active, la prochaine occurence de la chaine Find What. Si cette chaine n'est pas trouvée, on obtient un message d'erreur.
+
+GOTO LINE... (Aller à la ligne...) (Pomme J)
+L'élément de menu Goto Line vous permets de déplacer le point d'insertion au début d'une ligne spécifiée se trouvant à l'intérieur de la fenetre active. Cette commande provoque l'affichage de la boite de dialogue Goto Line, et vous permets de spécifier un numéro de ligne, sur lequel vous désirez vous placer. Le numéro de ligne par défaut est "END", qui correspond à la dernière ligne du fichier.
+
+GOTO SELECTION (Aller à la selection)
+Cette commande fait défiler le contenu de la fenetre active, de telle façon que le point d'insertion (ou le texte sélectionné en cours) soit visible dans la fenetre.
+
+LE MENU WINDOWS (FENETRES)
+--------------------------
+Le menu fenetres fourni trois commandes permettant de positionner les fenetres ouvertes sur le bureau du TML BASIC. La figure 6-8 montre le contenu de ce menu.
+
+STACK WINDOWS (Empiler les fenetres)
+L'élément de menu Stack Windows vous permets d'organiser proprement vos fenetres d'éditions sour la forme d'une pile. La fenetre d'édition en cours reste active, alors que les autres sont empilées derrière elles, laissant apparaitre leur barre de titre. Cette commande est utile quand vous avez déplacé les fenetres ouvertes et que vous souhaitez les replacer de façon plus ordonnée.
+
+TILE WINDOWS (Fenetres les unes sous les autres)
+Cet élément de menu dispose les fenetres ouvertes de telle façon que les fenetres ne se recouvrent pas. Cette configuration de fenetre permets de voir chaque le code source de chaque fenetre ouverte, sans avoir à vous déplacer d'une fenetre à une autre.
+<page-footer>
+
+
+
+Page 72
+Figure 6-8
+Le menu fenetres
+______________________________________________________________________
+
+
+Pomme    File   Edit   Search   Windows          Compile   Prodos
+                                Stack Windows
+                                Tile Windows
+                                --------------
+                                Last Error  PE
+                                --------------
+                                Next Window PW
+                                Get Info... PI
+
+______________________________________________________________________
+
+LAST ERROR (Dernière erreur) (Pomme E)
+Cette commande affiche la boite de dialogue Error de TML BASIC, qui contient le message d'erreur recontré le plus récemment.
+
+NEXT WINDOW (Fenetre suivante) (Pomme W)
+L'élément de menu Next Window place la fenetre active derrière toutes les autres fenetres ouvertes sur l'écran et amène au premier plan la fenetre qui se trouvait juste derrière la fenetre précédemment active. Cette commande vous fourni une méthode simple pour basculer l'affiche entre deux fenetres au cas ou il ne serait pas possible de cliquer sur une fenetre, si elle est complètement recouverte par une autre.
+
+GET INFO... (Obtenir des informations) (Pomme I)
+La commande Get Info provoque l'affichage de la boite de dialogue File Information (information fichier). La boite de dialogue donne l'information suivante sur la fenetre d'édition active : le nom de chemin (pathname) complet du fichier associé avec la fenetre d'édition, sa taille en octet et son nombre de lignes.
+
+LE MENU COMPILE
+---------------
+Le menu Compile (Figure 6-9) contient les commandes qui invoquent le compilateur TML BASIC. Quand vous invoquez le compilateur, le contenu de la fenetre d'édition active est compilé.
+<page-footer>
+
+
+
+Page 73
+On trouve également dans ce menu les commandes Preferences, permettant de modifier TML BASIC.
+
+Figure 6-9
+Le menu Compile
+
+______________________________________________________________________
+
+Pomme   File   Search   Windows    Compile             Prodos
+                                   To Memory & Run PM
+                                   To Disk         PD
+                                   Check Syntax    PY
+                                   ------------------
+                                   Preferences...
+
+
+______________________________________________________________________
+
+To Memory and Run (En mémoire et éxécution) (Pomme M)
+Cette commande invoque le compilateur TML BASIC pour lui dire de compiler le code source contenu dans la fenetre d'édition active. Si la compilation est réussie sans erreur, et que la fenetre contient un programme qui est une application (au lieu d'une librairie), l'état de TML BASIC y compris des fenetres ouvertes est sauvegardé et le controle est tranféré à l'application compilée. Quand vous quittez le programme compilé, vous vous retrouvez dans le TML BASIC avec toutes vos fenetres intactes.
+
+Si le contenu de la fenetre active est une librairie, au lieu d'un programme, alors il n'y a pas de programme à éxécuter, donc rien à quoi TML BASIC doivent transférer le controle. Au lieu de cela, le code compilé de la librairie est conservé en mémoire, de façon à ce que d'autres librairies et programmes compilés en mémoire y aient accès.
+
+TO DISK (Sur disque) (Pomme D)
+L'élément de menu To Disk invoque le compilateur de TML BASIC pour lui dire de compiler le contenu de la fenetre active sur disque et ainsi créer un fichier d'application prodos indépendant.
+
+Si le code source contenu dans la fenetre active est un programme, TML BASIC crée un fichier d'application auto bootable S16 (type de fichier $B3), dans le meme dossier que le code source.
+<page-footer>
+
+
+
+Page 74
+D'un autre coté, si le code source est une librairie, alors la table de symboles de la librairie et son code sont sauvegardés sur un fichier .LIB, dans le meme dossier que le code source.
+
+Pour plus d'informations concernant la façon dont on nomme les fichiers et  autres informations analogues, se reporter au chapitre 3.
+
+CHECK SYNTAX (Vérifier la syntaxe) (Pomme Y)
+La commande Check Syntax invoque le compilateur TML BASIC, pour qu'il vérifie que le code source contenu dans la fenetre active est constituée d'instructions basic autorisées.
+
+PREFERENCES...
+La commande Preferences provoque l'affichage de la boite de commande Preferences. La boite de dialogue Preferences est utilisée pour configurer l'éditeur et le compilateur TML BASIC selon vos propres besoins. L'information présentée dans la boite de dialogue est groupée en trois catégories principales : le compilateur, l'éditeur et la mémoire. De plus, on trouve également trois boutons : OK, CANCEL (annuler) et COMPACT MEMORY (compater la mémoire). La boite de dialogue Preferences est montrée dans la figure 6-10 avec ses réglages par défaut. Les paragraphes suivants décrivent chacun des composants de la boite de dialogue en détail.
+
+Avant de parler des composants de la boite de dialogue, nous allons expliquer les éléments d'édition de texte (edit text item) et les boites de recherche (check boxes). Un élément d'édition de texte est un élément contenu dans la boite de dialogue Preferences qui nécessite une entrée pour déterminer la valeur d'un composant. Alors qu'une boite de recherche agit comme un bouton marche/arret. Ces deux mécanismes sont les moyens vous permettant de modifier les composants de la boite de dialogue Preferences.
+
+Positionnez simplement le curseur sur l'élément Edit Text, cliquez une fois et commencez à taper la valeur que vous désirez entrer comme composant. Les boites de recherche, par contre, sont modifiées en positionnant le curseur sur la boite de recherche et en cliquant une fois, pour basculer entre les états ON et OFF (marche et arret). Une case cochée représente une case marche (ON).
+<page-footer>
+
+
+
+Page 75
+Figure 6-10
+La boite de dialogue Preferences
+
+Pomme   File   Edit   Search   WIndows   Compile   PRODOS
+
+    ______________________________________________________________________
+   !                                                                !
+   ! -Compiler----------------------------Editor--------------------!     !12  K-Byte Symbol Table        !    !Tab Width  8             ! !
+   ! !8   K-Byte Stack             !    ! Auto Save Text          ! !
+   ! !10  K-Byte String Pool       ! ---------------------------- !       ! ------------------------------------Memory--------------------- !
+   ! !    Debug                         ! !Total System Memory: 1280K! 
+   ! !X   On Error                      ! !Free Memory:         802K !
+   ! !X   Event Trapping                ! !Largest Memory Block 709K !    ! !X   Keyboard Break                ! ---------------------------!
+   ! !    Check Stack Overflow          !                            !
+   ! ------------------------------------                            !
+   ! !                                  !                            !
+   ! !Library Search Path :             !                            !
+   ! !--------------------------------- !    OK                      !
+   ! !!                               ! !                            !
+   ! !--------------------------------- !  CANCEL COMPACT MEMORY     !
+   ! ------------------------------------                            !
+   !_________________________________________________________________!
+
+
+K-Byte Symbol Table
+Cette option vous permets la quantité de mémoire que le compilateur TML BASIC doit allouer pour une table de symbole. Une table de symbole est la structure de données que le compilateur utilise pour ranger les déclarations de labels, de variables, de tableaux, de procédures et de fonctions. Pour la plupart des autres programmes, la taille par défaut de 12K Octets (12K Byte) est suffisante. Toutefois, des programmes plus grands peuvent faire apparaitre l'erreur de compilateur Symbol Table Space Exhausted (espace de table de symbole utilisé), qu'il ne faut pas confondre avec l'erreur Out Of Memory. Si la compilation d'un programme provoque cette erreur, vous devez augmenter la valeur de ce réglage. 32K Octets est la plus grande valeur que l'on puisse choisir. Ce réglage peut également etre diminué si vous n'avez pas beaucoup de mémoire et si vous compilez des petits programmes. La plus petite valeur que l'on puisse choisir est 2K Octets.
+
+K-Byte Stack
+Les programmes TML BASIC nécessitent une structure de données connue sous le nom de Runtime Stack (la pile du Runtime). La pile du Runtime est utilisée pour gérer certaines instructions TML BASIC, y compris  PROC, GOSUB et LOCAL. La valeur par défaut de 8K octets pour la pile devrait etre suffisante pour la plupart des programmes TML BASIC. On peut changer cette valeur depuis 1K Octet, jusqu'à 32K Octets. Voir le chapitre 8 pour plus de détails sur la pile de Runtime.
+
+La taille de la pile peut également etre changée en utilisant la métainstruction (metastatement) $StackSize. Voir l'appendice B.
+<page-footer>
+
+
+
+Page 76
+K-Byte String Pool
+Le String Pool (réservoir de chaine) est l'endroit o| TML BASIC range toutes les valeurs de variables chaine pour un programme. Si vous assignez une constante chaine à une variable chaine, la constante chaine est copiée dans le String Pool. Si un programme n'a pas suffisamment d'espace pour ses chaines, cette valeur devra etre augmentée. La taille maximum de la string Pool est de 64K Octets, la taille minimum étant de 1K octet. Pour plus d'informations sur les données chaine et le string pool, voir le chapitre 7.
+
+La taille de string pool peut également etre changée en utilisant la métainstruction $StringPoolSize. Voir l'appendice B.
+
+Debug
+Quand l'option Debug est en marche, le compilateur TML BASIC génère du code pour supporter le débugger TML BASIC. Le code généré vérifie toutes les erreurs pouvant arriver au moment du Runtime, telles que Overflow Error, Illegal Quantity Error, etc.. Il génère également une structure de données spéciale appelée la table de numéros de ligne (line number table) de telle façon que le debugger TML BASIC puisse déterminer dans quelle ligne du code source l'erreur de Runtime est arrivée. Si cette option est arretée, alors, aucune erreur de Runtime ne sera détectée. Les erreurs de Runtime sont listées dans l'appendice A.
+
+L'option debug augmente la taille des programmes et ralenti leur éxécution. Cette option ne devrait pas etre mise en service quand vous savez qu'un programme est correcte et ne nécessite plus le code de débuggage.
+
+Vous pouvez également mettre en marche ou hors service cette option, en utilisant la métainstruction $Debug. Voir l'appendice B.
+
+On Error
+L'option On Error est utilisée pour indiquer au compilateur TML BASIC qu'un programme contient l'instruction ON ERR, en meme que les instructions RESUME et/ou RESUME NEXT. Ces instructions nécessitent que la table de numéros de ligne soit générée de telle façon que TML BASIC puisse déterminer sur quelle ligne il faille utiliser RESUME ou RESUME NEXT, après qu'une erreur ait été traitée par la séquence d'instruction ON ERR.
+
+Si votre programme ne contient pas ces instructions, alors l'option On Error ne devrait pas etre mise en service, de façon à diminuer la taille de votre application. 
+
+On peut également mettre cette option en ou hors service, en utilisant la métainstruction $OnError. Voir l'appendice B.
+<page-footer>
+
+
+
+Page 77
+Event Trapping
+(le piégage d'évenements)
+On doit mettre cette option en service quand un programme contient des instructions qui nécessitent le piégage d'évenements. Ces instructions sont ON KBD et ON TIMER. Quand ces instructions sont utilisées, TML BASIC doit générer du code entre chaque instruction pour vérifier une occurence d'une touche clavier ou un évenement déclenché par le Timer. Cette option devrait seulement etre mise en service quand un programme contient ces instructions car le code nécessaire à la vérification de ces évenements, augmente la taille des programmes et ralenti leur éxécution.
+
+On peut également mettre cette option en ou hors service en utilisant la métainstruction $EventTrapping. Voir l'appendice B.
+
+Keyboard Break
+(Interruption clavier)
+L'option Keyboard Break est utilisée pour gérer l'instruction ON BREAK. Elle est également nécessaire pour permettre l'arret d'un programme quand on tape CONTROL C. 
+
+Si cette option est mise en service, TML BASIC génère du code entre chaque instruction pour vérifier si on a tapé CONTROL C. Si cette option n'est pas mise en service, il est impossible d'arreter l'éxécution d'un programme TML BASIC. La seule façon de sortir d'un programme est de faire un RESET du IIGS. Si vous n'avez pas l'intention d'arreter l'éxécution d'un programme et que vous n'utilisez pas l'instruction ON BREAK, vous devriez mettre cette option hors service pour que vos programmes soient plus petits et plus rapides.
+
+Cette option peut également etre mise en ou hors service en utilisant la métainstruction $KeyboardBreak. Voir l'appendice B.
+
+Check Stack Overflow
+(vérification débordement capacité de la pile)
+Cette option est utilisée pour dire au compilateur TML BASIC de générer du code pour chaque procédure et chaque code d'entrée de fonction, pour qu'il puisse s'assurer qu'il y a suffisamment d'espace dans la pile Runtime pour appeler la procédure et allouer ses variables locales. S'il n'y a pas suffisamment d'espace, on obtient l'erreur de runtime Stack Overflow (si l'option Debug est mise en service, alors le débugger TML BASIC peut vous dire quelle procédure ou fonction a causé le Stack Overflow).
+
+La plupart des programmes n'ont pas besoin de plus d'espace pile que les 8K octets par défaut, donc cette option est mise hors service par défaut. Toutefois, si votre programme se comporte de manière étrange, il se peut que la taille de la pile devienne trop grande et détruise de la mémoire. La mise en service de cette option vous permettra de déterminer si votre programme a ce genre de problème. Si c'est le cas, vous devez augmenter l'espace alloué pour la pile dans ce programme.
+<page-footer>
+
+
+
+Page 78
+On peut également mettre cette option en ou hors service en utilisant la métainstruction $CheckStack. Voir l'appendice B.
+
+Library Search Path
+(recherche du chemin de librairie)
+Le pathname spécifié ici est l'endroit o| le compilateur TML BASIC recherche les fichiers librairies spécifiés dans une instruction LIBRARY. La valeur par défaut de cette option est */LIBRARIES/ qui spécifie le dossier LIBRARIE du disque de boot. C'est le dossier qui contient toutes les librairies prédéfinies de TML BASIC qui accède à la toobox IIGS. Souvenez que TML BASIC recherche les fichiers Librairie tout d'abord dans le dossier du code source courrant, puis dans le chemin spécifié par cette option.
+
+Tab Width
+(largeur de tabulation)
+Cette option est utilisée par l'éditeur pour déterminer la largeur d'un taquet de tabulation. La valeur par défaut pour cette option est de 4 espaces. On peut utiliser toute valeur comprise entre 2 et 10.
+
+Auto Save Text
+(Sauvegarde automatique du texte)
+L'option Auto Save vous permets de spécifier si oui ou non les modifications apportées aux fenetres d'édition devraient etre automatiquement sauvegardées avant que TML BASIC ne transfère le controle à une application compilée en mémoire. Vous devriez choisir cette option si votre programme en est dans les premières étapes de développement et peut donc causer le plantage du IIGS quand il est éxécuté. Si cette option est mise en service, vous ne perdrez pas de modification d'édition que vous pourriez avoir faites mais non sauvegardées, mais toutefois, cette option ralenti le temps de compilation, puisqu'elle écrit sur le disque.
+
+Total System Memory
+(mémoire totale du système)
+De façon évidente, cette valeur ne peut pas etre changée quand vous utilisez TML BASIC. La mémoire totale du système est affichée uniquement dans un but d'information. La valeur présente en kilo octets, la quantité de mémoire RAM installée dans votre machine.
+
+Free Memory
+(mémoire libre)
+Ce nombre indique la quantité de mémoire couramment disponible. Ce nombre est important car il indique si oui ou non TML BASIC a suffisamment de mémoire pour ouvrir un nouveau fichier programme, compiler un programme en mémoire etc... Parce que TML BASIC garde en mémoire certaines informations, on peut quelques fois augmenter ce nombre en choisissant le bouton Compact Memory décrit plus bas.
+
+Largest Memory Block
+Cette valeur indique le plus grand bloc de mémoire disponible pour une utilisation par TML BASIC.
+<page-footer>
+
+
+
+Page 79
+OK Button
+Cliquer la souris sur ce bouton (ou en appuyant sur la touche return) indique que vous désirez que TML BASIC accepte tous les changements que vous venez de faire dans la boite de dialogue Preferences. Après avoir cliqué sur ce bouton,  la boite de dialogue disparait et TML BASIC mets à jour toutes options et réglages.
+
+Cancel Button
+Si vous cliquer la souris sur ce bouton, TML BASIC fait disparaitre la boite de dialogue et annule tous les changements faits aux options de réglage et les laissent dans l'état dans lequel ils étaient avant l'ouverture de la boite de dialogue.
+
+Compact Memory
+Ce bouton est utilisé pour libérer toute la mémoire associée avec des programmes et des librairies chargés ou compilés en mémoire par une instruction LIBRARY. Sélectionner ce bouton changera les valeurs de Free Memory et de Largest Memory Block. La boite de dialogue ne sera pas fermée si vous cliquez sur ce bouton.
+
+LE MENU PRODOS
+--------------
+Le menu Prodos donne accès à trois commandes prodos 16 (voir figure 6-11).
+
+Figure 6-11
+Le menu Prodos
+______________________________________________________________________
+
+
+Pomme   File  Edit   Search   Windows   Compile   Prodos
+                                                  Rename
+                                                  Delete...
+                                                  Transfer...
+
+______________________________________________________________________
+
+
+Rename...
+La commande Rename (renommer) provoque l'affichage de la boite de dialogue Rename File (renommer fichier) vous permettant de choisir le nom du fichier que vous désirez renommer. Après avoir sélectionné un fichier, on vous demande le nouveau nom de fichier. Le nouveau nom de fichier doit etre un nom de fichier Prodos 16 autorisé, sinon on obtiendra une erreur.
+
+Delete...
+La commande Delete (effacer) provoque l'affichage de la boite de dialogue Delete File (effacer fichier) vous permettant de choisir un fichier que vous désirez effacer. Après avoir choisi le fichier, on vous demande de confirmer que vous voulez bien effacer le fichier. Si vous confirmez que le fichier doit etre effacé, TML BASIC l'effacera définitement de la disquette.
+
+Transfer...
+La commande Transfer (transférer) provoque l'affichage de la boite de dialogue Transfer qui vous permets de choisir l'application à laquelle vous désirez transférer le controle. Après avoir choisi l'application, TML BASIC vous demande de sauvegarder tout fichier modifié, puis quitte automatiquement et appele l'application spécifiée sans retourner au finder IIGS. La seule façon de revenir alors au TML BASIC est de lancer une nouvelle fois depuis le finder.
+
+<page-footer>
+
+
+
+Page 80
+LES RACCOURCIS CLAVIER PAR RAPPORT A LA SOURIS
+-----------------------------------------------
+Comme on l'a vu précédemment dans ce manuel, TML BASIC vous fourni une alternative au fait de positionner le curseur sur un menu, cliquer le bouton de la souris, maintenir appuyé, se déplacer dans le menu et relacher sur l'élément désiré. 
+
+On peut éxécuter de nombreuses commandes de menu avec les touches de commande équivalentes (raccourcis clavier). Les raccourcis clavier sont très utiles pour éxécuter un élément de menu quand votre main se trouve sur le clavier et non sur la souris. Toutefois, quelques commandes de menu (généralement celles qui sont le moins utilisées) n'ont pas de raccourcis clavier.
+
+De plus, quand une fenetre active contient un accessoire de bureau, les seules touches de commande équivalentes disponibles sont pour le menu Edit. La raison en est que le Dest Manager du IIGS capture automatiquement les touches de commande pour l'accesoire de bureau avant que le TML BASIC ait pu s'en apercevoir. Dans ce cas, vous devrez utiliser la souris pour choisir les commandes de menu, ou placer une autre fenetre d'édition dans la position la plus en haut (rendre ainsi une autre fenetre d'édition active)
+
+Un dernier mot, si vous utilisez un apple IIE mis à jour à la place d'un IIGS et que vous n'avez pas le nouveau clavier du IIGS, la touche Pomme Ouverte qui se trouve juste à gauche de la barre d'espacement sur le clavier du IIE est utilisée à la place de la touche Pomme du clavier du IIGS. La touche Pomme pleine se trouvant à droite de la barre d'espacement du clavier du IIE est équivalente à la touche Option du clavier du IIGS.
+
+Fin du chapitre 6
+
+
+
+Page 83

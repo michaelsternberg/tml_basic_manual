@@ -1,0 +1,130 @@
+Page 19
+CHAPITRE 2
+----------
+UTILISER TML BASIC
+------------------
+
+Dans le chapitre 1, vous avez crée un copie de travail de la disquette de distribution TML BASIC. Maintenant, il est temps de lancer TML BASIC et découvrir certaines possibilités du programme. Avant de continuer, assurez vous que vous etes en train d'utiliser une copie de travail de TML BASIC et que vous avez rangé la disquette de distribution originale TML BASIC dans un endroit sur.
+
+Dans ce chapitre, vous apprendrez les étapes necessaires pour appeler le TML BASIC depuis le finder, comment éxécuter des commandes de manipulation de fichiers. Au lieu de créer un nouveau programme basic qui démontre l'utilisation de ces taches, ce chapitre utilisera les programmes exemples qui se trouvent dans le dossier PART1.EXAMPLES de votre disquette de travail TML BASIC.
+
+LANCER LE TML BASIC
+-------------------
+Insérez votre copie de travail du TML BASIC dans le lecteur de disquette 3P 1/2 et allumez l'ordinateur (boot). Quand le processus de boot du IIGS est terminé, vous vous trouverez  en présence du bureau du finder du IIGS. La figure 2-1 illustre l'apparence du bureau après le boot du IIGS.
+
+Figure 2-1
+Le bureau de l'Apple IIGS
+Se reporter à la documentation papier
+
+<page-footer>
+
+
+
+Page 20
+Le bureau apparaitra comme montré dans la figure 2-1 seulement si votre copie de travail de TML BASIC contient tous les fichiers se trouvant sur la disquette de distribution originale TML BASIC et si vous avez booté votre ordinateur en utilisant ce disque. L'apparence du bureau sera différente si vous utilisez d'autres configurations HardWare (c'est à dire un disque dur) ou si vous utilisez un autre arrangement des fichiers sur votre disquette de travail TML BASIC.
+
+Appelez TML BASIC en cliquant la souris une fois sur l'icone TML BASIC qui se trouve sur le bureau. Déroulez le menu du finder FILE (fichier) et ensuite, choisissez la commande OPEN (ouvrir) (un double click de la souris sur l'icone TML BASIC donnera le meme résultat que la commande OPEN).
+
+L'ouverture du fichier TML BASIC vous donnera un affichage d'écran vierge et affichera le logo TML BASIC. Cet écran vierge vous indique que le TML BASIC est en train de se charger dans la mémoire du IIGS. Soyez patient car le IIGS à besoin de quelques instants pour cette opération. La figure 2-2 illustre le bureau TML BASIC (menu principal) après que le programme ait été chargé correctement en mémoire.
+
+Figure 2-2
+Le menu principal du TML BASIC
+Se reporter à la documentation papier
+
+L'EXAMEN DE L'ENVIRONNEMENT INTEGRE
+-----------------------------------
+TML BASIC a été cré pour utiliser à fond l'interface de bureau du IIGS en utilisant la souris, les menus déroulants, la fenetre etc... Cet environnement convivial rends la programmation plus aisée car elle intègre l'editeur TML BASIC et le compilateur dans le meme environnement de travail.
+<page-footer>
+
+
+
+Page 21
+Les 7 menus géres en TML BASIC ont été crés pour organiser logiquement les différentes commandes que vous pouvez utiliser en TML BASIC. En utilisant la souris, déroulez chaque menu pour constater comme il est facile d'utiliser TML BASIC. A l'intérieur de chaque menu, vous trouverez les différentes commandes TML BASIC. On peut invoquer la plupart des commandes du menu en tapant les touches de commandes de équivalentes (raccourcis clavier), plutot qu'en déroulant le menu et en choisissant la commande avec le curseur. Les touches de commandes équivalentes sont affichées à coté de chaque nom de commande, dans chacun des menus déroulants. Le chapitre 6 passe en revue chacun des menus TML BASIC, ses commandes correspondantes et les touches de commande équivalentes.
+
+Les fenetres d'édition sont les outils que TML BASIC vous fourni pour rentrer et modifier du code source de programme. TML BASIC vous permet d'avoir jusqu'à quatre différents code source de programme ouverts en meme temps. Chaque programme est placé dans une fenetre d'édition différente et est indépendante de toute autre fenetre ouverte. Il ne peut y avoir qu'une seule fenetre d'édition active, à un moment donné. TML BASIC identifie la fenetre active comme étant la fenetre le plus en haut de l'écran. Toutes les commandes de l'utilisateur sont éxécutées sur le code source contenu dans la fenetre active. La figure 2-3 illuste les différentes composantes d'une fenetre typique d'édition TML BASIC.
+
+Figure 2-3
+Elements de la fenetre d'édition
+Se reporter à la documentation papier
+
+TML BASIC gère également les boites de dialogue comme un moyen de communication avec l'utilisateur. On parlera de façon individuelle des différentes boites de dialogue utilisées en TML BASIC quand cela sera approprié dans la suite de ce chapitre. Toutefois, on parlera brièvement de ce qu'est une boite de dialogue et de la façon dont elle fonctionne dans le paragraphe suivant.
+<page-footer>
+
+
+
+Page 22
+Une boite de dialogue est une fenetre dont l'apparence est différente des fenetres d'édition utilisées en TML BASIC, c'est à dire qu'elle n'a pas de titre en travers en haut de l'écran, ni de barre de défilement et on ne peut pas la déplacer partout sur l'écran. Une boite de dialogue est utilisée en TML BASIC pour fournir à l'utilisateur une information qu'il a demandé, ou pour demander à l'utilisateur une information necessaire avant de continuer plus loin. Usuellement, les boites de dialogue comprennent des boutons OK et CANCEL (d'accord ou annuler) et des boutons YES et NO (oui ou non). Ces boutons vous permettent de communiquer avec TML BASIC pour lui signifier quand vous en avez terminé avec la boite de dialogue. 
+
+OUVRIR UN PROGRAMME
+-------------------
+On commencera notre visite du TML BASIC en ouvrant quelques applications exemple de la disquette TML BASIC. TML BASIC est capable d'ouvrir jusqu'à quatre fenetres d'édition en meme temps, chacune indépendante des autres et contenant un programme différent. Cette caractéristique donne une grande flexibilité et vous permet d'étudier le code source de deux ou plusieurs programmes en meme temps, et meme de copier du code d'un programme afin de pouvoir l'utiliser dans un autre. Le chapitre 4 parle des différentes techniques pour copier du code source d'un programme dans un autre programme. 
+
+On commencera par ouvrir la boite de dialogue OPEN FILE de TML BASIC qui donne la liste des fichiers qui se trouvent sur la disquette TML BASIC. Vous pouvez réaliser cette opération soit en déroulant le curseur vers le bas du menu file, puis en relachant le bouton sur la commande OPEN, ou en tapant le raccourci clavier POMME O. Quelque soit la méthode utilisée, le résultat à l'écran devra etre celui montré par la figure 2-4.
+
+Figure 2-4
+Boite de dialogue du fichier Ouvrir
+Se reporter à la documentation papier
+<page-footer>
+
+
+
+Page 23
+La boite de dialogue OPEN FILE affiche les fichiers et les dossiers contenus sur la disquette TML BASIC. Maintenant, cliquez une fois la souris sur le dossier PART1.EXAMPLES, puis sur le bouton OPEN. Les fichiers contenus dans le dossier PART1.EXAMPLES, apparaissent à présent dans la boite de dialogue FILE comme illustré dans la figure 2-5. Trouvez le fichier HELLOWORLD.BAS et cliquez le curseur sur son nom puis sur le bouton OPEN pour ouvrir le fichier.
+
+Figure 2-5
+Dossier PART1.EXAMPLES
+Se reporter à la documentation papier
+
+Si votre système s'éxécute soit depuis un disque dur, soit depuis un système à deux lecteurs de disquettes, cliquez la souris sur le bouton DRIVE de la boite de dialogue OPEN FILE, jusqu'à ce que vous trouviez le dossier PART1.EXAMPLES contenant les programmes exemples du TML BASIC. 
+
+Une fois choisi le programme example HELLOWORLD.BAS, son code source est lu sur la disquette et placé dans une fenetre d'édition nouvellement crée, dont le titre est HELLOWORLD.BAS. Maintenant, ouvrez un second programme exemple, DEMO.BAS, depuis le dossier PART1.EXAMPLES, en utilisant la meme technique que celle décrite ci-dessus.
+
+L'ORGANISATION DE L'ENVIRONNEMENT D'EDITION
+-------------------------------------------
+La figure 2-6 illustre les fenetres ouvertes HELLOWORLD.BAS et DEMO.BAS, qui se recouvrent l'une l'autre. TML BASIC vous donne la possibilité de placer les fenetres ouvertes n'importe o| à l'écran, de telle façon que vous puissiez voir le code source dans chacune des fenetres. L'organisation des fenetres peut etre accompli soit en tirant chacune des fenetres à l'aide de la souris, ou en utilisant l'une des commandes fenetres du TML BASIC.
+<page-footer>
+
+
+
+Page 24
+Figure 2-6
+Chevauchement des fenetres
+Se reporter à la documentation papier
+
+Cliquer une fois sur la barre de titre de la fenetre HELLOWORLD.BAS en utilisant la souris et tirez la fenetre n'importe o| sur l'écran. Vous pouvez noter que la première que vous cliquez la souris sur la fenetre, cela rends immédiatement active la fenetre HELLOWORLD.BAS, si jamais la fenetre n'était pas déjà active, et la place par dessus la fenetre DEMO.BAS. Pour changer la taille d'une fenetre d'édition, vous utilisez la boite d'agrandissement. La boite d'agrandissement est la petite boite dans le coin en bas à droite de la fenetre d'édition qui contient deux petits rectangles. Maintenant changez la taille  de la fenetre en cliquant la souris une fois dans la  boite d'agrandissement de la fenetre HELLOWORLD.BAS et en déplacant la souris n'importe o| sur l'écran.
+
+Déroulez le menu Window et vous verrez apparaitre les commandes fenetre du TML BASIC. Après avoir maitrisé les techniques de la souris permettant de changer la position d'une fenetre ouverte, déroulez le menu Window et choisissez STACK WINDOWS. Cela devrait arranger les fenetres comme elles l'étaient lors de leur première ouverture, cf figure 2-6.
+
+Maintenant, selectionnez la commande NEXT WINDOW (fenetre suivante) et notez comment l'éditeur place la fenetre HELLOWORLD.BAS derrière la fenetre DEMO.BAS en rendant celle-ci active. Enfin, choisissez TILE WINDOWS et vous obtiendrez deux fenetres qui apparaissent dans un format TILE, comme montré dans la figure 2-7. Quand deux ou plusieurs fenetres sont ouvertes en meme temps, les placer dans une position TILE vous permet de voir chaque code source de programme en meme temps.
+<page-footer>
+
+
+
+Page 25
+Figure 2-7
+Tiled Windows
+Se reporter à la documentation papier
+
+L'INTEGRITE DU PROGRAMME
+------------------------
+Jusqu'à présent, vous avez appris à ouvrir des fenetres d'éditions (chacune contenant du code source de programme), aussi bien que les différentes techniques pour réorganiser les fenetres sur le bureau du TML BASIC. Vous pouvez facilement ouvrir et arranger des fenetres avec les trois commandes de fenetre du TML BASIC. TML BASIC vous fournis également un moyen sur d'assurer l'intégrité du code source de votre programme au cas ou vous auriez involontairement changé le code source du programme.
+
+Les programmes exemples ouverts dans ce chapitre seront de nouveau utilisés dans ce manuel. Ainsi, il est important de ne pas modifier leur contenu d'origine. En utilisant la commande REVERT qui se trouve dans le menu FILE, vous ordonnez à TML BASIC d'ignorer tout changement fait par inadvertance au code source d'un programme depuis la dernière fois qu'il a été sauvegardé. En éxécutant cette commande, TML BASIC relit la dernière version du code source du programme sur le disque et la place dans la fenetre d'édition, ignorant ainsi tout changement apporté au code source. 
+
+La commande REVERT devrait etre utilisée à chaque fois qu'on a effectué un changement non intentionnel au code source d'un programme. Souvenez vous que tout changement apporté au code source d'un programme depuis la dernière sauvegarde sera perdu suite à l'éxécution de la commande REVERT. TML BASIC affichera une boite de dialogue, vous demandant si vous etes vraiment sur de vouloir ignorer les changements apportés au programme avant d'annuler ces changements.
+<page-footer>
+
+
+
+Page 26
+Quand vous fermez une fenetre d'édition, ou quittez TML BASIC, et que vous n'avez pas encore sauvegardé les modifications faites à un programme, TML BASIC vous demandera si vous voulez sauvegarder ces changements. A ce moment, vous aurez une dernière possibilité pour décider si oui ou non vous voulez perdre ou conserver ces modifications, ou bien encore si vous voulez annuler la commande CLOSE.
+
+QUITTER LE TML BASIC
+--------------------
+Dans ce chapitre, nous avons ouvert deux programmes exemples contenus sur la disquette de travail, discuté du positionnement des fenetres dans l'environnement d'édition et défini un moyen d'éviter les modifications non intentionnelles à un code source de programme.
+
+Avant de terminer ce chapitre, vous devriez fermer toutes les fenetres ouvertes, quitter le TML BASIC et eteindre l'ordinateur de la meme façon dont vous nettoyeriez votre bureau avant de quitter votre travail.
+
+Pour fermer les fenetres ouvertes, choisissez les fenetres une par une en cliquant avec la souris dans une fenetre ouverte et en choisissant ensuite l'option CLOSE dans le menu FILE (cliquer sur la boite de fermeture d'une fenetre donnera le meme résultat) Si vous avez apporté des modifications au code source d'un programme, la boite de dialogue CLOSE FILE apparaitra vous demandant si vous voulez sauvegarder ces modifications. Assurez vous de cliquer sur le bouton NO, ce qui assurera ainsi l'intégrité du code source du programme original. Après avoir fermé les deux fichiers, choississez l'option QUIT du menu FILE pour quitter TML BASIC et retourner sur le finder du bureau.
+
+Fin du chapitre 2

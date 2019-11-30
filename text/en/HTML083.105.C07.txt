@@ -1,0 +1,721 @@
+CHAPTER 7
+----------
+VOCABULARY ELEMENTS
+-----------------------
+This chapter and the next three are a technical discussion of TML BASIC vocabulary. If you are a beginner programmer and you need a less technical introduction to the TML BASIC language you should read the first part of this manual and especially chapter 5.
+Programmers interested in programming the toolbox with TML BASIC, will find the necessary information in the third part of this manual.
+
+THE STRUCTURE OF THE SOURCE CODE
+---------------------------
+A fundamental component of any TML BASIC program is instruction. A TML BASIC program consists of zero or more lines of instructions. Obviously, a program containing only zero instructions is not very useful. Each line of TML BASIC source code has the form:
+
+   <label:> Instruction <: statement> <'comment>
+
+or,
+
+   $ Métainstruction
+
+Before going any further, the notation used in the example above to describe the TML BASIC statements and the lines deserve some explanation. The notation consists of four parts. Basic reserved words, or special characters, brackets, braces, and italicized words.
+
+Basic reserved words and special characters appear in plain typography and in capital letters (see Tables 7-1 and 7-2). When these words or characters appear in our notation, they must be used exactly the way they are shown. The square brackets are used to indicate that all the symbols that appear between them can be used optionally in the instruction, or in the line that is described. Braces are used to indicate that all the symbols that appear between them can appear zero or more times. That is, the symbol may not appear at all, once, twice, etc. Finally, the words in italics are used to symbolize a sequence of 1 or more TML BASIC legal language elements that must obey certain rules. When a word in italics appears, it is usually followed by one or more sentences that describe what the word represents. We also make the word by itself indicate its own meaning.
+<Page-footer>
+
+
+
+Page 84
+Now, let's look at the structure of a TML BASIC source code line as defined by our notation.
+
+A line of source code may optionally begin with a label. A label is a sequence of 1 or more alphanumeric characters that begins with a letter and within which we can not find a reserved word of TML BASIC. A label can also contain the dot (.) Character. If a label is used, it must always be followed by the colon (:). If something else appears on the line. However, when a label is referenced in an instruction (eg GOTO myLab) the colon character must not appear.
+
+Following legal TML BASIC labels:
+
+   HandleError:
+   Lab183:
+   SCREENUPDATE:
+   Label.with.periods:
+
+Uppercase or lowercase writing is not significant in the meaning of a label. Thus, all the following representations are the representation of the same TML BASIC label:
+
+   MyLab:
+   MyLab:
+   MyLab:
+
+Note that TML BASIC statements do not start with line numbers. In fact, there is no line number in a TML BASIC program.
+
+The instructions are the fundamental component of a TML BASIC program. There are a very large number of instructions available in TML BASIC (see Chapter 10). A line can contain one or more statements, each separated by a colon. The only restriction to the number of statements that can appear on the same line is the TML BASIC restriction, which is that the source code lines are limited to a total of 255 characters. Obviously, it is good practice to limit the length of a line to the width of an edit window. Programs are also printed more legibly when the length of the line remains a reasonable size. Unlike most basic interpreters, you are not penalized in size or speed if your program contains more lines. Also, because the TML BASIC debugger only determines on which line the error has arrived, the debugger is much more useful if there is only one statement on a line.
+
+Note that it is ok to have an empty statement. So it is possible to have white lines in your program. The white lines are useful for organizing the code of your programs, so that different sections of the program are well visualized.
+
+Finally, we can add a comment at the end of each line. A comment starts with the apostrophe (') character, followed by any descriptive text about the program.
+<Page-footer>
+
+
+
+Page 85
+The comment continues until the end of the line. The comment can be used instead of the REM statement, unless the comment appears at the end of a DATA statement. In this case, the TML BASIC interprets the apostrophe character as part of the DATA statement. In a different way from the REM statement, it is not necessary to use the colon character to separate the comment from the previous statement. For example,
+
+   Interest = Principle * Rate 'Calculation interest due
+   Interest = Principle * Tate: REM conceals interest due
+
+Metainstructions are special commands for the TML BASIC compiler that tell it to behave in a certain way. A line that contains a metacommand must begin with the dollar character ($) followed by the metacommand and any useful parameter. It can appear only one metacommand on a line. TML BASIC provides metacommands for most of the compiler options that appear in the Preferences dialog box. A complete list of metacommands and their use is given in Appendix B.
+
+THE PROGRAMS
+--------------
+The TML BASIC compiler recognizes two types of source code structure. Programs and bookstores. A program is a set of instructions that perform a certain action. When a program is compiled, TML BASIC creates a complete and independent application that can either be executed immediately from the TML BASIC environment, using the TO MEMORY AND RUN compiler option, or that can create a PRODOS application file. , using the TO DISK compiler option. A compiled prodos 16 application file can be run from the IIGS finder by double-clicking its icon.
+
+LIBRARIES
+--------------
+Libraries, unlike programs, can not be executed. A library is considered a repository for portions of code. When TML BASIC compiles a library, it saves the compiled code in such a way that other programs and libraries can use the code of that library, just as if the source code lines were textually included in the program that uses. When a library is compiled on a floppy disk, its code is saved in a special file ending with the suffix .LIB. The source code of a library is different from that of a program in that it must have a specific structure. It must start with the DEF LIBRARY statement and end with the END LIBRARY statement. For a full discussion of libraries, see Chapter 8.
+
+See Chapter 3, "Creating an Independent Application" for a discussion of the conventions used to name TML BASIC files for compiled programs and libraries.
+
+ALL THE CHARACTERS OF TML BASIC
+--------------------------------------
+The set of characters in TML BASIC consists of alphabetic characters, numeric characters and some special characters. Alphabetic characters are uppercase letters (A to Z) and lowercase letters (a to z).
+<Page-footer>
+
+
+
+Page 86
+Numeric characters are numbers from 0 to 9. The following table lists the special characters recognized by TML BASIC with a description of their usage.
+
+______________________________________________________________________
+
+                         Table 7-1
+               Special characters of TML BASIC
+______________________________________________________________________
+
+Symbol Description Function
+______________________________________________________________________
+
+! Exclamation Point Structured Array Character
+"Guillemet Delimiter of constant chain
+# Sharp (sharp) Type of real double precision
+$ Dollar sign Type of character string, prefix of
+                              métainstruction
+% Percent sign Integer type
+& Ampersand Long Integer
+'Apostrophe Delimiter of comment
+() Parentheses List of parameters, array index,
+                              expression priority
+* Asterix multiplication operator
++ Sign plus Add operator, operator
+                              string concatenation
+, Virgule Delimiter
+- Sign less subtraction operator, operator
+                              negation
+. Point Used to make a variable,
+                              table, procedure, name of label and
+                              function
+/ Split Bar Split Operator
+: Two points Instruction delimiter
+; Semicolon Delimiter
+<Sign below Relational Operator
+= Equal sign Assignment operator, operator
+                              relational
+> Top sign for Relational Operator
+to Arobad Type of character double integer
+^ Accent circumflex operator exponentiation
+_ Underlined Alternative for CALL instruction
+
+______________________________________________________________________
+
+These are the only characters that can appear in a TML BASIC program. The only exceptions are that comments and string constants can contain any character.
+
+RESERVED WORDS
+-----------------
+TML BASIC keeps several words for special meaning, typically for a function or instruction name. Reserved words can not be used for label, variable, array, procedure, and function names.
+<Page-footer>
+
+
+
+Page 87
+If you try to use a reserved word as an identifier, TML BASIC will give you a syntax error signal in your program. The following table lists the reserved words in TML BASIC.
+
+______________________________________________________________________
+
+                              Table 7-2
+                         Reserved words in TML BASIC
+______________________________________________________________________
+
+
+ABS AND ANU APPEND
+AS ASC ASSIGN ATN
+AUXID BDF BREAK BTN
+CALL CAT CATALOG CHAIN
+CHR CLEAR CLOSE COMPI
+CONV COS CREATE DATA
+DATE DEF DELETE DIM
+DIV DO DYNAMIC ELSE
+ELSEIF END EOF EOFMARK
+ERASE ERR ERROR EVENTDEF
+EXCEPTION EXEVENT EXFN EXP
+EXP1 EXP2 FILE FILTYP
+FIX FN FOR FRE
+FREMEM GET GOSUB GOTO
+GRAF HEX HOME HPOS
+IF IMAGE INPUT INSTR
+INT INVERSE JOYX JOYY
+KBD LEFT LEN LET
+LIBRARY LOCAL LOCATE LOCK
+LOG LOGB LOG1 LOG2
+MENUDEF MID MOD NEGATE
+NEXT NORMAL NOT OFF
+ON OPEN OR OUTPUT
+PDL PDL9 PEEK PFX
+PI POKE POP PREFIX
+PRINT PROC PUT R.STACK
+RANDOMIZE READ REC REM
+REMDR RENAME REP RESTORE
+RESUME RETURN RIGHT RND
+ROUND RUN SCALB SCALE
+SECONDS SET SGN SHOWDIGITS
+SIN SPACE SPC SQR
+SRC STEP STOP STR
+SUB SWAP TAN TAB
+TASKPOLL TASKREC TEN TEXT
+TEXTPORT THEN TIME TIMER
+TO TXT TYP UBOUND
+UCASE UIR UNLOCK UNTIL
+UPDATE USING VAL VAR
+VARPTR VPOS WHILE WRITE
+XOR
+______________________________________________________________________
+
+<Page-footer>
+
+
+
+Page 88
+NUMBERS IN TML BASIC
+------------------------
+Numbers are one of the most important components of any program. They allow a program to count, calculate and run its program. Traditionally, the various basic have provided the program only one type of number so that it can do its work. As a result, programs were only minimally concerned with things such as speed, accuracy and number memory requirements - there was only one type of number and so no choice to make.
+
+However, TML BASIC offers several types of numbers: integers, double integers, long integers, real simple precision and real double precision. Thus, programs that require some performance in memory usage or speed may use smaller, faster numbers, while those that require a very high degree of accuracy may have slower but much more accurate numbers.
+
+THE ENTIERS
+The smallest and fastest data type in TML BASIC is the integer type. An integer is a number that has no decimal point and is in the range from -32768 to +32767. The origin of these values ​​is that integers are stored as signed 16-bit (two-byte) values. A bit is used to indicate the sign of the number and 15 bits are used to represent the absolute value: 2 power 15 = 32768
+
+While integers are restricted in the range of value they can represent, they compensate for their speed. The IIGS is the most efficient when it handles integers. Programs should use whole numbers in FOR NEXT loupes, counters etc ... to produce the most efficient code possible.
+
+THE DOUBLE ENTIERS
+Double integers behave exactly like normal integers, with the difference that double integers can be much more sensitive than integers. The integer double values ​​vary in the range from -2.147.483.648 to +2.147.483.647. Of course, to achieve this accuracy, you need twice as much memory as for integers: 4 bytes. When the integers are not sufficient, then try to use the double integers, since these are the numbers whose speed and size is just second in TML BASIC.
+
+LONG ENTIERS
+Long integers behave as integers and integers, except that they give a very large value range: -9.223.372.036.854.775.807 to +9.223.372.036.854.775.807. Long integers need 8 bytes of storage (64 bits). Long integers allow the largest range of values ​​among integer types, but they are also the slowest types of integers for calculations.
+
+The many types of financial programs can benefit from this type of data.
+<Page-footer>
+
+
+
+Page 89
+To avoid rounding errors, calculations can be run in pennies using long integers, and then converted for display.
+
+THE REAL SIMPLE PRECISION
+The actual single precision are the smallest type of real number. a simple precision value is a number that can contain a decimal point and an exponent in the approximate range of -3.4E38 to + 3.4E38 (3.4 multiplied by 10 power 38), up to 7 or 8 significant digits. This means that you can have a number as small as 0.00000000000000000000000001, or as large as 100,000,000,000,000,000,000,000,000,000,000,000,000, but obviously, there are only 7 or 8 significant digits. The real simple precision occupy 4 bytes of memory.
+
+Although the simple-precision reals represent a very wide range of numbers, they have only a limited number of significant digits. When great precision is needed, it may be more appropriate to use long integers or real double precision.
+
+REAL DOUBLE PRECISION
+The real double precision are the largest real numbers in TML BASIC. They require twice as much space as the real single precision (8 bytes) but they have a much larger range and accuracy. The double precision value is a number in the supply range from -1.7E308 to + 1.7E308 (1.7 multiplied by 10 power 308), and up to 15-16 significant digits.
+
+The real double precision should be suitable for all your computing needs in your program. However, use them carefully in large tables etc ... as they require a large amount of storage.
+
+REELS WITH EXTENDED ACCURACY
+There is another type of number in TML BASIC, called the real-valued extended ones. Extended precision is an internal number type used by TML BASIC to execute all its calculations with real numbers. That is, each time a program executes an arithmetic, relational, or logical operation, (which will be discussed later in this chapter) TML BASIC internally uses the extended precision numbers. TML BASIC will automatically convert single precision and double precision numbers to extended precision by executing an operation and then convert the result back to extended precision in the appropriate type. This technique allows TML BASIC to avoid rounding errors in its calculations thus giving the greatest possible accuracy of results for your program.
+
+Extended precision numbers require 10 bytes (80 bits) of storage and can represent values ​​ranging from the approximate range of -1.1E4932 to + 1.1E4932 (1.1 multiplied by 10 power 4932), with 19 to 20 significant digits.
+<Page-footer>
+
+
+
+Page 90
+Understanding TML BASIC techniques for executing calculations with real numbers is important for writing programs successfully. Although these techniques offer your programs the highest accuracy for calculations, there are certain side effects that you should be aware of when writing programs. Since extended precision numbers provide a large number of significant digits, information may be lost when converting the result of an expression to a single or double precision number. So, you might be surprised by the display provided by the following code:
+
+   aDblReal # = 1.0 / 3/0
+   IF aDblReal # = 1.0 / 3/0 THEN PRINT "Everything works fine"
+   ELSE PRINT "Something strange is coming"
+
+When this program is executed, we get to the display: Something strange happens. The reason for this is that the result of the 1.0 / 3.0 extended precision operation contains significant digits that exceed the storage capacity of real double precision. Thus, when we assign the result of this calculation to the double precision variable aDblRdeal #, the result is no longer exactly equal to the representation of this number in extended precision. When the equality test is performed, the extended precision is used and obviously, the values ​​are no longer equal.
+
+To solve this problem, a program should ensure that the representation of both operands of a relational operator are of the same precision. This can be done by ensuring that both operands are single variables of the same type, or by using one of the CONV functions. For example, the following variant of the program provides the expected result:
+
+
+   aDblReal # = 1.0 / 3/0
+   IF aDblReal # = CONV # (1.0 / 3/0) THEN PRINT "Everything works fine"
+   ELSE PRINT "Something strange is coming"
+
+Given how TML BASIC uses extended precision numbers, it can sometimes be advantageous to run a calculation in a single large expression, rather than in several small expressions that are stored in temporary results, in a real type that has less precision.
+
+Note that all numeric functions embedded in TML BASIC that return a real number, actually come from an extended precision result.
+
+STANDARD DIGITAL ENVIRONMENT APPLE (SANE)
+Apple's standard digital environment, also known as SANE, is the floating-point engine used by TML BASIC for all its real-number functions and operations. SANE management is based on the IEEE 754 standard for floating point binary calculations, and provides an extensive set of digital operations that are not all available in TML BASIC.
+<Page-footer>
+
+
+
+Page 91
+SANE is a set of standard tools in the ROM of any Apple IIGS. For more information on SANE, see the Apple Numerics manual.
+
+THE CHAINS IN TML BASIC
+The type of string is the only other type of data available in TML BASIC, next to the five types of numbers. A string is a character sequence that also includes a counter indicating how many characters are in the string. In TML BASIC a string can contain zero characters up to a maximum of 255 characters. If a string contains 0 characters, it is called the empty string.
+
+In TML BASIC, all channels are stored in a special place in memory, called the String Pool. When assigning a sequence of characters to a string variable, the characters are copied to the string pool. These characters are called the string data. A string variable requires only two bytes of memory, which represents an offset in the string pool that indicates o | the given string is stored. The string data consists of a sequence of bytes that contain the characters of the string. There is also an additional byte of memory, o | is the number of characters in the chain.
+
+The chains are extremely powerful in TML BASIC. They can be converted into numbers, then converted back into strings, and can be manipulated using a wide range of predefined chain functions.
+
+THE CONSTANTS
+Constants are predefined values ​​that do not change during the execution of a program. There are two types of constants in TML BASIC, numerical constants and string constants.
+
+THE DIGITAL CONSTANTS
+The constant
+A fixed-point constant contains digits 0 through 9 with an optional prefix sign and a decimal point. All fixed-point constants are treated as real-precision extended. Examples of fixed-point constants are:
+
+   1.0
+   34.9
+   238540923423.482
+
+Finally, a floating-point constant is represented in exponential form. A floating-point constant consists of a fixed-point number, called the mantissa, followed by the letter E or e and an optional signed integer exponent. The exponent is a power of 10 by which the mantissa is multiplied to obtain the value of the floating-point number. All floating-point constants are treated as extended precision realms. Examples of floating-point constant follow:
+
+   1.0e0
+   349.2001E-23
+   9.98765e + 78
+
+CHAIN ​​CONTENTS
+String constants are simply a sequence of 0 to 255 printable ASCII characters enclosed in quotation marks. For example :
+
+   "TML translated by JIHAILDE"
+   "123.45"
+   ""
+
+It is not possible to create a string constant containing the character karing, since it is used to delimit the string constant. Instead, use the CHR $ function to create a single-string character that is the quotation mark. To see an example of how this is done, see the CHR $ function in Chapter 10. When two twisting signs appear next to each other, there is no character in the string constant. This is called the empty chain.
+
+TML BASIC provides a special exception to the rule above. The non-printable null character whose ASCII value is 0 can be represented in a string constant by means of the BACKSLACH character, followed by the character 0. For example:
+
+   "Hello / 0" (Hello BACKSLACH 0)
+
+The string constant consists of 6 characters: H, e, l, l, o, and the null character.
+
+This exception is provided for easier programming of the IIGS Menu Manager when creating programs using the menus. For more information on how to program with the IIGS Menu Manager and other Toolbox libraries, see Chapters 11 through 13.
+<Page-footer>
+
+
+
+Page 93
+THE VARIABLES
+A variable is a named entity that represents a numeric or string value. Unlike a constant, the value of a variable can change during the execution of a program. The name of a variable must begin with a letter and be followed by any number of letters or numbers that do not contain TML BASIC reserved words. A variable name can also contain the dot (.) Character. TML BASIC does not restrict the length of a name but it must fit on one line (255 characters). The length of a name has no effect on the size or speed of a program. So you should always use very descriptive names indicating their meaning for the variables.
+
+TML BASIC supports six different types of variables. The last character of the name of a variable determines its type. Table 7-3 lists the types of characters allowed by TML BASIC. Note that if it does not appear as a character type after a variable name, the variable will be treated as a real simple precision.
+
+______________________________________________________________________
+
+                         Table 7-3
+               TML character types BASIC
+
+______________________________________________________________________
+
+% Integer 2 bytes
+to double integer 4 bytes
+& Long Integer 8 bytes
+     Real single precision 4 bytes
+# Real double precision 8 bytes
+$ 2 byte string for a string variable
+                               1 byte for each character of the
+                               chain
+                               1 byte to arrange the length of the
+                               chain
+______________________________________________________________________
+
+
+Variables are created the first time they are used in a program. When TML BASIC sees a variable name in a statement, it first checks whether a variable that already has the same name was used in the source code that is above the current line. If so, TML BASIC know o | in the memory it must store or read the value of the variable. Otherwise, TML BASIC automatically enters the name of the variable into its symbol table and allocates the necessary storage space for the variable.
+
+Note that X%, Xà, X &, X, X # and X $ are different variable names.
+
+TML BASIC initializes all numeric variables with the value zero and all the string variables with the empty string.
+<Page-footer>
+
+
+
+Page 94
+VARIABLES RESERVED
+TML BASIC provides a set of reserved variables. A reserved variable is special in that in most cases, it is not allocated memory in the usual way. Instead, it is associated with a special feature of the IIGS. For example, the reserved variable PI contains the value of PI, but this value is actually obtained using SANE.
+
+Programs can only read the value of most reserved variables. However, we can give new values ​​to some reserved variables. They are called changeable reserved variables. The HPOS reserved variable is a good example of an editable reserved variable. HPOS contains the value of the horizontal position of the cursor of the text screen. When you read this variable, in fact, we read the firmware of the text screen to get this value. Since this reserved variable is modifiable, we can assign a new value to HPOS. In this case, the firmware of the text screen is told to move the cursor horizontally to the new position.
+
+The name of a reserved variable is one of the reserved words of TML BASIC. We speak of all the variables reserved in chapter 10.
+
+THE TABLES
+An array is a set of values ​​of the same type, referred to using the same variable name. The individual values ​​of an array are called elements. The elements of a table are also variables and can be used anywhere o | a simple variable can be used. As with variables, the last character of a table name defines the tuple of array elements. The process of declaring the type of elements and the number of elements in the array is called sizing of the array.
+
+An array element can be any type of simple variable: integer, double integer, long integer, real simple precision, real double precision, and string. In addition, TML BASIC supports a special array type called structured array. The element of a structured array is an integer byte whose size is in the range from 0 to 255. The typeface for a structured array is the exclamation point (!). The structured tables are described in more detail below.
+
+SIZING OF THE TABLES
+The DIM statement is used to declare the name, element type, number of dimensions, and size of each dimension of an array. For example :
+
+   DIM Sales% (11)
+
+creates a one-dimensional array of Sales% variable name, which contains 12 integer elements, numbered 0 through 11.
+<Page-footer>
+
+
+
+Page 95
+Note that because the first numbered item is 0, the largest number of items in an array is the size of the array to which the number 1 is added. The Sales% table variable is different from the Sales% simple integer variable.
+
+Arrays can have one or more dimensions, up to a maximum of 8. A one-dimensional array such as Sales% is a simple list of values. A two-dimensional array is a matrix of values ​​with rows and columns of information. Multi-dimensional arrays are also possible, but do not have a corresponding word.
+
+   DIM array1 (4) 'One-dimensional array
+   DIM array2 (12,8) 'Bi-dimensional array
+   DIM array3 (39,3,5) 'Tri-dimensional array
+
+The maximum number of elements per dimension is 32768. The maximum total size of a single array is 64K bytes. You can have as many tables of 64K bytes as the available memory allows. The following table reviews the memory required for each element type and the total number of possible elements in a 64K Byte array
+
+______________________________________________________________________
+
+                         Table 7-4
+               Size of TML BASIC Table Elements
+
+______________________________________________________________________
+
+% Integer 2 bytes 32768 elements for 64K
+to Double integer 4 bytes 16384 elements for 64K
+& Long integer 8 bytes 8192 elements for 64K
+     Real single precision 4 bytes 16384 elements for 64K
+# Real double precision 8 bytes 8192 elements for 64K
+$ String 2 bytes 32768 elements for 64K
+! Structure 1 byte 65536 elements for 64K
+
+______________________________________________________________________
+
+When a TML BASIC program starts running, all array elements are initialized to 0, except in the case of a string array, where the elements are initialized to the empty string.
+
+It is possible to reference an array variable element that has not been declared with a DIM statement. If the reference appears on the right side of a LET statement, TML BASIC automatically declares the variable array, with the same number of dimensions as it is referenced. Each dimension contains 11 elements. TML BASIC declares the array so that there is storage space for the values ​​that will be assigned. For example, if the instruction
+
+   Countà (2,3) = 55
+<Page-footer>
+
+
+
+Page 96
+is executed without previously scaling the Countà variable array, then TML BASIC automatically sets the variable array as if the statement
+
+   DIM Countà (10,10)
+
+had preceded the assignment instruction. This is called implicit sizing. The initial value of 0 is automatically given to each element of the Count table as if the array had been declared normally with the DIM instruction.
+
+If we refer to an undeclared array anywhere | outside the right side of a LET statement, TML BASIC does not automatically declare the array. Instead, a dummy value of 0 is returned (or an empty string). This is different from most other basics that implicitly declare a table whenever it is referred to. So, if the instruction
+
+   PRINT Countà (4,2)
+
+is executed before the Count table is dimensioned, a 0 is displayed.
+
+In general, it is good practice to declare arrays used in a program with the DIM statement rather than allowing TML BASIC to declare them automatically.
+
+DYNAMIC ALLOCATION
+Arrays declared using the DIM statement, or those declared by TML BASIC are known as statically dimensioned arrays. These tables have a fixed size, determined by the number and size of the array elements. TML BASIC allocates storage space for these arrays before the program starts running. Their size can not change.
+
+A static array must be declared with constant values ​​as the size of its dimensions. If an expression or variable is used to size a static array, TML BASIC will give you the error "Static arrays must have constant dimensions" (a static array must have constant dimensions). For example, following statements using the DIM statement illegally:
+
+   DIM Sales% (NumMonths%)
+   DIM Countà (eltsNeeded% + 3)
+
+In addition, a dimensioned static array can not be declared more than once in a program. If a program tries to declare a static array more than once, the error "Duplicate declaration of a static array" is obtained. For example, the following is not allowed in TML BASIC:
+
+   DIM Sales% (10)
+   DIM Sales% (20)
+<Page-footer>
+
+
+
+Page 97
+Statically dimensioned tables are very efficient in TML BASIC, however, some programs need the ability to size a table dynamically at runtime. This is done using the TML BASIC DIM DYNAMIC statement. The DIM DYNAMIC statement allows the program to use a variable or expression such as the number of elements in an array. For example, a program might allow a user to enter a variable number that would be sales numbers, in a table.
+
+  INPUT "How many sales numbers,"; numVentes%
+  DIM DYNAMIC Sales% (numSales%)
+  FOR i% = 1 to numSales%
+      INPUT "Enter sales number:"; Downloads% (i%)
+  Next i%
+
+Of course, it is still possible to declare tables with static dimension values. For example, the following statement creates a dynamic variable array that contains 30 elements.
+
+   DIM DYNAMIC Sales% (29)
+
+Unlike statically dimensioned arrays, dynamically sized arrays can be scaled more than once in a program. This allows to change the size of a table during the execution of a program, according to the needs of the program. To deallocate all the space used by a dynamic array, use the ERASE statement.
+
+Statically dimensioned tables allow TML BASIC to generate code that is faster and smaller than the generated code for dynamic tables. A program should only use dynamic tables when absolutely necessary.
+
+EVALUATION OF THE DIM INSTRUCTION
+The DIM statement works differently in TML BASIC than Basic interpreters like GS BASIC and Basic Applesoft. Unlike the interpreters, the TML BASIC compiler treats the DIM statement when a program is compiled and not when it is executed. Thus, TML BASIC determines the number of dimensions and elements of an array and allocates memory for the array before the program is executed.
+
+Because TML BASIC processes a program in its textual order rather than in its order of execution, you must be careful how you use the DIM statement. The following example will run without error in GS BASIC, but TML BASIC will give an error for the statement marked b. The reason is that TML BASIC will process the statement marked a, before the statement that is just below it. Since this statement references the unArr% variable array, which has not yet been declared, TML BASIC implicitly declares the array with 11 elements, so when the instruction marked by b is processed, TML BASIC returns the error "Duplicate Declaration" We have Static Array ".
+<Page-footer>
+
+
+
+Page 98
+   GOTO doDIM 'Branch to dimensioning the table
+
+   Dolet:
+(a) LET anArr% (9) = 99 'Assign the value 99 to the 9th element
+     GOTO Continue 'Continue the execution
+
+   dodim:
+(b) DIM anArr% (29) 'Size the table with 30 elements
+     GOTO dolet 'Branch to the assignment of value
+
+   Continue: 'Continue the program execution
+
+Another example illustrating this difference between TML BASIC and the Basic interpreter is shown below:
+
+   IF Flag% = 0 THEN DIM yearArr% (10)
+   ELSE DIM yearArr% (250)
+
+Once again, TML BASIC will give you the "Duplicate Declaration On a Static Array" error because it ignores the fact that during execution, only one of the DIM statements will be executed.
+
+However, arrays declared in DIM DYNAMIC statements do not behave this way. Since the DIM DYNAMIC statement is evaluated during program execution, a table can be declared and redeclared as often as necessary for the program. For example :
+
+   IF Flag% = 0 THEN DIM DYNAMIC% (10)
+   ELSE DIM DYNAMIC% (250)
+
+is authorized in TML BASIC. However, it is not possible to redeclare a table using DIM DYNAMIC after it has been declared with the DIM statement.
+
+INDICES (subscripts)
+The individual elements of a variable array are selected using indices (integer expressions inside parentheses, to the right of the name of an array variable). For example, Sales% (3) references the fourth element of the Sales% variable array. It is not allowed to use for an array element, an index value that does not exist. For example, instructions
+
+   Sales DIM% (11)
+   Sales% (20) = 44
+
+will cause a runtime error because the Sales% array has no element whose index is 20.
+<Page-footer>
+
+
+
+Page 99
+When you reference a table, you must also provide a hint for each dimension of the table. If a three-dimensional array, you must provide three index values ​​when you reference the array. If you provide too few or too many clues, TML BASIC will return the error "Array subscript error".
+
+STRUCTURAL TABLES
+TML BASIC provides a special type of array called array structure for handling memory bytes. The typeface for a structure is the exclamation point (!). Structures can only be declared with the DIM statement and are not allowed as single variables. The elements of a structured array are memory bytes that are treated as unsigned integers in the range 0 to 255.
+
+Reference can be made in the usual way to the individual elements of the structured array. The value of a structure element is automatically converted to an integer before being used in an expression. TML BASIC also provides VAR and SET instructions for reading or writing successive bytes of a structure. See Chapter 10 for more information on these instructions.
+
+Structures are typically used to represent data structures that must be used with the IIGS toolbox. See Chapter 13 and Appendix C for more examples on how structures are used with the Toolbox.
+
+THE EXPRESSIONS
+An expression represents a value. An expression consists of a set of operands combined with operators to produce a value when the expression is evaluated. Operators are special symbols that represent a particular operation to execute. Operands are the constants, variables, and function calls that operators work on. In TML BASIC, there are two types of expressions - string expressions and numeric expressions.
+
+String expressions consist of string constants, string variables, and string functions, optionally combined with the string concatenation operator (+). String expressions are evaluated in a string, that is, a sequence of ASCII characters with a known fixed length. Exemplars of string expression can be:
+
+   "A translation of JIHAILDE"
+   $ str
+   "Apple" + $ gs
+   LEFT $ (a $ 5)
+   MID $ (UCASE $ (a $), 4.6)
+
+Numeric expressions consist of numerical constants, numeric variables, and numeric functions, optionally combined with numerical operators. Numeric expressions are evaluated in any numeric type, among the five numeric types of TML BASIC (integer, double integer, long integer, real simple precision and real double precision) or in special internal type of real to precision extended SANE.
+<Page-footer>
+
+
+
+Page 100
+Examples of numeric expressions follow:
+
+   123
+   123 + 4
+   myInt
+   COS (ang)
+   SQR ((a ^ 2) + (b ^ 2))
+
+THE OPERATORS
+Operators are the special characters of reserved words that represent certain logical relational arithmetic operations or string to execute. TML BASIC provides an extensive set of operators for a program to execute any operation.
+
+Operators must have compatible operands or else TML BASIC will give the Type Mismatch Error. That is, a digital operator needs its two operands to be a numeric value, whereas a string operator needs its operands to be string values.
+
+When using an operator with different numeric type operands, TML BASIC automatically converts the numeric value that has the least precision and the least extended range into a value of greater precision and greater extent. For example, consider the following expression that uses the addition operator to add the value of an integer variable to an integer double variable:
+
+   myInt% + myDblIntà
+
+Before TML BASIC executes this addition, it automatically converts the value of myInt% to a double integer and then executes the addition.
+
+There are four classes of operators: arithmetic, relational, logical and string. Each of these operator classes is covered in the following sections.
+
+ARITHMETIC OPERATORS
+The arithmetic operators provided by TML BASIC execute traditional mathematical operations on numeric values. Table 7-5 lists the arithmetic operators with the operations they perform.
+<Page-footer>
+
+
+
+Page 101
+______________________________________________________________________
+
+                             Table 7-5
+                    Arithmetic operators in TML BASIC
+______________________________________________________________________
+
+     + Identity (unary operator) (plus sign)
+     - Negation (unary operator) (minus sign)
+     Exponential
+     * Multiplication
+     / Floating Division
+     DIV Whole Division
+     MOD Modulo (integer only)
+     REMDR Rest SANE (remains in the sense of a division)
+     + Addition
+     -         Substraction
+
+______________________________________________________________________
+
+Note that TML BASIC provides two different operators for division, integer, and floating point. The DIV operator is provided for effective whole divisions. The DIV operator always converts his operands to integers, then executes the division to produce an integral quotient without a remainder. To get the rest of an entire division, you can use the MOD operator. Like the DIV operator, its operands are always converted to integers before the operation is executed.
+
+In TML BASIC, the evaluation of an arithmetic operation can sometimes cause an overflow error. An overflow error occurs when the result of an operation produces a value that is outside the storage capacity of the numeric type being used. For example, the code portion:
+
+   x% = 20000
+   x% = x% + 25000
+
+ exceeds the storage capacity of the integer type (which must be between -32768 and +32767), since the result of the add operator in the second statement is 45000. Obviously, the addition is not the only arithmetic operator that can produce an override error. Consider the portion of code
+
+   x% = -20000
+   x% = x% - 25000
+
+In this example, the result of the subtraction is -45000, again causing the capacity of the integer type to be exceeded. In the two examples above, the error can be avoided by using a numeric type that has a larger storage capacity, such as double integers.
+<Page-footer>
+
+
+
+Page 102
+It is also possible to cause an error by performing a division by zero. This can happen when the second operand of the /, DIV or MOD operator is 0, when the exponentiation operator (^) is used to raise 0 to a negative power.
+
+If a program is compiled with the Debug commissioning preference (see Chapter 6 and Appendix B), TML BASIC generates code in such a way that both types of errors are detected. The action taken when an overflow, or an error due to a division by zero arrives, depends on the presence in the program of an ON ERR instruction and depends on whether it has already been executed. If a program contains such an instruction, the control will be transferred to the instruction list that follows the ON ERR instruction to handle the error. Otherwise, the execution of the program will be aborted and we will get the corresponding error message, at the time of the runtime.
+
+If a program is compiled while the Debug preference is not enabled, an overflow, or division by zero, will not be detected.
+
+RELATIONAL OPERATORS
+Relational operators in TML BASIC allow a program to compare two values. The result of the comparison is a boolean value, which is either true or false. The result of the comparison is typically used to make a decision about the course of a program, using IF statements, or DO ... WHILE ... UNTIL.
+
+Since TML BASIC does not have a special Boolen type, true and false values ​​are expressed as integer values. Any value other than zero is considered true, while zero is considered false. TML BASIC uses the value 1, other than 0, to represent the true value for relational operators. Thus, the expression 3 = 3 is true and has the value of 1, while the expression 3 = 4 is false and has the value of 0. It is also considered that the chains have a Boolean value. If the string contains one or more characters, then it is considered to have a true boolean value, while null strings (strings with 0 characters) are considered to have a false value.
+
+______________________________________________________________________
+
+                         Table 7-6
+               Relational operators TML BASIC
+
+______________________________________________________________________
+
+     = Equality
+     <> or> <Inequality
+     <Less than
+     > Superior to
+     <= or = <Less than or equal to
+     > = or => Greater than or equal to
+     <=> ordered (compared to not ordered)
+
+______________________________________________________________________
+
+<Page-footer>
+
+
+
+Page 103
+Note that when arithmetic and relational operators appear in the same expression, arithmetic operators are evaluated first. For example, the following expression is true if A minus B is less than C plus D.
+
+   A - B <C + D
+
+LOGICAL OPERATORS
+Logical operators execute logical (boolean) operations. The
+Table 7-7 lists the logical operators available in TML BASIC.
+
+______________________________________________________________________
+
+                         Table 7-7
+               Logical operators in TML BASIC
+
+______________________________________________________________________
+
+     NOT Logical complement
+     AND Conjunction
+     OR Disjunction (or inclusive)
+     XOR Or exclusive
+
+______________________________________________________________________
+
+The following table illustrates the behavior of logical operators. The variables x and y can be of all types compatible with each other. See the section on relational operators for a discussion of what true and false values ​​are.
+
+______________________________________________________________________
+
+                         Table 7-8
+               Values ​​returned by logical operators
+
+______________________________________________________________________
+
+x y NOTxx AND y x OR y x XOR y
+
+______________________________________________________________________
+
+True true false true false true
+true false false false true true
+false true true false true true
+false false false false false false
+
+______________________________________________________________________
+
+<Page-footer>
+
+
+
+Page 104
+CHAIN ​​OPERATORS
+In TML BASIC, there is only one operator that returns a string value. It is the concatenation operator that is represented by the + symbol. It is the same symbol that is used for addition, when its operands have numeric values. Concatenation is the process of combining two chains together to make a single chain. For example, the following chain portion shows how to combine a volume name with a file name to create the full path (pathname) of a file:
+
+   volName $ = "/ TML /"
+   fileName $ = "STRINGS.BAS"
+   pathName $ = volName $ + fileName $
+
+Remember that TML BASIC strings are limited to 255 characters in length. If a program tries to create a string that is longer than 255 characters, TML BASIC will not execute the concatenation, but will generate the message "String Too Long Error".
+
+Channels can also be used with relational operators. The string comparisons are executed by taking the corresponding characters of each string operand and comparing the ASCII code. If ASCII codes are the same for all characters in both strings, both strings are considered equal. If the ASCII code
+is different, the string containing the lowest ASCII code is considered inferior to the other. If the end of one chain is reached before the end of the other chain, then the shortest chain is considered inferior to the other, if up to that point they were equal. The ASCII codes are listed in Appendix E. The following relational operations are all true:
+
+   "A" = "A"
+   "A" <"a"
+   "aa"> "aB"
+   "a" <= "yyyy"
+
+If a program must compare two strings without considering the uppercase or lowercase alphabetic letters, then we should use the UCASE $ function instead (see Chapter 10).
+
+PRIORITY (PREVIOUS)
+When evaluating expressions that contain more than one operator, TML BASIC uses a set of precedence rules to determine which operator to evaluate first and which operand belongs to which operator. TML BASIC defined three priority rules:
+
+   1. In an expression that contains more than one operator, the operator with the highest priority is evaluated first.
+
+   2. If an expression contains two or more operators of the same priority, then they are evaluated in order, from left to right.
+<Page-footer>
+
+
+
+Page 105
+   3. The use of parentheses takes precedence over the priority of an operator to force a specific evaluation order.
+
+Table 7-9 lists each TML BASIC operator from the highest priority to the lowest priority.
+
+______________________________________________________________________
+
+                       Table 7-9
+               The priority of operators in TML BASIC
+
+______________________________________________________________________
+
+          +, -, NOT
+          ^
+          *, /
+          DIV
+          MOD, REMDR
+          +, -
+          =, <>,> <, <,>, <=, = <,> =, =>, <=>
+          AND
+          OR, XOR
+
+______________________________________________________________________
+
+
+End of Chapter 7

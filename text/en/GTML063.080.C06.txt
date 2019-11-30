@@ -1,0 +1,383 @@
+----------------------! !
+               ! Continuous!
+               ! Cut Sheet!
+               ! 60 Lines Per Page!
+               ! OK CANCEL!
+               ! _________________________________!
+
+
+
+
+The Page Setup dialog box is used to configure how TML BASIC prints a page. There are two options, continuous and Cut Sheet. If you choose continuous, the header is only printed on the first page and no blank line is printed at the end, or at the beginning, of a new page. This option allows you to print a maximum number of lines on a page. However, if the paper is not aligned correctly, a line of text may be printed straddling two pages.
+
+If the Cut Sheet option is chosen, the header is printed at the top of each page, along with blank lines at the beginning and end of each page. When choosing this option, you must also choose the number of lines per page. The default setting is for standard 8 Inch 1/2 inch to 11 inch paper.
+
+Finally, the Page Setup dialog allows you to enter a sequence that special character that represents a printer command.
+<Page-footer>
+
+
+
+Page 68
+The character sequence is sent to the printer before printing any files. The printer control can be used to tell a printer to use a special font embedded in the printer, or a special font size, a particular page size etc. To send a control character to the printer. printer, you must use the caret character (^) followed by the appropriate letter defining the control character. For example, ^? sends in ASCII ?? (the escape character). See Appendix E for these codes.
+
+CHOOSER ... (Selector)
+The chooser menu item lets you tell TML BASIC which serial port (printer port or modem port) your printer is connected to. Your choice is saved in the TMLBASIC.OPS file, so you do not have to specify it each time you use TML BASIC. If you have modified the IIGS control panel so that either Slot 1 or Slot 2 does not use the embedded port but a card that is in the corresponding slot, TML BASIC will obey this change so that you will be able to use a parallel printer with an appropriate card.
+
+PRINT (Print) (Apple P)
+The Print menu item causes the contents of the active window to be printed on the printer through the serial port or slot that has been selected. The text is printed using the fonts embedded in the printer. TML BASIC does not use the IIGS Print Manager to print.
+
+If you press the OPTION key while choosing this command, TML BASIC will print only the text that is selected in the active window, instead of all the contents of the window. This is especially useful when you are processing very large files
+
+QUIT (Quit) (Apple Q)
+Quit closes all open windows, allowing you to verify that the changes made in the windows are saved or not, and then quit TML BASIC to end up in the IIGS finder.
+
+THE EDIT MENU
+------------
+The edit menu contains several very useful editing commands. The menu is in the standard Apple IIGS format, which allows it to be used with desktop accessories. See Figure 6-6
+
+UNDO (Cancel) (Apple Z)
+Undo does not support TML BASIC editing windows and is therefore disabled. However, Undo is enabled whenever a Desktop Accessory window is the active window so that this command becomes available for the desktop accessory.
+<Page-footer>
+
+
+
+Page 69
+Figure 6-6
+The edition menu
+______________________________________________________________________
+
+
+Apple  Edit           Search  Windows  Compile  Prodos
+       Undo  PZ
+      --------------
+       Cut   PX
+       Paste PV
+       Clear
+      --------------
+       Select All PA
+
+______________________________________________________________________
+
+
+CUT (Cut) (Apple X)
+This command cuts the currently selected text. This erases the selected text from the active window and saves it to the clipboard.
+
+COPY (Copy C)
+This command copies the currently selected text, but does not delete it from the active window and saves it to place it in the clipboard.
+
+PASTE (Paste) (Apple V)
+The Paste menu item copies the contents of the clipboard inside the active window to the current insertion position. If there is selected text in progress, this text is erased before the Paste command is executed.
+
+CLEAR
+The Clear menu item clears the currently selected text in the active window, but does not save it to the clipboard.
+<Page-footer>
+
+
+
+Page 70
+SELECT ALL (Select All) (Apple A)
+This command selects all the text contained in the active window. This is a shortcut to choose all the text and avoid having to move to the beginning of the text, click the mouse, move to the end of the text, then make a click-digit.
+
+THE SEARCH MENU
+--------------------------
+The Search menu contains a set of commands used to search and replace (Figure 6-7). The Search menu also contains two different Goto commands, which move the insertion point to a specified place in your source code.
+
+______________________________________________________________________
+
+Apple   File   Edit   Search                Windows   Compile   Prodos
+                      What to Find...   PF
+                      Find Next         PG
+                      Change Then Find  PH
+                      --------------------
+                      Goto Line...      PJ
+                      Goto Selection
+
+______________________________________________________________________
+
+Figure 6-7
+Search Menu
+
+WHAT TO FIND ... (What to look for) (Apple F)
+The menu item displays the TML BASIC FInd dialog box, allowing you to specify a search string and an optional replacement string. If, when you choose this command, the text selected in the active window resides on a single line, then TML BASIC automatically considers that this text is by default the search string.
+
+When you choose the FIND button in the dialog box, the search starts from the current insertion position (not necessarily at the beginning of the file). If you select the CHANGE ALL button, TML BASIC will replace any occurrence of the search string with the replacement string by starting the search from the current insertion point to the end of the file.
+<Page-footer>
+
+
+
+Page 71
+FIND NEXT (Find Next) (Apple G)
+This command searches further in the active window, from the insertion point, for the next occurrence of the string specified in Find What in the Find dialog box. When the next occurrence is located, the contents of the active window scroll until you see the string you have found. If no occurrences of the string are found, then we get an error message.
+
+CHANGE THEN FIND (Change then search) (Apple H)
+The text selected in the active window is replaced by the last string specified in CHANGE TO in the FIND dialog box. The command then searches the next active window for the next occurrence of the Find What string. If this string is not found, we get an error message.
+
+GOTO LINE ... (Go to the line ...) (Apple J)
+The Goto Line menu item lets you move the insertion point to the beginning of a specified line within the active window. This command causes the Goto Line dialog box to appear, and allows you to specify a line number, on which you want to place yourself. The default line number is "END", which is the last line of the file.
+
+GOTO SELECTION (Go to selection)
+This command scrolls the contents of the active window, so that the insertion point (or currently selected text) is visible in the window.
+
+THE WINDOWS MENU
+--------------------------
+The windows menu provides three commands for positioning open windows on the TML BASIC desktop. Figure 6-8 shows the contents of this menu.
+
+STACK WINDOWS
+The Windows Stack menu item allows you to properly organize your editor windows into the shape of a stack. The current edit window remains active, while the others are stacked behind them, letting their title bar appear. This command is useful when you have moved open windows and want to replace them more neatly.
+
+TILE WINDOWS (Windows under each other)
+This menu item has the windows open so that the windows do not overlap. This window configuration allows you to see each source code of each window open, without having to move from one window to another.
+<Page-footer>
+
+
+
+Page 72
+Figure 6-8
+The menu windows
+______________________________________________________________________
+
+
+Apple    File   Edit   Search   Windows          Compile   Prodos
+                                Stack Windows
+                                Tile Windows
+                                --------------
+                                Last Error  PE
+                                --------------
+                                Next Window PW
+                                Get Info... PI
+
+______________________________________________________________________
+
+LAST ERROR (Last Error) (Apple E)
+This command displays the TML BASIC Error dialog box, which contains the most recently encountered error message.
+
+NEXT WINDOW (Next window) (Apple W)
+The Next Window menu item places the active window behind all other open windows on the screen and brings the window just behind the previously active window to the foreground. This command provides you with a simple way to switch the poster between two windows in case it is not possible to click on a window, if it is completely covered by another one.
+
+GET INFO ... (Get information) (Apple I)
+The Get Info command causes the File Information dialog box to appear. The dialog box gives the following information about the active edit window: the full path name (pathname) of the file associated with the edit window, its size in bytes, and its number of lines.
+
+THE COMPILE MENU
+---------------
+The Compile menu (Figure 6-9) contains the commands that invoke the TML BASIC compiler. When you invoke the compiler, the contents of the active edit window are compiled.
+<Page-footer>
+
+
+
+Page 73
+This menu also contains Preferences commands, allowing you to modify TML BASIC.
+
+Figure 6-9
+The Compile menu
+
+______________________________________________________________________
+
+Apple   File   Search   Windows    Compile             Prodos
+                                   To Memory & Run PM
+                                   To Disk         PD
+                                   Check Syntax    PY
+                                   ------------------
+                                   Preferences...
+
+
+______________________________________________________________________
+
+To Memory and Run (Apple M)
+This command invokes the TML BASIC compiler to tell it to compile the source code contained in the active edit window. If the compilation is successful without error, and the window contains a program that is an application (instead of a library), the state of TML BASIC including open windows is saved and the control is transferred to the application compiled. When you exit the compiled program, you end up in TML BASIC with all your windows intact.
+
+If the content of the active window is a library, instead of a program, then there is no program to execute, so nothing to which TML BASIC should transfer the control. Instead, the compiled code of the library is kept in memory, so that other libraries and programs compiled in memory have access to it.
+
+TO DISK (On disk) (Apple D)
+The To Disk menu item invokes the TML BASIC compiler to tell it to compile the contents of the active disk window and create an independent prodos application file.
+
+If the source code contained in the active window is a program, TML BASIC creates an S16 bootable auto application file (file type $ B3), in the same folder as the source code.
+<Page-footer>
+
+
+
+Page 74
+On the other hand, if the source code is a library, then the symbol table of the library and its code are saved on a .LIB file, in the same folder as the source code.
+
+For more information on how to name files and other similar information, see Chapter 3.
+
+CHECK SYNTAX (Check Syntax) (Apple Y)
+The Check Syntax command invokes the TML BASIC compiler to check that the source code contained in the active window is basic allowed statements.
+
+PREFERENCES ...
+The Preferences command displays the Preferences command box. The Preferences dialog box is used to configure the TML BASIC editor and compiler according to your own needs. The information presented in the dialog box is grouped into three main categories: the compiler, the editor and the memory. In addition, there are also three buttons: OK, CANCEL and COMPACT MEMORY. The Preferences dialog box is shown in Figure 6-10 with its default settings. The following paragraphs describe each of the components of the dialog box in detail.
+
+Before talking about the components of the dialog box, we will explain the text editing elements (edit text item) and search boxes (check boxes). A text editing element is an element contained in the Preferences dialog box that requires an entry to determine the value of a component. While a search box acts as an on / off button. These two mechanisms are the means by which you can modify the components of the Preferences dialog box.
+
+Simply position the cursor on the Edit Text element, click once, and start typing the value you want to enter as a component. The search boxes, on the other hand, are modified by positioning the cursor on the search box and clicking once, to switch between the ON and OFF states (on and off). A checked box represents an ON box.
+<Page-footer>
+
+
+
+Page 75
+Figure 6-10
+The Preferences dialog box
+
+Apple File Edit Search WIndows Compile PRODOS
+
+    ______________________________________________________________________
+   ! !
+   ! -Compiler ---------------------------- ------------------- Editor - ! 12 K-Byte Symbol Table! ! Tab Width 8! !
+   ! ! 8 K-Byte Stack! ! Auto Save Text! !
+   ! ! 10 K-Byte String Pool! ----------------------------! ! ------------- ------------------------------------ Memory --------!
+   ! ! Debug! Total System Memory: 1280K!
+   ! ! X On Error! Free Memory: 802K!
+   ! ! X Event Trapping! ! Largest Memory Block 709K! ! ! X Keyboard Break! ---------------------------!
+   ! ! Check Stack Overflow! !
+   ! ------------------------------------!
+   ! ! ! !
+   ! ! Library Search Path:! !
+   ! ! ---------------------------------! OKAY                      !
+   ! !! ! ! !
+   ! ! ---------------------------------! CANCEL COMPACT MEMORY!
+   ! ------------------------------------!
+   ! _________________________________________________________________!
+
+
+K-Byte Symbol Table
+This option allows you the amount of memory that the TML BASIC compiler must allocate for a symbol table. A symbol table is the data structure that the compiler uses to store label, variable, array, procedure, and function declarations. For most other programs, the default size of 12K Bytes is sufficient. However, larger programs may display the Symbol Table Space Exhausted compiler error, which should not be confused with the Out Of Memory error. If the compilation of a program causes this error, you must increase the value of this setting. 32K Bytes is the greatest value we can choose. This setting can also be decreased if you do not have a lot of memory and if you compile small programs. The smallest value we can choose is 2K Bytes.
+
+K-Byte Stack
+TML BASIC programs require a data structure known as the Runtime Stack (the Runtime Stack). The Runtime stack is used to handle certain TML BASIC statements, including PROC, GOSUB, and LOCAL. The default value of 8K bytes for the stack should be sufficient for most TML BASIC programs. This value can be changed from 1K byte to 32K bytes. See Chapter 8 for more details on the Runtime stack.
+
+The size of the stack can also be changed by using metastatement (metastatement) $ StackSize. See Appendix B.
+<Page-footer>
+
+
+
+Page 76
+K-Byte String Pool
+The String Pool is the place where | TML BASIC stores all the string variable values ​​for a program. If you assign a string constant to a string variable, the string constant is copied to the String Pool. If a program does not have enough space for its chains, this value will have to be increased. The maximum size of the pool string is 64K bytes, the minimum size being 1K byte. For more information on string data and the string pool, see Chapter 7.
+
+The size of the string pool can also be changed using the $ StringPoolSize meta-construction. See Appendix B.
+
+debug
+When the Debug option is running, the TML BASIC compiler generates code to support the TML BASIC debugger. The generated code checks for any errors that may occur at Runtime, such as Overflow Error, Illegal Quantity Error, etc. It also generates a special data structure called the line number table so that the TML BASIC debugger can determine in which line of the source code the Runtime error occurred. If this option is stopped, then no Runtime error will be detected. Runtime errors are listed in Appendix A.
+
+The debug option increases the size of programs and slows down their execution. This option should not be put into service when you know that a program is correct and no longer requires the debugging code.
+
+You can also turn this option on or off, using the $ Debug meta-construction. See Appendix B.
+
+On Error
+The On Error option is used to tell the TML BASIC compiler that a program contains the ON ERR instruction, as well as the RESUME and / or RESUME NEXT statements. These instructions require that the line number table be generated in such a way that TML BASIC can determine on which line to use RESUME or RESUME NEXT after an error has been processed by the ON ERR instruction sequence.
+
+If your program does not contain these instructions, then the On Error option should not be put into service, so as to decrease the size of your application.
+
+This option can also be turned on or off using the $ OnError meta-construction. See Appendix B.
+<Page-footer>
+
+
+
+Page 77
+Event Trapping
+(the trapping of events)
+This option should be enabled when a program contains instructions that require trapping events. These instructions are ON KBD and ON TIMER. When these instructions are used, TML BASIC must generate code between each statement to check for an occurrence of a keyboard key or an event triggered by the Timer. This option should only be enabled when a program contains these instructions because the code needed to verify these events increases the size of programs and slows down their execution.
+
+This option can also be turned on or off using the $ EventTrapping meta-construction. See Appendix B.
+
+Keyboard Break
+(Key interrupt)
+The Keyboard Break option is used to handle the ON BREAK instruction. It is also necessary to allow a program to stop when you type CONTROL C.
+
+If this option is put into service, TML BASIC generates code between each statement to check if CONTROL C has been typed. If this option is not put into service, it is impossible to stop the execution of a TML program. BASIC. The only way out of a program is to do an IIGS RESET. If you do not intend to stop running a program and do not use the ON BREAK instruction, you should disable this option to make your programs smaller and faster.
+
+This option can also be turned on or off using the $ KeyboardBreak meta-construction. See Appendix B.
+
+Check Stack Overflow
+(check overflow battery capacity)
+This option is used to tell the TML BASIC compiler to generate code for each procedure and each function input code, so that it can make sure there is enough space in the runtime stack to call the procedure and allocate its local variables. If there is not enough space, we get the Stack Overflow runtime error (if the Debug option is put into service, then the TML BASIC debugger can tell you which procedure or function caused the Stack Overflow. ).
+
+Most programs do not need more stack space than the default 8K bytes, so this option is disabled by default. However, if your program behaves strangely, the size of the stack may become too large and destroy memory. Putting this option into service will help you determine if your program has this kind of problem. If this is the case, you must increase the space allocated for the stack in this program.
+<Page-footer>
+
+
+
+Page 78
+This option can also be turned on or off using the $ CheckStack meta-construction. See Appendix B.
+
+Library Search Path
+(search of the library path)
+The pathname specified here is where o | the TML BASIC compiler searches for the library files specified in a LIBRARY statement. The default value of this option is * / LIBRARIES / which specifies the LIBRARIE folder of the boot disk. This is the folder that contains all predefined TML BASIC libraries that access the IIGS toobox. Remember that TML BASIC looks for Library files first in the current source code folder and then in the path specified by this option.
+
+Tab Width
+(tab width)
+This option is used by the editor to determine the width of a tab stop. The default value for this option is 4 spaces. Any value between 2 and 10 can be used.
+
+Auto Save Text
+(Automatic save of text)
+The Auto Save option allows you to specify whether or not changes made to the edit windows should be automatically saved before TML BASIC transfers the control to an application compiled in memory. You should choose this option if your program is in the early stages of development and can cause the IIGS to crash when it is running. If this option is enabled, you will not lose any editing changes you may have made but not saved, but this option will slow down the build time since it is written to disk.
+
+Total System Memory
+(total system memory)
+Obviously, this value can not be changed when you use TML BASIC. The total system memory is displayed for informational purposes only. The value in kilobytes is the amount of RAM installed in your machine.
+
+Free Memory
+(free memory)
+This number indicates the amount of memory currently available. This number is important because it indicates whether or not TML BASIC has enough memory to open a new program file, compile a program in memory etc ... Because TML BASIC keeps some information in memory, we can sometimes increase this number by choosing the Compact Memory button described below.
+
+Largest Memory Block
+This value indicates the largest block of memory available for use by TML BASIC.
+<Page-footer>
+
+
+
+Page 79
+OK Button
+Clicking on this button (or pressing the return key) indicates that you want TML BASIC to accept all the changes you have just made in the Preferences dialog box. After clicking this button, the dialog box disappears and TML BASIC updates all options and settings.
+
+Cancel Button
+If you click the mouse button, TML BASIC clears the dialog box and cancels all changes made to the setting options and leaves them in the state they were in before the dialog box was opened.
+
+Compact Memory
+This button is used to free all memory associated with programs and libraries loaded or compiled into memory by a LIBRARY statement. Selecting this button will change the Free Memory and Largest Memory Block values. The dialog box will not be closed if you click this button.
+
+THE PRODOS MENU
+--------------
+The Prodos menu gives access to three prodos 16 commands (see figure 6-11).
+
+Figure 6-11
+The Prodos menu
+______________________________________________________________________
+
+
+Apple   File  Edit   Search   Windows   Compile   Prodos
+                                                  Rename
+                                                  Delete...
+                                                  Transfer...
+
+______________________________________________________________________
+
+
+Rename ...
+The Rename command causes the Rename File dialog to appear, allowing you to choose the name of the file you want to rename. After selecting a file, you are prompted for the new file name. The new file name must be a Prodos 16 file name, otherwise you will get an error.
+
+Delete ...
+The Delete command causes the Delete File dialog to appear, allowing you to choose a file you want to delete. After choosing the file, you are asked to confirm that you want to delete the file. If you confirm that the file needs to be deleted, TML BASIC will delete it from the floppy disk.
+
+Transfer ...
+The Transfer command causes the Transfer dialog box to appear, allowing you to choose the application to which you want to transfer the control. After choosing the application, TML BASIC asks you to save any modified file, then automatically quits and calls the specified application without returning to the IIGS finder. The only way to get back to TML BASIC is to launch again from the finder.
+
+<Page-footer>
+
+
+
+Page 80
+KEYBOARD SHORTCUTS IN RELATION TO MOUSE
+-----------------------------------------------
+As seen earlier in this manual, TML BASIC provides you with an alternative to positioning the cursor on a menu, clicking the mouse button, holding down, moving around the menu and releasing to the desired item.
+
+Many menu commands can be executed with the equivalent command keys (keyboard shortcuts). Keyboard shortcuts are very useful for executing a menu item when your hand is on the keyboard and not on the mouse. However, some menu commands (usually those that are used the least) do not have keyboard shortcuts.
+
+In addition, when an active window contains a desktop accessory, the only equivalent command keys available are for the Edit menu. The reason is that the IIGS Dest Manager automatically captures the control keys for the desktop accessory before the TML BASIC can see it. In this case, you will have to use the mouse to choose menu commands, or place another edit window in the topmost position (thus making another edit window active)
+
+One last word, if you use an updated IIE apple instead of an IIGS and you do not have the new IIGS keyboard, the Open Apple key just to the left of the spacebar on the IIE keyboard is used instead of the IIGS keyboard key. The full Apple key on the right side of the IIE keyboard spacebar is equivalent to the Option key on the IIGS keyboard.
+
+End of Chapter 6
+
+
+
+Page 83

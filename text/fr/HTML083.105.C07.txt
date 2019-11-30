@@ -1,0 +1,721 @@
+CHAPITRE 7
+----------
+ELEMENTS DE VOCABULAIRE
+-----------------------
+Ce chapitre ainsi que les trois suivants sont une discussion technique du vocabulaire du langage TML BASIC. Si vous etes un programmeur débutant et que vous ayez besoin d'une introduction moins technique sur le langage TML BASICn vous devriez lire la première partie de ce manuel et surtout le chapitre 5.
+Les programmeurs interréssés par la programmation de la toolbox avec le TML BASIC, trouverons l'information nécessaire dans la troisième partie de ce manuel.
+
+LA STRUCTURE DU CODE SOURCE
+---------------------------
+Un composant fondamental de tout programme TML BASIC est l'instruction. Un programme TML BASIC est constitué de zéro ou plusieurs lignes d'instructions. Evidemment, un programme ne contenant que zéro instruction n'est pas très utile. Chaque ligne de code source TML BASIC à la forme :
+
+   <label:> Instruction <:instruction> <'commentaire>
+
+ou,
+
+   $Métainstruction
+
+Avant d'aller plus loin, la notation utilisée dans l'exemple ci-dessus pour décrire les instructions TML BASIC et les lignes méritent quelques explications. La notation  est constituée de quatre parties. Les mots réservés basic, ou les caractères spéciaux, les crochets, les accolades et les mots en italique. 
+
+Les mots réservés basic et les caractères spéciaux apparaissent en typographie normale et en lettres capitales (voir les tableaux 7-1 et 7-2). Quand ces mots ou caractères apparaissent dans notre notation, ils doivent etre utilisés exactement de la façon dont ils sont montrés. Les crochets sont utilisés pour indiquer que tous les symboles qui apparaissent entre eux peuvent etre utilisés optionnellement dans l'instruction, ou dans la ligne qui est décrite. Les accolades sont utilisées pour indiquer que tous les symboles qui apparaissent entre elles peuvent apparaitre zéro ou plusieurs fois. C'est à dire que le symbole peut ne pas apparaitre du tout, une fois, deux fois, etc... Enfin, les mots en italique sont utilisés pour symboliser une séquence de 1 ou plusieurs éléments de langage légaux de TML BASIC qui doivent obeir à certaines règles. Quand un mot en italique apparait, il est habituellement suivi par une ou plusieurs phrases qui décrivent ce que le mot représente. On fait également en sorte que le mot par lui-meme indique sa propre signification. 
+<page-footer>
+
+
+
+Page 84
+Maintenant, examinons la structure d'une ligne de code source TML BASIC telle qu'elle est définie par notre notation. 
+
+Une ligne de code source peut débuter de façon optionnelle par un label. Un label est une séquence de 1 ou plusieurs caractères alphanumériques qui commence avec une lettre et à l'intérieur duquel on ne puisse pas trouver un mot réservé du TML BASIC. Un label peut également contenir le caractère point (.). Si un label est utilisé, il doit toujours etre suivi par le caractère deux points (:). Si quelque chose d'autre apparait sur la ligne. Toutefois, quand un label est référencé dans une instruction (par exemple GOTO myLab) le caractère deux points ne doit pas apparaitre.
+
+Suit des labels TML BASIC légaux :
+
+   HandleError:
+   Lab183:
+   SCREENUPDATE:
+   Label.with.periods:
+
+L'écriture en majuscule ou en minuscule n'est pas significative dans la signification d'un label. Ainsi, toutes les représentations suivantes sont la représentation d'un meme label TML BASIC :
+
+   MYLAB:
+   MyLab:
+   mylab:
+
+Notez que les instructions TML BASIC ne commencent pas avec des numéros de ligne. En fait, il n'existe pas de numéro de ligne dans un programme TML BASIC. 
+
+Les instructions sont le composant fondamental d'un programme TML BASIC. Il y a un très grand nombre d'instructions disponibles en TML BASIC (voir chapitre 10). Une ligne peut contenir une ou plusieurs instructions, chacune séparée par le caractère deux points. La seule restriction au nombre d'instruction qui peuvent apparaitre sur une meme ligne est la restriction du TML BASIC, qui est que les lignes de code source sont limitées à un nombre total de 255 caractères. Evidemment, c'est une bonne pratique de limiter la longueur d'une ligne à la largeur d'une fenetre d'édition. Les programmes sont également imprimés de façon plus lisible quand la longueur de la ligne reste d'une dimension raisonnable. De façon différente de la plupart des interprétateurs basic, vous n'etes pas pénalisé en taille ou en vitesse, si votre programme contient plus de lignes. De plus, parce que le débugger du TML BASIC détermine seulement sur quelle ligne l'erreur est arrivée, le débugger est beaucoup plus utile si il n'y a qu'une seule instruction sur une ligne. 
+
+Notez qu'il est autorisé d'avoir une instruction vide. Ainsi il est possible d'avoir des lignes blanches dans votre programme. Les lignes blanches sont utiles pour organiser le code de vos programmes, de telle façon que des sections différentes du programme soient bien visualisées.
+
+Enfin, on peut ajouter un commentaire à la fin de chaque ligne. Un commentaire commence avec le caractère apostrophe ('), suivi par tout texte descriptif à propos du programme.
+<page-footer>
+
+
+
+Page 85
+Le commentaire continue jusqu'à la fin de la ligne. Le commentaire peut etre utilisé à la place de l'instruction REM, à moins que le commentaire n'apparaissent à la fin d'une instruction DATA. Dans ce cas, le TML BASIC interpréte le caractère apostrophe comme faisant partie de l'instruction DATA. De façon différente de l'instruction REM, il n'est pas nécessaire d'utiliser le caractère deux points pour séparer le commentaire de l'instruction précédente. Par exemple,
+
+   Interest = Principle * Rate   'Calcul l'interet due
+   Interest = Principle * Tate   : REM cacul l'interet due
+
+Les métainstructions sont des commandes spéciales destinées au compilateur TML BASIC qui lui disent de se comporter d'une certaine manière. Une ligne qui contient une métacommande doit commencer avec le caractère dollar ($) suivi de la métacommande et tout paramètre utile. Il ne peut apparaitre qu'une seule métacommande sur une ligne. TML BASIC fourni des métacommandes pour la plupart des options du compilateur qui apparaissent dans la boite de dialogue Preferences. Une liste totale des métacommandes et de leur usage est donnée dans l'appendice B.
+
+LES PROGRAMMES
+--------------
+Le compilateur TML BASIC reconnait deux types de structure de code source. Les programmes et les librairies. Un programme est un ensemble d'instructions qui éxécutent une certaine action. Quand un programme est compilé, TML BASIC crée une application complète et indépendante qui peut soit etre éxécutée immédiatement depuis l'environnement TML BASIC, en utilisant l'option du compilateur TO MEMORY AND RUN, ou qui peut créer un fichier d'application PRODOS 16, en utilisant l'option du compilateur TO DISK. Une fichier application prodos 16 compilé peut etre éxécuté depuis le finder du IIGS en cliquant deux fois sur son icone.
+
+LES LIBRAIRIES
+--------------
+Les librairies au contraire des programmes, ne peuvent pas etre éxécutées. Une librairie est considérée comme un dépot pour des portions de code. Quand TML BASIC compile une librairie, il sauvegarde le code compilé de telle façon que d'autres programmes et d'autres librairies puissent utiliser le code de cette librairie, exactement comme si les lignes de code source étaient textuellement incluses dans le programme qui l'utilise. Quand une librairie est compilée sur une disquette, son code est sauvegardé dans un fichier spécial se terminant avec le suffixe .LIB. Le code source d'une librairie est différent de celui d'un programme en ce sens qu'il doit avoir une structure spécifique. Il doit commencer avec l'instruction DEF LIBRARY et se terminer avec l'instruction END LIBRARY. Pour une discussion complète sur les librairies, voir le chapitre 8.
+
+Voir le chapitre 3, "Créer une application indépendante" pour une discussion concernant les conventions qui servent à nommer les fichiers TML BASIC pour les programmes compilés et les librairies.
+
+L'ENSEMBLE DES CARACTERES DU TML BASIC
+--------------------------------------
+L'ensemble des caractères du TML BASIC est constitué de caractères alphabétiques, numériques et quelques caractères spéciaux. Les caractères alphabétiques sont les lettres en majuscule (A à Z) et les lettres minuscules (a à z).
+<page-footer>
+
+
+
+Page 86
+Les caractères numériques sont les chiffres allant de 0 à 9. Le tableau suivant donne la liste des caractères spéciaux reconnus par TML BASIC avec une description de leur usage.
+
+______________________________________________________________________
+
+                         Tableau 7-1
+               Les caractères spéciaux du TML BASIC
+______________________________________________________________________
+
+Symbole   Description         Fonction
+______________________________________________________________________
+
+!         Point d'exclamation Caractère de type tableau structuré
+"         Guillemet           Délimiteur de constante chaine
+#         Dièse (bien dièse)  Type de caractère réel double précision
+$         Signe dollar        Type de caractère chaine, préfix de
+                              métainstruction
+%         Signe pourcent      Type de caractère entier
+&         Ampersand           Entier long
+'         Apostrophe          Délimiteur de commentaire
+()        Parenthèses         Liste de paramètres, indice de tableau,
+                              priorité d'expressions
+*         Astérix             Opérateur de multiplication
++         Signe plus          Opérateur d'addition, opérateur
+                              concaténation de chaine
+,         Virgule             Délimiteur
+-         Signe moins         Opérateur soustraction, opérateur
+                              négation
+.         Point               Utilisé pour constituer une variable, 
+                              tableau, procédure, nom de label et de 
+                              fonction
+/         Barre de fraction   Opérateur de division
+:         Deux points         Délimiteur d'instruction
+;         Point virgule       Délimiteur
+<         Signe inférieur à   Opérateur relationnel
+=         Signe égal          Opérateur d'assignation, opérateur 
+                              relationnel
+>         Signe supérieur à   Opérateur relationnel
+à         Arobad              Type de caractère double entier
+^         Accent circonflexe  Opérateur exponentiation
+_         Souligné            Alternative pour l'instruction CALL
+
+______________________________________________________________________
+
+Ce sont les seuls caractères qui puissent apparaitre dans un programme TML BASIC. Les seules exceptions sont que les commentaires et les constantes chaines peuvent contenir tout caractère.
+
+LES MOTS RESERVES
+-----------------
+TML BASIC garde plusieurs mots pour une signification spéciale, typiquement pour un nom de fonction ou d'instruction. Les mots réservés ne peuvent pas etre utilisés pour des noms de labels, de variables, de tableaux, de procédures et de fonctions.
+<page-footer>
+
+
+
+Page 87
+Si vous essayez d'utiliser un mot réservé comme un identificateur, TML BASIC vous donnera un signal d'erreur de syntaxe dans votre programme. Le tableau suivant donne la liste des mots réservés en TML BASIC.
+
+______________________________________________________________________
+
+                              Tableau 7-2
+                         Mots réservés en TML BASIC
+______________________________________________________________________
+
+
+ABS            AND            ANU                 APPEND
+AS             ASC            ASSIGN              ATN
+AUXID          BDF            BREAK               BTN
+CALL           CAT            CATALOG             CHAIN
+CHR            CLEAR          CLOSE               COMPI
+CONV           COS            CREATE              DATA
+DATE           DEF            DELETE              DIM
+DIV            DO             DYNAMIC             ELSE
+ELSEIF         END            EOF                 EOFMARK
+ERASE          ERR            ERROR               EVENTDEF
+EXCEPTION      EXEVENT        EXFN                EXP
+EXP1           EXP2           FILE                FILTYP
+FIX            FN             FOR                 FRE
+FREMEM         GET            GOSUB               GOTO
+GRAF           HEX            HOME                HPOS
+IF             IMAGE          INPUT               INSTR
+INT            INVERSE        JOYX                JOYY
+KBD            LEFT           LEN                 LET
+LIBRARY        LOCAL          LOCATE              LOCK
+LOG            LOGB           LOG1                LOG2
+MENUDEF        MID            MOD                 NEGATE
+NEXT           NORMAL         NOT                 OFF
+ON             OPEN           OR                  OUTPUT
+PDL            PDL9           PEEK                PFX
+PI             POKE           POP                 PREFIX
+PRINT          PROC           PUT                 R.STACK
+RANDOMIZE      READ           REC                 REM
+REMDR          RENAME         REP                 RESTORE
+RESUME         RETURN         RIGHT               RND
+ROUND          RUN            SCALB               SCALE
+SECONDS        SET            SGN                 SHOWDIGITS
+SIN            SPACE          SPC                 SQR
+SRC            STEP           STOP                STR
+SUB            SWAP           TAB                 TAN
+TASKPOLL       TASKREC        TEN                 TEXT
+TEXTPORT       THEN           TIME                TIMER
+TO             TXT            TYP                 UBOUND
+UCASE          UIR            UNLOCK              UNTIL
+UPDATE         USING          VAL                 VAR
+VARPTR         VPOS           WHILE               WRITE
+XOR
+______________________________________________________________________
+
+<page-footer>
+
+
+
+Page 88
+LES NOMBRES EN TML BASIC
+------------------------
+Les nombres sont l'un des composants les plus importants de tout programme. Ils permettent à un programme de compter, de calculer et faire son programme. Traditionnellement, les divers basic n'ont fourni au programme qu'un seul type de nombre pour qu'il puisse faire son travail. De ce fait, les programmes n'étaient que peu concernés par des choses telles que la vitesse, la précision et les éxigences en mémoire des nombres - il n'y avait qu'un seul type de nombre et ainsi pas de choix à faire.
+
+Toutefois, TML BASIC offre plusieurs types de nombres : les entiers, les double entiers, les entiers longs, les réels simple précision et les réels double précision. Ainsi, les programmes nécessitant certaines performances en utilisation de la mémoire ou en rapidité peuvent utiliser des nombres plus petits, plus rapides, alors que ceux qui nécessitent un très haut degré de précision peuvent des nombres plus lents, mais beaucoup plus précis.
+
+LES ENTIERS
+Le type de donnée le plus petit et le plus rapide en TML BASIC est le type entier. Un entier est un nombre qui n'a pas de point décimal et qui est compris de la gamme allant de -32768 à +32767. L'origine de ces valeurs vient du fait que les entiers sont stockés sous la forme de valeurs signées de 16 bits (deux octets). Un bit est utilisé pour indiquer le signe du nombre et 15 bits sont utilisés pour représenter la valeur absolue : 2 puissance 15 =32768
+
+Alors que les entiers sont restreints dans la gamme de valeur qu'ils peuvent représenter, ils compensent par leur vitesse. Le IIGS est le plus efficace quand il manipule des nombres entiers. Les programmes devraient utiliser des nombres entiers dans les loupes FOR NEXT, dans les compteurs etc... afin de produire du code le plus efficace possible.
+
+LES DOUBLE ENTIERS
+Les double entiers se comporte exactement comme les entiers normaux, à la différence près que les double entiers permettent une précision beaucoup sensible que les entiers. Les valeurs double entières varient dans la gamme allant de -2.147.483.648 à +2.147.483.647. Bien sur, pour accomplir cette précision, il faut deux fois plus de mémoire que pour les entiers : 4 octets. Quand les entiers ne sont pas suffisants, essayez ensuite d'utiliser les double entiers, puisque ce sont les nombres dont la vitesse et la taille vient juste en deuxième position en TML BASIC.
+
+LES ENTIERS LONG
+Les entiers long se comportent comme les entiers et les double entiers, à ceci près qu'ils donnent une gamme de valeur très grande : -9.223.372.036.854.775.807 à +9.223.372.036.854.775.807. Les entiers long ont besoin de 8 octets de stockage (64 bits). Les entiers long permettent la plus grande gamme de valeur parmis les types d'entiers, mais ce sont également les types d'entiers les plus lents pour les calculs.
+
+Les nombreux types de programmes financiers peuvent tirer avantage de ce type de données.
+<page-footer>
+
+
+
+Page 89
+Afin d'éviter toute erreur d'arrondissement, les calculs peuvent etre éxécutés en pennies en utilisant les entiers longs, puis convertis pour l'affichage.
+
+LES REELS SIMPLE PRECISION
+Les réels simple précision sont le plus petit type de nombre réels. une valeur simple précision est un nombre pouvant contenir une virgule décimale et un exposant dans la gamme approximative allant de -3.4E38 à +3.4E38 (3.4 multiplié par 10 puissance 38), jusqu'à 7 ou 8 chiffres significatifs. Ceci signifie que vous pouvez avoir un nombre aussi petit que 0.00000000000000000000000000000000000001, ou aussi grand que 100.000.000.000.000.000.000.000.000.000.000.000.000, mais évidemment, il n'y a que 7 ou 8 chiffres significatifs. Les réels simple précision occupent 4 octets de mémoire.
+
+Bien que les réels simple précision représentent une gamme très large de nombres, ils n'ont toutefois qu'un nombre limité de chiffres significatifs. Quand une grande précision est nécessaire, il peut etre plus approprié d'utiliser les entiers longs ou les réels double précision.
+
+LES REELS DOUBLE PRECISION
+Les réels double précision sont les plus grands des nombres réels en TML BASIC. Ils nécessitent deux fois plus d'espace que les réels simple précision (8 octets) mais ils ont une gamme et une précision beaucoup plus grande. La valeur double précision est un nombre dans la gamme approvimative allant de -1.7E308 à +1.7E308 (1.7 multiplié par 10 puissance 308), et ayant jusqu'à 15-16 chiffres significatifs.
+
+Les réels double précision devraient convenir pour tous vos besoins en calcul dans votre programme. Toutefois, utilisez les avec soin dans les grands tableaux etc... car ils nécessitent une grande quantité de stockage.
+
+LES REELS A PRECISION ETENDUE
+Il y a un autre type de nombre en TML BASIC, appelé les réels à précision étendue. La précision étendue est un type de nombre interne utilisé par TML BASIC pour éxécuter tous ses calculs avec les nombres réels. C'est à dire, à chaque fois qu'un programme éxécute une opération arithmétique, relationnelle ou logique, (dont on parlera plus tard dans ce chapitre) TML BASIC utilise de façon interne les nombres à précision étendue. TML BASIC convertira automatiquement les nombres simple précision et double précision en précision étendue en éxécutant une opération et reconvertira ensuite le résultat en précision étendue dans le type approprié. Cette technique permets à TML BASIC d'éviter des erreurs d'arrondissement dans ses calculs donnant ainsi la plus grande précision possible de résultats pour votre programme.
+
+Les nombres en précision étendue nécessitent 10 octets (80 bits) de stockage et peuvent représenter des valeurs allant de la gamme approximative de -1.1E4932 à +1.1E4932 (1.1 multiplié par 10 puissance 4932), avec 19 à 20 chiffres significatifs.
+<page-footer>
+
+
+
+Page 90
+La compréhension des techniques de TML BASIC pour éxécuter des calculs avec les nombres réels est importante pour écrire des programmes avec succès. Bien que ces technique offrent à vos programmes la plus grande précision pour les calculs, il y a certains effets secondaires dont vous devez avertis quand vous écrivez des programmes. Puisque les nombres à précision étendue fournissent un grand nombre de chiffres significatifs, il se peut que les informations soient perdues quand on reconverti le résultat d'une expression vers un nombre simple ou double précision. Ainsi, vous pourriez etre surpris par l'affichage fourni par le code suivant :
+
+   aDblReal# =1.0/3/0
+   IF aDblReal# = 1.0/3/0 THEN PRINT "Tout fonctionne bien"
+   ELSE                        PRINT "Quelque chose d'étrange arrive"
+
+Quand ce programme est éxécuté, on obtient à l'affichage : Quelque chose d'étrange arrive. La raison en est que le résultat de l'opération à précision étendue de 1.0/3.0 contient des chiffres significatifs qui dépassent la capacité de stockage des réels double précision. Ainsi, quand on assigne le résultat de ce calcul à la variable double précision aDblRdeal#, le résultat n'est plus exactement égal à la représentation de ce nombre en précision étendue. Quand le teste d'égalité est effectué, la précision étendue est utilisée et évidemment, les valeurs ne sont plus égales. 
+
+Pour résoudre ce problème, un programme devrait s'assurer que la représentation des deux opérandes d'un opérateur relationnel sont de la meme précision. On peut faire ceci en s'assurant que les deux opérandes sont des variables simples du meme type, ou en utilisant l'une des fonctions CONV. Par exemple, la variante suivante du programme fourni le résultat attendu :
+
+
+   aDblReal# =1.0/3/0
+   IF aDblReal# = CONV#(1.0/3/0) THEN PRINT "Tout fonctionne bien"
+   ELSE                               PRINT "Quelque chose d'étrange arrive"
+
+Compte tenu de la façon dont TML BASIC utilise les nombres à précision étendue, il peut parfois etre avantageux d'éxécuter un calcul dans une seule expression large, plutot que dans plusieurs petites expressions qui sont rangées dans des résultats temporaires, dans un type réel qui a moins de précision.
+
+Notez que toutes les fonctions numériques incorporées dans TML BASIC qui retournent un nombre réel, proviennent en fait d'un résultat en précision étendue.
+
+L'ENVIRONNEMENT NUMERIQUE STANDARD APPLE (SANE)
+L'environnement numérique standard Apple, également appelé SANE, est le moteur à virgule flottante utilisé par TML BASIC pour toutes ses fonctions et opérations à nombre réel. La gestion SANE est basée sur le standard IEEE 754 pour les calculs binaires à virgule flottante, et fourni un ensemble extensif d'opérations numériques qui ne sont pas toutes disponibles en TML BASIC.
+<page-footer>
+
+
+
+Page 91
+SANE est un ensemble d'outils standard dans la ROM de tout Apple IIGS. Pour plus d'informations sur SANE, se reporter au manuel Apple Numerics.
+
+LES CHAINES EN TML BASIC
+Le type de chaine est le seul autre type de données disponible en TML BASIC, à coté des cinq types de nombre. Une chaine est une séquence de caractère qui comprends également un compteur indiquant combien de caractères se trouvent dans la chaine. En TML BASIC une chaine peut contenir de Zéro caractère, jusqu'à un maximum de 255 caractères. Si une chaine contient 0 caractère, on l'appelle la chaine vide. 
+
+En TML BASIC, toutes les chaines sont rangées dans un endroit spécial de la mémoire, appelé le String Pool (le réservoir de chaine). Quand on assigne une séquence de caractères à une variable chaine, les caractères sont copiés dans le réservoir de chaine. Ces caractères sont appelés la donnée chaine (string data) . Une variable chaine ne nécessite que deux octets de mémoire, qui représente un décalage (offset) dans le string pool qui indique o| la donnée chaine est rangée. La donnée chaine est constituée d'une séquence d'octets qui contiennent les caractères de la chaine. Il y a également un octet additionnel de mémoire, o| est rangé le nombre de caractères de la chaine.
+
+Les chaines sont extremement puissantes en TML BASIC. Elles peuvent etre converties en nombres, puis reconverties à nouveau en chaines et peuvent etre manipulées à l'aide d'un large assortiement de fonctions chaine prédéfinies.
+
+LES CONSTANTES
+Les constantes sont des valeurs prédéfinies qui ne changent pas pendant l'éxécution  d'un programme. Il y a deux types de constantes en TML BASIC, les constantes numériques et les constantes chaine.
+
+LES CONSTANTES NUMERIQUES
+Les constant
+Une constante à virgule fixe contient les chiffres 0 à 9 avec un signe préfix optionnel et une virgule décimale. Toutes les constantes à virgule fixe sont traitées comme des réels à précision étendue. Les exemples de constantes à virgule fixe sont :
+
+   1.0
+   34.9
+   238540923423.482
+
+Enfin, une constante à virgule flottante est représentée sous la forme exponentionnelle. Une constante à virgule flottante est constituée d'un nombre à virgule fixe, appelé la mantisse, suivi de la lettre E ou e et un exposant entier signé optionnel. L'exposant est une puissance de 10 par laquelle la mantisse est multipliée pour obtenir la valeur du nombre à virgule flottante. Toutes les constantes à virgule flottante sont traitées comme des réels à précision étendus. Des exemples de constante à virgule flottante suivent :
+
+   1.0e0
+   349.2001E-23
+   9.98765e+78
+
+LES CONTANTES CHAINE
+Les constantes chaine sont simplement une séquence de 0 à 255 caractères ASCII imprimables inclus dans des guillemets. Par exemple :
+
+   "TML traduit par JIHAILDE"
+   "123.45"
+   ""
+
+Il n'est pas possible de créer une constante chaine contenant le caractère guillement, puisque celui ci est utilisé pour délimiter la constante chaine. Au lieu de cela, il faut utiliser la fonction CHR$ pour créer un caractère chaine unique qui est le guillemet. Pour voir un exemple de la façon dont on réalise ceci, voyez la fonction CHR$ dans le chapitre 10. Quand deux signes guillements apparaissent l'un à coté de l'autre, il n'y a pas de caractère dans la constante chaine. On appele ceci la chaine vide.
+
+TML BASIC fourni une exception spéciale à la règle ci-dessus. Le caractère nul non imprimable dont la valeur ASCII est 0 peut etre représenté dans une constante chaine au moyen du caractère BACKSLACH (barre de fraction inversée), suivi par le caractère 0. Par exemple :
+
+   "Hello/0"  (Hello BACKSLACH 0)
+
+La constante chaine est constituée de 6 caractères : H, e, l, l, o, et le caractère nul.
+
+Cette exception est fournie pour une programmation plus aisée du Menu Manager du IIGS, quand on crée des programmes utilisant les menus. Pour plus d'informations sur la manière dont programme avec le Menu Manager et les autres librairies Toolbox du IIGS, voir les chapitres 11 à 13.
+<page-footer>
+
+
+
+Page 93
+LES VARIABLES
+Une variable est une entité nommée qui représente une valeur numérique ou chaine. Contrairement à une constante, la valeur d'une variable peut changer durant l'éxécution d'un programme. Le nom d'une variable doit commencer avec une lettre et etre suivi par tout nombre de lettre ou de chiffre qui ne contiennent pas de mots réservé du TML BASIC. Un nom de variable peut également contenir le caractère point (.). TML BASIC ne restreint pas la longueur d'un nom mais celui ci doit tenir sur une ligne (255 caractères). La longueur d'un nom n'a pas d'effet sur la taille ou la vitesse d'éxécution d'un programme. Vous devriez donc toujours utiliser des noms très descriptifs indiquant leur sens pour les variables.
+
+TML BASIC supporte six différents types de variables . Le dernier caractère du nom d'une variable détermine son type. Le tableau 7-3 donne la liste des types de caractères autorisés par TML BASIC. Notez que s'il n'apparait pas de type de caractère après un nom de variable, la variable sera traitée comme un réel simple précision.
+
+______________________________________________________________________
+
+                         Tableau 7-3
+               Types de caractères TML BASIC
+
+______________________________________________________________________
+
+%    Entier                    2 octets
+à    Double entier             4 octets
+&    Entier Long               8 octets
+     Réel simple précision     4 octets
+#    Réel double précision     8 octets
+$    Chaine                    2 octets pour une variable chaine
+                               1 octet pour chaque caractère de la
+                               chaine
+                               1 octet pour ranger la longueur de la
+                               chaine
+______________________________________________________________________
+
+
+Les variables sont crées la première fois qu'elles sont utilisées dans un programme. Quand TML BASIC voit un nom de variable dans une instruction, il vérifie tout d'abord si une variable ayant déjà le meme nom a été utilisée dans le code source qui se trouve au dessus de la ligne courante. Si c'est le cas, TML BASIC sais o| dans la mémoire il doit ranger ou lire la valeur de la variable. Sinon, TML BASIC rentre automatiquement le nom de la variable dans sa table de symboles et alloue l'espace de stockage nécessaire pour la variable.
+
+Notez que X%, Xà, X&, X, X# et X$ sont des noms de variable différents.
+
+TML BASIC initialise toutes les variables numériques avec la valeur zéro et toutes les variables chaines avec la chaine vide.
+<page-footer>
+
+
+
+Page 94
+LES VARIABLES RESERVEES
+TML BASIC fourni un ensemble de variables réservées. Une variable réservée est spéciale dans ce sens que dans la plupart des cas, on ne lui alloue pas de mémoire de la façon habituelle. Au lieu de cela, elle est associée avec une caractéristique spéciale du IIGS. Par exemple la variable réservée PI contient la valeur de PI, mais cette valeur est en fait obtenue à l'aide de SANE. 
+
+Les programmes ne peuvent que lire la valeur de la plupart des variables réservées. Toutefois, on peut donner de nouvelles valeurs à quelques variables réservées. On les appele les variables réservées modifiables. La variable réservée HPOS est un bon exemple d'une variable réservée modifiable. HPOS contient la valeur de la position horizontale du curseur de l'écran texte. Quand vous lisez cette variable, en fait, on lit le firmware de l'écran texte pour obtenir cette valeur. Puisque cette variable réservée est modifiable, on peut assigner une nouvelle valeur à HPOS. Dans ce cas, on dit au firmware de l'écran texte de déplacer le curseur horizontalement jusqu'à la nouvelle position.
+
+Le nom d'une variable réservée est l'un des mots réservés de TML BASIC. On parle de toutes les variables réservées dans le chapitRE 10.
+
+LES TABLEAUX
+Un tableau est un ensemble de valeurs du meme type, auquel on se réfère à l'aide du meme nom de variable. Les valeurs individuelles d'un tableau sont appelées des éléments. Les éléments d'un tableau sont également des variables et peuvent etre utilisées n'importe ou o| une variable simple peut etre utilisée. Comme avec les variables, le dernier caractère d'un nom de tableau défini le tupe des éléments du tableau. Le processus de déclaration du type d'éléments et du nombre d'éléments du tableau s'appele le dimensionnement du tableau.
+
+Un élément de tableau peut etre tout type de variable simple : entier, double entier, entier long, réel simple précision, réel double précision et chaine. De plus, TML BASIC supporte un type de tableau spécial appelé tableau structuré. L'élément d'un tableau structuré est un octet valeur entière dont la taille est comprise dans la gamme allant de 0 à 255. Le caractère de type pour un tableau structuré est le point d'exclamation (!). Les tableaux structurés sont décrits plus en détail ci-dessous.
+
+DIMENSIONNEMENT DES TABLEAUX
+L'instruction DIM est utilisée pour déclarer le nom, le type d'élément, le nombre de dimensions et la taille de chaque dimension d'un tableau. Par exemple :
+
+   DIM Ventes%(11)
+
+crée un tableau à une dimension, de nom de variable Ventes%, qui contient 12 éléments entiers, numérotés de 0 à 11.
+<page-footer>
+
+
+
+Page 95
+Notez que parce que le premier élément numéroté est 0, le plus grand nombre d'éléments d'un tableau est la dimension du tableau auquel on ajoute le nombre 1. La variable tableau Ventes% est différente de la variable entière simple Ventes%.
+
+Les tableaux peuvent avoir une ou plusieurs dimensions, jusqu'à un maximum de 8. Un tableau unidimensionnel tel que Ventes% est une simple liste de valeurs. Un tableau à deux dimensions est une matrice de valeurs avec des rangées et des colonnes d'informations. Les tableaux multi-dimensionnels sont également possible, mais n'ont pas de mot propre correspondant.
+
+   DIM array1(4)              'Tableau uni-dimensionnel
+   DIM array2(12,8)           'Tableau Bi-dimensionnel
+   DIM array3(39,3,5)         'Tableau Tri-dimensionnel
+
+Le nombre maximum d'éléments par dimension est 32768. La taille totale maximum d'un tableau unique est de 64K Octets. Vous pouvez avoir autant de tableaux de 64K Octets que la mémoire disponible le permets. Le tableau suivant passe en revue la mémoire nécessaire pour chaque type d'élément et le nombre total d'éléments possibles dans un tableau de 64K Octets
+
+______________________________________________________________________
+
+                         Tableau 7-4
+               Taille des éléments de Tableau TML BASIC
+
+______________________________________________________________________
+
+%    Entier                   2 octets  32768 éléments pour 64K
+à    Double entier            4 octets  16384 éléments pour 64K
+&    Entier long              8 octets   8192 éléments pour 64K
+     Réel simple précision    4 octets  16384 éléments pour 64K
+#    Réel double précision    8 octets   8192 éléments pour 64K
+$    Chaine                   2 octets  32768 éléments pour 64K
+!    Structure                1 octet   65536 éléments pour 64K
+
+______________________________________________________________________
+
+Quand un programme TML BASIC commence son éxécution, tous les éléments de tableau sont initialisés à la valeur 0, sauf dans le cas d'un tableau chaine, ou les éléments sont initialisés à la chaine vide. 
+
+Il est possible de référencer un élément de variable tableau qui n'a pas été déclaré avec une instruction DIM. Si la référence apparait du coté droit d'une instruction LET (assignation), TML BASIC déclare automatiquement le tableau de variable, avec le meme nombre de dimensions qu'il est alors référencé. Chaque dimension contient 11 éléments. TML BASIC déclare le tableau de façon qu'il existe un espace de stockage pour les valeurs qui seront assignées. Par exemple, si l'instruction 
+
+   Countà(2,3) = 55
+<page-footer>
+
+
+
+Page 96
+est éxécutée sans que l'on ait précédemment dimensionné le tableau de variable Countà, alors TML BASIC défini automatiquement le tableau de variable comme si l'instruction 
+
+   DIM Countà(10,10) 
+
+avait précédé l'instruction d'assignation. Ceci est appelé le dimensionnement implicite. On donne automatiquement la valeur initiale de 0 à chaque élément du tableau Countà comme si le tableau avait été déclaré normalement avec l'instruction DIM. 
+
+Si on se réfère à un tableau non déclaré n'importe o| en dehors du coté droit d'une instruction LET, TML BASIC ne déclare pas automatiquement le tableau. Au lieu ce cela, une valeur factice de 0 est renvoyée (ou une chaine vide). Ceci est différent de la plupart des autres basics qui déclarent implicitement un tableau, à chaque fois qu'on s'y réfère. Ainsi, si l'instruction 
+
+   PRINT Countà(4,2)
+
+est éxécutée avant que le tableau Countà soit dimensionné, un 0 est affiché.
+
+C'est en général une bonne pratique de déclarer les tableaux utilisés dans un programme avec l'instruction DIM plutot que de laisser TML BASIC les déclarer automatiquement.
+
+L'ALLOCATION DYNAMIQUE
+Les tableaux déclarés en utilisant l'instruction DIM, ou ceux déclarés par TML BASIC sont connus sous le nom de tableaux dimensionnés statiquement. Ces tableaux ont une taille fixe, déterminée par le nombre et la taille des éléments du tableau. TML BASIC alloue un espace de stockage pour ces tableaux, avant que le programme ne commence son éxécution. Leur taille ne peut pas changer.
+
+Un tableau statique doit etre déclaré avec des valeurs constantes comme taille de ses dimensions. Si une expression ou une variable est utilisée pour dimensionner un tableau statique, TML BASIC vous donnera l'erreur "Static arrays must have constant dimensions" (un tableau statique doit avoir des dimensions constantes). Par exemple, suivent des déclarations utilisant l'instruction DIM de façon illégale :
+
+   DIM Ventes%(NumMonths%)
+   DIM Countà(eltsNeeded%+3)
+
+De plus, un tableau statique dimensionné ne peut pas etre déclaré plus d'une fois dans un programme. Si un programme essaie de déclarer un tableau statique plus d'une fois, on obtient l'erreur "Duplicate declaration of a static array" (nouvelle déclaration d'un tableau statique). Par exemple, ce qui suit n'est pas autorisé en TML BASIC :
+
+   DIM Ventes%(10)
+   DIM Ventes%(20)
+<page-footer>
+
+
+
+Page 97
+Des tableaux dimensionnés statiquement sont très efficaces en TML BASIC, toutefois, certains programmes ont besoin de la possibilité de dimensionner un tableau dynamiquement au moment de l'éxécution. Ceci est fait en utilisant l'instruction TML BASIC DIM DYNAMIC. L'instruction DIM DYNAMIC autorise le programme à utiliser une variable ou une expression comme le nombre d'éléments d'un tableau. Par exemple, un programme pourrait autoriser un utilisateur à rentrer un nombre variable qui serait nombres ventes, dans un tableau.
+
+  INPUT "Combien de nombres de ventes, "; numVentes%
+  DIM DYNAMIC Ventes%(numVentes%)
+  FOR i% = 1 to numVentes%
+      INPUT "Entrer un nombre de vente: "; Ventes%(i%)
+  Next i%
+
+Bien sur, il est encore possible de déclarar des tableaux avec des valeurs de dimension statique. Par exemple, l'instruction suivante crée un tableau de variable dynamique qui contient 30 éléments.
+
+   DIM DYNAMIC Ventes%(29)
+
+Contrairement aux tableaux dimensionnés statiquements, les tableaux dimensionnés dynamiquement, peuvent etre dimensionnés plus d'une fois dans un programme. Ceci permets de changer la taille d'un tableau durant l'éxécution d'un programme, suivant les besoins du programme. Pour désallouer tout l'espace utilisé par un tableau dynamique, utilisez l'instruction ERASE.
+
+Les tableaux dimensionnés statiquement permettent à TML BASIC de générer du code qui est plus rapide et plus petit que le code généré pour les tableaux dynamiques. Un programme ne devrait utiliser des tableaux dynamiques que quand c'est absolument nécessaire.
+
+EVALUATION DE L'INSTRUCTION DIM
+L'instruction DIM fonctionne différemment en TML BASIC des interpreteurs Basic comme le GS BASIC et le Basic Applesoft. De façon différente des interpreteurs, le compilateur TML BASIC traite l'instruction DIM quand un programme est compilé et non pas quand il est éxécuté. Ainsi, TML BASIC détermine le nombre de dimensions et d'éléments d'un tableau et alloue la mémoire pour le tableau avant que le programme soit éxécuté.
+
+Parce que TML BASIC traite un programme dans son ordre textuel plutot que dans son ordre d'éxécution, vous devez faire attention à la façon dont vous utilisez l'instruction DIM. L'exemple suivant s'éxécuterai sans erreur en GS BASIC, mais TML BASIC donnerai une erreur pour l'instruction marquée b. La raison en est que TML BASIC traitera l'instruction marquée a, avant l'instruction qui se trouve juste en dessous. Puisque cette instruction référence le tableau de variable anArr%, qui n'a pas encore été déclaré, TML BASIC déclare implicitement le tableau avec 11 éléments, donc quand l'instruction marquée par b est traitée, TML BASIC retourne l'erreur "Duplicate Declaration On a Static Array".
+<page-footer>
+
+
+
+Page 98
+   GOTO doDIM            'Branche au dimensionnement du tableau
+
+   doLET:
+(a)  LET anArr%(9) = 99  'Assigne la valeur 99 au 9eme élément
+     GOTO Continue       'Continue l'éxécution
+
+   doDIM:
+(b)  DIM anArr%(29)      'Dimensionne le tableau avec 30 éléments
+     GOTO doLET          'Branche à l'assignation de valeur
+
+   Continue:             'Continue l'éxécution du programme
+
+Un autre exemple illustrant cette différence entre TML BASIC et l'interpréteur Basic est montré ci-dessous :
+
+   IF Flag% = 0 THEN DIM anArr%(10)
+   ELSE              DIM anArr%(250)
+
+Une fois encore, TML BASIC vous donnerai l'erreur "Duplicate Declaration On a Static Array" puisqu'il ignore le fait que pendant l'éxécution, seule une des instructions DIM sera éxécutée.
+
+Toutefois, les tableaux déclarés dans des instructions DIM DYNAMIC ne se comportent pas de cette façon. Puisque l'instruction DIM DYNAMIC est évaluée pendant l'éxécution d'un programme, on peut déclarer un tableau et le redeclarer aussi souvent que nécessaire pour le programme. Par exemple :
+
+   IF Flag% = 0 THEN DIM DYNAMIC anArr%(10)
+   ELSE              DIM DYNAMIC anArr%(250)
+
+est autorisé en TML BASIC. Toutefois, il n'est pas possible de redéclarer un tableau en utilisant DIM DYNAMIC après qu'il ait été déclaré avec l'instruction DIM.
+
+LES INDICES (subscripts)
+Les éléments individuels d'un tableau de variable sont sélectionnés en utilisant des indices (des expression entières à l'intérieur de parenthèses, à la droite du nom d'une variable tableau). Par exemple Sales%(3) référence le quatrième élément du tableau de variable Sales%. Il n'est pas autorisé d'utiliser pour un élément de tableau, une valeur d'indice qui n'éxiste pas. Par exemple, les instructions 
+
+   DIM Sales%(11)
+   Sales%(20) = 44
+
+causeront une erreur de Runtime, car le tableau Sales% n'a pas d'élément dont l'indice est 20.
+<page-footer>
+
+
+
+Page 99
+Quand vous référencez un tableau, vous devez également fournir un indice pour chacune des dimensions du tableau. Si un tableau à trois dimensions, vous devez fournir trois valeurs d'indice quand vous référencez le tableau. Si vous fournissez trop peu ou trop d'indices, TML BASIC retournera l'erreur "Array subscript error" (erreur d'indice de tableau).
+
+LES TABLEAUX STRUCTURES
+TML BASIC fourni un type spécial de tableau appelé la structure de tableau pour la manipulation des octets de mémoire. Le caractère de type pour une structure est le point d'exclamation (!). Les structures ne peuvent etre déclarées qu'avec l'instruction DIM et ne sont pas autorisées en tant que variables simples. Les éléments d'un tableau structuré sont des octets de mémoire qui sont traités comme des entiers non signés compris dans la gamme 0 à 255.
+
+On peut se référencer de la façon habituelle aux éléments individuels de tableau structuré. La valeur d'un élément structure est automatiquement convertie en entier, avant d'etre utilisée dans une expression. TML BASIC fourni également des instructions VAR et SET pour la lecture ou l'écriture successive d'octets d'une structure. Voir le chapitre 10 pour plus d'informations sur ces instructions.
+
+Les structures sont typiquement utilisées pour représenter des structures de données qui doivent etre utilisées avec la toolbox du IIGS. Voir le chapitre 13 et l'appendice C pour plus d'exemples sur la façon dont les structures sont utilisées avec la Toolbox.
+
+LES EXPRESSIONS
+Une expression représente une valeur. Une expression est constituée d'un ensemble d'opérandes combinées avec des opérateurs pour produire une valeur quand l'expression est évaluée. Les opérateurs sont des symboles spéciaux qui représentent une opération particulière à éxécuter. Les opérandes sont les constantes, les variables et les appels de fonctions sur lesquelles les opérateurs travaillent. En TML BASIC, il y a deux types d'expression - les expressions chaines et les expressions numériques.
+
+Les expressions chaines sont constituées de constantes chaine, de variables chaine et de fonctions chaine, optionnellement combinées avec l'opérateur de concatenation de chaine (+). Les expressions chaines sont évaluées en une chaine, c'est à dire une séquence de caractères ASCII avec une longueur fixée connue. Des eexemples d'expression chaine peuvent etre :
+
+   "Une traduction de JIHAILDE"
+   str$
+   "Pomme" + gs$
+   LEFT$(a$,5)
+   MID$(UCASE$(a$),4,6)
+
+Les expressions numériques sont constituées de constantes numériques, de variables numériques et de fonctions numériques, optionnellement combinées avec des opérateurs numériques. Les expressions numériques sont évaluées en tous types numériques, parmis les cinq types numériques du TML BASIC (entier, double entier, entier long, réel simple précision et réel double précision) ou en type interne spécial de réel à précision étendue SANE.
+<page-footer>
+
+
+
+Page 100
+Les exemples d'expressions numériques suivent :
+
+   123
+   123 + 4
+   myInt
+   COS(ang)
+   SQR((a^2) + (b^2))
+
+LES OPERATEURS
+Les opérateurs sont les caractères spéciaux des mots réservés qui représentent certaines opérations arithmétiques relationnelles logiques ou chaine à éxécuter. TML BASIC fourni un ensemble extensif d'opérateurs permettant à un programme d'éxécuter toute opération.
+
+Les opérateurs doivent avoir des opérandes compatibles ou sinon TML BASIC donnera l'erreur Type Mismatch Error. C'est à dire qu'un opérateur numérique a besoin que ses deux opérandes soient une valeur numérique, alors qu'un opérateur chaine a besoin que ses opérandes soient des valeurs chaines.
+
+Quand on utilise un opérateur avec des opérandes de type numérique différent, TML BASIC converti automatiquement la valeur numérique qui a la moindre précision et la gamme la moins étendue  en une valeur de plus grande précision et de plus grande étendue. Par exemple, considerez l'expression suivante qui utilise l'opérateur addition pour ajouter la valeur d'une variable entière à une variable double entière :
+
+   myInt% + myDblIntà
+
+Avant que TML BASIC éxécute cette addition, il converti automatiquement la valeur de myInt% en double entier puis éxécute l'addition.
+
+Il y a quatre classes d'opérateurs : arithmétiques, relationnels, logiques et chaine. Chacune de ces classes d'opérateurs est traitée dans les sections suivantes.
+
+LES OPERATEURS ARITHMETIQUES
+Les opérateurs arithmétiques fournis par TML BASIC éxécute les opérations mathématiques traditionnelles sur les valeurs numériques. Le tableau 7-5 donne la liste des opérateurs arithmétiques, avec les opérations qu'ils effectuent.
+<page-footer>
+
+
+
+Page 101
+______________________________________________________________________
+
+                             Tableau 7-5
+                    Opérateurs arithmétiques en TML BASIC
+______________________________________________________________________
+
+     +         Identité (opérateur unaire) (signe plus)
+     -         Négation (opérateur unaire) (signe moins)
+     ^         Exponentionnel
+     *         Multiplication
+     /         Division à virgule flottante
+     DIV       Division entière
+     MOD       Modulo (entier uniquement)
+     REMDR     Reste SANE (reste au sens d'une division)
+     +         Addition
+     -         Soustraction
+
+______________________________________________________________________
+
+Notez que TML BASIC fourni deux opérateurs différents pour la division, entier et virgule flottante. L'opérateur DIV est fourni pour des divisions entières efficaces. L'opérateur DIV converti toujours ses opérandes en entiers, puis éxécute la division pour produire un quotient intégral sans reste. Pour obtenir le reste d'une division entière, on peut utiliser l'opérateur MOD. Comme l'opérateur DIV, ses opérandes sont toujours convertis en entiers avant que l'opération soit éxécutée.
+
+En TML BASIC, l'évaluation d'une opération arithmétique peut quelques fois provoquer une erreur de dépassement (overflow error). Une erreur de dépassement arrive quand le résultat d'une opération produit une valeur qui se trouve en dehors de la capacité de stockage du type numérique utilisé. Par exemple, la portion de code :
+
+   x% = 20000
+   x% = x% + 25000
+
+ dépasse la capacité de stockage du type entier (qui doit etre compris entre -32768 et + 32767), puisque le résultat de l'opérateur addition dans la seconde instruction est 45000. Evidemment, l'addition n'est pas le seul opérateur arithmétique pouvant produire une erreur de dépassement. Considérez la portion de code 
+
+   x% = -20000
+   x% = x% - 25000
+
+Dans cet exemple, le résultat de la soustraction est - 45000, provoquant une nouvelle fois un dépassement de la capacité du type entier. Dans les deux exemples ci-dessus, l'erreur peut etre évitée en utilisant un type numérique qui a une plus grande capacité de stockage, tels que les entiers double.
+<page-footer>
+
+
+
+Page 102
+Il est également possible de provoquer une erreur en effectuant une division par zéro. Cela peut arriver quand le second opérande de l'opérateur /, DIV ou MOD est 0, quand l'opérateur exponentiation (^) est utilisé pour éléver 0 à une puissance négative.
+
+Si un programme est compilé avec la préférence Debug mise en service (voir le chapitre 6 et l'appendice B), TML BASIC génére du code de telle façon que ces deux types d'erreur sont détectés. L'action entreprise quand un dépassement (overflow), ou une erreur due à une division par zéro arrive, dépends de la présence dans le programme d'une instruction ON ERR et dépends du fait de savoir si elle a déjà été éxécutée. Si un programme contient une telle instruction, le controle sera transféré à la liste d'instructions qui suit l'instruction ON ERR pour traiter l'erreur. Sinon, l'éxécution du programme sera avortée et on obtiendra le message d'erreur correspondant, au moment du runtime.
+
+Si un programme est compilé alors que la préférence Debug n'est pas mise en service, un dépassement, ou une division par zéro ne sera pas détecté.
+
+LES OPERATEURS RELATIONNELS
+Les operateurs relationnels en TML BASIC, permettent à un programme de comparer deux valeurs. Le résultat de la comparaison est une valeur boolenne, qui est soit vraie soit fausse. Le résultat de la comparaison est typiquement utilisé pour prendre une décision concernant le déroulement d'un programme, en utilisant les instructions IF, ou DO... WHILE... UNTIL.
+
+Puisque TML BASIC n'a pas de type Boolen spécial, les valeurs vraies et fausses sont exprimées comme des valeurs entières. Toute valeur différente de zéro est considérée vraie, alors que la valeur zéro est considérée fausse. TML BASIC utilise la valeur 1, différente de 0 pour représenter la valeur vraie pour les opérateurs relationnel. Ainsi, l'expression 3 = 3 est vraie et a la valeur de 1, alors que l'expression 3 = 4 est fausse et a la valeur de 0. On considère également que les chaines ont une valeur Boolenne. Si la chaine contient un ou plusieurs caractères, on considère alors qu'elle a une valeur boolenne vraie, alors que les chaines nulles (les chaines avec 0 caractère) sont considérées avoir une valeur fausse.
+
+______________________________________________________________________
+
+                         Tableau 7-6
+               Les opérateurs relationnels TML BASIC
+
+______________________________________________________________________
+
+     =         Egalité
+     <> ou ><  Inégalité
+     <         Inférieur à
+     >         Supérieur à
+     <= ou =<  Inférieur ou égal à
+     >= ou =>  Supérieur ou égal à
+     <=>       Ordonné (par rapport à non ordonné)
+
+______________________________________________________________________
+
+<page-footer>
+
+
+
+Page 103
+Notez que quand les opérateurs arithmétiques et relationnels apparaissent dans la meme expression, les opérateurs arithmétiques sont évalués en premier. Par exemple, l'expression suivante est évaluée vraie si A moins B est inférieure à C plus D.
+
+   A - B < C + D
+
+LES OPERATEURS LOGIQUES
+Les opérateurs logiques éxécutent des opérations logiques (boolennes). Le 
+tableau 7-7 donne la liste des opérateurs logiques disponibles en  TML BASIC.
+
+______________________________________________________________________
+
+                         Tableau 7-7
+               Opérateurs logiques en TML BASIC
+
+______________________________________________________________________
+
+     NOT            Complément logique 
+     AND            Conjonction
+     OR             Disjonction (ou inclusif)
+     XOR            Ou exclusif
+
+______________________________________________________________________
+
+Le tableau suivant illustre le comportement des opérateurs logiques. Les variables x et y peuvent etre de tous types compatibles entre eux. Voir la section sur les opérateurs relationnels, pour une discussion de ce que constituent les valeurs vraies et fausses.
+
+______________________________________________________________________
+
+                         Tableau 7-8
+               Valeurs renvoyées par les opérateurs logiques
+
+______________________________________________________________________
+
+x         y         NOTx      x AND y        x OR y         x XOR y
+
+______________________________________________________________________
+
+Vraie     vraie     fausse    vraie          vraie          fausse
+vraie     fausse    fausse    fausse         vraie          vraie
+fausse    vraie     vraie     fausse         vraie          vraie
+fausse    fausse    vraie     fausse         fausse         fausse
+
+______________________________________________________________________
+
+<page-footer>
+
+
+
+Page 104
+LES OPERATEURS CHAINE
+En TML BASIC, il n'y a qu'un seul opérateur qui renvoie une valeur chaine. C'est l'opérateur concaténation qui est représenté par le symbole +. C'est le meme symbole qui est utilisé pour l'addition, quand ses opérandes ont des valeurs numériques. La concaténation est le processus de combinaison de deux chaines ensembles, afin de faire une seule chaine. Par exemple, la portion de chaine suivante montre comment combiner un nom de volume avec un nom de fichier pour créer le chemin (pathname) complet d'un fichier :
+
+   volName$  = "/TML/"
+   fileName$ = "STRINGS.BAS"
+   pathName$ = volName$ + fileName$
+
+Souvenez vous que les chaines TML BASIC sont limitées à 255 caractères de longueur. Si un programme essaie de créer une chaine qui est plus longue que 255 caractères, TML BASIC n'éxécutera pas la concaténation, mais générera le message "String Too Long Error" (chaine trop longue erreur). 
+
+Les chaines peuvent également etre utilisées avec les opérateurs relationnels. Les comparaisons de chaine sont éxécutées en prenant les caractères correspondants de chaque opérande de chaine et en comparant le code ASCII. Si les codes ASCII sont les memes pour tous les caractères dans les deux chaines, les deux chaines sont considérées égales. Si le code ASCII
+est différent, la chaine contenant le code ASCII le plus bas est considéré inférieur à l'autre. Si la fin d'une chaine est atteinte avant la fin de l'autre chaine, alors la chaine la plus courte est considérée inférieure à l'autre, si jusqu'à ce point elles étaient égales. Les codes ASCII sont listés dans l'Appendice E. Les opérations relationnelles suivantes sont toutes vraies :
+
+   "A" = "A"
+   "A" < "a"
+   "aa" > "aB"
+   "a" <= "aaaa"
+
+Si un programme doit comparer deux chaines sans considérer les majuscules ou les minuscules des lettres alphabétiques, on devrait alors plutot utiliser la fonction UCASE$ (voir chapitre 10).
+
+LA PRIORITE (PRECEDENCE)
+En évaluant des expressions qui contiennent plus d'un opérateur, TML BASIC utilise un ensemble de règles de priorité afin de déterminer quel opérateur il faut évaluer en premier et ainsi quel opérande appartient à quel opérateur. TML BASIC défini trois règles de priorité :
+
+   1. Dans une expression qui contient plus d'un opérateur, l'opérateur qui a la plus grande priorité est évalué en premier.
+
+   2. Si une expression contient deux opérateurs, ou plus, de meme priorité, alors ils sont évalués dans l'ordre, de la gauche vers la droite.
+<page-footer>
+
+
+
+Page 105
+   3. L'utilisation des parenthèses prends le pas sur la priorité d'un opérateur pour forcer un ordre d'évaluation spécifique.
+
+Le tableau 7-9 donne la liste de chacun des opérateurs TML BASIC, depuis la plus haute priorité, jusqu'à la priorité la plus basse.
+
+______________________________________________________________________  
+
+                       Tableau 7-9
+               La priorité des opérateurs en TML BASIC
+
+______________________________________________________________________
+
+          +, -, NOT
+          ^
+          *, /
+          DIV
+          MOD, REMDR
+          +, -
+          =, <>, ><, <, >, <=, =<, >=, =>, <=>
+          AND
+          OR, XOR
+
+______________________________________________________________________
+
+
+Fin du chapitre 7

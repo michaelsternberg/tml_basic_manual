@@ -1,0 +1,130 @@
+Page 19
+CHAPTER 2
+----------
+USE TML BASIC
+------------------
+
+In Chapter 1, you have created a working copy of the TML BASIC distribution diskette. Now it's time to launch TML BASIC and discover some of the possibilities of the program. Before continuing, make sure that you are using a working copy of TML BASIC and that you have placed the TML BASIC original distribution diskette in a safe place.
+
+In this chapter, you will learn the necessary steps to call TML BASIC from the finder, how to execute file manipulation commands. Instead of creating a new basic program that demonstrates the use of these tasks, this chapter will use the sample programs that are in the PART1.EXAMPLES folder on your TML BASIC job disk.
+
+LAUNCH THE BASIC TML
+-------------------
+Insert your working copy of the TML BASIC into the 3P 1/2 floppy disk drive and turn on the computer (boot). When the IIGS boot process is complete, you will be in the presence of the IIGS Finder Office. Figure 2-1 illustrates the desktop appearance after booting the IIGS.
+
+Figure 2-1
+The office of the Apple IIGS
+Refer to the paper documentation
+
+<Page-footer>
+
+
+
+Page 20
+The desktop will appear as shown in Figure 2-1 only if your working copy of TML BASIC contains all the files found on the TML BASIC original distribution disk and if you booted your computer using this disk. The appearance of the desktop will be different if you use other HardWare configurations (ie a hard disk) or if you use another arrangement of the files on your TML BASIC job disk.
+
+Call TML BASIC by clicking the mouse once on the TML BASIC icon on the desktop. Pull down the FILE finder menu (file) and then choose the OPEN command (a double click of the mouse on the TML BASIC icon will give the same result as the OPEN command).
+
+Opening the TML BASIC file will give you a blank screen display and display the TML BASIC logo. This blank screen tells you that TML BASIC is loading into the IIGS memory. Be patient because the IIGS needs a few moments for this operation. Figure 2-2 shows the TML BASIC desktop (main menu) after the program has loaded correctly into memory.
+
+Figure 2-2
+The main menu of TML BASIC
+Refer to the paper documentation
+
+REVIEWING THE INTEGRATED ENVIRONMENT
+-----------------------------------
+TML BASIC was created to fully use the IIGS desktop interface using the mouse, pull-down menus, window, etc. This user-friendly environment makes programming easier because it includes the TML BASIC editor and the compiler in the same working environment.
+<Page-footer>
+
+
+
+Page 21
+The 7 TML BASIC manager menus have been created to logically organize the different commands that you can use in TML BASIC. Using the mouse, pull down each menu to see how easy it is to use TML BASIC. Inside each menu you will find the various TML BASIC commands. Most of the menu commands can be invoked by typing the equivalent command keys (keyboard shortcuts) rather than scrolling down the menu and choosing the command with the cursor. Equivalent command keys are displayed next to each command name in each drop-down menu. Chapter 6 reviews each TML BASIC menu, its corresponding commands, and the equivalent command keys.
+
+Edit windows are the tools that TML BASIC provides you to enter and edit program source code. TML BASIC allows you to have up to four different program source code open at the same time. Each program is placed in a different editing window and is independent of any other open window. There can only be one active editing window at a given time. TML BASIC identifies the active window as the window at the top of the screen. All user commands are executed on the source code contained in the active window. Figure 2-3 illustrates the different components of a typical TML BASIC editing window.
+
+Figure 2-3
+Elements of the edit window
+Refer to the paper documentation
+
+TML BASIC also manages dialog boxes as a means of communication with the user. We will speak individually of the various dialogs used in TML BASIC when appropriate in the rest of this chapter. However, we will talk briefly about what is a dialog box and how it works in the next paragraph.
+<Page-footer>
+
+
+
+Page 22
+A dialog box is a window whose appearance is different from the editing windows used in TML BASIC, ie it does not have a cross title at the top of the screen, nor a bar scrolling and we can not move it anywhere on the screen. A dialog box is used in TML BASIC to provide the user with information he has requested, or to ask the user for information before continuing further. Usually, the dialog boxes include OK and CANCEL buttons (OK or Cancel) and YES and NO buttons (yes or no). These buttons allow you to communicate with TML BASIC to signify when you are done with the dialog box.
+
+OPEN A PROGRAM
+-------------------
+We will begin our visit of the TML BASIC by opening a few applications of the TML BASIC diskette. TML BASIC is able to open up to four editing windows at the same time, each one independent of the others and containing a different program. This feature gives you great flexibility and allows you to study the source code of two or more programs at the same time, and even copy code from one program so you can use it in another. Chapter 4 discusses different techniques for copying source code from one program to another.
+
+We will start by opening the TML BASIC OPEN FILE dialog, which lists the files on the TML BASIC diskette. You can do this by dragging the cursor down the file menu, then releasing the button on the OPEN command, or by typing the keyboard shortcut APPLE O. Whatever the method, the result on the screen should be the one shown in Figure 2-4.
+
+Figure 2-4
+Open file dialog box
+Refer to the paper documentation
+<Page-footer>
+
+
+
+Page 23
+The OPEN FILE dialog box displays the files and folders contained on the TML BASIC diskette. Now, click once on the PART1.EXAMPLES folder and then on the OPEN button. The files in the PART1.EXAMPLES folder now appear in the FILE dialog box as shown in Figure 2-5. Find the file HELLOWORLD.BAS and click the cursor on its name then the OPEN button to open the file.
+
+Figure 2-5
+Folder PART1.EXAMPLES
+Refer to the paper documentation
+
+If your system is running either from a hard drive or from a system with two floppy drives, click the DRIVE button on the OPEN FILE dialog box until you find the PART1.EXAMPLES folder. the sample programs of TML BASIC.
+
+After choosing the example program HELLOWORLD.BAS, its source code is read from the floppy disk and placed in a newly created edit window, whose title is HELLOWORLD.BAS. Now, open a second sample program, DEMO.BAS, from the PART1.EXAMPLES folder, using the same technique as described above.
+
+ORGANIZATION OF THE EDITING ENVIRONMENT
+-------------------------------------------
+Figure 2-6 shows the open windows HELLOWORLD.BAS and DEMO.BAS, which overlap each other. TML BASIC gives you the ability to place open windows anywhere | on the screen, so that you can see the source code in each of the windows. Window organization can be accomplished by either dragging each window with the mouse, or using one of the TML BASIC window commands.
+<Page-footer>
+
+
+
+Page 24
+Figure 2-6
+Overlapping windows
+Refer to the paper documentation
+
+Click once on the title bar of the HELLOWORLD.BAS window using the mouse and drag the window anywhere | on the screen. You may notice that the first time you click the mouse on the window, it immediately turns on the HELLOWORLD.BAS window, if the window was not already active, and places it over the DEMO.BAS window. To change the size of an edit window, you use the magnification box. The magnification box is the small box in the lower right corner of the edit window that contains two small rectangles. Now change the size of the window by clicking the mouse once in the HELLOWORLD.BAS window expansion box and dragging the mouse anywhere | on the screen.
+
+Pull down the Window menu and you will see the TML BASIC window commands. After having mastered the techniques of the mouse to change the position of an open window, pull down the Window menu and choose STACK WINDOWS. This should arrange the windows as they were when first opened, see Figure 2-6.
+
+Now select the NEXT WINDOW command and note how the editor places the HELLOWORLD.BAS window behind the DEMO.BAS window by making it active. Finally, choose TILE WINDOWS and you will get two windows that appear in a TILE format, as shown in Figure 2-7. When two or more windows are open at the same time, placing them in a TILE position allows you to see each program source code at the same time.
+<Page-footer>
+
+
+
+Page 25
+Figure 2-7
+Tiled Windows
+Refer to the paper documentation
+
+INTEGRITY OF THE PROGRAM
+------------------------
+So far, you've learned how to open edit windows (each containing program source code), as well as the different techniques for rearranging windows on the TML BASIC desktop. You can easily open and arrange windows with the three TML BASIC window controls. TML BASIC also provides you with a way to ensure the integrity of your program's source code in case you have unintentionally changed the source code of the program.
+
+The sample programs opened in this chapter will be used again in this manual. Thus, it is important not to modify their original content. By using the REVERT command in the FILE menu, you instruct TML BASIC to ignore any inadvertent changes to the source code of a program since the last time it was saved. By executing this command, TML BASIC re-reads the latest version of the program's source code on disk and places it in the edit window, thus ignoring any changes to the source code.
+
+The REVERT command should be used whenever an unintentional change to the source code of a program has been made. Remember that any changes made to the source code of a program since the last backup will be lost as a result of the REVERT command. TML BASIC will display a dialog box, asking you if you are really sure you want to ignore the changes made to the program before canceling these changes.
+<Page-footer>
+
+
+
+Page 26
+When you close an edit window, or quit TML BASIC, and you have not saved any changes to a program yet, TML BASIC will ask you if you want to save these changes. At this time, you will have one last chance to decide whether or not you want to lose or keep these changes, or if you want to cancel the CLOSE command.
+
+LEAVE BASIC TML
+--------------------
+In this chapter, we have opened two sample programs on the work disk, discussed the placement of windows in the editing environment, and defined a way to avoid unintentional changes to program source code.
+
+Before you finish this chapter, you should close all open windows, exit TML BASIC, and turn off the computer the same way you would clean your desktop before leaving work.
+
+To close the open windows, choose the windows one by one by clicking with the mouse in an open window and then choosing the option CLOSE in the menu FILE (clicking on the closing box of a window will give the same result). If you have made changes to the source code of a program, the CLOSE FILE dialog will appear asking you if you want to save these changes. Be sure to click on the NO button, which will ensure the integrity of the source code of the original program. After closing the two files, choose the QUIT option from the FILE menu to exit TML BASIC and return to the desktop finder.
+
+End of Chapter 2

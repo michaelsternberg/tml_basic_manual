@@ -1,0 +1,2687 @@
+
+
+
+
+
+Page 222
+LEFT$  Fonction
+---------------
+
+Syntaxe
+
+  LEFT$(ExpressionChaine, ExpressionNumérique)
+
+Action
+
+La fonction LEFT$ renvoie une chaine ayant un nombre de caractères égal à ExpressionNumérique, cette chaine étant la chaine la plus à gauche dans la chaine ExpressionChaine
+
+ExpressionChaine peut etre toute variable chaine, constante chaine ou expression chaine. Si ExpressionNumérique est une valeur réelle, elle est arrondie au nombre entier supérieur. La valeur de ExpressionNumérique peut etre un entier dans la gamme 1 à 255, sinon on obtiendra l'erreur : "illegal quantity error". Pour trouver le nombre de caractères dans la chaine, utiliser la fonction LEN.
+
+Voir aussi
+   LEN
+   MID$
+   RIGHT$
+
+Exemple
+PRINT LEFT$("TML BASIC IS GREAT",9)
+
+Résultat obtenu
+TML BASIC
+<page-footer>
+<page-break>
+
+Page 223
+LEN  Fonction
+-------------
+
+Syntaxe
+
+   LEN(ExpressionChaine)
+
+Action
+
+La fonction LEN renvoie un nombre entier, qui est le nombre de caractères de ExpressionChaine.
+
+Exemple
+Nom$= "TML BASIC"
+PRINT LEN(Nom$)
+
+Résultat obtenu
+9
+<page-footer>
+<page-break>
+
+Page 224
+LET  Instruction
+
+Syntaxe
+   <LET> VariableName = AnyExpression
+
+Action
+L'instruction LET également connue comme l'instruction d'assignation, assigne la valeur de AnyExpression à la variable VariableName. VariableName peut etre une variable simple ou un élément d'un tableau. Seulement une assignation par affirmation est autorisée. Notez que le mot réservé LET est optionnel.
+Si le type de variable VariableName est de type numérique, alors AnyExpression peut etre n'importe quoi de type numérique. TML BASIC converti automatiquement la valeur de NumeriqueExpression dans le type de variable correspondant si le type numérique est absent. Pour finir, si la valeur ne peux pas etre représentée dans ce type, alors on obtient l'erreur "Overflow Error". Une erreur "Type Mismatch Error" intervient si AnyExpression est une expression chaine.
+
+Si la variable est une chaine, alors AnyExpression doit aussi etre une chaine, sinon on obtient une erreur "Type Mismatch Error".
+
+Voir aussi
+   FN =
+   Chapitre 7, Arrays
+
+Exemple
+LET Valeur1 = 30
+LET Valeur2 = 23
+LET Valeur3 = 8
+LET Somme = Valeur1 + Valeur2 + Valeur3
+
+OU 
+
+Valeur1 = 30
+Valeur2 = 23
+Valeur3 = 8
+Somme = Valeur1 + Valeur2 + Valeur3
+<page-footer>
+<page-break>
+
+Page 225
+LIBRARY  Instruction
+--------------------
+
+Syntaxe
+
+   LIBRARY <PathName>
+
+Action
+
+L'instruction LIBRARY est utilisée dans un programme pour charger un fichier Librairie compilé en mémoire, et entrer toutes les déclarations de procédure et de fonctions de la librarie dans le tableau de symboles du programme, comme si les déclarations avaient été faites dans le code source. Il y a deux types de librairie en TML BASIC, des librairies définies par l'utilisateur crées par l'instruction DEF LIBRARY et des librairies prédéfinies permettant l'accès à la TOOLBOX. 
+
+L'instruction LIBRARY peut apparaitre n'importe ou dans un programme. 
+Avant que TML BASIC compile un programme, il recherche d'abord dans le fichier toutes les occurences de l'instruction LIBRARY. A chaque instruction LIBRARY rencontrée, ces déclarations sont entrées dans le tableau de symboles du programme et les rends disponibles pour tout le programme. 
+
+Les instructions LIBRARY dont les noms prédéfinissent des librairies TOOLBOX ont un autre but. Comme défini dans le chapitre 11 plusieurs des ToolSet (Ensembles d'outils) de la Toolbox (Boite à outils) ne sont pas disponibles en ROM et sont contenus sur des fichiers disques, devant etre chargés en RAM. Quand une instruction LIBRARY nomme un TOOLSET qui n'est pas en ROM, TML BASIC génère automatiquement le code pour charger le fichier disque en RAM. 
+
+Quand un nom de librairie est spécifié dans l'instruction LIBRARY, TML BASIC cherche parmis le fichier des librairies compilées. Le fichier librairie n'est pas le code source pour la librairie, mais sa déclaration et son code compilé. Comme décrit dans le chapitre 3, le nom d'un fichier librairie est le nom de la librairie avac le suffixe ".LIB". Par exemple, le nom du fichier librairie pour QUICKDRAW est QUICKDRAW.LIB.
+
+TML BASIC cherche à trois endroits différents pour trouver un fichier librairie. En premier, il recharge pour voir si la librairie est déjà en mémoire. En deuxième, il recherche dans le meme dossier que le code source contenant l'instruction LIBRARY. Et finallement, si le fichier n'est pas trouvé dans le dossier, il recherche dans le directory spécifié dans l'option 'chemin de recherche de librairie' (Library Search Path) de la procédure Dialogue Préférences (voir le chapitre 6 pour plus de détails sur ce Dialogue Préférences). Si le fichier n'est pas trouvé dans un de ces trois endroits, alors TML BASIC renvoie une erreur. Toutefois, il est possible de diriger TML BASIC en spécifiant le chemin complet du fichier librairie.
+<page-footer>
+<page-break>
+
+Page 226
+Voir aussi
+   DEF LIBRARY
+   Chapitre 8
+   Chapitre 11
+
+Exemple
+LIBRARY "Memory"
+LIBRARY "QuickDraw"
+LIBRARY "/TML/LIBRARIES/QUICKDRAW"
+<page-footer>
+<page-break>                         
+
+Page 227
+LOCAL  Instruction
+------------------
+
+Syntaxe
+
+   LOCAL VariableName <,VariableName>
+
+Action
+
+L'instruction LOCAL est autorisée uniquement à l'intérieur d'une fonction ou d'une procédure multi-lignes. LOCAL est utilisée pour déclarer une variable simple comme une variable locale temporaire à l'usage unique de la procédure ou de la fonction. Les tableaux locaux ne sont pas supportés
+
+Quand une procédure ou une fonction est appelée, le stockage pour les variables locales est temporairement alloué et initialisé à zéro ou à la valeur chaine nulle. Quand la procédure ou la fonction se termine, le stockage est désalloué. Les variables locales ne conservent pas leur valeur entre les appels. On considère comme une bonne pratique de programmation, l'usage de variantes FN= des instructions d'assignation à l'intérieur d'une procédure ou d'une fonction pour s'assurer qu'uniquement des références à des variables locales sont faites. L'utilisation de l'instruction FN= permet également un code Auto-documenté.
+Les instructions LOCAL dans une procédure ou une fonction doivent apparaitre immédiatement après les instruction DEF PROC ou DEF FN et avant toute autre instruction à l'exception de l'instruction REM 
+
+Voir aussi
+   DEF FN
+   DEF PROC
+   FN =
+   Chapitre 8, Local variables
+
+Exemple
+DEF PROC MoyenneTrois (Val1,Val2,Val3)
+LOCAL Somme
+LOCAL Moyenne
+FN Somme = Val1 + Val2 + Val3
+FN Moyenne = Somme/3
+PRINT "La moyenne est : ";Moyenne
+END PROC MoyenneTrois
+<page-footer>
+<page-break>
+
+Page 228
+LOCATE  Instruction
+-------------------
+
+Syntaxe
+
+   LOCATE <Rangée><,Colonne>
+
+Action
+
+L'instruction LOCATE est utilisée pour changer les valeurs de position horizontale et verticale du curseur de l'écran texte. Cette instruction reproduit essentiellement les fonctionnalités des variables réservées HPOS et VPOS. 
+Rangée et Colonne doivent des expressions numériques. L'argument Rangée change la position verticale du curseur, prends la valeur spécifiée et doit etre compris dans la gamme 1 à 24. L'argument Colonne change la position horizontale du curseur et doit etre compris dans la gamme 1 à 80. Les arguments rangée et colonne sont optionnels. Si uniquement l'un des arguments apparait, l'autre composant de la position du curseur n'est pas affectée. Evidemment, l'utilisation de l'instruction LOCATE sans aucun argument n'a aucun sens, mais est tout de meme autorisé.
+
+Voir aussi
+   HPOS et VPOS
+
+Exemple
+LOCATE 5,2 : PRINT "HELLO"     'Change la position Verticale et                                         horizontale du curseur
+LOCATE ,10 : PRINT "Au revoir" 'Change seulement la position                                           horizontale du curseur
+LOCATE 6   : PRINT "Bonjour"   'Change seulement la position                                            verticale du curseur
+<page-footer>
+<page-break>
+
+Page 229
+LOCK et UNLOCK  Instruction
+---------------------------
+
+Syntaxe
+
+   LOCK PathName
+   UNLOCK PathName
+
+Action
+
+Les instructions LOCK et UNLOCK sont utilisés pour changer la protection en écriture d'un fichier.
+
+L'instruction LOCK interdit l'écriture, la sauvegarde et l'effacement d'un fichier nommé dans PathName. PathName est une expression chaine et doit représenter un PathName Prodos 16 autorisé. Un volume ne peux pas etre vérouillé, mais on peux vérouiller des sous-répertoires.
+Tout essai subséquent pour changer le contenu d'un fichier vérouillé entrainera l'erreur "File Locked".
+
+UNLOCK enlève la protection en écriture d'un fichier préalablement protégé par LOCK. Un fichier dévérouillé peut etre effacé, sauvegardé, renommé ou sauvegardé.
+
+Voir aussi
+   Chapitre 9, Fichiers
+
+Exemple
+LOCK MonFichier$
+UNLOCK MonFichier$
+LOCK "/TML/PART1.EXAMPLES/HELLOWORLD.BAS"
+<page-footer>
+<page-break>
+
+Page 230
+LOG, LOGB%,LOG1 et LOG2 Fonctions
+---------------------------------
+
+Syntaxe
+
+   LOG(X)
+   LOGB%(X)
+   LOG1(X)
+   LOG2(X)
+
+Action
+
+L'instruction LOG renvoie le logarithme naturel de X. Le logarithme naturel a pour base e.
+
+L'instruction LOGB% renvoie l'exposant binaire de la valeur réelle X en tant que nombre entier signé.
+
+L'instruction LOG1 calcule de façon précise le logarithme naturel de 
+X + 1. Si X est petit, alors le calcul de LOG1 est plus précis que LOG(X+1)
+
+L'instruction LOG2 renvoie le logarithme en base 2 de X.
+Pour ces 4 instructions, X est une expression numérique.
+
+Exemple
+PRINT LOG(EXP(1))
+PRINT LOGB%(100.0)
+PRINT LOG1(EXP(1))
+PRINT LOG2(32)
+
+Résultat obtenu
+1
+6
+1.3132632
+5
+
+<page-footer>
+<page-break>
+
+Page 231
+MENUDEF  Instruction
+--------------------
+
+Syntaxe
+
+   MENUDEF ItemNumber, Label <,Label>
+
+Action
+
+L'instruction MENUDEF est utilisée pour stocker des labels de sous-programmes dans le Menu Item Dispatch Table (Table des sous-menus des menus déroulants). Le Menu Item Dispatch Table est une structure spéciale de données définie par TML BASIC pour diriger le controle du programme vers les sous-routines proposées dans les menus déroulants. L'instruction MENUDEF travaille en coordination avec les instructions TASKPOLL et EVENTDEF.
+
+La 'Menu Item Dispatch Table' a 128 entrées numérotées de 0 à 127. Comme indiqué au chapitre 13, chaque menu déroulant contient un ou plusieurs sous-menus. Chaque sous-menu est associé à un numéro d'identification de sous-menu (Menu Item Identification Number : Menu Item ID). Les menu item IDs pour les menus crées par les programmes TML BASIC doivent etre compris dans la gamme 250 à 377 inclus. Ces menu item IDs correspondent directement aux entrées de la 'menu item dispatch table'. Le plan des numéros d'identification de sous-menus vers les entrées de la Dispatch Table est effectué en soustrayant 256 à la valeur du numéro d'identification du sous-menu.
+
+Quand l'instruction TASKPOLL est exécutée, et qu'elle détecte l'évenement dans la barre des menus, le controle est transféré aux sous programmes de manipulation du sous-menu spécifié dans le 'menu item dispatch table'. Pour que cela arrive, l'Event Dispatch Table (table des évenements menus) pour l'évenement de la barre des menus doit etre zéro (index 17), sinon, le controle est transféré à la sous routine de manipulation des evenements qui y est spécifié. Si l'index 17 de la table des évenements menus est vide, TASKPOLL soustrait 250 du numéro d'identification du sous-menu sélectionné et regarde les sous-routines de manipulation de sous-menu dans la Menu Dispatch Table. Si une sous-routine a été définie, le controle est transféré au sous-programme spécifié, sinon TASKPOLL continue l'éxécution normale. Les sous routines de manipulation de sous menus se terminent avec l'instruction RETURN 0 au lieu de l'instruction normale RETURN.
+
+Voir aussi
+   EVENTDEF
+   TASKPOLL
+
+Exemple
+MENUDEF 0, doNouveau
+MENUDEF 1, doOuvrir
+MENUDEF 2, doFermer
+<page-footer>
+<page-break>
+
+Page 232
+MID$  Fonction
+--------------
+
+Syntaxe
+
+   MID$(ExpressionChaine, Début <,Longueur>)
+
+Action
+
+L'instruction MID$ renvoie une chaine de caractères de longueur Longueur, contenu dans ExpressionChaine, cette chaine commençant au caractère numéroté Début. Début et Longueur doivent etre des expressions numériques dont la valeur se situe dans la gamme 1 à 255 sinon on obtient le message "Illegal Quantity Error". Si le paramètre Longueur n'apparait pas, ou s'il y a moins de caractères à droite que le début de caractères, l'instruction MID$ renvoie tous les caractères les plus à droite. Si début est plus grand que le nombre de caractères de la chaine, MID$ renvoie une chaine vide.
+
+Pour déterminer le nombre de caractères d'une chaine, utiliser la fonction LEN.
+
+Voir aussi
+   LEFT$
+   LEN
+   RIGHT$
+
+Exemple
+INPUT "Nombre binaire = ";Binaire$  'Entrée d'un nombre binaire sous                                        forme de chaine
+ValDécimaleà = 0
+FOR i% = 1 to LEN(Binaire$)
+    Chiffre$ = MID$(Binaire$, i%, 1) 'Prendre les chiffres                                                   individuellement
+    ValDécimaleà = 2 * ValDécimaleà + VAL(Chiffre$)
+NEXT i%
+
+Print "Nombre décimal = "; Valdécimaleà
+
+Résultat obtenu
+Nombre binaire = 101001
+Nombre décimal = 41
+
+<page-footer>
+<page-break>
+
+Page 233
+NEGATE   Fonction
+-----------------
+
+Syntaxe
+
+   NEGATE(NumericExpression)
+
+Action
+
+La fonction NEGATE retourne la négation de NumericExpression, c'est à dire -NumericExpression. Cette fonction apparemment simple est incluse dans TML BASIC à cause de l'infinité spéciale et des NaN résultat possibles en utilisant la possibilité de virgule flottante SANE du IIGS.
+
+Voir aussi
+
+   Chapitre 7
+
+Exemple
+
+   someValue = 5.2394
+   PRINT NEGATE(someValue)
+
+Résultat obtenu 
+
+   -5.2394
+<page-footer>
+<page-break>
+
+Page 234
+NORMAL   Instruction
+--------------------
+
+Syntaxe
+
+   NORMAL
+
+Action
+
+L'instruction NORMAL est utilisée pour changer l'affichage des tous les caractères subséquents écrits sur l'écran texte, en vidéo normale, à l'opposé de la vidéo inverse. Si vous utilisez un moniteur monochrome, NORMAL provoque l'affichage des caractères en blanc sur un fond noir. Si vous utilisez un moniteur couleur, l'effet dépendra des réglages de votre moniteur. Dans ce cas, il est plus approprié d'utiliser les termes d'arrière plan et de premier plan de texte en couleur.
+
+NORMAL n'affecte pas de caractères qui sont déjà affichés sur l'écran, mais seulement la sortie sur l'écran après que l'instruction NORMAL ait été éxécutée. NORMAL n'affecte pas les caractères écrits sur un fichier.
+
+Voir aussi
+
+   INVERSE
+
+Exemple
+
+   NORMAL
+   PRINT "Ceci est l'affichage normal"
+   INVERSE
+   PRINT "Ceci est l'affichage en inverse"
+
+<page-footer>
+<page-break>
+
+Page 235
+ON BREAK et OFF BREAK   Instructions
+------------------------------------
+
+Syntaxe
+
+   ON BREAK statementlist
+   OFF BREAK
+
+Action
+
+L'instruction ON BREAK est utilisée dans un programme pour controler quelle action à entreprendre quand un caractère control C (un caractère de break) est tapé au clavier. L'instruction ON BREAK est un cas spécial de l'instruction ON ERR, utilisée pour manipuler toutes les autres erreurs de Runtime. L'instruction ON BREAK peut etre utilisée pour activer un mécanisme de gestion de BREAK. 
+
+Quand un caractère control C est tapé et que l'instruction ON BREAK a été éxécutée, le controle sera temporairement suspendu et transféré à la séquence d'instruction qui suit l'instruction ON BREAK. Après que le BREAK ait été géré le controle peut reprendre au point précédant en éxécutant l'instruction RESUME.
+
+L'instruction OFF BREAK annule l'instruction ON BREAK. S'il n'y a pas d'instruction ON BREAK active quand control C est tapé, l'éxécution du programme se termine.
+
+Si l'instruction BREAK OFF a été éxécutée, TML BASIC ne vérifie pas que le caractère control C est tapé. Ainsi, il est impossible d'utiliser le mécanisme utilisateur BREAK pour tranférer le controle à la liste d'instructions ON BREAK, ou pour avorter le programme. BREAK ON remet en service la vérification du caractère control C.
+
+Voir aussi
+
+   BREAK ON et BREAK OFF
+   ON ERR
+   RESUME
+
+Les différences entre Compilateur et Interpreteur.
+L'instruction ON BREAK nécessite la génération d'une importante quantité de code par TML BASIC. Puisque la plupart des programmes 
+n'utilise pas l'instruction ON BREAK, TML BASIC autorise de mettre hors service la génération de code nécessaire pour supporter cette instruction. Ceci est fait en mettant hors service l'option On Error dans le Preferences Dialog, ou en utilisant la Métainstruction $OnError. Si la génération de code OnError est mise hors service et qu'un programme utilise cette instruction, TML BASIC vous donnera l'erreur :
+
+   "On Error option must be ON for this Statement."
+   (L'option On Error doit etre sur ON pour cette instruction)
+<page-footer>
+<page-break>
+
+Page 236
+De plus, vous devez dire à TML BASIC de générer du code pour la vérification du caractère control C. Ceci est effectué en mettant en service l'option Keyboard Break dans le preferences dialog, ou en utilisant la métainstruction $KeyboardBreak. Si vous utilisez  l'instruction ON BREAK (et que $On Error est ON) et que vous oubliez de mettre en service l'option Keyboard Break, TML BASIC donnera l'erreur :
+
+   "Keyboard Break must be ON for this Statement"
+   (Keyboard Break doit etre sur ON pour cette instruction)
+
+Exemple
+
+   ON BREAK GOTO HandleBreak
+
+   Wait:
+       PRINT "Attends un break"
+       GOTO Wait
+
+   HandleBreak
+       PRINT "Un break est intervenu"
+       GET$ A$
+       IF A$= "." THEN END
+       RESUME
+<page-footer>
+<page-break>
+
+Page 237
+ON EOF# et OFF EOF#   Instructions
+----------------------------------
+
+Syntaxe
+
+   ON EOF# FileNumber StatementList
+   OFF EOF# FileNumber
+
+Action
+L'instruction ON EOF# permets à un programme de controler quelle action entreprendre quand on a essayé de lire un fichier au delà de son marqueur de fin de fichier. Si une instruction ON EOF# a été éxécutée au préalable, au moment ou on dépasse le marqueur de fin de fichier, le controle du programme est transféré de façon inconditionnelle à la séquence d'instructions qui se trouve après l'instruction ON EOF#. FileNumber doit etre le numéro de référence d'un fichier ouvert.
+
+L'instruction OFF EOF# annule le piégage de fin de fichier qui a été activé avec l'instruction ON ERR#. Si un programme essaie de lire au delà de la fin d'un fichier et qu'il n'y a pas d'instruction ON EOF# active, le mécanisme standard d'erreur TML BASIC est utilisé. C'est à dire que si une instruction ON ERR est active, la séquence d'instructions associée avec l'instruction ON ERR est éxécutée, sinon l'éxécution est avortée.
+
+De façon différente des instructions ON BREAK, ON KBD, ON ERR et ON EXCEPTION, le controle du programme est branché inconditionnellement à la séquence d'instructions qui suit ON EOF#. Vous ne pouvez pas utiliser des instructions RETURN ou RESUME quand vous gérez une erreur de fin de fichier. L'instruction ON EOF# ne nécessite pas que la métainstruction $OnError soit ON.
+
+Voir aussi
+
+   EOF
+   EOFMARK
+   Chapitre 9
+
+Exemple
+
+   OPEN someFile$, AS #1
+
+   ON ERR #1 GOTO EofRencontré
+
+   NextLine:
+       INPUT #1; Line$
+       PRINT Line$
+       GOTO NextLine
+
+   EofRencontré:
+       PRINT "EOF rencontré pour le fichier "; EOF
+       CLOSE #1
+       END
+<page-footer>
+<page-break>
+
+Page 238
+ON ERR et OFF ERR    Instructions
+---------------------------------
+
+Syntaxe
+
+   ON ERR StatementList
+   OFF ERR
+
+Action
+
+L'instruction ON ERR est utilisée dans un programme pour décider quelle action entreprendre quand une erreur de Runtime se produit. 
+
+Quand une erreur de Runtime comme "Overflow Error" ou "Illegal Quantity Error" se produit, et que l'instruction ON ERR a été éxécutée, l'éxécution du programme est suspendue temporairement et le controle est transferé à la séquence d'instructions qui suit l'instruction On Err. Après que l'erreur ait été gérée, le programme peut reprendre son éxécution normale, au point o| il en était en éxécutant l'instruction RESUME, ou à l'instruction suivant l'erreur, en éxécutant l'instruction RESUME NEXT.
+
+La variable réservée ERR, peut etre utilisée dans la séquence d'instructions gérant l'erreur, afin de déterminer exactement quelle erreur de Runtime s'est produite et d'agir en conséquence.
+
+Si un programme contient plus d'une instruction ON ERR, l'instruction ON ERR la plus récemment éxécutée est celle qui gérera l'erreur. Une erreur utilisateur Break (en tapant control C) est gérée séparemment par l'instruction ON BREAK.
+
+Voir aussi   
+
+   ON BREAK
+   RESUME
+
+Différences entre compilateur et enterpreteur
+L'instruction ON ERR nécessite la génération d'une importante quantité de code par TML BASIC. Puisque de nombreux programmes n'utilisent pas l'instruction ON ERR, TML BASIC vous permets de mettre hors service cette génération de code nécessaire pour supporter cette instruction. Ceci est effectué en mettant hors service l'option On Error dans le Preferences Dialog, ou en utilisant la métainstruction $OnError. Si la génération de code On Error est mise hors service et qu'un programme utilise cette instruction, TML BASIC donnera l'erreur :
+
+   "On Error option must be ON for this Statement"
+   (l'option On Error doit etre sur ON pour cette instruction)
+<page-footer>
+<page-break>
+
+Page 239
+De plus, vous devriez dire à TML BASIC de générer du code de débuggage pour vérifier les erreurs de runtime telles que "Overflow Error", "Illegal Quantity Error", etc... Ceci est réalisé en mettant en service l'option Debug dans le preferences dialog, ou en utilisant la métainstruction $Debug.
+
+Exemple
+
+   ON ERR GOTO HandleError
+
+   X% = 20000
+   X% =X% + 15000
+   PRINT "X%=";X%
+   END
+
+   HandleError:
+     IF ERR = 1 THEN            'Une erreur de dépassement (Overflow)
+        X% = 0
+        RESUME
+     ELSE
+        PRINT "Erreur de Runtime = "; ERR
+        END
+     END IF
+
+Résultat obtenu
+
+   X%=15000
+<page-footer>
+<page-break>
+
+Page 240
+ON EXCEPTION et OFF EXCEPTION   Instructions
+--------------------------------------------
+
+Syntaxe
+
+   ON EXCEPTION StatementList
+   OFF EXCEPTION
+
+Action
+
+L'instruction ON EXCEPTION est une version séparée de l'instruction ON ERR pour les erreurs qui arrivent pour les calculs mathématique en virgule flottante. TML BASIC gére des opérations à virgule flottante en utilisant SANE, l'outil à virgule flottante incorporé. SANE défini plusieurs conditions d'erreur pouvant se produire alors que l'on éxécute des opérations à virgule flottante. Elles sont :
+
+. Opération invalide (telle que SQRT(-2))       (Invalid Operation)
+. Dépassement de capacité par valeur supérieure (Overflow)
+. Dépassement de capacité par valeur inférieure (Underflow)
+. Division par zéro                             (Divide by zero)
+. Comparaison non ordonnée                      (Unordered compare)
+. Résultat inéxact                              (Inexact result)
+
+Il est possible de définir laquelle de ces erreurs est signalée à un programme TML BASIC en utilisant l'instruction EXCEPTION ON.
+
+L'instruction ON EXCEPTION est utilisée dans un programme pour controler quelle action entreprendre quand l'instruction EXCEPTION ON a défini que certaines erreurs en virgule flottante devraient etre signalées. Le comportement de l'instruction ON EXCEPTION est exactement le meme que celui de l'instruction ON ERR. Voir la description de cette instruction pour plus d'informations.
+<page-footer>
+<page-break>
+
+Page 241
+ON KBD et OFF KBD   Instructions
+--------------------------------
+
+Syntaxe
+
+   ON KBD StatementList
+   OFF KBD
+
+Action
+
+On utilise l'instruction ON KBD pour que le programme éxécute automatiquement une séquence d'instructions à chaque fois qu'il détecte qu'une touche de clavier est enfoncée.
+
+Après l'éxécution de l'instruction ON KBD, le programme continue son éxécution normale, mais aussitot que l'on appuie sur une touche, le programme se branche à la séquence d'instructions incluses dans l'instruction ON KBD. Notez que quand l'instruction ON KBD est rencontrée pendant l'éxécution normale du programme, les instructions qui suivent les mots réservés ON KBD ne sont pas éxécutées.
+
+Le branchement à la liste d'instructions ON KBD est traité comme un GOSUB se branchant vers un sous programme. Donc la séquence d'instruction doit se terminer avec l'instruction RETURN pour que le programme continue son déroulement normal. Après qu'une touche ait été enfoncée, l'instruction ON KBD est mise hors service. Pour réactiver l'instruction, on doit utiliser l'instruction  ON KBD à nouveau.
+
+Pour mettre hors service l'instruction ON KBD, il faut éxécuter l'instruction OFF KBD.
+
+Notez que quand l'instruction ON KBD est active, le programme ne peut pas etre avorté au moyen du caractère control C. Ceci car control C est traité comme tout autre caractère du clavier et que le programme controle le transfère à la séquence d'instructions qui suit l'instruction ON KBD.
+
+Voir aussi
+
+   GOSUB
+   KBD
+
+Exemple
+
+   ON KBD GOTO MontreTouche       'Active l'évenement détection touche
+
+   Wait: GOTO Wait                'Boucle attente de touche
+
+   MontreTouche:
+       PRINT "La touche = ";KBD
+       IF KBD = ASC(".") THEN END 'Quitte quand touche point appuyée
+       ON KBD GOTO MontreTouche   'Réactive la détection touche
+       RETURN
+<page-footer>
+<page-break>
+
+Page 242
+ON... GOSUB   Instruction
+-------------------------
+
+Syntaxe
+
+   ON NumericExpression GOSUB Label <,Label>
+
+Action
+
+L'instruction ON... GOSUB est utilisée pour provoquer le branchement d'un programme vers un sous programme, ce branchement dépendant de la valeur de NumericExpression. Après le mot réservé GOSUB, on trouve une liste de 1 ou plusieurs labels séparés par des virgules. Les labels doivent désigner des sous programmes se terminant avec l'instruction RETURN.
+
+La valeur de NumericExpression détermine quel sous programme est éxécuté. La valeur de NuméricExpression doit etre un entier compris entre 0 et 255. Si la valeur est égale à 1, le control est transféré au sous programme désigné par le premier label. Si la valeur est égale à deux, le control est transféré au sous programme désigne par le second label etc... Si la valeur est égale à zéro, ou plus grand que le nombre de labels spécifié, l'instruction est ignorée et l'éxécution continue avec l'instruction suivante.
+
+Voir aussi
+
+   GOSUB
+   ON... GOTO
+   Chapitre 7, Labels
+   Chapitre 8, Sous programmes
+
+Exemple
+PRINT "Database options..."
+PRINT "   1) Sort"
+PRINT "   2) Print"
+PRINT "   3) Enter record"
+PRINT "   4) Delete record"
+PRINT "   5) Quit"
+PRINT "Enter selection : ";
+GET$ Option$
+Option% = ASC(Option$) - ASC("1") + 1
+ON Option% GOSUB doSort,doPrint,doEnter,doDelete,doQuit
+<page-footer>
+<page-break>
+
+Page 243
+ON... GOTO   Instruction
+------------------------
+
+Syntaxe
+
+   ON NumericExpression GOTO Label <,Label>
+
+Action
+
+L'instruction ON... GOTO est utilisée pour provoquer le branchement du programme vers un label d'après la valeur de NumericExpression. Après le mot réservé GOTO, on trouve une liste de 1 ou plusieurs labels, séparés par des virgules.
+
+La valeur de NumericExpression détermine le label auquel l'éxécution du programme est transféré. La valeur de NumericExpression doit etre comprise entre 0 et 255. Si la valeur est égale à 1, le controle est transféré à l'instruction désignée par le premier label. Si la valeur est égale à 2, le controle est transféré à l'instruction désignée par le second label, etc... Si la valeur est égale à 0 ou supérieure au nombre de labels spécifié, l'instruction est ignorée et l'éxécution continue avec l'instruction suivante. 
+
+Voir aussi
+
+   GOTO
+   ON... GOSUB
+   Chapitre 7, Labels
+
+Exemple
+PRINT "Database options..."
+PRINT "   1) Sort"
+PRINT "   2) Print"
+PRINT "   3) Enter record"
+PRINT "   4) Delete record"
+PRINT "   5) Quit"
+PRINT "Enter selection : ";
+GET$ Option$
+Option% = ASC(Option$) - ASC("1") + 1
+ON Option% GOTO doSort,doPrint,doEnter,doDelete,doQuit
+<page-footer>
+<page-break>
+
+Page 244
+ON TIMER et OFF TIMER   Instructions
+------------------------------------
+
+Syntaxe
+
+   ON TIMER(seconds) StatementList
+   OFF TIMER
+
+Action
+
+ON TIMER permets le piegage d'événement en utilisant la possibilité d'interruption d'une seconde de l'horloge IIGS. Seconds est une expression entière qui gère un intervalle de compte à rebours de décomptage qui prends la valeur de seconds. Seconds doit etre compris entre 2 et 86400.
+
+Quand le compteur d'interval atteint la valeur de zéro, le compte à rebours est terminé et le programme se branche (comme un GOSUB) sur la liste d'instructions (StatementList) de ON TIMER, depuis l'instruction en cours du programme qui est terminé. StatementList doit se terminer avec une instruction RETURN pour redonner le controle à l'instruction séquentielle suivante du programme.
+
+Le décomptage du TIMER est seulement approximatif et ne garanti pas une durée précise. Certaines opérations ayant une priorité supérieure telle que les entrées et sorties disque ou les communications appletalk peuvent meme provoquer l'arret des interruptions du TIMER pour plus d'une seconde. L'instruction ON TIMER n'aura pas d'effet à moins que l'interruption de plus d'une seconde soit autorisée par l'instruction TIMER ON.
+
+OFF TIMER désactive l'instruction  ON TIMER éxécutée la plus récemment.
+
+Voir aussi
+   
+   GOSUB
+   RETURN
+   TIMER ON
+<page-footer>
+<page-break>
+
+Page 245
+OPEN   Instruction
+------------------
+
+Syntaxe
+
+   OPEN Pathname, <FILTYP= DIR I TXT I SRC I BDF I Filetype>
+        <FOR INPUT I OUTPUT I APPEND I UPDATE> AS # FileNumber                 <,RecordSize>
+        
+Action
+
+L'instruction OPEN est utilisée pour ouvrir des fichiers afin que l'on puisse accèder à ces fichiers et doit précéder toute routine d'entrée/sortie  accèdant à un fichier donné. Les arguments minimum nécessaires que l'on doit trouver après le mot réservé OPEN sont le chemin du fichier, suivi par une virgule, le mot réservé AS et le numéro de référence de fichier. Le fichier doit avoir été ouvert au préalable et doit éxister sur une disquette chargée dans le lecteur de disquette. Si un chemin partiel est utilisé, on lui adjoint le préfix 0 pour créer le nom de chemin complet. Le numéro de référence de fichier est utilisé dans toutes les instructions subséquentes d'entrée/sortie TML BASIC qui concernent l'accès au fichier.
+
+La clause optionnelle FOR dans l'instruction OPEN est utilisée pour qualifier le mode d'accès au fichier. Les modes d'accès supportés sont INPUT, OUTPUT, APPEND et UPDATE. Si la clause n'est pas utilisée, le fichier est ouvert pour un UPDATE. La clause FOR INPUT spécifie que le fichier est ouvert seulement pour des accès en lecture et ne peut pas écrire sur le fichier. Par exemple : 
+
+   OPEN monFichier$, FOR INPUT AS #10
+
+La clause FOR OUTPUT spécifie que le fichier est ouvert pour des accès uniquement en écriture et qu'on ne peut pas lire sur le fichier. Par exemple : 
+
+   OPEN monFichier$, FOR OUTPUT AS #10
+
+L'option FOR APPEND est une variante de la clause FOR OUTPUT. Elle est utilisée pour l'accès séquentiel (discuté plus tard) pour permettre aux instructions PRINT# et WRITE# d'ajouter (append) de nouvelles informations à la fin d'un fichier sans perturber les données éxistantes dans le fichier. Par exemple :
+
+   OPEN monFichier$, FOR APPEND AS #10
+
+Enfin, la clause FOR UPDATE est utilisée pour ouvrir un fichier pour un accès en lecture/écriture, aussi longtemps que le type de fichier supporte un tel accès. Par exemple, vous ne pouvez pas lire sur une imprimante. 
+
+La clause optionnelle FILTYP= d'une instruction OPEN est utilisée pour spécifier le type d'un fichier. La clause FILTYP= est utilisée primitivement pour s'assurer qu'un fichier étant ouvert, il est du type de fichier attendu. Si un programme essaie d'ouvrir un fichier en utilisant la clause FILTYP= et que le type de fichier ne corresponds pas au type de fichier spécifié, le fichier ne sera pas ouvert et on obtiendra un message d'erreur. On peut utiliser tous les noms de type de fichiers prédéfinis (voir CREATE) avec la clause FILTYP=, ou on peut utiliser une valeur entière non signée.
+<page-footer>
+<page-break>
+
+Page 246
+La clause FILTYP= est également utilisée avec l'instruction OPEN pour ouvrir des fichiers qui n'ont pas été crés. Si l'instruction OPEN s'apercoit que le fichier spécifié n'éxiste pas et si la clause FILTYP= a été donnée, elle appelera implicitement, tout d'abord, l'instruction CREATE, puis ouvrira le fichier.
+
+Enfin, l'argument optionnel RecordSize est utilisé pour spécifier la taille d'enregistrement pour l'accès aléatoire à un fichier en utilisant les instructions INPUT# et GET# pour des fichiers de données non basic. Si un fichier que l'on est en train d'ouvrir est un fichier de données basic éxistant, l'argument Taille d'enregistrement est ignoré et la taille d'enregistrement utilisée est la taille spécifiée au moment ou l'on a crée le fichier.
+
+Voir aussi
+   
+   CLOSE
+   Chapitre 9
+
+Exemple
+
+OPEN "HELLOWORLD.BAS", AS #10
+OPEN "/TML/MYSTUFF/INVOICES", FOR INPUT AS #20
+OPEN aFile$, FOR UPDATE AS #20, 100
+OPEN ".PRINTER", AS #1
+OPEN ".MODEM", AS #2
+<page-footer>
+<page-break>
+
+Page 247
+OUTPUT#   Instruction
+---------------------
+
+Syntaxe
+   
+   OUTPUT #FileNumber
+
+Action
+
+L'instruction OUTPUT# est utilisée pour diriger les sorties et les informations qui sont normalement affichées sur l'écran texte du IIGS vers un fichier préalablement ouvert, FileNumber étant son numéro de référence de fichier. Souvenez vous que les appareils peuvent etre ouverts avec une numéro de référence de fichier permettant ainsi de diriger les sorties vers les appareils. Une imprimante est un exemple d'appareil.
+
+Les instructions PRINT et CATALOG sont les seules instructions affectées par l'instruction OUTPUT#. Pour envoyer les sorties à nouveau sur l'écran texte, utiliser l'instruction OUTPUT #0.
+
+Voir aussi
+
+   CATALOG
+   OPEN
+   PRINT
+
+Exemple
+
+OPEN SomeFile$, AS #1
+OUTPUT #1
+
+PRINT"Suit la liste des fichiers de ma disquette"
+PRINT
+CATALOG
+
+OUTPUT #0
+CLOSE #1
+END
+<page-footer>
+<page-break>
+
+Page 248
+PDL    Fonction
+PDL9   Variable Réservée
+------------------------
+
+Syntaxe
+
+   PDL (NumericExpression)
+   PDL9
+
+Action
+
+La fonction PDL lit la position d'une poignée de jeux et renvoie sa position sous la forme d'une valeur entière comprise entre 0 et 255.
+
+La fonction PDL lit en fait la position de la poignée de jeux deux fois plus vite que les routines originales de l'appel II et ne tiens pas compte du bit le moins significatif, éliminant ainsi l'incertitude causée par la vitesse variable du micro processeur du IIGS. La variable réservée PDL9 renvoie le résultat de 9 bits calculés par l'éxécution préalable de la fonction PDL.
+
+NOTE : la lecture de n'importe quelle poignée de jeux en succéssion rapide aura tendance à donner des résultats instables à cause des couplages matériels des poignées de jeux. L'utilisation de la fonction JOYX éliminera cette interaction dans le cas ou l'on lit les deux coordonnées (X et Y) d'un joystick.
+
+Exemple
+
+ReadPaddles: PRINT PDL(0), PDL9
+             GOTO ReadPaddles
+<page-footer>
+<page-break>
+
+Page 249
+PEEK   Function
+---------------
+
+Syntaxe
+
+   PEEK(NumericExpression)
+
+Action
+
+La fonction PEEK lit un octet à l'adresse mémoire spécifiée par NumericExpression et retourne une valeur entière comprise entre 0 et 255. NumericExpression doit etre une entier positif inférieur à 2^24 (2 puissance 24) et doit représenter une adresse mémoire du IIGS. 
+
+La fonction PEEK ne devrait utilisée que dans certaines occasions spéciales. Vous devriez faire très attention et ne pas lire les zones de mémoire d'entrées/sorties ainsi que les registres de controle. Puisque la simple lecture de ces adresses peut provoquer des effets secondaires imprévisibles y compris le plantage du système.
+
+Les programmeurs concernés par l'écriture de programmes qui pourront etre éxécutés sur les nouvelles versions des produits de la famille Apple IIGS devraient éviter l'utilisation de fonction PEEK qui utilise des adresses qui poirraient ne pas etre compatibles avec des machines et des systèmes logiciels futurs.
+
+Voir aussi
+
+   POKE
+
+Exemple
+
+'Utilisation d'adresses physiques pour lire une touche clavier
+OptionKey% = PEEK(14729314)     'Adresse héxa = E0C062
+PRINT OptionKey%
+
+'Utilisation d'une variable adresse pour lire un octet de mémoire
+myStr$ = "TML BASIC"
+Addressà = VARPTR$(myStr$)
+PRINT CHR$(PEEK(Addressà+1)) 'Affiche la 1ere lettre d'une chaine en                                 mémoire
+
+Résultat obtenu
+
+127
+T
+<page-footer>
+<page-break>
+
+Page 250
+PFX$   Fonction
+---------------
+
+Syntaxe
+
+   PFX$(Prefix)
+
+Action
+
+La fonction PFX$ retourne une chaine qui est la valeur en cours du prefix PRODOS 16 indiqué. Prefix doit etre une expression numérique comprise en 0 et 8, sinon on obtient le message d'erreur "Illegal Quantity Error". Pour des valeurs de prefix comprises entre 0 et 7, PFX$ renvoie le prefix PRODOS 16 correspondant à ce numéro, pour une valeur de préfix égale à 8, PFX$ retourne le pseudo prefix égal au nom du volume de boot.
+
+Voir aussi
+
+   PREFIX
+   PREFIX$
+   Chapitre 9 - Fichiers
+
+Exemple
+
+'Imprime chacun des 16 préfix PRODOS 16
+FOR i% = 0 TO 8
+   PRINT PFX$(i%)
+NEXT i%
+<page-footer>
+<page-break>
+
+Page 251
+PI   Variable réservée
+----------------------
+
+Syntaxe
+
+   PI
+
+Action
+
+PI est une variable réservée dont la valeur est PI, précise jusqu'au 20ème chiffre décimal. La valeur de PI est rangée sous la forme d'une valeur réelle à précision étendue SANE, afin de fournir la plus grande précision possible dans les expressions. TML BASIC converti automatiquement PI en tout type numérique pour les assignations, ce qui provoque évidemment une perte de précision.
+
+Exemple
+
+Radians = Degres * PI / 180 'Converti des degrés en radians
+<page-footer>
+<page-break>
+
+Page 252
+POKE   Instruction
+------------------
+
+Syntaxe
+
+   POKE NumericExpression, Value
+
+Action
+
+L'instruction POKE écrit un octet Value à l'adresse mémoire spécifié par NumericExpression. Value doit etre compris entre 0 et 255, sinon on obtient le message "Illegal Quantity Error". NumericExpression doit etre un entier positif inférieur à 2^24 (2 puissance 24) et doir représenter une adresse Apple IIGS légale.
+
+L'instruction POKE ne devrait etre utilisée que dans des circonstances spéciales. En utilisant les instructions POKE vous devriez faire très attention à ne pas écrire accidentellement à des zones de mémoire correspondant aux entrées/sorties, aux registres de controle ou à d'autres adresses non allouées à votre programme.
+
+Les programmeurs concernés par l'écriture de programmes qui fonctionneront sur de nouvelles versions de la famille de produits Apple IIGS, devrait éviter l'utilisation des instructions POKE comprenant des adresses qui pourraient ne pas etre compatibles avec les futures machines ou systèmes logiciels.
+
+Voir aussi
+
+   PEEK
+
+Exemple
+
+anInt% = 0
+PRINT anInt%
+POKE VARPTR(anInt%),2    'Assigne le chemin hard!
+POKE VARPTR(anInt%)+1,1
+PRINT anInt%
+
+Résultat obtenu
+
+0
+258
+<page-footer>
+<page-break>
+
+Page 253
+POP   Instruction
+-----------------
+
+Syntaxe
+
+   POP
+
+Action
+
+L'instruction POP est utilisée pour sortir d'un niveau de sous programme imbriqué, en enlevant l'adresse de retour du sous programme de la pile de runtime TML BASIC. Ainsi, au moment ou la prochaine instruction RETURN sera éxécutée, le programme au lieu de se rebrancher à l'instruction qui se trouve après le GOSUB éxécuté le plus récemment, le controle est redonné à l'instruction qui se trouve après la deuxième instruction GOSUB éxécutée la plus récemment.
+
+Si une instruction POP est éxécutée dans un programme sans qu'une instruction GOSUB ait été éxécutée, on obtiendra le message d'erreur "RETURN/POP without matching GOSUB".
+
+Voir aussi
+   GOSUB
+   RETURN
+
+Exemple
+
+PRINT "Début  programme"
+GOSUB First
+PRINT "Fin programme"
+END
+
+First:
+   PRINT "Entrée dans le sous programme First"
+   Gosub Second
+   PRINT "Sortie du sous programme First"
+   RETURN
+
+Second:
+   PRINT "Entrée dans le sous programme second"
+   POP
+   PRINT "Sortie du sous programme second"
+   RETURN
+
+Résultat obtenu
+Début programme
+Entrée dans le sous programme First
+Entrée dans le sous programme second
+Sortie du sous programme second
+Fin programme
+
+<page-footer>
+<page-break>
+
+Page 254
+PREFIX   Instruction
+--------------------
+
+Syntaxe
+
+   PREFIX DirectoryPath
+
+   PREFIX PrefixNum, DirectoryPath
+
+Action
+
+L'instruction PREFIX est utilisée pour positionner un préfix PRODOS. La première forme de l'instruction positionne le préfix 0 PRODOS et lui donne la valeur du chemien spécifiée par DirectoryPath. La seconde forme de l'instruction positionne tout préfix numéroté de 0 à 7 comme il est spécifié par l'argument PrefixNum. Si le pathname utilisé dans une instruction préfix est illégale, on obtient l'erreur "Bad Path Error".
+
+Différences entre Compilateur et Interpreteur
+GS BASIC fourni une variante de l'instruction PREFIX qui affiche les valeurs des prefix en cours. Cette variante n'est pas supportée en TML BASIC.
+
+Voir aussi
+
+   Chapitre 9
+
+Exemple
+
+PREFIX "/TML/PART1.EXAMPLES"
+PEFIX 4,"/TML/MYWORK/NDA"
+<page-footer>
+<page-break>
+
+Page 255
+PREFIX$   Variable réservée modifiable
+--------------------------------------
+
+Syntaxe
+
+   PREFIX$
+
+Action
+
+PREFIX$ est une variable réservée modifiable dont la valeur est le préfix par défaut de PRODOS 16, c'est à dire, c'est le préfix 0. Si on assigne une nouvelle valeur à la variable réservée, le préfix 0 de PRODOS 16 est modifié pour contenir le nouveau chemin. Si un chemin PRODOS 16 illégal est assigné à PREFIX$, on obtient l'erreur "Bad Path Error".
+
+Voir aussi
+
+   PFX$
+   PREFIX
+   Chapitre 9 - Fichiers
+
+Exemple
+
+PRINT "Le préfix courant par défaut = "; PREFIX$
+
+INPUT "Tapez un nouveau préfix par défaut : ";NewPrefix$
+PREFIX$ = NewPrefix$
+<page-footer>
+<page-break>
+
+Page 256
+PRINT   Instruction
+-------------------
+
+Syntaxe
+
+   PRINT < <, I ;> <AnyExpression > > <, I;>
+
+Action
+
+L'instruction PRINT affiche du texte sur l'écran texte du IIGS. L'instruction PRINT est utilisée pour imprimer les valeurs d'expressions numériques et d'expressions chaine. L'instruction PRINT peut contenir tout nombre d'expression séparés soit par une virgule, soit par un point virgule. Chaque expression est appelée un élément d'impression. En fait, les expressions multiples peuvent etre séparées par des espaces, mais c'est une bonne pratique de programmation d'utiliser soit la virgule soit le point virgule de telle façon que l'on comprenne bien qu'il y a plus d'une expression incluse dans l'instruction PRINT.
+
+Quand une expression chaine apparait dans une instruction PRINT, les caractères exactes de la chaine sont affichés sur l'écran texte à la position texte en cours (à la position du curseur). Quand une expression numérique est imprimée, la représentation binaire de la valeur numérique est tout d'abord convertie en chaine, puis affichée à la position du texte en cours. La conversion est controlée par la variable réservée SHOWDIGITS. Si l'expression numérique contient une valeur entière, elle est affichée sous la forme d'entier à moins que SHOWDIGITS soit trop petit, auquel cas le nombre est affiché en notation scientifique. Quand on utilise le point virgule comme séparateur entre des expressions multiples dans une instruction PRINT, TML BASIC positionne le curseur juste après le dernier caractère affiché. Ainsi, la prochaine expression sera affichée de façon adjacente à l'élément d'impression précédant. 
+
+Si on utilise une virgule comme séparateur, TML BASIC éxécute une opération de tabulation avant d'afficher le prochain élément d'impression. La largeur des taquets de tabulation de l'instruction PRINT est de 16 caractères. L'espace compris entre chaque taquet de tabulation est appelé une zone d'impression. Le diagramme sur la page suivante montre la façon dont l'écran texte 80 colonnes est divisé en 5 zones d'impression.
+
+Après que tous les éléments d'impression d'une instruction PRINT aient été affichés, le curseur texte est déplacé à la première colonne de la ligne suivante. Si le curseur est sur la dernière ligne de l'écran, le contenu tout entier de l'écran est déroulé vers le haut d'une ligne. Ainsi, l'instruction PRINT ne contenant rien affichera une ligne blanche. 
+
+Dans certains cas, un programme peut ne pas désirer que l'instruction PRINT avance la position du curseur à la ligne suivante, après que l'instruction ait affiché tous les éléments d'impression. A chaque fois que l'instruction PRINT se termine avec une virgule ou un point virgule, l'instruction PRINT n'avancera pas le curseur à la ligne suivante.
+<page-footer>
+<page-break>
+
+Page 257
+
+
+   1         17         33         49        65         80
+  _________________________________________________________
+  !          !          !          !          !          !
+2 !          !          !          !          !          !
+4 ! PRINT    ! PRINT    ! PRINT    ! PRINT    ! PRINT    !
+  ! Zone 1   ! Zone 2   ! Zone 3   ! Zone 4   ! Zone 5   !
+L !          !          !          !          !          !
+I !          !          !          !          !          !
+G !          !          !          !          !          !
+N !          !          !          !          !          !
+E !          !          !          !          !          !
+S _________________________________________________________
+
+   La largeur d'une zone est de 16 caractères
+
+
+L'instruction PRINT fonctionne également dans l'écran graphique Super HiRes. Quand l'instruction PRINT est éxécutée, elle éxamine le mode d'écran en cours. Si l'écran est en mode texte (par défaut), le texte est affiché de la façon habituelle. Toutefois, si l'écran est en mode graphique, le texte est affiché sur le GrafPort en cours (fenetre) en utilisant les routines graphiques Quickdraw. Le texte est dessiné en commencant à la localisation en cours de la plume Quickdraw. Notez que les commandes de positionnement sur l'écran TML BASIC fonctionnent dans l'écran graphique pour déplacer la plume. Pour déplacer la plume, les commandes Quickdraw telles que MOVE et MOVE TO doivent etre utilisées. Pour plus d'informations sur Quickdraw, voir le chapitre 12.
+
+Voir aussi
+
+   PRINT USING
+   PRINT#
+   SHOWDIGITS
+   SPC
+   TAB
+
+Exemple
+PRINT "La moyenne de trois nombres est "; (43 + 27 + 23) / 3
+
+FOR i% = 1 TO 5
+   PRINT SPACE$(i%);i%
+NEXT i%
+
+PRINT tbl1,tbl2,tbl3
+<page-footer>
+<page-break>
+
+Page 258
+PRINT USING   Instruction
+-------------------------
+
+Syntaxe
+
+   PRINT USING UsingSpecification <; Expression <, Expression > > <;>
+
+Action
+
+L'instruction PRINT USING est une forme évoluée de l'instruction PRINT. L'instruction PRINT USING contient la spécification spéciale d'utilisation UsingSpecification qui controle le format des éléments d'impression individuels affichés sur l'écran texte.
+
+UsingSpecification peut une variable chaine, une constante chaine, ou un label qui contient une instruction IMAGE. Dans chaque cas, l'information est exprimée de la meme manière. Voir la description de l'instruction IMAGE pour une liste complète des spécifications de formatage disponibles.
+
+Dans l'instruction PRINT USING, les éléments d'impression (Expressions) sont séparés par des virgules. Les virgules ne provoquent pas d'action de tabulation vers la prochaine zone d'impression comme elles le font dans l'instruction PRINT, puisque le formatage est controlé par UsingSpecification. Par contre, on peut encore utiliser un point virgule après les éléments d'impression pour empecher l'instruction PRINT d'avancer le curseur à la ligne suivante.
+
+Voir aussi
+
+   PRINT
+   IMAGE
+<page-footer>
+<page-break>
+
+Page 259
+PRINT#   Instruction
+--------------------
+
+Syntaxe
+
+  PRINT# FileNumber <,RecordNumber> <;Expression<, I ;Expression>> <;>
+
+Action
+
+L'instruction PRINT# écrit une ligne de texte sur un fichier, de la meme façon que l'instruction PRINT le fait sur l'écran. Le mot réservé PRINT#  est suivi par le numéro de référence de fichier d'un fichier ouvert sur lequel on désire écrire, d'un point virgule et d'une liste d'expressions séparées par des virgules ou des points virgule. 
+
+PRINT# éxécute automatiquement toute conversion de type numérique vers un type chaine éventuellement nécessaire avant d'écrire sur le fichier. Les valeurs numériques sont formatées en utilisant les memes règles que l'instruction PRINT. C'est à dire, SHOWDIGITS controle le format des nombres générés par PRINT#. En utilisant la virgule comme séparateur entre les expressions, on génère une action de tabulation vers la prochaine zone d'impression, ce que ne fait pas le point virgule. Les fonctions SPC et TAB peuvent etre  également utilisées. 
+
+
+Une forme optionnelle de l'instruction PRINT# permets un accès aléatoire à un fichier texte. Pour éxécuter un accès aléatoire en utilisant l'instruction PRINT#, il faut inclure le numéro d'enregistrement après le numéro de référence de fichier. Souvenez vous que le fichier doit etre ouvert en utilisant l'instruction OPEN, avec l'argument de taille d'enregistrement optionnel étant spécifié pour définir la taille d'un enregistrement dans le fichier texte. 
+
+Voir aussi
+
+   PRINT USING
+   PRINT
+   SHOWDIGITS
+   SPC
+   TAB
+   Chapitre 9
+
+Exemple
+
+PRINT #10; anInt%, aReal, aStr$  'Ecrit séquentiellement différentes                                     valeurs sur un fichier
+OPEN "AFILE", AS #10, 20         'Ouvre un fichier à accès aléatoire
+PRINT #10,6; aLine$              'Ecrit une ligne de texte à                                             l'enregistrement numéro 6
+
+<page-footer>
+<page-break>
+
+Page 260
+PRINT# USING   Instruction
+--------------------------
+
+Syntaxe
+
+   PRINT# FileNumber <,RecordNumber> USING UsingSpecification 
+          <;Expression <, I ; Expression> > <;>
+
+Action
+L'instruction PRINT# USING est une forme évoluée de l'instruction PRINT#. L'instruction PRINT# USING contient la spécification spéciale d'utilisation UsingSpecification qui controle le format des éléments d'impression individuels écrits sur un fichier texte.
+
+UsingSpecification peut une variable chaine, une constante chaine, ou un label qui contient une instruction IMAGE. Dans chaque cas, l'information est exprimée de la meme manière. Voir la description de l'instruction IMAGE pour une liste complète des spécifications de formatage disponibles.
+
+Dans l'instruction PRINT# USING, les éléments d'impression (Expressions) sont séparés par des virgules. Les virgules ne provoquent pas d'action de tabulation vers la prochaine zone d'impression comme elles le font dans l'instruction PRINT#, puisque le formatage est controlé par UsingSpecification. Par contre, on peut encore utiliser un point virgule après les éléments d'impression pour empecher l'instruction PRINT d'avancer le curseur à la ligne suivante.
+
+<page-footer>
+<page-break>
+
+Page 261
+PUT#   Instruction
+------------------
+
+Syntaxe
+ 
+   PUT# FileNumber <,<Length> <,RecordNumber>>;StructureVariable
+
+Action
+
+L'instruction PUT# écrit un nombre d'octets contenu dans un tableau structuré, sur un fichier binaire. Le mot réservé PUT# est suivi par le numéro de référence de fichier d'un fichier binaire ouvert, sur lequel on désire écrire, d'un point virgule et d'une référence de variable tableau structuré (comprenant des indices). Le nombre d'octets transférés est égal à la taille d'enregistrement du fichier.
+
+En utilisant l'argument optionnel Length dans l'instruction PUT#, il est possible de ne pas tenir compte de la valeur de la taille d'enregistrement pour le nombre d'octets transféré. L'instruction PUT# peut également etre utilisée pour l'accès aléatoire en utilisant l'argument optionnel RecordNumber.
+
+Voir aussi
+
+   OPEN
+   GET#
+   Chapitre 9, Fichiers
+
+Exemple
+
+DIM myData!(11)
+
+'Overture d'un fichier binaire dont la taille d'enregistrement est 4
+OPEN "SOMEFILE", FILTYP=0 FOR OUTPUT AS #1, 4
+
+PUT #1; myData!(0)      'Ecrit 4 octets au premier enregistrement du                            fichier
+PUT #1,,3. myData!(4)   'Ecrit 4 octets démarrant à l'enregistrement 3
+
+PUT #1,2,5. myData!(0)  'Ecrit 2 octets démarrant à l'enregistrement 5
+
+CLOSE #1
+<page-footer>
+<page-break>
+
+Page 262
+R.STACK   Fonctions
+-------------------
+
+Syntaxe
+
+   R.STACK%(NumericExpression)
+   R.STACKà(NumericExpression)
+   R.STACK&(NumericExpression)
+           
+Action
+
+Les fonctions retournent des données lues dans la pile de retour de CALL (CALL return stack). La pile de retour de CALL est un tampon (buffer) de 32 octets (16 mots) utilisé par les instructions CALL, CALL% et EXFN_ pour ranger les valeurs renvoyées par une routine toolbox du IIGS.
+
+Parce que chaque routine toolbox retourne une quantité d'informations variable sous des différents types de données, on peut accèder à la pile de retour CALL pour élire des entiers, des entiers double et des entiers long. Le paramètre NumericExpression est un mot de décalage dans la pile. Les octets sont lus à partir de cet endroit, et le nombre d'octets lus dépends de la fonction R.STACK qui est appelée. R.STACK% renvoie une valeur entière en lisant deux octets de données dans la pile. La fonction R.STACKà renvoie un entier double en lisant 4 octets dans la pile et finalement R.STACK& renvoie un entier long en lisant 8 octets de données dans la pile. Ainsi, R.STACK% peut etre indéxé par un nombre compris entre 0 et 16, R.STACKà par un nombre compris entre 0 et 15, R.STACK&, par un nombre compris entre 0 et 13.
+
+R.STACK%(0) renvoie le code d'erreur retourné par la routine toolbox. Si la valeur est 0, alors il n'y a pas eu d'erreur. Si la valeur est différente de zéro, une erreur est arrivée pendant l'éxécution de la routine toolbox et votre programme devrait entreprendre l'action appropriée.
+
+R.STACK(1) est le premier mot de donnée renvoyé sur la pile CALL.
+
+Voir aussi
+
+   CALL
+   CALL%
+   EXFN_
+   Chapitre 11
+
+Exemple
+
+CALL NewHandle(1024,myMemoryID%,0,0)
+
+IF R.STACK(0) = 0 THEN
+    myHandleà = R.STACKà(1)
+ELSE
+    PRINT "Impossible d'attribuer la gestion mémoire, erreur :                     ";R.STACK(0)
+END IF
+<page-footer>
+<page-break>
+
+Page 263
+RANDOMIZE   Instruction
+-----------------------
+
+Syntaxe
+
+   RANDOMIZE NumericExpression
+
+Action
+Change la valeur du générateur de nombre aléatoire avec la valeur de NumericExpression comme nouvelle valeur. NumericExpression doit etre compris entre 1 et 2^31-2. Les bonnes valeurs à utiliser sont les valeurs de la fonction TIME, ou de la variable réservée SECONDSà après avoir éxécuté l'instruction TIMER ON.
+
+Voir aussi
+
+   SECONDSà
+   TIME
+   TIMER ON
+
+Exemple
+
+RANDOMIZE 8849391
+RANDOMIZE SECONDSà
+RANDOMIZE TIME(2)*60+TIME(3)
+<page-footer>
+<page-break>
+
+Page 264
+READ   Instruction
+------------------
+
+Syntaxe
+
+   READ VariableName <,VariableName>
+
+Action
+
+L'instruction READ assigne dans une ou plusieurs variables, des valeurs obtenues par l'instruction DATA d'un programme. Les valeurs sont lues en commencant au pointeur de liste DATA en cours. Le pointeur de liste DATA pointe vers la première constante de la première instruction DATA du programme. Le pointeur de liste avance en meme temps que les valeurs sont lues. Il peut également etre modifié pour pointer vers toute instruction DATA en utilisant l'instruction RESTORE.
+
+Si une instruction READ essaie d'assigner un élément de donnée chaine à une variable numérique, on obtient le message "Type Mismatch Error".
+
+Voir aussi
+
+   DATA
+   RESTORE
+
+Exemple
+
+READ A$, B$
+
+RESTORE Names$
+READ C$,D$
+
+PRINT A$,B$,C$,D$
+END
+
+Names: DATA Apple, Orange
+       DATA Pear, Grape
+
+Résultat obtenu
+
+Apple     Orange    Apple     Orange
+<page-footer>
+<page-break>
+
+Page 265
+READ#  Instruction
+------------------
+
+Syntaxe
+
+   READ# FileNumber <, RecordNumber> <; VariableName <,VariableName >>
+
+Action
+
+L'instruction READ# lit des informations sur un fichier de données basic (BDF) et les range dans une ou plusieurs variables. Le mot réservé READ# est suivi par le numéro de référence de fichier d'un fichier BDF ouvert sur lequel on lit, d'un point virgule, et d'une liste de variables séparées par des virgules.
+
+Si l'instruction READ# contient une variable numérique, la valeur qui se trouve à la position du fichier en cours dans le fichier BDF doit egalement etre une valeur numérique. Si le fichier contient une valeur chaine, on obtient l'erreur "Type Mismatch Error". Si le fichier contient en effet une valeure numérique, mais que son type ne corresponds pas  à celui de la variable contenue dans l'instruction READ#, la valeur est convertie en utilisant les memes règles que les fonctions CONV. Ainsi, il est possible que la conversion provoque une perte de précision ou meme cause une erreur de dépassement (Overflow Error). Si l'instruction READ# contient une variable chaine, la valeur à la position du fichier en cours doit etre une valeur chaine, sinon on obtient le message "Type Mismatch Error".
+
+Une forme optionnelle de l'instruction READ# permets l'accès aléatoire à un fichier BDF. Pour éxécuter un accès aléatoire en utilisant l'instruction READ#, il faut inclure un numéro d'enregistrement après le numéro de référence de fichier.
+
+Voir aussi
+
+   WRITE#
+   Chapitre 9
+
+Exemple
+
+READ #10; anInt1%, anInt2%, anInt3% 'Accès séquentiel à un fichier BDF
+READ #10,3; aStr$, aDblIntà         'Accès aléatoire à un fichier BDF
+<page-footer>
+<page-break>
+
+Page 266
+REC   Fonction
+--------------
+
+Syntaxe
+
+   REC(FileNumber)
+
+Action
+La fonction REC retourne le numéro d'enregistrement en cours du fichier ouvert au préalable, son numéro de référence de fichier étant égal à FileNumber.
+
+Quand on utilise les instructions INPUT# ou READ# pour accèder au catalogue d'un répertoire, REC retourne le numéro de la ligne auquel on est en train d'accèder.
+
+Voir aussi
+
+   OPEN
+   INPUT#
+   READ#
+
+Exemple
+
+OPEN "SOMEFILE", AS #1
+
+FOR i% = 1 TO 5
+    READ# 1,i%;myInt%
+    PRINT "Record ";REC(1); " has integer value "; myInt%
+NEXT i%
+
+CLOSE #1
+<page-footer>
+<page-break>
+
+Page 267
+REM   Instruction
+-----------------
+
+Syntaxe
+
+   REM AnyText
+
+Action
+
+L'instruction REM également appelée instruction REMARK, est utilisée pour placer des informations décrivant votre code dans un programme. L'instruction REM continue jusqu'à la fin de la ligne en cours. Il n'est pas possible de faire suivre l'instruction REM par d'autres instructions sur la meme ligne, séparées par deux points (:). Quand on compile un programme, TML BASIC ignore les instructions REM, de telle façon qu'elles n'ont aucun effet sur le programme.
+
+TML BASIC offre une alternative à l'instruction REM, appelée le commentaire (Comment). Un commentaire se comporte exactement comme l'instruction REM, mais est constituée simplement de l'unique caractère apostrophe (').
+
+Voir aussi
+   Chapitre 7, Commentaires
+
+Exemple
+
+REM Les lignes suivantes montre comment REM et ' sont utilisées
+
+Interest = Principle * Rate : REM Calcul l'interet due
+Interest = Principle * Rate 'Calcul l'interet due
+<page-footer>
+<page-break>
+
+Page 268
+RENAME   Instruction
+--------------------
+
+Syntaxe
+
+   RENAME OldPathname, NewPathname <,FILTYP+ TXTISRCIBDFIFiletype>
+
+Action
+
+L'instruction RENAME est utilisée pour modifier le nom d'un volume, d'un sous répertoire ou de tout autre fichier. Les arguments OldPathname et NewPathname doivent etre des expressions chaine représentant des chemins PRODOS 16 légaux. OldPathname doit etre le nom de chemin d'un fichier éxistant auquel on donne le nouveau nom de chemin spécifié par NewPathname. En utilisant RENAME, il est possible de modifier le nom local d'un fichier, ou de déplacer le fichier dans un autre répertoire, mais il n'est pas possible de placer le fichier vers un autre disque, simplement en changeant son nom.
+
+Quand l'argument optionnel FILTYP= est utilisé, le type de fichier de NewPathname sera changé après que le fichier ait été renommé avec succès. Il est possible de changer seulement le type de fichier d'un fichier en utilisant FILTYP= et en donnant la meme valeur à OldPathname et NewPathname.
+
+Voir aussi
+
+   Chapitre 9, Fichiers
+
+Exemple
+
+'Fait que le répertoire courant est le dossier PART1.EXEMPLES du disque TML BASIC
+PREFIX "/TML/PART1.EXAMPLES"
+
+'Renomme le fichier HELLOWORLD.BAS en HELLO.BAS
+RENAME "HELLOWORLD.BAS", "HELLO.BAS"
+
+'Renomme HELLO.BAS pour le placer dans le dossier PART2.EXAMPLES
+RENAME "HELLO.BAS", "/TML/PART2.EXAMPLES/HELLO.BAS"
+<page-footer>
+<page-break>
+
+Page 269
+REP$   Fonction
+---------------
+
+Syntaxe
+
+   REP$(StringExpression,NumericExpression)
+
+Action
+
+La fonction REP$ renvoie une chaine contenant un nombre de caractères égal à NumericExpression, dont les caractères sont tous égaux au premier caractère de StringExpression.
+
+NumericExpression doit etre un entier compris entre 1 et 255, sinon on obtient le message "Illegal Quantity Error". Si la valeur de StringExpression est une chaine vide, alors REP$ renvoie une chaine constituée de points d'interrogations (?).
+
+Voir Aussi
+
+   SPACE$
+
+Exemple
+
+Msg$ = "TML BASIC"
+PRINT Msg$
+PRINT REP$("-",LEN(Msg$))
+PRINT
+
+PRINT REP$("",5)
+
+Résultat obtenu
+
+TML BASIC
+---------
+
+?????
+<page-footer>
+<page-break>
+
+Page 270
+RESTORE   Instruction
+---------------------
+
+Syntaxe
+
+   RESTORE <Label>
+
+Action
+
+L'instruction RESTORE est utilisée pour déplacer le pointeur de liste DATA de TML BASIC vers le premier élément de DATA de l'instruction DATA indiquée par Label. Après l'éxécution de l'instruction RESTORE, la prochaine instruction READ commencera à lire les valeurs à l'instruction DATA indiquée. S'il n'est pas précisé de Label dans l'instruction RESTORE, la prochaine instruction READ commencera la lectue à partir de la première instruction DATA du programme. En utilisant cette instruction, une instruction DATA peut etre lue et relue autant de fois qu'un programme en a besoin.
+
+Si les lignes indiquées par Label ne contiennent pas d'instruction DATA, le résultat de la prochaine instruction READ sera imprévisible.
+
+Voir aussi
+
+   DATA
+   READ
+
+Exemple
+
+READ A$, B$
+
+RESTORE Name$
+READ C$, D$
+
+PRINT A$, B$, C$, D$
+END
+
+Names: DATA Apple, Orange
+       DATA Pear, Grape
+
+Résultat obtenu
+
+Apple     Orange    Apple     Orange
+<page-footer>
+<page-break>
+
+Page 271
+RESUME   Instructions
+---------------------
+
+Syntaxe
+
+   RESUME
+   RESUME NEXT
+
+Action
+Les instructions RESUME redémarrent l'éxécution d'un programme après qu'une erreur piégée ait été gérée avec les instructions ON BREAK, ON ERR ou ON EXCEPTION.
+
+L'instruction RESUME fait redémarrer le programme à l'instruction qui a provoqué l'erreur. L'instruction RESUME NEXT fait redémarrer le programme à l'instruction qui suit immédiatement l'instruction qui a provoqué l'erreur.
+
+Si une instruction RESUME est éxécutée alors que le programme n'a pas rencontré d'erreur, elle n'a pas d'effet et l'éxécution du programme continue avec l'instruction suivante.
+
+Voir aussi
+
+   ON BREAK
+   ON ERR
+   ON EXCEPTION
+
+Les différences entre Compilateur et Interpretateur
+L'instruction RESUME nécessite la génération d'une quantité de code importante en TML BASIC, pour etre gérée. Puisque la plupart des programmes n'utilisent pas les instructions ON ERR et RESUME, TML BASIC vous permets de mettre hors service la génération de code nécessaire pour supporter cette instruction. Ceci est effectué en mettant hors service l'option On Error du Preferences Dialog ou en utilisant la métainstruction $OnError. Si la génération de code On Error est mise hors service et qu'un programme utilise  cette instruction, TML BASIC donnera l'erreur : "On Error Option must be On for this Statement". (L'option On Error doit etre sur On pour cette instruction)
+
+Exemple                                        
+
+ON BREAK GOTO HandleBreak
+
+Wait:
+   PRINT "Attends un break"
+   GOTO Wait
+HandleBreak:
+   PRINT "Un break est arrivé"
+   GET$ A$
+   IF A$ = "." THEN END
+   RESUME
+<page-footer>
+<page-break>
+
+Page 272
+RETURN   Instruction
+--------------------
+
+Syntaxe
+   RETURN
+   RETURN 0
+
+Action
+RETURN provoque le branchement du programme à l'instruction qui suit l'instruction GOSUB la plus récemment éxécutée. 
+
+Quand une instruction GOSUB est éxécutée, TML BASIC range l'adresse de l'instruction qui suit l'instruction GOSUB sur la pile de Runtime. Quand l'instruction RETURN est éxécutée, l'adresse qui se trouve sur la pile de Runtime est lue et le controle est transféré à cette adresse. Si l'instruction RETURN est éxécutée sans qu'une instruction GOSUB ait été éxécutée au préalable, l'erreur de Runtime "Return/POP without matching GOSUB" (RETURN/POP sans trace de GOSUB) est renvoyée.
+
+RETURN 0 est un cas spécial de l'instruction RETURN, utilisé pour les sous programmes gérant les évenements définis par EVENDEF et MENUDEF. Ces sous programmes sont appelés implicitement par l'instruction TASKPOLL. Cette forme d'instruction RETURN est nécessaire à cause des différents mécanismes d'appels utilisés par l'instruction TASKPOLL. Comme telle, l'instruction RETURN 0 ne doit jamais etre utilisée par un sous programme qui est appelé par une instruction GOSUB normale.
+
+Voir aussi
+
+   GOSUB
+   EVENTDEF
+   MENUDEF
+   POP
+   TASKPOLL
+
+Exemple
+
+MainProgramStart: PRINT "Main program "
+                  GOSUB MySubroutine
+                  PRINT "Main program again3
+                  END
+MySubroutine:     PRINT "Hi from Subroutine"
+                  RETURN
+
+Résultat obtenu
+
+Main program
+Hi from MySubroutine
+Main program again
+<page-footer>
+<page-break>
+
+Page 273
+RIGHT$   Fonction
+-----------------
+
+Syntaxe
+
+   RIGHT$(StringExpression, NumericExpression)
+
+Action
+La fonction RIGHT$ renvoie une chaine de caractères comprenant NumericExpression caractères et qui se trouve le plus à droite dans la chaine StringExpression.
+
+StringExpression peut etre toute variable chaine, constante chaine ou expression chaine. Si NumericExpression est une valeur réelle, elle est arrondie au nombre entier le plus proche. La valeur de NumericExpression doit etre comprise entre 1 et 255, sinon on obtient le message "Illegal Quantity Error". Pour connaitre le nombre de caractères d'une chaine, utiliser la fonction LEN.
+
+Voir aussi
+   LEFT$
+   LEN
+   MID$
+
+Exemple
+
+PRINT RIGHT$("TML BASIC is great",5)
+
+Résultat obtenu
+
+great
+<page-footer>
+<page-break>
+
+Page 274
+RND   Fonction
+--------------
+
+Syntaxe
+
+   RND(NumericExpression)
+
+Action
+
+La fonction RND retourne une valeur réelle aléatoire, comprise entre 0 et 1.
+
+Les nombres générés par RND ne sont pas en fait aléatoires, et sont le résultat d'un algorithme pseudo aléatoire appliqué à une valeur donnée de démarrage. Si on lui donne la meme valeur donnée, RND produira la meme séquence de nombres dits aléatoires. Pour positionner la valeur donnée, utiliser l'instruction RANDOMIZE.
+
+Quand on appele RND et que NumercExpression est égale à zéro, on obtient le nombre aléatoire précédent. Toute autre valeur de NumericExpression permets d'obtenir le nombre pseudo aléatoire suivant dans la séquence.
+
+Voir aussi
+
+   RANDOMIZE
+
+Exemple
+
+dummy% = TIME(0)    'Lit l'horloge du IIGS
+RANDOMIZE TIME(3)   'RANDOMIZE des secondes en cours
+
+FOR i = 1 TO 5      'Calcule 5 nombres aléatoires
+     PRINT RND(i)
+NEXT i
+
+Résultat obtenu
+
+0.6561249
+0.4910289
+0.7219557
+0.9089912
+0.415245
+<page-footer>
+<page-break>
+
+Page 275
+ROUND   Fonction
+----------------
+
+Syntaxe
+
+   ROUND(NumericExpression)
+
+Action
+
+La fonction ROUND retourne une valeur entière la plus proche de la valeur de NumericExpression. ROUND devrait etre utilisée à la place de la formule communément utilisée INT(NumericExpression + 0.5), puisqu'elle retourne un résultat conforme aux autres possibilités de SANE.
+
+Voir aussi
+
+   INT
+   Chapitre 7
+
+Exemple
+
+FOR i = 1 TO 2 STEP 0.1
+   PRINT i,ROUND(i)
+NEXT i
+
+Résultat obtenu
+
+1    1
+1.1  1
+1.2  1
+1.3  1
+1.4  1
+1.5  2
+1.6  2
+1.7  2
+1.8  2
+1.9  2
+<page-footer>
+<page-break>
+
+Page 276
+RUN   Instruction
+-----------------
+
+Syntaxe
+
+   RUN PathName
+
+Action
+
+L'instruction RUN est utilisée pour éxécuter directement un autre programme, à partir du programme en cours, sans avoir à retourner au finder IIGS. Quand le programme qui a été lancé par l'instruction RUN est terminé, le controle est redonné au Finder. Si vous voulez redonner le controle au programme appelant, utilisez l'instruction CHAIN.
+
+Pathname doit etre une expression chaine constituant un chemin PRODOS 16 légal pour un programme éxécutable. Le chemin peut etre le nom de tout programme compilé TML BASIC ou de toute autre application que vous pourriez posséder.
+
+Les différences entre Compilateur et Interpréteur
+TML BASIC ne permets pas l'utilisation de l'argument optionnel Label que supporte GS BASIC. Quand l'instruction RUN est éxécutée, TML BASIC commence l'éxécution du programme suivant à son début.
+
+Voir aussi
+
+   CHAIN
+   Chapitre 9, Fichiers
+
+Exemple
+
+'Demande à l'utilisateur quel prochain programme lancer
+INPUT"Tapez le nom du programme que vous voulez lancer : ";ProgName$
+
+'Lance maintenant le programme demandé
+RUN ProgName$
+END
+<page-footer>
+<page-break>
+
+Page 277
+SCALB   Fonction
+----------------
+
+Syntaxe
+
+   SCALB(Scale, NumericExpression)
+
+Action
+
+La fonction SCALB met à l'échelle NumericExpression par 2^Scale (2 puissance Scale). La fonction décale effectivement de Scale chiffres binaires, vers la droite ou vers la gauche, la valeur de NumericExpression.
+
+LOGB a une relation avec SCALB, car LOGB retourne la valeur de Scale pour un NumericExpression donné.
+
+Voir aussi
+
+   LOGB
+
+Exemple
+
+PRINT SCALB(4,12)  'Equivalent à 2^4*12 (2 puissance 4 x par 12)
+
+Résultat obtenu
+
+192
+<page-footer>
+<page-break>
+
+Page 278
+SCALE   Fonction
+----------------
+
+Syntaxe
+
+   SCALE(Scale, NumericExpression)
+
+Action
+
+La fonction SCALE est utilisée en conjonction avec l'instruction PRINT USING. SCALE converti l'argument NumericExpression en sa représentation chaine, puis décale la virgule vers la droite d'un nombre de chiffres égal à Scale. Si la valeur de Scale est positive, alors la virgule est déplacée vers la droite, sinon la virgule est déplacée vers la gauche.
+
+Voir aussi
+
+   PRINT USING
+
+Exemple
+
+A& = 12345678901234567
+PRINT USING "$$20&#.##";SCALE(-2,A&)
+
+Résultat obtenu
+
+$123,456,789,012,345.67
+<page-footer>
+<page-break>
+
+Page 279
+SECONDSà   Variable réservée
+----------------------------
+
+Syntaxe
+
+   SECONDSà
+
+Action
+
+La variable réservée SECONDSà contient la valeur d'un compteur mis à jour par l'instruction TIMER ON. SECONDà renvoie une valeur entière double comprise entre -1 et 86400. La valeur de zéro est retournée jusqu'à ce qu'une instruction TIMER ON ait été éxécutée. Si TIMER OFF est le mode en cours, la valeur de SECONDSà ne change pas.
+
+Compte tenu de la présence de nombreuses sources d'interruption dans le IIGS, beaucoup d'entre elles ayant une priorité supérieure à l'interruption de 1 seconde de l'horloge, la valeur SECONDSà n'est pas toujours éxacte. Toutefois,  SECONDSà sera toujours éxacte immédiatement après l'éxécution d'une instruction TIMER ON. TIMER ON peut etre utilisé aussi souvent que nécessaire dans un programme.
+
+
+Voir aussi
+
+   TIMER ON et TIMER OFF
+   ON TIMER
+
+Exemple
+
+TIMER ON
+RANDOMIZE SECONDSà
+
+Page 280
+SET Instruction
+---------------
+
+Syntaxe
+   SET (StructureArrayReference <, Size> ) = NumericExpression
+   SET (StructureArrayReference <, Size> ) = ^StringVariable  
+   SET (StructureArrayReference <, Size> ) = *divar <,Length> 
+
+Action
+L'instruction SET est utilisée pour stocker une variable ou une expression  dans un tableau structuré. Il y a trois formes différentes d'instruction SET que nous allons maintenant détailler.
+
+StructureArrayReference doit une variable de tableau structuré ayant été préablement déclarée. L'argument optionnel Size détermine le nombre d'octets transférés dans la variable du tableau structuré. La valeur de Size doit etre un entier positif supérieur ou égal à un, mais pas plus grand que la taille du tableau structuré. Si l'argument Size n'apparait pas, le nombre d'octets transférés est la taille de l'expression après le signe égal.
+
+La première forme de l'instruction SET assigne la valeur de NumericExpression à la variable du tableau structuré. Pour s'assurer du type et de la taille de la valeur de NumericExpression, on peux utiliser les fonctions CONV, voir le chapitre 7 pour une description complète des types numériques de TML BASIC et de leurs tailles respectives.
+
+La deuxième forme de l'instruction SET est utilisée pour ranger des chaines TML dans un tableau structuré en tant que chaine comptées (Chaines Pascal). StringExpression peut etre une expression ou une variable chaine. Un octet de longueur est stocké dans le premier élément spécifié du tableau structuré et est suivi par les éléments de l'expression chaine.
+
+La troisième forme de l'instruction SET autorise deux types d'assignation directe en mémoire dans un tableau structuré. Quand l'expression LENGTH est omise, la valeur de la variable entiere double est utilisée en tant que adresse mémoire pour un octet de comptage, suivi par de 0 à 255 caractères d'une donnée chaine qui sont assignés au champ du tableau structuré. Si l'expression LENGTH est présente, l'adresse utilisée est l'adresse des octets de longueur des données. L'octet de comptage ou le paramètre de longueur peut etre zéro et la longueur peut aller jusqu'à un nombre qui est 32767.
+
+Voir aussi
+   DIM
+   VAR
+   Chapitre 7
+<page-footer>
+<page-break>
+
+Page 281
+SGN     Fonction
+----------------
+
+Syntaxe
+
+   SGN(NumericExpression)
+
+Action
+
+La fonction SGN est utilisée pour déterminer le signe de NumericExpression. SGN renvoie une valeur entière de moins un si NumericExpression est négatif, zéro si NumericExpression est égal à zero et un si NumericExpression est positif.
+
+Exemple
+PRINT SGN(-1234)
+PRINT SGN(0)
+PRINT SGN(5342)
+
+Résultat obtenu
+-1 
+0 
+1
+<page-footer>
+<page-break>
+
+Page 282
+SHOWDIGITS  Variable Réservée Modifiable
+----------------------------------------
+
+Syntaxe
+
+   SHOWDIGITS
+   SHOWDIGITS = NumericExpression
+
+Action
+
+ La variable réservée modifiable SHOWDIGITS controle le nombre de chiffres significatifs affichés par l'instruction PRINT pour imprimer des valeurs numériques.
+
+La valeur par défaut de SHOWDIGITS est 7 qui est le nombre de chiffres significatifs dans un nombre réel simple précision. SHOWDIGITS peut etre positionné à des valeurs entières comprises entre 2 et 28.
+
+SHOWDIGITS change uniquement le comportement de l'instruction PRINT et non pas celui de l'instruction PRINT USING.
+
+Voir aussi
+   PRINT
+   PRINT USING
+
+Exemple
+FOR i% = 2 to 7
+    SHOWDIGITS = i%
+    PRINT PI
+NEXT i%
+
+Résultat obtenu
+3.1
+3.14
+3.141
+3.1416
+3.14159
+3.141593
+<page-footer>
+<page-break>
+
+Page 283
+SIN  Fonction
+-------------
+
+Syntaxe
+
+   SIN(NumericExpression)
+
+Action
+
+SIN renvoie le sinus trigonométrique de NumericExpression. NumericExpression est un angle exprimé en radian. Pour convertir des radians en dégrés, il faut multipler NumericExpression par 180/PI. Pour convertir des dégrés en radian, multiplier par PI/180.
+
+Voir aussi
+   ATN
+   COS
+   PI
+   TAN
+
+Exemple
+PRINT "Sinus de 45 dégrés = "; SIN(45 * PI/180)
+
+Résultat obtenu
+0.7071068
+<page-footer>
+<page-break>
+
+Page 284
+SPACE$  Fonction
+----------------
+
+Syntaxe
+
+   SPACE$(NumericExpression)
+
+Action
+
+La fonction SPACE$ renvoie une chaine contenant un nombre d'espaces égal à NumericExpression.
+
+NumericExpression doit etre un entier compris dans la gamme 0 à 255 sinon on obtiendra "Illegal Quantity Error".
+
+Voir aussi
+   REP$
+
+Exemple
+FOR i%= 0 to 5
+    PRINT  SPACE$(i%),"X"
+NEXT i%
+
+Résultat obtenu
+X
+ X
+  X
+   X
+    X
+     X
+
+<page-footer>
+<page-break>
+
+Page 285
+SPC  Fonction
+-------------
+
+Syntaxe
+
+   SPC(NumericExpression)
+
+Action
+
+La fonction SPC est utilisée pour sauter d'un nombre d'espaces égal à NumericExpression après le dernier caractère imprimé dans une instruction PRINT ou PRINT#.
+
+NumericExpression doit etre un entier dont la valeur est comprise entre zéro et 255  sinon on obtiendra le message "Illegal Quantity Error". Ne pas confondre SPC avec SPACE$. La fonction SPC ne renvoie pas une valeur chaine de la meme façon que la fonction SPACE$ mais dit simplement à l'instruction PRINT de sauter d'un certain nombres d'espaces. Si vous essayez d'utiliser la fonction SPC dans toute autre instruction que PRINT, on obtiendra une erreur de syntaxe.
+
+Notez que si la fonction SPC apparait à la fin d'une liste d'arguments PRINT suivis ou non par un point virgule, il ne sera pas envoyé de retour charriot.
+
+Voir aussi
+   PRINT
+   PRINT#
+   TAB
+
+Exemple
+PRINT "XXX"; SPC(3)
+PRINT "YYY"; SPC(3)
+PRINT "ZZZ"
+
+maChaine$= SPC(10)   'Ceci est une utilisation illégale de la fonction SPC
+
+Résultat obtenu
+XXX   YYY   ZZZ
+<page-footer>
+<page-break>
+
+Page 286
+SQR  Fonction
+-------------
+
+Syntaxe
+
+   SQR(NumericExpression)
+
+Action                   
+
+La fonction SQR retourne la racine carrée de NumericExpression.
+
+NumericExpression doit etre un nombre positif, sinon on aura une erreur au moment du RUNTIME. La fonction SQR est plus rapide que l'élévation d'un nombre à la puissance un demi.
+
+Exemple
+FOR i= 1 to 10
+   PRINT i, SQR(i)
+NEXT i
+
+Résultat obtenu
+1    1
+2    1.414214
+3    1.732051
+4    2
+5    2.236068
+6    2.44949
+7    2.645751
+8    2.828487
+9    3
+10   3.162278
+<page-footer>
+<page-break>
+
+Page 287
+STOP  Instruction
+-----------------
+
+Syntaxe
+
+   STOP
+
+Action
+
+L'instruction STOP avorte l'exécution du programme, ferme tous les fichiers ouverts et provoque l'erreur de RUNTIME "Program Interrupted"
+
+Exemple
+STOP
+<page-footer>
+<page-break>
+
+Page 288
+STR$  Fonction
+--------------
+
+Syntaxe
+
+   STR$(NumericExpression)
+
+Action
+
+La fonction STR$ évalue la donnée NumericExpression et renvoie la valeur en tant que chaine de caractères. C'est à dire qu'elle renvoie une chaine qui serait équivalente à ce que vous verriez sur l'écran si vous éxécutiez l'ordre PRINT NumericExpression.
+
+La fonction complémentaire est VAL, qui utilise un argument chaine et renvoie une valeur numérique.
+
+Voir aussi
+   VAL
+
+Exemple
+someNum = 123.456             'Attribue la variable SomeNum
+someString$ = STR$(someNum)   'Converti la valeur en chaine
+PRINT someNum, someString$    'Pour etre sur que la meme chose est imprimée
+IF someNum = VAL(someString$) THEN
+   PRINT "STR$ et VAL marche!"
+END IF
+
+Résultat obtenu
+123.456   123.456
+STR$ et VAL marche!
+<page-footer>
+<page-break>
+
+Page 289
+SUB$  Instruction
+-----------------
+
+Syntaxe
+
+   SUB$(StringVariable, Start <,Count>) = StringExpression
+
+Action
+
+L'instruction SUB$ remplace une sous chaine de la variable chaine avec une autre valeur de chaine.
+
+SUB$ substitue la valeur StringExpression dans StringVariable, en commencant au caractère numéroté Start dans la chaine. Si le paramètre optionnel Count n'apparait pas, alors le nombre de caractères substitué est le nombre de caractères dans StringExpression, sinon, on remplace seulement un nombre de caractères égal à Count. Si Start est plus grand que le nombre de caractères dans StringVariable, alors l'instruction SUB$ ne fait rien. Start et Count sont des expressions entières devant etre comprises dans la gamme allant de 1 à 255.
+
+Exemple
+STR$ = "TML BASIC"
+SUB$(STR$,5) = "Pascal"
+PRINT STR$
+
+STR$="TML BASIC"
+SUB$(STR$,5,2)="Pascal"
+PRINT STR$
+
+Résultat obtenu
+TML PASCAL
+TML PaSIC
+<page-footer>
+<page-break>
+
+Page 290
+SWAP  Instruction
+-----------------
+
+Syntaxe
+
+   SWAP (Variable1, Variable2)
+
+Action
+
+L'instruction SWAP échange les valeurs de deux variables.
+
+Variable1 et Variable2 sont deux variables simples ou des éléments d'un tableau du meme type. Si les deux variables ne sont pas exactement du meme type, on obtiendra l'erreur "Type Mismatch Error".
+
+L'instruction SWAP est pratique car il n'est pas possible d'échanger les valeurs de deux variables avec les instructions
+
+   var1 = var2: var2 = var1
+
+Quand la seconde instruction est éffectuée, la valeur de var1 a déjà la valeur de var2 au lieu de cela, il est nécessaire d'introduire une variable temporaire et une troisième instruction :
+
+   temp = var1 : var1 = var2 : var2 = temp
+
+Exemple
+var1% = 10
+var2% = 43
+PRINT var1%, var2%
+
+SWAP var1%, var2%
+PRINT var1%, var2%
+
+Résultat obtenu
+10        43
+43        10
+<page-footer>
+<page-break>
+
+Page 291
+TAB  Fonction
+-------------
+
+Syntaxe
+
+     TAB(NumericExpression)
+
+Action
+
+La fonction TAB est utilisée pour tabuler à la position d'impression spécifiée NumericExpression dans une instruction PRINT ou une instruction PRINT#.
+
+La fonction TAB déplace la position d'impression en cours d'un nombre d'espace égal à NumericExpression depuis la marge gauche de la ligne. Si la position d'impression en cours est déjà au delà de la position spécifdiée, la fonction TAB n'a aucun effet.
+
+NumericExpression doit etre une valeur entière comprise entre 1 et 255 sinon on obtiendra le message "Illegal Quantity Error". Si vous essayez d'utiliser la fonction TAB dans une instruction autre que PRINT, vous obtiendrez une erreur de syntaxe.
+
+Notez que si la fonction TAB apparait à la fin d'une liste d'arguments PRINT, qu'il y ait ou non un point virgule, le retour charriot ne sera pas envoyé.
+
+Voir aussi
+   PRINT
+   PRINT#
+   SPC
+
+Exemple
+FOR i% = 1 TO 10
+    PRINT "X"; TAB(i%);"Y"
+NEXT i%
+
+Résultat obtenu
+XY
+XY
+X Y
+X  Y
+X   Y
+X    Y
+X     Y
+X      Y
+X       Y
+X        Y
+<page-footer>
+<page-break>
+
+Page 292
+TAN  Fonction
+-------------
+
+Syntaxe
+
+   TAN(NumericExpression)
+
+Action
+
+La fonction TAN renvoie la tangente trigonométrique de NumericExpression. NumericExpression est un angle exprimé en radian. Pour convertir les radians en dégrés, multiplier le nombre de radians par 180/PI. Pour convertir des dégrés en radians, multiplier les dégrés par PI/180.
+
+Voir aussi
+   ATN
+   COS
+   PI
+   SIN
+
+Exemple
+PRINT "Tangente de 45 degrés = ";TAN (45 * PI/180)
+
+Résultat obtenu
+1
+<page-footer>
+<page-break>
+
+Page 293
+TEN  Fonction
+-------------
+
+Syntaxe
+
+   TEN(HexStringExpression)
+
+Action
+
+La fonction TEN renvoie l'equivalent décimal en base 10 des chiffres héxadécimaux qui sont spécifiés dans StringExpression. La valeur renvoyée est un entier double. HexStringExpression peut contenir des espaces en tete suivis par un signe $ optionnel mais les huit ou moins caractères suivants de la chaine doivent représenter un nombre héxadécimal, sinon on obtiendra l'erreur "Illegal Quantity Error".
+
+Voir aussi
+   HEX$
+
+Exemple
+PRINT TEN("$E1000")
+
+Résultat obtenu
+921600
+<page-footer>
+<page-break>
+
+Page 294
+TASKPOLL INIT   Instruction
+TASKPOLL        Instruction
+---------------------------
+
+Syntaxe
+
+   TASKPOLL INIT NumericExpression
+   TASKPOLL NumericExpression
+
+Action
+
+Les instructions TASKPOLL sont utilisées pour écrire des programmes DESKTOP controlés par des évenements. L'instruction TASKPOLL INIT est utilisée pour définir le type d'évenements qui seront détectés alors que l'instruction TASKPOLL est utilisée pour détecter effectivement les évenements. L'écriture de programmes controlés par des évenements n'est pas une tache aisée. Soyez sur d'avoir bien compris les informations des chapitres 11 à 13 avant d'écrire des programmes gérant les évenements.
+
+Les instructions TASKPOLL en TML BASIC utilisent la routine TASKMASTER du Window Manager de la Toolbox pour détecter les évenements. Donc, pour utiliser les instructions TASKPOLL dans un programme, il est nécessaire que le programme charge et initialise correctement les outils nécessaires du DESKTOP en particulier le Window Manager. Pour une information plus complète sur les outils requis et comme les charger et les initialiser, voir le chapitre 13.
+
+Comme indiqué avec l'instruction EVENTDEF, l'instruction TASKPOLL est capable de détecter 29 évenements différents. Les 16 premiers évenements sont les évenements type standards de l'Event Manager et les 13 derniers évenements restant sont ceux détectés par Taskmaster quand il arrive un évenement de type Mouse-Down intervenant à des endroits spéciaux du Desktop. Il est possible de controler lesquels des 13 derniers évenements sont vraiment détectés par TaskMaster en donnant une certaine valeur à TASKMASK. TASKMASK est une valeur entière spécifiée par l'argument NumericExpression dans l'instruction TASKPOLL INIT. On trouvera ci-dessous les valeurs individuelles de TASKMASK. Les valeurs individuelles sont ajoutées les unes aux autres pour constituer TASKMASK. Ainsi une valeur de TASKMASK égale à 8191 (la somme de toutes les valeurs) indiquerait que TASKMASK doit détecter tous les types d'évenements possibles. Suit une liste de valeurs et la détection engendrée.
+
+   1 Détecte les touches menu
+   2 Exécute une mise à jour automatique de la fenetre
+   4 Exécute FindWindow (trouver la fenetre)
+   8 Exécute MenuSelect (sélection du menu)
+  16 Exécute OpenNDA (ouvrir un NDA)
+  32 Exécute SystemClick
+  64 Exécute DragWindow (déplacer une fenetre)
+ 128 Exécute SelectWindow si 'mouse down in content'
+ 256 Exécute TrackGoAway
+ 512 Exécute TrackZoom
+1024 Exécute GrowWindow (agrandissement de fenetre)
+2048 Exécute un auto scrolling support (déroulement automatique du support)
+4096 Gère les éléments spéciaux du menu
+<page-footer>
+<page-break>
+
+Page 295
+L'instruction TASKPOLL INIT doit etre éxécutée avant l'instruction TASKPOLL  afin de définir une valeur pour TASKMASK. Si un programme doit changer TASKMASK, l'instruction TASKPOLL INIT doit etre éxécutée à nouveau. L'instruction TASKPOLL est utilisée pour détecter des évenements. Quand un évenement se produit, l'instruction TASKPOLL éxamine l'EVENT DISPATCH TABLE et la MENU ITEM DISPATCH TABLE pour déterminer les sous programmes adéquats de gestion des évenements. Ces tableaux sont définis par les instructions EVENTDEF et MENUDEF. Normallement, un programme éxécute l'instruction TASPOLL dans une boucle, permettant à l'instruction TASKPOLL d'appeller automatiquement les sous programmes de gestion d'évenements.
+
+L'argument NumericExpression défini EVENTMASK. EVENTMASK est utilisé pour indiquer quel évenement doit etre renvoyé par l'instruction TASKPOLL. Si un évenements éxiste mais qu'EVENTMASK indique que l'évenement ne doit pas etre renvoyé, l'évenement reste dans la file d'attente d'évenements de l'EVENT MANAGER jusqu'à ce que TASKPOLL soit appellé avec un EVENTMASK qui autorise un évenement à etre renvoyé.
+
+Suit les valeurs individuelles d'EVENTMASK. Les valeurs individuelles sont ajoutées les unes aux autres afin de constituer l'EVENTMASK complet. Ainsi, une valeur de moins 1 (tous les bits mis à un) indique que TASKMASTER doit renvoyer tous les types d'evenements possibles.
+
+     2    Souris enfoncée
+     4    Souris relevée
+     8    Touche enfoncée
+    32    Répétition touche
+    64    Mise à jour (update)
+   128    Activation (activate)
+   512    Contact (Switch)
+  1024    Accessoire de bureau
+  2048    Driver de péripherique
+  4096    Application définie nr 1
+  8192    Application définie nr 2
+ 16384    Application définie nr 3
+-32768    Application définie nr 4
+
+Voir le chapitre 13 pour une description complète d'écriture d'un programme gérant les évenements.
+
+Voir aussi 
+   EVENTDEF
+   EXEVENTà
+   MENUDEF
+   TASKREC%
+   Chapitre 11 à 13
+<page-footer>
+<page-break>
+
+Page 296
+TASKREC% et TAKSRECà  Fonctions
+-------------------------------
+
+Syntaxe
+
+   TASKREC%(NumericExpression)
+   TASKRECà(NumericExpression)
+
+Action
+
+Les fonctions TASKREC renvoient un simple ou double entier résultat de TASKMASTER TASKREC. NumericExpression est une valeur entière qui représente un mot de décalage (offset) dans TASK RECORD DATA STRUCTURE. Un TASK RECORD (un enregistrement de tache) est une variable interne à TML BASIC qui est déclarée comme un Event Manager Event Record (enregistrement d'évenement du Gestionnaire d'Evenement). La définition d'un Event Record est la suivante (d'apres l'appendice C):
+
+_____________________________________________________________________
+
+   DIM anEventRecord!(19)
+
+Element(s) Valeur        Description
+
+0...1     Entier         Code d'evenement spécifiant quel évenement arrive
+2...5     Double entier  Message d'evenement contenant des informations                                complémentaires sur l'évenement
+6...9     Double entier  Nombre "ticks" depuis le départ
+10.13     Point          Position de la souris quand l'évenement s'est                                  produit
+14.15     Entier         Drapeaux modificateurs
+16.17     Double entier  Task data pour Task Master
+18.19     Double entier  Task Mask pour Task Master
+
+_____________________________________________________________________
+
+Par exemple, l'appel à la fonction TASKRECà(2) renvoie le chanp Event Message depuis Event Record en tant que valeur entière double.
+
+Les fonctions TASKREC sont utilisées dans les sous-programmes de gestion d'évenements. Un sous programme de gestion d'évenement extrait l'information dans l'enregistrement d'évenement (Event Record) pour déterminer éxactement quelle action entreprendre suite à un evenement. Par exemple la fonction TASKREC peut etre utilisée pour déterminer la position de la souris pour un évenement Mouse down.
+La signification de chaque champ dépends du type d'évenement retourné. Pour une description complète de la signification de ces champs, voir le chapitre 13. L'APPLE IIGS TOOLBOX REFERENCE est aussi une bonne source d'information pour tout ce qui concerne cette structure de data.
+
+<page-footer>
+<page-break>
+
+Page 297
+TEXT  Instruction
+-----------------
+
+Syntaxe
+
+   TEXT
+
+Action
+
+L'instruction TEXT possitionne l'affichage écran au mode Texte plein écran en éffaçant tous les autres modes graphiques ou textes utilisés. Le curseur est positionné sur la première ligne à coté de la marge gauche en haut de l'écran.
+
+Voir aussi 
+   GRAF INIT
+   GRAF ON
+   GRAF OFF
+   HOME
+
+Exemple
+TEXT
+<page-footer>
+<page-break>
+
+Page 298
+TEXTPORT  Instruction
+---------------------
+
+Syntaxe
+
+   TEXTPORT gauche, Haut TO droite, bas
+
+Action
+
+L'instruction TEXTPORT règle la taille et la position de la fenetre texte à l'intérieur de l'écran texte. Après avoir éxécuté l'instruction TEXTPORT, toutes les sorties qui suivront seront restreintes à la taille de la fenetre écran texte. Le reste de l'écran texte n'est pas affecté.
+
+Gauche, haut, droite et bas définissent les frontières de la fenetre texte. Si les frontières de la fenetre texte spécifiée définissent une fenetre plus large que l'écran texte, (24 rangées sur 80 colonnes) alors, la fenetre texte sera tronquée de manière à tenir.
+
+Exemple
+TEXTPORT 10,10 TO 20,20
+<page-footer>
+<page-break>
+
+Page 299
+TIME  Fonction
+--------------
+
+Syntaxe
+
+   TIME(NumericExpression)
+
+Action
+
+La fonction TIME lit l'horloge du IIGS pour envoyer l'information TIME comme un entier plutot qu'une chaine comme renvoyée par la fonction TIME$. La valeur de NumericExpression doit etre comprise entre 0 et 3 sinon on obtient le message "Illegal Quantity Error". 
+
+Le tableau suivant montre les valeurs retournées par la fonction TIME pour chaque valeur légale de paramètre.
+
+Function  Valeur renvoyée
+
+TIME(0)   Heure (de 0 à 23), lit l'horloge
+TIME(1)   Heure (de 0 à 23)
+TIME(2)   Minute (de 0 à 59)
+TIME(3)   Seconde (de 0 à 59)
+
+Actuellement, l'horloge du IIGS est lue uniquement quand la valeur du paramètre est zéro. TIME(0) lit toutes les informations de l'horloge du IIGS puis mets à jour les valeurs qui seront renvoyées par les autres appels de la fonction TIME. Cette caractéristique protège le programme des problèmes classiques de "clock rollover"
+
+Exemple
+ReadTime% = TIME(0)  'Lit les informations concernant l'heure
+Heure%    = TIME(1)
+Minute%   = TIME(2)
+Seconde%  = TIME(3)
+
+PRINT "Il est " ; Heure% ; ":" ; Minute% ; ":" ; Seconde%
+Résultat obtenu
+Il est 14:32:15
+<page-footer>
+<page-break>
+
+Page 300
+TIME$  Instruction
+------------------
+
+Syntaxe
+
+   TIME$
+   TIME$ Heure, Minute, Seconde
+
+Action
+
+TIME$ est en meme temps une fonction et une instruction en TML BASIC. L'instruction TIME$ comporte trois arguments, tandis que la fonction  n'en comporte aucun.
+
+La fonction TIME$ lit l'horloge du IIGS et renvoie l'heure courante en tant que chaine. La chaine dépends du format choisi dans le tableau de bord du IIGS. Le format de l'heure est HH:MM:SS ou HH réprésente l'heure, MM les minutes et SS les secondes. Les variantes de ce format sont un affichage de l'heure sur 12 ou 24 heures. Consultez votre manuel d'utilisation du IIGS pour toute information concernant le tableau de bord.
+
+L'instruction TIME$ est utilisée pour changer l'heure courante de l'horloge du IIGS. L'heure est spécifiée par le paramètre Heure, les minutes par le paramètre Minute et les secondes par le paramètre Seconde. Le paramètre Heure doit etre dans la gamme 0 à 23, tandis que les Minutes et les Secondes doivent etre dans la gamme 0 à 59.
+
+Exemple
+TIME$ 8, 20, 40  'Règle l'horloge à 8:20:40 AM
+PRINT TIME$
+
+Résultat obtenu
+8:20:40 AM
+<page-footer>
+<page-break>
+
+Page 301
+TIMER ON et TIMER OFF  Instruction
+----------------------------------
+
+Syntaxe
+
+   TIMER ON
+   TIMER OFF
+
+Action
+
+L'instruction TIMER ON démarre un processus qui lit l'heure sur l'horloge du IIGS et calcule la valeur du nombre de secondes depuis minuit (nombre compris entre 0 et 86399) et la range dans la variable compteur SECONDSà . Le compteur est mis à jour une fois par seconde en utilisant l'interruption horloge 1-second clock interrupt. Après avoir éxécuté TIMER ON, un programme peux enclencher une minuterie ayant un interval de 1 coup (one-shot) en utilisant l'instruction ON TIMER. TIMER OFF désenclenche l'interruption d'horloge 1-second et ainsi gèle le compteur SECONDSà.
+
+Compte tenu de la faible priorité de l'interruption 1-second et d'autres facteurs dans le système, il est possible que le compteur manque des interruptions et ne représente pas le nombre effectif de secondes écoulées depuis minuit.
+
+Voir aussi
+   ON TIMER
+   SECONDSà
+
+Exemple
+TIMER ON
+RANDOMIZE SECONDSà
+<page-footer>
+<page-break>
+
+Page 302
+TYP  Fonction
+-------------
+
+Syntaxe
+
+   TYP(FileNumber)
+
+Action
+
+La fonction TYP renvoie le type du prochain élément de donné devant etre lu sur le fichier de donné Basic (Basic Data File) pour le prochain accès. Cette fonction est utilisée typiquement pour s'assurer qu'une instruction READ sera utilisée avec le type correcte de variable quand les éléments éxactes du fichier ne sont pas connus. 
+
+L'argument FileNumber est le numéro de référence du fichier préalablement ouvert avec ce nombre. Le nombre renvoyé par la fonction TYP caractérise le type de données qui sera lu sur le fichier spécifié. TYP renvoie les valeurs suivantes :
+
+Valeur    Signification
+0         Fin de fichier
+2         Donnée suivante est du type entier (%)
+3         Donnée suivante est du type double entier (à)
+4         Donnée suivante est du type entier long (&)
+5         Donnée suivante est du type réel simple (pas de suffixe)
+6         Donnée suivante est du type réel double (#)
+7         Donnée suivante est du type chaine($)
+
+Si le type du fichier référencé par FileNumber n'est pas un fichier de données Basic (BDF), on aura l'erreur "file type error". Si FileNumber ne se référe pas à un fichier ouvert en cours, on obtiendra l'erreur "file not open error".
+
+Exemple
+nextTyp% = TYP(1)
+IF nextTyp% = 2 THEN
+   READ #1 ; nextInt%
+ELSE IF nextTyp% = 3 THEN
+   READ #1 ; nextDblIntà
+ELSE IF nextTyp% = 4 THEN
+   READ #1 ; nextLongInt&
+ELSE IF nextTyp% = 5 THEN 
+   READ #1 ; nextSglReal
+ELSE IF nextTyp% = 6 THEN 
+   READ #1 ; nextDblReal#
+ELSE IF nextTyp% = 7 THEN
+   READ #1 ; nextString$
+END IF
+<page-footer>
+<page-break>
+
+Page 303
+UBOUND  Fonction
+----------------
+
+Syntaxe
+
+   UBOUND (ArrayName <()> <,DimNumber>)
+
+Action
+
+La fonction UBOUND renvoie la limite (le plus grand indice possible) de la dimension spécifiée d'un tableau. Le tableau est défini par ArrayName, optionnellement suivi par des parenthèses gauches et droite. Si le tableau est un tableau multidimenssionnel, DimNumber qui est optionnel peut etre utilisé pour spécifier quelle dimension UBOUND devrait renvoyer en tant que limite supérieure. Si DimNumber n'est pas spécifié, alors UBOUND renvoie la limite supérieur de la première dimension du tableau.
+
+UBOUND est typiquement utilisé avec les tableaux dynamiques afin de déterminer leur taille en cours. La limite inférieure d'un tableau est toujours zéro.
+
+Voir aussi
+   DIM
+
+Exemple
+i% = 5
+j% = 45
+DIM DYNAMIC someArray(i%,j%)
+PRINT UBOUND(someArray,1), UBOUND(someArray,2)
+
+Résultat obtenu
+5    45
+<page-footer>
+<page-break>
+
+Page 304
+UCASE$  Fonction
+----------------
+
+Syntaxe
+
+   UCASE$(StringExpression)
+
+Action
+
+La fonction UCASE$ renvoie une chaine qui est la valeur de StringExpression, StringExpression ayant eu toutes ses lettres minuscules, de a à z,  converties en majuscule, de A à Z.
+
+Exemple
+PRINT UCASE$("tml basic")
+
+Résultat obtenu
+
+TML BASIC
+<page-footer>
+<page-break>
+
+Page 305
+VAL  Fonction
+-------------
+
+Syntaxe
+
+   VAL(StringExpression)
+
+Action
+
+La fonction VAL évalue StringExpression et renvoie la valeur comme un réel ou un nombre entier. L'évaluation est effectuée de la gauche vers la droite. Si les caractères du début de StringExpression ne sont pas évalués comme des valeurs numériques autorisées, la valeur renvoyée est zéro. Si StringExpression commence avec des caractères numériques autorisés, suivi par des caractères non numériques, seuls, les caractères numériques sont évalués. 
+
+La fonction complémentaire est STR$, qui utilise un argument numérique et renvoie une valeur chaine.
+
+Voir aussi
+   STR$
+
+Exemple
+someString$ = "123.456"        'Définir la variable someString$
+
+someNum = VAL(someString$)     'Convertir la valeur en un nombre
+
+PRINT someString$, someNum     'Vérifier que l'on obtient la meme chose
+
+IF someString$ = STR$(someNum) THEN
+   PRINT "VAL et STR$ marchent!"
+END IF
+
+Résultat obtenu
+123.456   123.456
+VAL et STR$ marchent!
+<page-footer>
+<page-break>
+
+Page 306
+VAR  Fonction
+-------------
+
+Syntaxe
+
+   VAR(StructureArrayReference, VariableType <,Length>)
+   VAR(MemoryAddress, VariableType <,Length>)
+
+Action
+
+La fonction VAR est utilisée pour extraire des valeurs d'une variable de tableau structuré. Cette instruction est l'inverse de l'instruction SET
+
+StructureArrayReference doit etre une variable de tableau structuré qui a auparavant été déclaré. L'argument VariableType est utilisé pour indiquer le type de la valeur à extraire du tableau structuré. Le type défini implicitement le nombre d'octet qui doit etre extrait du tableau. Suivent les valeurs autorisées pour l'argument VariableType :
+
+1    Réel étendu
+2    Entier
+3    Double entier
+4    Entier long
+5    Réel simple
+6    Réel double
+7    Chaine
+
+Les valeurs ci-dessus sont les memes que les valeurs renvoyées par la fonction TYP. La seule exception est la valeur 1 puisque les réels étendus ne sont pas rangés dans des fichiers BDF
+
+Le paramètre Length peut etre utilisé avec les types entiers pour spécifier une taille plus petite que la taille entière par défaut (2,4,8), et doit etre utilisé avec le type de chaine. Pour les entiers, Length peut etre 1 ou 2, pour les double entiers, Length peut etre 1,2,3 ou 4, et pour les entiers long, Length peut aller de 1 à 8. Quand un entier est crée à partir d'une taille réduite, le résultat est toujours un nombre positif. C'est à dire qu'il n'est pas fourni d'extension signe. Pour les chaines, Length doit etre dans la gamme 1 à 255.
+
+La seconde forme de la fonction VAR implémente effectivement une opération PEEK sur plusieurs octets. MemoryAdress est un entier double qui spécifie un endroit dans la mémoire qui est essentiellement traité comme un tableau structuré. Les paramètres VariableType et Length, sont utilisés comme ci-dessus pour controler la donnée extraite.
+<page-footer>
+<page-break>
+
+Page 307
+Voir aussi
+   SET
+   TYP
+
+Exemple
+i% = VAR(aStruct!(0),2)       'Extrait 2 octets sous forme d'entier
+i% = VAR(aStruct!(0),2,1)     'Extrait 1 octet sous forme d'entier
+
+mag$ = VAR(aStruct!(12),7,10) 'Extrait 10 octets sous forme de chaine
+
+i% = VAR(aPointerà,2)         'Un PEEK multi-octet pour lire un entier
+<page-footer>
+<page-break>
+
+Page 308
+VAR$  Fonction
+--------------
+
+Syntaxe
+
+   VAR$(MemoryAdress <,Length>)
+
+Action
+
+La fonction VAR$ crée une valeur chaine TML BASIC à partir de la chaine comptée qui se trouve à l'adresse mémoire spécifiée par MemoryAdress. MemoryAdress est une expression numérique qui doit etre une adresse autorisée IIGS pointant vers une chaine comptée. Le paramètres optionnel Length spécifie le nombre de caractères à extraire de la mémoire.
+
+La fonction VAR$ est typiquement utilisée pour extraire des chaines comptées depuis une structure de donnée renvoyée par une routine TOOLBOX du IIGS.
+<page-footer>
+<page-break>
+
+Page 309
+VARPTR et VARPTR$  Fonction
+---------------------------
+
+Syntaxe
+
+   VARPTR(VariableName)
+   VARPTR$(StringVariable)
+
+Action
+
+La fonction VARPTR renvoie l'adresse du VariableName indiqué. Pour les variables chaines, VARPTR renverra l'adresse du descripteur de chaine et non pas l'adresse de la donnée chaine. Pour obtenir l'adresse d'un tableau, spécifier le nom du tableau indéxé par zéro.
+
+La fonction VARPTR$ est utilisée pour obtenir l'adresse de la chaine de donnée pour une variable chaine. Si la variable chaine spécifiée est une chaine nulle, VARPTR$ renvoie zéro. Si une variable numérique est passée à VARPTR$, on obtiendra l'erreur "Tyme Mismatch Error".
+
+Les fonctions VARPTR et VARPTR$ renvoient toutes les deux un entier double. Si une variable indéfinie est spécifiée en tant qu'argument de ces fonctions, on obtiendra l'erreur "Undefined Variable".
+
+Exemple
+DIM myArray%(50)
+
+theAdressà = VARPTR(myArray%(0))   'Adresse du tableau myArray%
+theAdressà = VARPTR(theAddr)       'Adresse de la variable simple theAddr
+theAdressà = VARPTR(myString$)     'Adresse de la chaine variable myString$
+theAdressà = VARPTR$(myString$)    'Adresse des données de la chaine                                               variable myString$
+
+<page-footer>
+<page-break>
+
+Page 310
+VOLUMES  Instruction
+--------------------
+
+Syntaxe
+
+   Volumes
+
+Action
+
+L'instruction VOLUMES est utilisée pour lire le nom de volume de chaque périphérique PRODOS 16 et afficher leur nom. Les périphériques PRODOS 16 sont numérotés .D1 à .D9. L'affichage liste le nom du périphérique, son nom de volume et le nombre d'octets libres disponibles pour le stockage sur le volume.
+
+Voir aussi
+   Chapitre 9
+<page-footer>
+<page-break>
+
+Page 311
+WRITE#  Instruction
+-------------------
+
+Syntaxe
+
+   WRITE# FileNumber <, RecordNumber> <; Expression <,I; Expression>>
+
+Action
+
+L'instruction WRITE# écrit des informations sur un fichier BDF (Basic Data File). Le mot réservé WRITE# est suivi par le numéro de référence de fichier, d'un fichier ouvert auquel on veut écrire et suivi également d'un point virgule et d'une liste d'expressions séparées par des virgules ou des points virgule.
+
+Cette forme de l'instruction WRITE# exécute un accès séquentiel en écrivant chaque valeur succéssive à la position en cours du fichier. Chaque expression dans la liste d'arguments WRITE# provoque l'écriture d'un champ sur le fichier BDF. Souvenez vous qu'un champ est constitué d'un octet marqueur suivi par la représentation binaire de la valeur. Si un enregistrement ne contient pas suffisamment de place pour contenir tous les champs qu'on essaye de lui écrire, les champs supplémentaires sont écrits sur l'enregistrement suivant. Si un champ ne peut pas tenir dans un enregistrement (s'il est plus grand que la taille de l'enregistrement), on obtiendra une erreur. 
+
+Une forme optionnelle de l'instruction WRITE# autorise l'accès aléatoire à un fichier BDF. Pour éxécuter un accès aléatoire direct en utilisant l'instruction WRITE#, il faut inclure un numéro d'enregistrement après le numéro de référence du fichier.
+
+Voir aussi
+   READ#
+   Chapitre 9
+
+Exemple
+WRITE #10; anInt%, aReal, aSTR$
+WRITE #10; "Hello"
+WRITE #10,6; anInt%, aReal, aStr$
+
+
+Fin du chapitre 10
+
+
+
+
+
+Page 315

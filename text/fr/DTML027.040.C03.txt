@@ -1,0 +1,250 @@
+CHAPITRE 3
+----------
+COMPILER ET LANCER UN PROGRAMME
+-------------------------------
+Dans le chapitre 2, on a vu plusieurs commandes de fenetres et de fichiers du TML BASIC. Dans ce chapitre, nous allons découvrir les trois différentes options de compilation disponibles dans TML BASIC, pour vous permettre de compiler et lancer des programmes. Pour ce faire, nous allons réouvrir les deux exemples que nous avons déjà ouvert dans le chapitre deux.
+
+REGARDER LES EXEMPLES
+---------------------
+Commencez par booter votre IIGS avec votre disquette TML BASIC, puis lancez TML BASIC en cliquant deux fois sur l'icone TML BASIC. 
+
+Le programme HELLOWORLD.BAS utilisé dans le chapitre 2 est un simple programme d'entrée/sortie. Le programme est écrit pour montrer comment TML BASIC écrit la ligne de texte HELLO WORLD en tant que sortie sur l'écran, puis reconnait la touche retour charriot depuis le clavier, comme une entrée dans le programme. Le programme exemple DEMO.BAS utilise les memes possibilités d'entrée/sortie que le programme HELLOWORLD.BAS, mais teste différentes fonctions chaine du TML BASIC. 
+
+Avant de commencer, réouvrons les programmes exemples HELLOWORLD.BAS et DEMO.BAS. Souvenez vous que pour ouvrir ces programmes, vous sélectionnez la commande OPEN depuis le menu FILE, ensuite que vous ouvrez le dossier PART1.EXAMPLES, et choisissez les noms de fichiers appropriés dans la boite de dialogue de OPEN FILE.
+
+Après avoir ouvert les deux programmes, l'environnement d'édition du TML BASIC consistera en deux fenetres ouvertes contenant chacune le code source des programmes. La figure 2-6 du chapitre deux illustre ce que vous devriez voir sur votre écran après avoir ouvert les deux programmes. Vous pouvez désirer réorganiser les deux fenetres ouvertes de telle façon que les codes sources des programmes soient visibles en utilisant la commande TILE WINDOWS du menu Windows.
+
+LES ALTERNATIVES DE COMPILATION
+-------------------------------
+TML BASIC donne au programmeur trois options différentes pour compiler des programmes. Les commandes de compilation se trouvent dans le menu COMPILE. Vous pouvez voir chacune des commandes en appuyant et gardant maintenu le bouton de la souris sur le menu COMPILE. La figure 3-1 montre les deux fenetres d'éditions ouvertes dans une position TILED, avec le menu COMPILE déroulé.
+<page-footer>
+
+
+
+Page 28
+Figure 3-1
+Le menu Compile
+Se reporter à la documentation papier
+
+La première commande de ce menu est probablement celle que vous utiliserez le plus souvent. La commande TO MEMORY AND RUN dit à TML BASIC de compiler le code source de la fenetre d'édition active (la fenetre la plus en haut), puis après avoir terminé sans erreur, éxécute le programme directement depuis la mémoire du IIGS.
+
+La commande TO DISK est utilisée pour dire à TML BASIC de compiler un programme et créer un fichier application PRODOS 16 indépendant sur le disque. Vous utiliserez cette commande quand vous aurez crée un programme qui s'éxécute sans erreur et que vous désirez éxécuter ce programme directement depuis le finder.
+
+Enfin, la commande CHECK SYNTAX, vous permets de vérifier rapidement la syntaxe d'un programme TML BASIC. Cette commande n'éxécute pas le programme choisi, et ne crée pas non plus de fichier disque. C'est l'option de compilation la plus rapide disponible dans TML BASIC.
+
+Quand une option de compilation est choisie parmis l'une de ces trois commandes de compilation, TML BASIC affiche la boite de dialogue Compile Progress (compilation en cours) Cette boite de dialogue est utilisée pour afficher l'état du compilateur pendant la compilation. Quand le vu-metre de la boite de la boite de dialogue Compile Progress atteint le coté droit de l'affichage, le processus de compilation est terminé.
+
+TESTER LE CODE SOURCE D'UN PROGRAMME
+------------------------------------
+La commande CHECK SYNTAX est la plus rapide des trois techniques de compilation parcequ'elle ne génère pas de code.
+<page-footer>
+
+
+
+Page 29
+Au lieu de cela, cette commande ordonne à TML BASIC de vérifier que le programme actif a été écrit en utilisant des mots clefs, des instructions et des fonctions autorisées du basic. Elle ne peut pas vérifier, toutefois, la logique d'un programme. Par exemple, une boucle infinie dans le code source d'un programme ne sera pas détectée par la commande CHECK SYNTAX.
+
+Cliquez la souris une fois sur la fenetre HELLOWORLD.BAS pour rendre cette fenetre active. Déroulez le menu COMPILE et choisissez la commande CHECK SYNTAX. La boite de dialogue Compile Progress est immédiatement affichée indiquant l'état du compilateur alors qu'il vérifie la syntaxe du code source. Voir figure 3-2
+
+Figure 3-2
+Boite de dialogue Compile Progress
+Se reporter à la documentation papier
+
+Quand que le vu metre à l'intérieur de la boite de dialogue Compile Progress atteint la droite de l'écran, la compilation est terminée. Comme vous le verrez, cela ne prends qu'un court moment à TML BASIC pour compiler le programme HELLOWORLD.BAS. La raison en est évidemment que TML BASIC est un compilateur rapide, de plus, le programme est très petit et la commande CHECK SYNTAX est la plus rapide des trois options de compilation du TML BASIC.
+
+Un résultat n'indiquant aucune erreur ne signifie pas obligatoirement qu'il n'y a pas d'erreur dans le programme. Toutefois, l'utilisation de la commande CHECK SYNTAX vous permettra de vous assurer que le programme ne contient pas d'erreur de syntaxe.
+<page-footer>
+
+
+
+Page 30
+Il est important d'utiliser la commande CHECK SYNTAX, quand vous n'etes pas sur que votre programme s'éxécutera correctement. Puisque cette commande n'éxécute pas un programme après l'avoir compilé, cela peut éviter des situations telles que le plantage de l'ordinateur, si votre programme contient certaines erreurs logiques. 
+
+Si une erreur est détectée dans le code source d'un programme, TML BASIC arretera le processus de compilation, retournera dans l'éditeur TML BASIC, mettra en valeur l'endroit exact o| il a trouvé une erreur et affichera ensuite un message décrivant l'erreur.  On verra plus tard les messages d'erreur dans ce chapitre, dans la section intitulée "détectez les erreurs de programme".
+
+EXECUTER UN PROGRAMME
+---------------------
+Une fois que vous avez vérifié que votre programme ne contient pas d'erreur de syntaxe en lancant la commande CHECK SYNTAX, vous pouvez éxécuter votre programme (RUN). Pour ce faire, choisissez la commande TO MEMORY AND RUN du menu COMPILE. En choisissant cette commande, TML BASIC vous donnera à nouveau la boite de dialogue Compile Progress, cette fois le compilateur génère du code pour le programme. Si le programme ne contient pas d'erreur de syntaxe, le programme compilé est immédiatement éxécuté. 
+
+Pour l'éxécution d'un programme compilé, l'environnement TML BASIC est mis hors service temporairement, cachant ses menus, ses fenetres etc..., et ensuite donne le controle au programme compilé. Le programme compilé prends alors le controle complet de l'ordinateur pendant qu'il est éxécuté. Une fois que le programme est terminé, l'environnement TML BASIC restaure ses menus, ses fenetres, vous permettant de continuer la programmation.
+
+Parce qu'il est possible que le programme compilé contienne des erreurs logiques qui peuvent provoquer le plantage de la machine, TML BASIC fourni une sécurité appelée AUTO SAVE. Si cette option est mise en service, TML BASIC sauvegarde automatiquement tout changement que vous avez fait au code source du programme avant la compilation. Cette caractéristique permet de vous assurer que vous ne perdrez pas les modifications du code source, au cas ou une erreur catastrophique arriverait pendant l'éxécution du programme. On parle plus en détail de l'option AUTO SAVE, dans le chapitre 6, dans la section "Préférences...".
+
+Pour compiler le programme HELLOWORLD.BAS, assurez vous tout d'abord que le programme est dans une fenetre active, (dans la fenetre la plus en haut) s'il ne l'est pas, rendez la fenetre active en cliquant une fois n'importe o| dans sa fenetre. Sélectionnez maintenant la commande de compilation TO MEMORY AND RUN. Le programme HELLOWORLD.BAS utilise l'écran texte pour afficher le message Hello World en différents endroits de l'écran. Le programme attends ensuite que l'on appuie sur la touche Return. Une fois appuyé sur la touche return, le programme est terminé et redonne le controle à l'environnement TML BASIC, les fenetres se trouvant exactement dans le meme état que lorsque vous les avez quittées.
+<page-footer>
+
+
+
+Page 31
+CREER UNE APPLICATION INDEPENDANTE
+----------------------------------
+Comme vu plus haut, la possibilité de compiler en mémoire du TML BASIC est extremement rapide et interactive. Toutefois, cela comporte un petit problème du fait que vous deviez lancer TML BASIC à chaque fois que vous désirez éxécuter un programme TML BASIC. C'est pourquoi il éxiste une troisième option de compilation disponible en TML BASIC, c'est à dire TO DISK. Cette option de compilation vous permets de créer des applications prodos 16 indépendantes, qui peuvent etre lancées depuis le finder du IIGS en cliquant deux fois sur son icone, de la meme façon que vous avez cliqué sur l'icone TML BASIC, pour lancer TML BASIC. Vous pouvez meme copier l'application compilée sur un autre disque et l'éxécuter depuis ce disque, car alors TML BASIC n'est plus necessaire pour le programme qui est compilé sur le disque.
+
+Compilons le programme HELLOWORLD.BAS sur un disque. Activez la fenetre qui contient le programme HELLOWORLD.BAS (souvenez vous que les commandes de compilation ne fonctionnent que sur la fenetre active), choisissez la commande TO DISK du menu COMPILE, pour compiler le programme HELLOWORLD.BAS et créer une application indépendante sur disque. Vous noterez que cette fois ci, le processus de compilation prends sensiblement plus de temps. 
+
+L'augmentation de la durée du processus de compilation résulte de l'écriture sur disque du programme compilé. Le nom final du fichier application sur disque est HELLOWORLD et se trouve dans le meme dossier que le fichier du code source HELLOWORLD.BAS
+
+                         IMPORTANT
+______________________________________________________________________
+
+Suivent les trois règles utilisées par TML BASIC pour déterminer le nom de fichier d'une application compilée quand on utilise la commande de compilation TO DISK.
+
+1) Si le nom d'un fichier code source se termine avec le suffixe .BAS, alors on assigne au fichier application, le meme nom que le fichier du code source, auquel on enlève le suffixe .BAS Le fichier d'application est placé dans le meme dossier que le fichier du code source.
+
+2) Si le nom d'un fichier code source ne se termine pas avec le suffixe .BAS, alors le nom du fichier application est le nom du fichier code source auquel on ajoute les lettres APP, à la fin du nom. Si le nom fichier du code source est plus grand que 12 caractères, TML BASIC utilise seulement les 12 premiers caractères du nom de fichier du code source. Le fichier application est placé dans le meme dossier que le fichier du code source.
+<page-footer>
+
+
+
+Page 32
+3) Si le code source est dans une nouvelle fenetre portant comme nom "Untitled" (sans titre), c'est à dire qu'il n'éxiste pas de fichier disque contenant le nouveau programme du code source, alors le nom du fichier application devient UNTITLEDAPP. Le fichier application est placé dans le dossier ouvert en cours, au moment ou la boite de dialogue OPEN FILE est affichée.
+
+______________________________________________________________________
+
+
+LA COMPILATION DES LIBRAIRIES
+-----------------------------
+En plus de la compilation des programmes, TML BASIC permet de compiler des librairies. Une librairie contient des instructions de programme basic mais n'est pas capable d'etre éxécutée de la meme façon qu'un programme. Au lieu de cela, une librairie est compilée séparemment d'un programme et ensuite utilisée dans un ou plusieurs programmes basic. Les librairies vous permettent de découper un programme en plusieurs morceaux de code plus petits, plus faciles à gérer. Les chapitres 7 et 8 décrivent les librairies avec beaucoup de détails.
+
+Une librairie ressemble beaucoup à un programme, excepté qu'elles commencent avec l'instruction DEF LIBRARY et se terminent avec l'instruction END LIBRARY. Le fichier EXAMPLELIB.BAS dans le dossier PART1.EXAMPLES est un exemple des librairies TML BASIC. De plus, le fichier LIBDEMO.BAS du dossier PART1.EXAMPLES, montre comment le code source de la libaririe EXAMPLELIB.BAS est utilisé dans un programme. En utilisant TML BASIC, vous devriez ouvrir ces deux fichiers pour voir comment on utilise le mécanisme d'une librairie en TML BASIC.
+
+Le fichier EXAMPLELIB.BAS est une librairie contenant une déclaration de procédure qui imprime le message Hello World, de la meme façon que le fait le programme HELLOWORLD.BAS. Le fichier LIBDEMO.BAS est un programme qui ne contient que 4 lignes de code. Toutefois, quand ce programme est exécuté, il génére le meme affichage que le programme HELLOWORLD.BAS parce qu'il appele les procédures de la librairie EXAMPLELIB.BAS.
+
+Parce qu'une librairie n'est pas capable d'etre éxécutée, le compilateur TML BASIC agit différemment quand on choisi les différentes de compilation du menu Compile. Comme mentionné ci-dessus, quand une librairie est compilée, elle ne crée pas un programme qui peut etre exécuté. Toutefois, TML BASIC sauvegarde le code compilé de la librairie de telle façon que d'autres programmes peuvent l'utiliser. Ainsi, vous choisissez la commande TO MEMORY AND RUN, TML BASIC compile la librairie, mais ensuite renvoie le controle à l'éditeur, au lieu de transférer le controle au code compilé comme il le ferait pour un programme. Notez que TML BASIC sauvegarde le code compilé en mémoire, de telle façon qu'il peut etre utilisé plus tard par un programme. Pour faire des essais, compilez le fichier EXAMPLELIB.BAS, en choisissant la commande TO MEMORY AND RUN. Ensuite, compilez le programme LIBDEMO.BAS en utilisant également la commande TO MEMORY AND RUN. Parce que le fichier LIBDEMO.BAS est un programme, il est éxécuté immédiatement, après une compilation réussie. 
+
+Les librairies peuvent également etre compilées en utilisant la commande TO DISK. Quand une librairie est compilée sur disque, elle ne crée pas d'application prodos 16, mais un fichier TML BASIC .LIB, le fichier .LIB contenant le code source compilé de la librairie.
+<page-footer>
+
+
+
+Page 33
+Quand un programme à besoin d'utiliser une librairie qui n'a pas été compilée en mémoire en utilisant la commande TO MEMORY AND RUN, TML BASIC recherche le code compilé sur disque, dans un fichier .LIB. Essayez de compiler le fichier EXAMPLELIB.BAS en utilisant la commande TO DISK et regardez ensuite la disquette en utilisant le finder IIGS et cherchez le fichier .LIB
+
+                           IMPORTANT
+
+______________________________________________________________________
+
+
+Suivent les règles utilisées par TML BASIC pour déterminer le nom de fichier d'une librairie compilée, quand on utilise la commande de compilation TO DISK.
+
+1) TML BASIC utilise le nom de la librairie, comme spécifié dans l'instruction DEF LIBRARY, comme le nom de base du fichier librairie compilé. TML BASIC ajoute ensuite le suffixe .LIB, à la fin du nom de la librairie, pour créer le nom de fichier final. Le fichier librairie est placé dans le meme répertoire que le fichier code source.
+
+Le nom de fichier du code source n'a pas d'effet sur le nom du fichier librairie compilé. Toutefois, pour éviter des confusions, il est recommandé d'utiliser le meme nom de fichier de code source que le nom de librairie, avec le suffixe .BAS
+
+2) Si le nom de Librairie est plus grand que 12 caractères, TML BASIC utilisera seulement les 12 premiers caractères du nom de la librairie. Le suffixe .LIB est ensuite ajouté et le fichier crée est crée dans le meme répertoire que le fichier du code source.
+
+______________________________________________________________________
+
+
+La commande CHECK SYNTAX se comporte éxactement de la meme façon pour les programmes et pour les librairies. C'est à dire, TML BASIC vérifie seulement que le code source de la librairie contient des instructions basic autorisées.
+
+DETECTER LES ERREURS
+--------------------
+Jusqu'à présent, dans ce chapitre, nous avons discuté de la façon de compiler des programmes en utilisant TML BASIC. Toutefois, notre discussion a été limitée à des programmes dont on sait qu'ils sont corrects, c'est à dire qu'ils ne contiennent pas d'erreur. Dans cette section, nous allons découvrir comment TML BASIC traite les erreurs.
+
+Tout d'abord, considérons les composants de l'environnement TML BASIC. TML BASIC est un outil de développement intégré, constitué de trois éléments séparés : l'éditeur, le compilateur et l'éditeur de lien (linker). Ces différents éléments travaillent si étroitement ensemble que l'utilisateur ne les percoit en fait que comme un seul élément.
+<page-footer>
+
+
+
+Page 34
+Toutefois, savoir la façon dont ces éléments travaillent ensemble vous aidera à comprendre les messages d'erreur que TML BASIC vous donne.
+
+L'éditeur, évidemment, est l'élément avec lequel vous passez la plupart de votre temps. Il prends en charge les fenetres d'édition et la plupart des commandes disponibles dans les menus TML BASIC. Le compilateur est invoqué à chaque fois que vous choisissez une des trois commandes de compilation. Le compilateur prends en charge la vérification des erreurs de syntaxe dans votre programme et la génération de code pour le programme. Enfin, l'éditeur de lien du TML BASIC est seulement invoqué, quand vous avez choisi de compiler un programme en mémoire, ou sur disque. L'éditeur de lien est responsable de la combinaison du code compilé avec d'autres éléments de code dont votre programme a besoin (c'est à dire les librairies). Il prends également en charge, la location de la mémoire interne dont votre programme a besoin, afin de s'éxécuter à l'intérieur de la mémoire du IIGS, et prends en charge l'écriture d'un programme compilé sur disque. 
+
+L'éditeur rapporte seulement les erreurs relatives à l'environnement d'édition. Il rapportera une erreur quand vous lui demanderez de trouver dans un programme un chaine qui n'éxiste pas, quand il n'y a pas suffisamment de mémoire pour charger un autre programme en mémoire, ou pour d'autres opérations relatives à l'environnement d'édition. Le compilateur rapporte seulement les erreurs relatives à du code source basic illégal. Si vous n'eppelez pas correctement un mot réservé ou oubliez de mettre une virgule alors qu'on attends une, le compilateur rapportera une erreur. Enfin, le linker rapportera une erreur, quand l'essai final pour créer un programme échoue. Ceci peut arriver si vous compilez un programme sur un disque et que celui-ci est vérouillé ou si il n'y a pas suffisamment de place sur le disque pour y installer le programme compilé. 
+
+A chaque fois qu'un composant de TML BASIC détecte une erreur, il prends tout d'abord toute action nécessaire pour reprendre le controle sans causer une perte de donnée, puis affiche la boite de dialogue d'erreur, avec un message décrivant l'erreur. En plus du message d'erreur, une icone est affichée sur le coté gauche de la boite de dialogue. Cette icone est utilisée pour indiquer quel composant du TML BASIC a detecté l'erreur. L'icone peut usuellement vous aider à mieux comprendre le message d'erreur. De plus, si l'erreur est relatée à une partie particulière du code source de votre programme, l'editeur affiche la portion du code source dans la fenetre d'édition et mets en valeur l'endroit exacte o| se trouve l'erreur. La mise en valeur du code source arrive usuellement par des erreurs détectées par le compilateur.
+
+LES ERREURS DE L'EDITEUR
+------------------------
+Pour étudier la façon dont les messages d'erreur sont rapportés dans l'environnement TML BASIC, tout d'abord, fermez toute fenetre d'édition ouverte, puis ouvrez le fichier ERROR.BAS, qui se trouve dans le dossier PART1.EXAMPLES. Nous avons placé intentionnellement plusieurs erreurs dans le code source de ce programme, de telle façon que vous puissiez voir comment fonctionne le mécanisme qui rapporte les erreurs du TML BASIC.
+
+Le premier type d'erreur que nous allons explorer, est une erreur de l'éditeur. Pour provoquer l'erreur de l'éditeur, choisissez la commande FIND WHAT?, dans le menu SEARCH (Chercher quoi? dans le menu Recherche). (Nous discuterons dans le chapitre 4 des caractéristiques de cette commande). La boite de dialogue FIND apparait et vous demande de taper le texte que vous souhaitez trouver (find).
+<page-footer>
+
+
+
+Page 35
+A ce moment, rentrez la chaine "XYZ", sans rentrer les guillements, puis cliquez la souris sur le bouton FIND.
+
+La chaine XYZ n'apparait pas dans le fichier ERRORS.BAS, donc l'éditeur renvoie le message "XYZ not found" (XYZ pas trouvé), comme montré dans la figure 3-3
+
+Figure 3-3
+Boite de dialogue d'erreur - erreur d'éditeur
+Se reporter à la documentation papier
+
+Notez l'icone affichée dans le coté gauche de la boite de dialogue d'erreur. Cette icone indique que l'erreur a été détectée par l'éditeur. Pour faire disparaitre la boite de dialogue d'erreur, cliquez simplement sur le bouton de la souris, ou appuyez sur n'importe quelle touche du clavier. L'éditeur détecte et rapport différents types d'erreurs. Pour une liste complète de ces erreurs, se repporter à l'appendice A.
+
+LES ERREURS DU COMPILATEUR
+--------------------------
+Le programme ERRORS.BAS contient également une erreur de syntaxe dans son code source - une instruction illégale. Pour trouver cette erreur, choisissez simplement la commande CHECK SYNTAX du menu COMPILE. La figure 3-4 montre la façon dont le compilateur rapporte les erreurs de syntaxe. Dans cet exemple, le message ","expected (, attendue) est rapportée dans la boite de dialogue d'erreur. Cette fois, une autre icone apparait, un petit insect vert. Cette icone indique que l'erreur a égé détectée par le compilateur. De plus, l'éditeur mets en valeur, en noir, l'endroit exacte dans le code source o| a été rencontrée l'erreur, permettant ainsi de régler le problème.
+<page-footer>
+
+
+
+Page 36
+Figure 3-4
+Boite de dialogue d'erreur - erreur du compilateur
+Se reporter à la documentation papier
+
+Une fois encore, cliquez la souris pour faire disparaitre la boite de dialogue d'erreur, puis rentrez le symbole virgule, o| le compilateur l'attendait. Après avoir corrigé l'erreur de syntaxe, choisissez de nouveau la commande CHECK SYNTAX du menu COMPILE, cette fois, le compilateur ne rapporte pas d'erreur.
+
+Ne compilez pas ce programme en utilisant la commande TO MEMORY AND RUN tout de suite, parce qu'il y a un autre type d'erreur dont nous allons discuter ci-dessous.
+
+LES ERREURS DE L'EDITEUR DE LIENS (LINKER)
+------------------------------------------
+Le composant final de TML BASIC est l'éditeur de liens. Il n'existe que quelques erreurs que le linker puisse détecter. Une de ces erreurs arrive quand le linker essaie de lire un programme qui a été compilé sur disque et qu'une erreur arrive au moment de l'écriture sur le disque. Cette erreur peut se produire quand le disque est plein ou protégé en écriture.
+
+Si vous voulez voir la façon dont le linker rapporte un message d'erreur, enlevez la disquette contenant le fichier du code source ERRORS.BAS, protégez la contre l'écriture, remettez la dans le lecteur et choisissez la commande TO DISK du menu COMPILE. Après que le compilateur ait compilé le programme avec succès, il invoque le linker pour le programme et essaie d'écrire un fichier d'application indépendant sur le disque. Toutefois, vous avez protégé le disque contre l'écriture, donc le linker affiche le message d'erreur que l'on voit dans la figure 3-5. L'icone utilisée pour les erreurs du linker est constituée de deux petits maillons de chaine.
+<page-footer>
+
+
+
+Page 37
+Figure 3-5
+Boite de dialogue d'erreurs - erreur de l'éditeur de liens
+Se reporter à la documentation papier
+
+LES ERREURS AU MOMENT DE L'EXECUTION DU PROGRAMME (RUNTIME ERRORS) ------------------------------------------------------------------
+En fait, vous pourriez penser que TML BASIC comporte un quatrième composant, votre programme. Quand votre programme s'éxécute, il peut générer des erreurs. Par exemple, il peut essayer d'ajouter deux nombres, ce qui provoque une erreur de dépassement (overflow error) ou fournir une valeur hors gamme (out of range) provoquant ainsi un message d'erreur 'illegal quantity error' (quantité illégale erreur). Ces erreurs sont appelées des erreurs de RUNTIME. 
+Le debugger incorporé dans TML BASIC est capable de détecter les erreurs de runtime et de les rapporter à l'environnement TML BASIC de telle façon que vous puissiez modifier votre programme en fonction de l'erreur.
+
+Le debugger TML BASIC est disponible pour débugger les programmes seulement si vous choisissez la commande TO MEMORY AND RUN du menu COMPILE. De plus, vous devez dire à TML BASIC de mettre le debugger en service, et de générer le code de debuggage spéciale, nécessaire pour détecter les erreurs de runtime, en choisissant l'option DEBUG qui de trouve dans preferences  Dialog. Le preferences Dialog est affiché en choisissant la commande preferences dans le menu Compile. On parle en détail du preferences Dialog dans le chapitre 6.
+
+Quand vous mettez en service le debugger en choisissant l'option debug dans preferences Dialog, le compilateur génère un code spécial partout o| il se pourrait qu'une erreur arrive. S'il vous plait, notez que cette caractéristique bien qu'elle fournisse un mécanisme très puissant pour le développement des programmes, génère une quantité de code très significative en rendant vos programmes beaucoup plus grands et beaucoup plus lents. Après avoir travaillé correctement sur un programme, c'est une bonne idée de mettre cette option hors service.
+<page-footer>
+
+
+
+Page 38
+Finallement, le programme ERRORS.BAS contient également une erreur de runtime. Pour voir comment fonctionne cette caractéristique, assurez vous d'avoir mis en service l'option debug (on) dans le preferences dialog, puis, choisissez la commande TO MEMORY AND RUN du menu COMPILE. Si vous avez enlevé avec succès l'erreur de syntaxe dans ce programme, comme on l'a décrit dans la section les erreurs du compilateur, dans ce chapitre, le compilateur et l'éditeur de liens devraient éxécuter leur tache avec succès. L'environnement TML BASIC s'éteint alors temporairement, en cachant ses menus et ses fenetres, et éxécute le programme compilé.
+
+Malheureusement, ce programme a une erreur de runtime dans la septieme ligne. Dans cette ligne, la valeur de SUM% est assignée égale à la somme des variables i% et J% (15000 + 20000). Parce que la variable SUM% est une variable entière, la plus grande valeur qu'elle peut avoir est 32767. Ainsi, la valeur 35000 dépasse la capacité de SUM%. Le debugger TML BASIC détecte cela et avorte l'éxécution du programme en cours. En retournant dans l'environnement TML BASIC, la ligne dans laquelle l'erreur a été détectée est mise en valeur, et le message d'erreur de runtime "overflow error" est affiché dans la boite de dialogue d'erreurs, comme on peut le voir dans la figure 3-6. Dans cet exemple, une icone représentant une bombe est affichée pour indiquer que l'erreur est une erreur de runtime.
+
+On verra en détail les gammes et les précisions des nombres en TML BASIC dans le chapitre 7. De plus, chaque instruction et fonction TML BASIC décrit dans le chapitre 10, donne la liste de leur erreurs respectives de runtime qui peuvent arriver.
+
+Figure 3-6
+Boite de dialogue d'erreur - erreur de runtime
+Se reporter à la documentation papier
+<page-footer>
+
+
+
+Page 39
+Il y a un grand nombres d'erreurs qui peuvent arriver quand votre programme s'éxécute. L'appendice A décrit chacune d'entre elles, en meme temps qu'il donne une brève description de la façon dont chaque erreur peut etre produite.
+
+JUSTE POUR SE RAPPELER
+----------------------
+Au cours de l'édition, la compilation et l'éxécution des programmes et la correction des erreurs, vous pouvez oublier la dernière erreur qui a été détectée et rapportée dans la boite de dialogue d'erreurs. Si ceci arrive, ne vous désespérez pas, il est possible de rappeler la boite de dialogue d'erreur, pour afficher la dernière erreur rencontrée. Pour faire ceci, choisissez simplement la commande LAST ERROR, du menu Windows. 
+
+Enfin, souvenez vous que toutes les erreurs de l'éditeur, du compilateur, de l'éditeur de liens et du runtime sont listées dans l'appendice A de ce manuel. Avec chaque erreur, on donne une description de l'erreur, et usuellement certaines suggestions dont la façon dont l'erreur a pu se produire et la manière de la corriger.
+
+Comme toujours, avant de quitter ce chapitre, assurez vous de fermer toutes les fenetres ouvertes, sans sauvegarder un quelconque changement que vous auriez apporter au fichier. Pour quitter TML BASIC, chosissez la commande QUIT du menu FILE.
+
+Fin du chapitre 3
+
+
+
+
+Page 41

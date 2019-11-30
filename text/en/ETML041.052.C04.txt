@@ -1,0 +1,205 @@
+CHAPTER 4
+----------
+ADVANCED PROGRAM EDITION
+------------------------------
+In Chapters 2 and 3, we have seen the principles for opening, closing, compiling, and running programs. In this chapter we will see other features, which will show you the powerful editing commands of TML BASIC. In addition, we will study the techniques to print a file and finally, you will learn three commands prodos, that you will be able to order since TML BASIC.
+
+CREATE A NEW EDITING WINDOW
+------------------------------------
+
+Figure 4-1
+Tiled windows
+Refer to the paper documentation
+
+Once again, boot your IIGS using the TML BASIC working copy, and launch TML BASIC. Install your editing environment, first open the HELLOWORLD.BAS sample program, and choose the NEW command from the FILE menu. Complete the installation process by choosing the Tiled Windows command from the Windows menu. Figure 4-1 shows the appearance of the screen you will need after installing your work environment.
+<Page-footer>
+
+
+
+Page 42
+Rather than using a sample program alone to describe each of the features of the editor that you can use in TML BASIC, we will create a new program using the empty window you just created. The result will be a complete program, written entirely by borrowing source code from the HELLOWORLD.BAS sample program
+
+USE OF PAPER PRESS (CLIPBOARD)
+------------------------------------------
+TML BASIC supports an editing feature called Clipboard. The clipboard is a temporary storage era for text and is used to store words, lines, or entire portions of program source code. The basic idea of ​​the clipboard is to allow you to borrow text from an existing program source code, to use it in another place, either within the same program or in a different program.
+
+TML BASIC allows you to place portions of text on the clipboard using one of its editing commands - cut, copy, paste, clear and select all - found in the EDIT menu, which we will discuss in the following sections. Before using any of these four commands, you must first choose the part of the text that you want to place in the clipboard. There are three ways to choose text: dragging, digit-clicking and double-clicking. One method may be more appropriate than another depending on the range of text you choose.
+
+Before we study the three ways to choose text, we will define the current insertion point. The current insertion point is located where o | the cursor appears and the mouse has been clicked once in the active window. By using the location of the current insertion point, you can begin entering or deleting characters, or you can use the location to mark the beginning of the text to be chosen.
+
+Dragging is the easiest way to choose text, and can be accomplished by moving the cursor on the screen to the beginning of the text you want to select, then clicking and holding down the button and dragging it. cursor to the end of the text you want to choose. You will notice that the chosen text appears in black type (inverted). Dragging allows you to be extremely precise about the text you choose.
+
+Second, you can choose text in shift-clicking. For digit-click, place the cursor at the beginning of the text you want to choose and click the mouse once. Then move the cursor to the end of the desired text, press and hold the number key and press the mouse button again to select all the text between the first and last click. This method is best for selecting much of the source code of a program to place it on the clipboard.
+
+Third, to choose text by double clicking, position the mouse over the text you want to select and quickly press the mouse button twice. Double-click will select the entire word that appears under the cursor. Double-clicking is the most useful when you have to put a single word on the clipboard.
+<Page-footer>
+
+
+
+Page 43
+EDITING COMMANDS
+-----------------------
+At the heart of TML BASIC is the ability to help you write programs. Unlike conventional editors, TML BASIC provides you with a full-screen editing environment that allows you to write programs at the same time and make the necessary source code changes with minimal difficulty.
+
+By choosing HELLOWORLD.BAS as the active window, run the SELECT.ALL command in the EDIT menu. Note that the entire contents of the HELLOWORLD.BAS window are reversed and passed in black characters. Remember that the type of inverted characters represents the selected text. Now launch the COPY command from the EDIT menu. You will not see any changes on the screen, but be sure that the selected text is now in the TML BASIC clipboard and can be used to help you create a new program.
+
+Position the cursor anywhere | in the UNTITLED window and click the mouse once. This will activate the UNTITLED window. Now move the cursor to the first line of the UNTITLED window and click the mouse once to create the current insertion point. Selecting the PASTE command from the EDIT menu will paste the current contents of the clipboard into the UNTITLED editing window, starting at the current insertion point. Figure 4-2 shows the result of the SELECT ALL / COPY / PASTE command.
+
+Figure 4-2
+Source code pasted
+Refer to the paper documentation
+<Page-footer>
+
+
+
+Page 44
+Unlike the COPY command, the CUT command causes the selected text to be completely removed from where it was in the source code of a program and placed in the clipboard for use elsewhere by using the command PASTE. If you had launched the CUT command instead of the COPY command in the last example, the HELOWORLD.BAS edit window would appear empty and all its contents would be placed in the TML BASIC clipboard.
+
+This brings to mind one last editing command, the CLEAR command. Run the CLEAR command after choosing all the text in a program to clear the contents of the active window. The source code of the program is not placed in the clipboard, and it would be necessary to launch the REVERT command from the FILE menu, in order to restore the source code of the program. The clear command is useful when you want to erase a selected part of text, or all the text content of a window, without disturbing the contents of the clipboard.
+
+Obviously, TML BASIC editing commands are not limited to choosing the entire source code of a program. Using one of the three techniques we discussed in the previous sections to choose text (dragging, shift-clicking and double-clicking) allows you to cut, copy, paste and / or erase any portion of text inside a program.
+
+Note that the clipboard can only contain one piece of information at a time, so every time you cut or copy in a window, any information previously in the clipboard is overwritten. However, each time you paste from the clipboard, a copy of the info item remains in the clipboard.
+
+SEARCH AND CHANGE (find and change)
+-------------------------------------
+After pasting the entire source code of the HELLOWORLD.BAS program, in the UNTITLED window, the next part of our exercise will be to change each occurrence of the string "Hello World" to "First Attempt" in the UNTITLED window. Obviously, one way to do this would be to move the cursor at the end of each occurrence of the string "Hello World", then return to each chain "Hello World" and retype "First Attempt". This can be extremely boring and take a lot of time. We will therefore examine the possibility of TML BASIC to find text strings, and replace them with other strings of text.
+
+The TML BASIC SEARCH menu contains three commands for finding and changing text in an active window. The first command is the menu item WHAT TO FIND ... If you choose this command you will have the TML BASIC Find dialog box, shown in Figure 4-3. The Find dialog box asks for 2 entries, FIND WHAT (find what) and CHANGE TO, (change to). The three buttons, Find, Cancel, and Change All.
+<Page-footer>
+
+
+
+Page 45
+Figure 4-3
+Find dialog box
+Refer to the paper documentation
+
+The FIND WHAT element is where o | we specify the string we want to search for. For our example, enter the Hello World string. If all you want is to find the next occurrence of this string, then press the FIND button in the FIND dialog box. The dialog will disappear and TML BASIC search in the program contained in the active window, starting at the current insertion point, the next occurrence of Hello World. However, in our example, you also need to change the Hello World string to a First Attempt channel once it is found. So, you must enter the First Attempt string in the CHANGE TO text element, and then press the FIND button.
+
+After pressing the FIND button, the Hello World channel is found and automatically displayed in reverse video. To change the Hello World string to First Attempt, as specified in the text editor element CHANGE TO in the FIND dialog box, just run the CHANGE THEN FIND command (change and then find) in the menu. SEARCH. After changing the string, TML BASIC searches for the next occurrence of Hello World. Once every occurrence of the Hello World string has been changed using this method, TML BASIC reports you in an error dialog box that you can not find the string anymore.
+
+You could have saved yourself the time to find and change each occurrence of the Hello World channel by pressing the CHANGE ALL button in the FIND dialog box
+
+One last change you should make is to save the program to disk under the new name FIRSTATTEMPT.BAS. By choosing the SAVE AS command from the FILE menu, you will have a SAVE FILE dialog box on your screen.
+<Page-footer>
+
+
+
+Page 46
+The SAVE FILE dialog box contains buttons for determining the disk and the folder o | you want to save your new program, as well as the name we will give it for future use.
+
+The disk and the folder will already be identified respectively as the TML BASIC disk, and the PART1.EXAMPLES folder. So all you need to do is enter the FIRTSATTEMPT.BAS name at the Save Document as insertion point of the dialog box.
+
+The result of these changes, as well as the result of the copy and paste commands that were executed, is a new program, which, for the most part, does exactly what the HELLOWORLD.BAS program does. Figure 4-4 shows the appearance of the screen after the new FIRSTATTEMPT.BAS program has been created
+
+Figure 4-4
+New FIRTSATTEMPT.BAS file
+Refer to the paper documentation
+
+TO PRINT
+--------
+TML BASIC can print the contents of the active edit window, using the PRINT command from the FILE menu. By choosing this command, the text in the topmost window is printed on the printer, using the current print options. TML BASIC prints directly to one of the serial ports (slots 1 and 2). Thus TML BASIC can print on any serial printer, such as the imagewriter, or on any parallel printer, connected to an interface card that is either in slot 1 or in slot 2. TML BASIC provides three commands in the FILE menu to control how a file is printed: PRINT OPTIONS, PAGE SETUP, and CHOOSER.
+<Page-footer>
+
+
+
+Page 47
+The PRINT OPTIONS command is used to define the information printed on a page. When we select this command, we get a Print Options dialog, like the one shown in Figure 4-5
+
+Figure 4-5
+Dialog box print options
+Refer to the paper documentation
+
+When TML BASIC prints a file on the printer, it prints an optional header at the top of each page. The header can include the file name (Print Title), the current date and the time (Print Date / Time), and the page numbers (Print Page Numbers). If an option is checked, TML BASIC prints the corresponding information in the header. If none of the options is chosen, it is not printed at the head.
+
+The PAGE SETUP command displays a Page Setup dialog (Figure 4-6). This dialog box is used to configure how TML BASIC prints a page. There are two options: CONTINUOUS (continuous) and CUT SHEET (page break). If one chooses CONTINUOUS, one in the head is printed only on the first page, and there is no printed white line at the end, or at the beginning of a new pagre. This option allows you to print a maximum number of lines on each page. However, if the paper is not aligned properly, a line of text may be printed on the two-page separation.
+
+If the CUT SHEET option is used, a header is printed at the beginning of each page and blank lines are printed at the end and beginning of each page. When we have chosen this option, we must choose the number of lines per page. The default setting is for 8 inch 1/2 by 11 inch standard paper.
+<Page-footer>
+
+
+
+Page 48
+Finally, the Page Setup dialog box allows you to enter a special character sequence, representing a printer command. This sequence of characters is sent to the printer before printing any file. The printer command can be used to tell a printer to use a special embedded font, or font size, or the size of a page etc. In order to send a control character to printer, use the ^ (caret) character followed by the appropriate letter that defines the control character. Example, ^? returns in ASCII ?? (an escape character). See Appendix E for these codes.
+
+Figure 4-6
+Page Setup dialog box (Page Setup)
+Refer to the paper documentation
+
+The CHOOSER menu item (selector) allows you to specify to TML BASIC which of the two serial ports (printer port or modem port) your printer is connected to. If you have changed the control panel of your IIGS, so that either slot 1 or slot 2 does not use the embedded port, but instead a card in that slot, TML BASIC will obey that modification, so you can use a parallel printer with its proper card.
+
+This menu command causes a Choose Printer Connection dialog to appear, as shown in Figure 4-7. The printer icon indicates the built-in printer port, or slot 1 and the phone icon indicates the built-in modem port, or slot 2. Click the mouse on the icon to which the printer is connected.
+<Page-footer>
+
+
+
+Page 49
+Figure 4-7
+Choose Printer Connection Dialog Box
+Refer to the paper documentation
+
+In addition, after choosing the printer port, you should also make sure that the chosen port is configured correctly for the type of printer you are using. You can change the configuration of the serial ports using the IIGS control panel. If you are not familiar with this type of operation, refer to Appendix A of your IIGS User Guide.
+
+All your choices regarding printer configurations are saved in the TMLBASIC.OPTS file, so you do not have to specify your choices every time you use TML BASIC.
+
+After choosing the correct printer configuration, click the mouse once on the FIRSTATTEMPT.BAS program, thus activating the window, if it was not already done, then choose the PRINT command from the FILE menu.
+
+While TML BASIC prints the contents of the active window, a small Print dialog is displayed in the middle of the editing screen. Before issuing a PRINT command, make sure your printer is in service and has been selected. To cancel a print at any time, press the mouse button, or any key on the keyboard.
+
+DIALOGUES OF PREFERENCES (PREFERENCES DIALOG)
+-------------------------------------------------
+The PREFERENCES commands found in the COMPILE menu allow you to change the way you use TML BASIC.
+<Page-footer>
+
+
+
+Page 50
+The Preferences dialog contains important information that allows you to change the functionality of the TML BASIC to your own needs. The information contained in the dialog is extremely important and ranges from TML BASIC tab stops, to freeing up memory space. Chapter 6 includes a detailed description of each element found in the Preferences dialog and should be carefully considered before starting to program.
+
+PRODOS COMMANDS IN TML BASIC
+---------------------------------
+TML BASIC gives you access to three prodos commands without having to leave the TML BASIC environment. To see these commands, pull down the PRODOS menu. You will see the menu items RENAME, DELETE and TRANSFER. Using these three prodos commands while working under TML BASIC will save you a lot of programming time because you will not need to quit TML BASIC anytime you want to use one of these orders.
+
+Choosing one of these three PRODOS commands causes a modified version of a Get File dialog box to appear. The OPEN button in the Get File dialog will be changed to the appropriate title, corresponding to the command you want to execute.
+
+Choose the DELETE command from the PRODOS menu. The GET FILE dialog is displayed as shown in Figure 4-8 and allows you to choose the file you want to delete. Choose the file FIRSTATTEMPT.BAS, created previously in this chapter, and delete it.
+
+Figure 4-8
+Get File - Delete Dialog Box
+Refer to the paper documentation
+<Page-footer>
+
+
+
+Page 51
+Before TML BASIC deletes the file from disk, it displays the delete confirmation dialog box (Figure 4-9). This dialog box gives you one last chance to prevent deletion of a file you do not want to delete. In this particular case, we are sure that the file FIRSTATTEMPT.BAS should be deleted. So, click the YES button to erase the file from your TML BASIC job disk.
+
+Figure 4-9
+Deletion confirmation dialog
+Refer to the paper documentation
+
+The second prodos command available in TML BASIC allows you to rename a file from TML BASIC. After selecting the file you want to rename, TML BASIC brings up a RENAME dialog box, allowing you to change the current name of the chosen file. From this point of view, each of the three orders prodos is similar. You are always given a second opportunity to inadvertently prevent the consequences of file deletion, file rename, or program control transfer.
+
+The third prodos command available in TML BASIC is the TRANSFER command. The TRANSFER command is used to permanently exit TML BASIC and transfer the control to another Prodos application. (even to an application that you could have created using TML BASIC) After transferring the control to a chosen application, you can return to TML BASIC only by exiting the application you have just chosen, then relaunching TML BASIC from the IIGS finder.
+
+Chapter 6 provides a complete reference to all TML BASIC commands, as well as all its features, and should be referred to for more information on each of the three prodos commands available from TML BASIC.
+<Page-footer>
+
+
+
+Page 52
+In this chapter, we explained some of the advanced editing commands available to create a new program similar to the HELLOWORLD.BAS program used in Chapter 2 through 4. You also learned how to print program listings and how to use the three powerful prodos commands without leaving TML BASIC. We also had a glimpse of the modification of the TML BASIC environment through the preferences dialog, discussing some of what we will see later in Chapter 6.
+
+As always, be sure to close all open edit windows used in this chapter and exit TML BASIC using the QUIT command.
+
+The following chapter introduces some of the basic instructions that are part of the TML BASIC language. A great understanding of the TML BASIC work environment as discussed so far will increase your keyboard performance when you study Chapter 5.
+
+Chapter 6 includes a brief description of each of the features of TML BASIC and should be used as a reference when programming.
+
+End of Chapter 4
+
+
+
+
+Page 53

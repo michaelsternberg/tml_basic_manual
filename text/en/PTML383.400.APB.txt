@@ -1,0 +1,157 @@
+              ------------- APPENDIX B ---------------
+              *** Meta-affirmation (Metastatement) ***
+
+
+Meta-affirmations are compiler directives. Strictly speaking, meta-affirmations are not part of the TML BASIC language, but rather a special construct used by programs to control the computational behavior of the TML BASIC. For example, we can used a meta-statement to specify a string pool
+
+Most of the meta-affirmations correspond to an option in the Preferences dialog. However, the effect of a meta-affirmation always takes precedence (thus canceling) on ​​the setting of an option of the Preferences dialog. The meta-affirmations which appear in the Preferences menu are:
+
+$ CheckSTack
+$ Debug
+$ EventTrapping
+$ KeyboardBreak
+$ OnError
+$ StackSize
+$ StringPoolSize
+
+See chapter 6 for information (hair on the back) on the Preferences dialog
+
+A meta-affirmation must appear alone on a line, and must begin with a sign $ immediately followed by the name of the meta- affirmation. If the name is not called as one of the meta-statements of the TML BASIC, TML BASIC you gives the error "Unknown metastatement" .After the name of the meta-affirmation we find arguments .These can be the reserved words ON and OFF, a numerical constant, or a string constant. The following code shows how we can used a meta-affirmation in a program.
+
+$ stringpoolsize 1
+$ keyboardbreak OFF
+$ debug on
+input "How many number to average:", howmany%
+Total = 0
+for i% = 1 to howmany%
+    print "number"; i%; ":"
+    input nextvalue
+    total = total + nextValue
+next i%
+print "the average is:"; total / howmany%
+<Page-footer>
+
+
+
+Page 396
+
+the following paragraphs describe the actions and arguments of each of the meta-statements of TML BASIC.
+
+-> $ CHECKSTACK
+
+Syntax: $ CheckStack ON / OFF
+
+default: $ ChecksStack OFF
+
+As we saw in chapter 8, TML BASIC implements a data structure called Runtime Stack. This stack is used for the implementation of the GOSUB, PROC and FN statements as well as for the storage allocation of parameters and parameters. local values ​​thanks to the LOCAL statement. The stack has a limit and fixed size as it is specified by means of the $ stacksize meta-assertion or its corresponding option of the Preferences dialog. Thus, it is possible to write programs that exceed the storage capacity of the battery.
+
+This option is used to tell the compiler to generate a special code for each input code of procedures and functions. This code ensures that there is enough space in the runtime stack to call the procedure and to allocate If there is not enough space, we get the "Stack Overflow" runtime error. If the Debug option has been started, the TML BASIC debugger will show which procedure or function was used. caused pile overtaking.
+
+Most programs never need more space for the stack than the default space of 8KB, so this option is disabled by default. However, if your program behaves very strange it could be that the stack become too big and destroy memory. By setting this option ON, you will be able to determine if your program really has this kind of problem. If this is the case you will have to increase the space allocated to the stack for the program.
+
+-> * CODESEGEMENT
+
+Syntax: $ codesegment "segmentname"
+
+default: $ codesegment "main"
+
+An apple IIgs application may consist of one or more code segments.A code segment is a special data structure of the Apple IIgs implemented by the System Loader. A code segment contains the binary code of a program, information for its relocation and other special values. Each code segment has a unique name.
+
+The TML BASIC programs have two default code segments: "main" and "mainprog". The "mainprog" segment contains all the code for the main program while the "main" segment contains all the code for the procedures and functions defined by the user.
+<Page-footer>
+
+
+
+Page 397
+In addition, the code for libraries compiled separately is contained in the code segment "main". The small programs usually consist of these 2 segments, but the largest ones must be divided into several segments because the GS limits the size The reason for the size restriction is that the code segment must not exceed the boundaries of a memory bank that is 64 KB on the GS.
+
+The meta-affirmation $ codesegment is used to control the generated code segment for procedures and functions (??) It is not possible to divide the main program (main) (statements not contained in a procedure or function) .When the meta-assertion $ codesegment appears in the source code, the code of all the following procedures and functions is generated to the new code segment.
+
+---> $ DATASEGMENT
+
+Syntax: $ datasegment "segmentname"
+
+default: $ datasegment "-global"
+
+Like code segments, a GS application can consist of one or more data segments. A data segment is a special function of the GS implemented by the System loader. A data segment contains the necessary information to allocate storage and initialize the memory for global variables. Each data segment has a unique name.
+
+TML BASIC programs have a default data segment: "- global" .Outselves programs consist of a single data segment but sprograms that declare a gradn number of global variables or arrays that are very large must divide the global storage in several data segments because the GS limits the size of a data segment to 64 KB. The reason for this restriction is that the data segment must not overlap the boundaries of a bank that measures 64 Ko on the GS.
+
+the meta-statement $ datasegment is used to control the data segment o | global variable storage is allocated. TML BASIC allocates the storage of a global variable or array when it is used for the first time, or when an array variable is declared in a DIM statement. At the time of the TML declaration basic allocates the storage of the variable in the current data segment. To change the current data segment use the meta-assertion $ datasegment
+
+---> $ DEBUG
+
+Syntax: $ DEBUG ON / OFF
+
+Default: $ DEBUG ON
+<Page-footer>
+
+
+
+Page 398
+
+The $ debug meta-statement is used to control debug code generation by the TML BASIC compiler that is used by the TML BASIC debugger to detect and report runtime errors. The generated code checks for any runtime errors, such as as overflow error, illequal quantity error, etc ... it also generates a special data structure called line number table in such a way that the TML BASIC debugger can finish in which line the error occurred.If this option is OFF, no runtime error will be detected. Runtime errors are listed in Appendix A
+
+The debug option increases the size of a program and slows it down. This option should be disabled when you know that a program is correct, and therefore no longer requires the use of the debug code.
+
+
+---> $ EVENTTRAPPING
+
+syntax: $ EventTrapping on / off
+
+default: $ eventtrapping off
+
+This meta-statement must be put into service (ON) when a program contains information that requires event trapping. These statements are ON KBD and ON TIMER. When this information is used, TML BASIC should generates code between each piece of information to check for a keyboard or time event. This option should only be enabled when a program contains this information because this option slows down the program and increases its size.
+
+If a program contains the ON KBD or ON TIMER statements, and if event trapping is out of order, TML BASIC will report an error. See Chapter 10 for more info about these 2 pieces of information.
+
+---> $ keyboardbreak
+
+syntax: $ keyboardbreak on / off
+
+default: $ keyboardbreak on
+
+The keyboardbreak meta-statement is used to implement the information on BREAK. It also requires that you abort a program by typing Control-C.
+
+If this option is put into service, TML BASIC generates code between each information to see if we type control-C.If this option is out of order, it is impossible to abort the execution of a TML BASIC program; the only way to abort the program would be to do a RESET.If you do not intend to abort the execution of your program and you do not use the information ON BREAK, then you have to put out service this option so that your program runs faster and takes up less space ...
+<Page-footer>
+
+
+
+Page 399
+-> $ ONERROR
+
+SYNTAX: $ onerror ON / OFF
+
+By default: $ onerror ON
+
+The onerror meta-statement is used to tell the TML BASIC compiler that the program contains the ON ERR statement along with the RESUME and / or RESUME NEXT statements. These statements need the line number table to be generated in such a way that the TML BASIC can determine from which line resume or resume next (= return to the specified address ??) after that an error was handled by the ON ERR statement list.
+If your program does not contain these statements then you should better disable this option since this will reduce the size of your program. However, if this option is disabled and a program contains an ON ERROR, RESUME or RESUME NEXT , TML BASIC will give you an error.
+
+-> $ STACKSIZE
+
+syntax: $ Stacknumber number
+
+default: * stacknumber 8
+
+As described in the $ checkstack meta-statement, TML BASIC implements a data structure called the runtime stack for the implementation of GOSUB, PROC, LOCAL and FN.LA The default size of the runtime stack is 8KB However, some programs may need a larger stack because they use a large number of procedure calls or local variables. You can change the size of the stack with $ stacksize to vary it between 1 Ko and 32K. The argument of the meta-affirmation $ stacksize must be a constant and integer number. The value is expressed in Ko. So 1 means 1Ko, 2 means 2Ko, etc. See Chapter 8 for more information on the runtime stack.
+
+-> $ STRINGPOOLSIZE
+
+syntax: $ stringpoolsize number
+
+default: $ stringpoolsize 10
+
+The values ​​of all string variables and string constants are stored in a special data structure called String Pool. The string pool has a fixed and limited size that is given by $ stringpoolsize or its corresponding option in the menu Preferences.By default the size of the string pool is 10K. If a program has not enough space for the chains this value will have to be increased.
+<Page-footer>
+
+
+
+Page 400
+The maximum size of string pool is 64 KB and the minimum size is 1 KB. The argument of $ stringpoolsize is given in KB (1-> 1Ko, 2-> 2KB, etc.). For more information about channels, string data and the string pool see chapter 7.
+
+End of Appendix B
+
+
+
+Page 401

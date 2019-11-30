@@ -1,0 +1,343 @@
+TML BASIC
+French documentation
+
+                         TABLE OF CONTENTS
+
+Introduction (untranslated) ...................................... 1
+
+   About this manual ......................................... 2
+   Apple IIGS Apple Technical Documentation ............. 5
+   Or find more information ................................ 6
+   Conventional ratings .................................... 7
+   System required ................................................ 8
+   Authorizations ................................................. 8
+
+DISKETTE NUMBER 1
+
+Part 1 - The TML BASIC User Guide
+
+Chapter 1 Getting Started with TML BASIC ............................. 11
+
+   Saving the distribution disc ......................... 11
+   Files on the distribution disk ....................... 12
+   TEXTBOOK programming in relation to TOOLBOX ................. 14
+   Settings ................................................. .... 14
+     System with a single diskette drive ..................... 15
+     System with two diskette drives ....................... 15
+     System with hard disk .................................... 15
+     A note on RAM discs ............................... 16
+   Differences between compiled and interpreted languages ​​........... 16
+   Line numbers in TML BASIC ........................... 17
+
+Chapter 2 Using TML BASIC .................................. 19
+
+   Launch TML BASIC ............................................. 19
+   Examine the integrated environment ............................. 20
+   Opening a program .................................................. 22
+   Organize the editing environment .......................... 23
+   The integrity of a program ................................... 25
+   Exit TML BASIC ............................................. 26
+
+Chapter 3 Compiling and Starting a Program .................... 27
+
+   Watch the examples ....................................... 27
+   Compilation Alternatives .................................. 27
+   Test the source code of a program ......................... 28
+   Start a program .......................................... 30
+   Create an independent application ........................... 31
+   Compile bookstores ...................................... 32
+   Detect errors ......................................... 33
+     The publisher's errors ....................................... 34
+     Compiler errors ................................. 35
+     The errors of the linker (link editor) ................... 36
+     Runtime errors (during the course of the program) 37
+   Some reminders ............................................. 39
+<Page-footer>
+
+
+
+Chapter 4 Advanced Program Editing ........................ 41
+
+   Create a new edit window ......................... 41
+   Use the clipboard ........................ 42
+   Editing commands ...................................... 43
+   Seeking and replacing ........................................ 44
+   To print ................................................. .... 46
+   Preferences dialogues ................................. 49
+   PRODOS orders in TML BASIC ............................ 50
+
+Chapter 5 Your first program ............................ 53
+
+   The first program ......................................... 53
+   The REM instruction ............................................ 54
+   The LET instruction ............................................ 55
+   The instruction PRINT .......................................... 56
+   The GET statement $ ........................................... 58
+   The INPUT statement .......................................... 59
+   Multiple instructions ....................................... 60
+   Summary ................................................. .... 61
+
+Chapter 6 TML BASIC Menu Reference ................... 63
+
+   The Apple menu ............................................... 63
+   The File menu ....................................... 64
+   The Edit (edit) menu ....................................... 68
+   The search menu ................................... 70
+   The window menu (window) ..................................... 71
+   The Compilation menu (compiles) ................................ 72
+   The PRODOS menu ............................................... 79
+   Keyboard commands relative to the mouse ................ 80
+
+Part Two - TML BASIC References
+
+Chapter 7 The Elements of Language ............................ 83
+
+   Structure of the source code ....................................... 83
+     Programs ................................................. 85
+     Bookstores ................................................. 85
+   TML BASIC's character games .............................. 85
+     The reserved words .......................................... 86
+   The numbers in TML BASIC ..................................... 88
+     Whole ................................................. ... 88
+     Double whole ............................................. 88
+     Whole lengths .............................................. 88
+     Real simple-precision ....................................... 89
+     Real double-precision ....................................... 89
+     Real precision-extended .................................... 89
+     The standard Apple digital environment (SANE) ............ 90
+TML BASIC chains ........................................ 91
+The constants ................................................ .. 91
+<Page-footer>
+
+
+
+     Numerical constants .................................. 91
+     The constants string ...................................... 92
+   The variables ................................................ 93
+     Reserved variables .................................... 94
+   Tables (arrays) ........................................ 94
+     Size tables .................................. 94
+     Dynamic allocation ....................................... 96
+     Evaluation of the DIM statement ............................ 97
+     Indices (subscripts) ....................................... 98
+     Structured table .......................................... 99
+   Expressions .............................................. 99
+   Operators .............................................. 100
+     Arithmetic operators .............................. 100
+     Relational operators ............................... 102
+     Logical operators .......................................
+     Chain Operators ....................................... 104
+   Priorities ................................................. .. 104
+
+Chapter 8 Subroutines, Procedures, Functions and Libraries. 107
+
+   Subroutines ............................................... 107
+   Procedures ................................................. 109
+     Define procedures .................................... 109
+     Local variables ......................................... 110
+     Use the procedures .......................................
+   Functions ................................................. .. 112
+     Define functions ..................................... 112
+     Using the functions .................................... 113
+   Formal parameters compared to current .................... 114
+   Progress of the program .................................... 114
+   Recursion ................................................. .. 115
+   A lesson on stacks ............................ 116
+   Bookstores ................................................. 117
+     Use a bookstore .................................... 118
+     Compile a bookstore .................................... 119
+     The predefined libraries ................................ 120
+
+Chapter 9 The files ...................................... 121
+
+   The fundamentals of PRODOS 16 ........................ 121
+     File names .......................................... 121
+     Path names ....................................... 122
+   Manipulate the files ...................................... 124
+     CREATE statement ........................................ 124
+     DELETE instruction ....................................... 125
+     RENAME statement ....................................... 125
+     LOCK and UNLOCK instructions ............................... 126
+     CATALOG instruction ....................................... 126
+     Instruction VOLUMES ....................................... 126
+   Open and close files ............................... 127
+     OPEN statement .......................................... 127
+     CLOSE statement .......................................... 128
+<Page-footer>
+
+
+
+   The techniques of access to files ......................... 129
+     Sequential access .......................................... 129
+     Random access ................................................ 130
+   Accessing text files .................................. 130
+     INPUT instruction # ........................................ 131
+     Instruction PRINT # ........................................ 132
+   Accessing Basic Data Files ....................... 133
+     Structure of a basic data file ................... 133
+     READ instruction # ......................................... 134
+     WRITE instruction # ....................................... 135
+   Accessing binary files ............................... 136
+     Instruction GET # .......................................... 136
+     PUT instruction # .......................................... 136
+   Other file operations ....................... 138
+     Instruction ON EOF # ....................................... 138
+     OFF EOF statement # ...................................... 139
+     Reserved variable EOF ...................................... 139
+     EOFMARK function .......................................... 139
+     FILE function ............................................. 140
+     Function FYLTIP .................................................. 140
+     TYP function .............................................. 140
+     REC function .............................................. 141
+
+Chapter 10 Instructions and Functions ........................ 143
+
+DISKETTE NUMBER 2
+
+Part Three - Toolbox Programming
+
+Chapter 11 Programming the toolbox ........................... 315
+
+   Overview of the tools of the Apple IIGS ........................... 316
+     The six sets of basic tools ........................... 317
+     Desktop Interface Tools ............................. 317
+     Device interface tools ................... 318
+     Specialized tools .................................... 319
+   O | are the tools? .......................................... 320
+   The libraries of the Toolbox ................................ 321
+     The Library Statement ....................................... 322
+     Look for a bookstore .................................. 323
+   The CALL statement .......................................... 323
+   The R.STACK functions ....................................... 324
+   Use EXFN instead of CALL ............................... 325
+   An example ................................................ .. 326
+
+Chapter 12 Quickdraw Charts ......................... 327
+
+   Draw on the screen (or elsewhere) ............................ 327
+   O | Quickdraw II draws ..................................... 327
+     The coordinates plan ...................................... 328
+     Pixel images and plane coordinates .................. 330
+<Page-footer>
+
+
+
+     GrafPort, Rectangle Port and Clipping ...................... 332
+     Global and local system coordinates ................... 333
+   How Quickdraw II draws ................................ 336
+     The drawing pen ........................................ 336
+     Basic drawing functions ........................... 338
+   What draws Quickdraw II ................................. 338
+     Points and lines .................................. 339
+     The rectangles ............................................ 340
+     Circles, ovals, bows and camenberts ........................ 342
+     Polygons ................................................. 343
+     Regions ................................................. .. 343
+     Pictures ................................................. 344
+   ... and the text too ........................................ 344
+     Characters ................................................ 345
+     Fonts ................................................. ... 347
+   Draw in colors ....................................... 349
+     Color tables and pallets .................... 350
+     Standard color palette (mode 320) ................... 351
+     Dithered colors in 640 mode ............................. 352
+
+Chapter 13 Creating a desktop application (Desktop) 353
+
+   The Desktop Interface .......................................... 355
+     The Human Interface Guide ........................... 355
+     The elements of the office .................................... 357
+   Event-driven programs ....................... 358
+     The main event waiting loop ............... 358
+     Manipulation of events ............................... 359
+   An example of an office application ............................. 363
+   The DeskTools library ...................................... 363
+     The StartUpTools procedure ................................. 365
+     The ShutDownTools procedure ................................ 368
+     The SetUpMenus procedure ................................... 369
+     The SetUpWindows procedure ................................. 372
+     The SetUpEventsTables procedure ............................ 376
+     The MaintEventLoop procedure ............................... 377
+   Summary ................................................. ... 380
+
+Part Four - Appendices
+
+Appendix A error messages ............................ 383
+
+   The errors of the TML BASIC editor ....................... 383
+   TML BASIC compiler errors ..................... 385
+     Lexicon errors ........................................ 385
+     Syntax errors ........................................ 385
+     Semantic errors ..................................... 387
+     Bookstore Errors ...................................... 388
+   TML BASIC Linker errors .......................... 389
+   Runtime errors of TML BASIC ......................... 390
+<Page-footer>
+
+
+
+Appendix B Metastatements ............................................. 395
+
+   $ CheckStack ................................................ 396
+   $ CodeSegment ................................................ 396
+   $ DataSegment ................................................ 397
+   $ Debug ................................................ ...... 397
+   $ EventTrapping .............................................. 398
+   $ KeyboardBreak .............................................. 398
+   $ OnError ................................................ .... 399
+   $ StackSize ................................................ .. 399
+   $ StringPoolSize ............................................. 399
+
+Appendix C Bookstores for the Apple IIGS Toolbox .............. 401
+
+   Control Manager ............................................. 406
+   Desk Manager ................................................ 410
+   Dialog Manager .............................................. 412
+   Event Manager ............................................... 416
+   Font Manager ................................................ 419
+   Integer Math ................................................ 421
+   Line Edit ................................................ ... 423
+   List Manager ................................................ 425
+   Memory Manager .............................................. 427
+   Menu Manager ................................................ 430
+   Miscellaneous Tools ......................................... 433
+   Note Synthesizer ............................................ 436
+   Print Manager ............................................... 438
+   Quickdraw ................................................. .. 442
+   Quickdraw Auxiliary ......................................... 457
+   Scheduler ................................................. .. 458
+   Scrap Manager ............................................... 459
+   Sound Manager ............................................... 460
+   Standard File ............................................... 462
+   Text Tools ................................................ .. 465
+   Tool Locator ................................................ 467
+   Window Manager .............................................. 469
+
+Appendix D Comparison between TML BASIC and GS BASIC (untranslated) 475
+
+   Differences between compiler and interpreter ............. 475
+     Different functions and instructions ..................... 476
+     Instructions requiring modifications ............... 477
+     Orders of execution and compilation of programs ....... 478
+   GS BASIC extensions ...................................... 479
+     The IF Block instruction .................................... 479
+     Bookstores ................................................ 479
+   Result of the TML BASIC compiler ........................... 480
+     TML BASIC publisher and major programs ........... 480
+     Segmentation .............................................. 480
+     Evaluation of expressions ................................ 481
+   Transfer programs from GS BASIC to TML BASIC (Translated). 482
+<Page-footer>
+
+
+
+   Appendix E ASCII characters (not translated) ........... 483
+
+   Appendix F The file types PRODOS 16 (not translated). 489
+
+   Index
+
+(The summary of the TML SPEECH TOOLKIT is in the SPEECH TOOLKIT file)
+
+
+End of the TML BASIC summary.

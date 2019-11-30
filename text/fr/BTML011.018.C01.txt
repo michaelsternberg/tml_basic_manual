@@ -1,0 +1,199 @@
+Page 11
+CHAPITRE 1
+----------
+DEMARRER AVEC TML BASIC
+-----------------------
+
+Avant de commencer à utiliser TML BASIC, faites une copie de travail du disque de distribution et rangez l'original dans un endroit sur. Ce chapitre explique comment effectuer cette opération, il décrit également les fichiers qui se trouvent sur le disque de distribution TML BASIC, vous permettant ainsi de voir quels sont les fichiers fournis et ceux, parmis ceux ci, dont vous aurez besoin pour utiliser TML BASIC. On parlera également des langages compilés par rapport aux langages interprétés, et aussi du nomérotage des lignes en TML BASIC.
+
+Avant d'aller plus loin, vous devriez vous familiariser avec votre IIGS. Vous devriez savoir Booter votre machine, utiliser la souris, copier des fichiers, choisir et lancer une application en utilisant le finder IIGS. Si vous n'etes pas familier avec l'une quelconque de ces opérations, vous devriez consulter votre Guide de l'Utilisateur du IIGS, ainsi que le Guide de l'Utilisateur du Système Disque, pour plus d'informations.
+
+FAIRE UNE COPIE DU DISQUE DE DISTRIBUTION
+-----------------------------------------
+
+TML BASIC est livré sur une disquette 3P 1.5 de 800K PRODOS 16 et comprends les fichiers du IIGS SYSTEME DISQUE (version 3.1 ou suivante). Suivant l'esprit de la philosophie du system TML, c'est à dire la vente de programmes non protégés, le disque de distribution n'est pas protégé contre la copie. Ainsi vous devriez faire une copie de sauvegarde du disque de distribution et ranger l'original dans un endroit sur. Ce manuel se réfère à la copie de sauvegarde du disque TML BASIC sous le nom de copie de travail. Vous devriez ranger la disquette originale TML BASIC et l'utiliser seulement si votre copie de travail est endommagée.
+
+Bien que TML BASIC puisse etre copié, l'autorisation de la licence spécifique dit que vous ne pouvez faire de telle copie que pour votre propre usage, et seulement dans le but de faire des copies de sauvegarde. Toute autre copie est interdite et violerait les lois de copyright des USA.
+
+Afin de faire une copie de sauvegarde, vous aurez besoin d'une disquette 3P 1.5 vierge et d'un utilitaire de copie de disquette. Sur le disque de distribution TML BASIC, on trouvera les fichiers du système IIGS, y compris le finder IIGS. Le finder vous permettra de formater une disquette vierge et de copier la disquette de distribution TML BASIC sur cette disquette que vous venez de formater. La figure 1-1 vous donne le contenu de la disquette de distribution de TML BASIC tel qu'il apparait dans une fenetre ouverte sur le bureau du IIGS. Reportez vous au livre, le guide de l'utilisateur du IIGS, pour plus d'informations sur la façon d'utiliser le finder et au livre guide de l'utilisateur du système disque, pour plus d'informations sur le formatage et la copie de disquette.
+<page-footer>
+
+
+
+Page 12
+
+______________________________________________________________________
+
+
+Figure 1-1
+Disque de distribution TML BASIC (présentation par nom)
+
+TMLBASIC       (programme)
+TMLBASIC.OPTS
+LIBRARIES      (dossier)
+PART1.EXAMPLES (dossier)
+PART3.EXAMPLES (dossier)
+MORE.EXAMPLES  (dossier)
+PRODOS
+SYSTEM
+ICONS
+
+______________________________________________________________________
+
+
+FICHIERS SUR LE DISQUE DE DISTRIBUTION
+--------------------------------------
+Le tableau 1-1 liste le contenu du disque de distribution TML BASIC.Les fichiers livrés sur la disquette de distribution peuvent etre groupés en 4 catégories. Le compilateur TML BASIC, les programmes d'exemple TML BASIC, les librairies de la toolbox du IIGS et les fichiers du système IIGS nécessaires pour booter votre ordinateur et lancer le TML BASIC, ou toute autre applications que vous pourriez créer.
+
+Souvenez vous que les fichiers qui se trouvent sur la disquette de distribution ne sont pas tous nécessaires pour lancer TML BASIC. Dans le tableau suivant, les fichiers nécessaires pour lancer TML BASIC sont précédés d'une étoile. Les fichiers listés ci-dessous sont valables pour la version TML BASIC 1.0 de la disquette de distribution. Les éditions suivantes de ce produit peuvent inclure d'autres fichiers, ou des fichiers différents.
+
+______________________________________________________________________                         Tableau 1-1
+          Le contenu de la disquette de distribution du TML BASIC
+
+______________________________________________________________________
+
+  /TML/             Le préfix de la disquette de distribution TML
+                    BASIC
+* TMLBASIC          Le compilateur TML BASIC
+<page-footer>
+
+
+
+Page 13
+* TMLBASIC.OPTS     Ce fichier sauvegarde les options variés servant à
+                    TML BASIC, telles que la largeur de tabulation, le
+                    port imprimante etc..
+LIBRARIES/          Ce dossier (répertoire) contient tous les fichiers
+                    de l'interface de la librairie pour la toolbox du
+                    IIGS. Ces fichiers sont décrits en détail dans le
+                    chapitre 11 et l'appendice C.
+PART1.EXAMPLES/     Ce dossier contient le code source des programmes
+                    Basic exemples utilisés dans la partie 1 du manuel
+                    de l'utilisateur du TML BASIC
+PART3.EXAMPLES/     Ce dossier contient le code source des programmes
+                    Basic exemples utilisés dans la partie 3 du manuel
+                    de l'utilisateur du TML BASIC
+MORE.EXAMPLES/      Ce dossier contient le code source de programmes
+                    exemples Basic, additionnels, montrant plusieurs
+                    possibilites du TML BASIC
+* PRODOS            Le fichier prodos est utilisé pour le lancement de
+                    votre IIGS
+* SYSTEM/           Un dossier contenant le Prodos 16 et les fichiers
+                    du système IIGS nécessaire pour l'utilisation du
+                    IIGS. Ce fichier contient seulement un sous 
+                    ensemble nécessaire pour TML BASIC, de tous les
+                    fichiers que l'on peut trouver pour le système du
+                    IIGS.
+     * P16          C'est le système d'exploitation prodos 16
+     * START        Un programme qui détermine si oui ou non, il faut
+                    lancer le programme launcher, ou le finder IIGS
+       LAUNCHER     C'est le lanceur de programmes IIGS
+     * FINDER       C'est le finder du IIGS
+     * SYSTEM.SETUP/ Un dossier qui contient tous les fichiers
+                     nécessaires au moment du boot, à l'initialisation
+                     du IIGS.
+     * TOOLS/       Un dossier contenant tous les ensembles d'outils
+                    (Toolset) rangés en RAM pour le IIGS
+     * DESK.ACCS/   Un dossier contenant les NDA (New Desk
+                    Accessories, nouveaux accessoires de bureau) et
+                    les CDA (Classic Desk Accessories, accessoires de
+                    bureau classiques)
+                    Ce dossier ne contient que le NDA TML CLOCK
+<page-footer>
+
+
+
+Page 14
+     * DRIVERS/     Un dossier contenant différents drivers pour
+                    imprimante et modem
+     * FONTS/       Un dossier contenant les fichiers fontes du IIGS.
+                    Ces fichiers sont utilisés par le Font Manager. Ce
+                    dossier est vide sur la disquette de distribution
+                    TML BASIC.
+       ICONS/       Un dossier contenant les fichiers de définition
+                    d'icones. 
+                    Ces fichiers sont utilisés par le Finder pour
+                    afficher
+                    des applications et des documents avec leur icone.
+______________________________________________________________________
+
+
+LA PROGRAMMATION TEXTBOOK, PAR RAPPORT A LA PROGRAMMATION TOOLBOX
+-----------------------------------------------------------------
+L'introduction de ce livre mentionne deux genres différents de programme, que l'on peut écrire en TML BASIC. On se référe au premier genre de programme comme à un programme TEXTBOOK, qui représente la sorte de programme que l'on trouve typiquement dans la plupart des livres parlant de la programmation en basic - c'est à dire les programmes traditionnels, utilisant l'écran texte de l'ordinateur. Le second genre de programmes utilise les caractéristiques spéciales et les possibilités de la Toolbox (boite à outils) du IIGS.
+
+Le chapitre 5 de ce manuel parle des techniques de programme TEXTBOOK et nécessite que tous les fichiers et dossiers précédés d'une étoile, listés dans le tableau 1-1, soient présents sur votre copie de travail de la disquette de distribution TML BASIC. De plus, vous aurez besoin du programme exemple AVERAGE.BAS, qui se trouve dans le dossier PART1.EXAMPLES.
+
+La troisième partie de ce manuel introduit le concept de la programmation de la toolbox du IIGS et décrit le contenu de cette toolbox. En plus, des noms de fichiers qui apparaissent précédés d'une étoile dans le tableau 1-1, les programmes désignés pour utiliser la toolbox du IIGS necessiteront les fichiers se trouvant dans le dossier LIBRARIES. Vous pourrez aussi avoir besoin des fichiers se trouvant dans le dossier PART3.EXAMPLES.
+
+L'INSTALLATION
+--------------
+
+Les trois sections suivantes décrivent comment installer un environnement de travail permettant d'utiliser TML BASIC avec un système ne comportant qu'un seul lecteur de disquette 3P 1.5, 800K, ou un système avec 2 lecteurs de disquette, utilisant soit deux lecteurs 800K, soit un lecteur 800K et un lecteur 5P 1/4 , ou un disque dur.
+<page-footer>
+
+
+
+Page 15
+                        NOTE
+______________________________________________________________________
+
+Comme indiqué précedemment, TML BASIC est livré avec le contenu du disque système IIGS version 3.1 ou suivante et comprends le FINDER IIGS. Le finder nécessite un minimum de 512K de RAM. Pendant le démarrage, le système 3.1 identifie la quantité de mémoire disponible. Si on dispose de 512k minimum de mémoire, le finder est affiché. Si on ne dispose que de 256K de RAM, ni le finder, ni TML BASIC ne seront lancés. Ce système suppose que votre ordinateur ait au moins 512K de RAM et un lecteur de disquette 3P 1.2
+______________________________________________________________________
+
+LE SYSTEME AVEC UN SEUL LECTEUR DE DISQUETTE
+--------------------------------------------
+Les utilisateurs qui ont seulement un seul lecteur de disquette 3P 1/2, 800K, s'apercevront que l'on peut utiliser TML BASIC exactement comme il est livré sur la disquette de distribution sans avoir à sacrifier une quelconque fonctionnalité ou performance. Vous devriez créer une disquette de travail en faisant une copie de la disquette de distribution comme indiqué dans le chapitre "Faire une copie du disque de distribution", au début de ce chapitre.
+
+La seule restriction imposée par un système à un seul lecteur de disquette, est que la taille des programmes que vous developperez sera restreinte à l'espace libre restant sur la disquette pour pouvoir les sauvegarder.  Sur votre disquette de travail de TML BASIC, vous ne devez pas hesiter à effacer les différents dossiers qui contiennent les programmes exemples. Le dossier PART1.EXAMPLES contient les programmes exemples utilisés dans la premiere partie de ce manuel que vous devriez conserver sur votre disquette si vous avez l'intention de suivre avec les exemples ce dont on va parler dans les quatre chapitres suivants.
+
+Mais vous aurez encore accès à tous les programmes exemples que vous avez choisis d'effacer, en les copiant depuis votre disquette de distribution originale, si besoin est. N'effacer jamais un fichier se trouvant sur la disquette de distribution originale.
+
+LES SYSTEMES A DEUX LECTEURS DE DISQUETTE
+-----------------------------------------
+Si vous possedez un second lecteur de disquette, que ce soit un autre lecteur 3P1/2, 800K, ou un lecteur 5P1/4 (formaté pour le PRODOS 16), vous pouvez utiliser cette capacité de stockage supplémentaire pour developper des programmes de taille plus importante. A l'usage, il vous sera peut etre plus simple de conserver tous les programmes exemples, ainsi que tout autre nouveau programme que vous pourriez créer, sur une disquette à part et y accèder en utilisant votre second lecteur de disquette. On devrait conserver le dossier LIBRARIES (voir tableau 1-1) sur la disquette TML BASIC, pour permettre l'utilisation des fichiers de ce dossier, par tous les programmes.
+
+UN SYSTEME AVEC DISQUE DUR
+--------------------------
+Bien qu'un disque dur ne soit pas nécessaire pour utiliser TML BASIC, vous pourrez profiter de l'avantage d'un accès disque plus rapide et d'une grande capacité de stockage sur disque pour la création de très grands programmes.
+Pour utiliser un quelconque disque dur formaté sous PRODOS 16 avec TML BASIC, vous devez simplement copier les fichiers TML BASIC nécessaires sur votre disque dur comme il est souligné page 16 dans le tableau 1-1. 
+<page-footer>
+
+
+
+Page 16
+Si votre disque dur contient des fichiers système du IIGS, antérieurs à la version 3.1, le TML BASIC ne fonctionnera pas. Dans ce cas, vous devriez copier les fichiers systèmes depuis le disque de distribution vers votre disque dur.
+
+UNE NOTE SUR LES RAM DISQUES
+----------------------------
+Tradionnellement, les utilisateurs de l'Apple II, ont trouvé l'utilisation des RAM disques très avantageuse, et ont procédé ainsi, sans voler de la mémoire disponible pour une application due à la restriction de l'Apple II qui autorise seulement 128K ou moins de mémoire, pour une application. 
+
+Toutefois, TML BASIC et le IIGS sont différents. TML BASIC est une application résidente en mémoire. Ainsi, on n'a pas avantage à stocker TML BASIC sur un RAM disque. De plus, TML BASIC contient en mémoire, une copie complète du ou des fichiers qu'il est en train d'éditer, y compris les fichiers librairies, le code compilé etc... et utilise le Memory Manager (gestionnaire de mémoire) du IIGS pour savoir ou l'on en est pour la mémoire disponible. Ainsi, toute utilisation d'espace RAM que vous pourriez allouer à un RAM disque ne ferait que diminuer la quantité de mémoire disponible dont TML BASIC a besoin pour l'édition et la compilation.
+
+LES LANGAGES COMPILES PAR RAPPORT AUX LANGAGES INTERPRETES
+----------------------------------------------------------
+TML BASIC est un langage compilé. Ainsi consideré, de la meme façon que les autres langages compilés, il diffère des langages interpretés tel que le GS BASIC Apple. Un langage de programmation est caractérisé par un ensemble d'instrutions, d'expressions et d'autres composantes généralement connues sous le nom de syntaxe ou de structure du langage. Alors que les programmes écrits dans un langage informatique sont généralement compréhensibles à un utilisateur humain, ils sont totalement incompréhensibles pour l'ordinateur, et plus précisement, dans le cas du IIGS, pour le micro processeur 65816.
+
+Avant qu'une instruction écrite en langage informatique puisse etre exécutée par l'ordinateur, elle doit tout d'abord etre traduite en code compris par l'ordinateur, c'est à dire langage machine. Le langage machine est constitué d'une longue liste de nombres binaires, (des 0 et des 1) qui sont compris par l'ordinateur comme une série d'état hors service et en service, représentant des ordres que l'ordinateur est capable d'éxécuter. Evidemment, les humains ne comprennent pas ou ne lisent pas facilement de longues successions de zéros et de 1.
+
+Une composante majeur de tout système de langage informatique est le moyen qu'il a de traduire des programmes en langage machine. Dans un langage interpreté, la traduction est effectuée au moment ou le programme est exécuté. Ce dont on parle quelque fois comme "on the fly". Si une instruction dans un programme est éxécutée cent fois, la traduction est également éxécutée 100 fois. Les langages interprétés s'éxécutent eux plus lentement que les langages compilés parce qu'il faut traduire le langage pendant l'éxécution du programme. 
+
+Avec un langage compilé, au contraire, on traduit le programme en langage en machine avant de lancer le programme.
+<page-footer>
+
+
+
+Page 17
+Ainsi, on ne traduit une ligne de programme qu'une seule fois - pendant le processus de compilation. De plus, le processus de compilation détecte toutes les erreurs de syntaxe avant que le programme ne soit éxécuté. Evidemment, il ne peut pas trouver les erreurs dans la logique du programme telle que des boucles infinies par exemple. Des programmes compilés s'éxécutent de façon sensiblement plus rapide que les programmes interprétés et ils peuvent également etre éxécutés et lancés indépendemment de tout processeur de langage. C'est à dire les programmes TML BASIC compilés peuvent etre exécutés par eux memes, sous prodos 16, sans que TML BASIC se trouve sur la disquette.
+
+De plus, TML BASIC gère un environnement intégré en tant qu'application résidente en mémoire, qui compile les programmes avec la meme interactivité qu'un interpreteur. Cela signifie que TML BASIC intègre son éditeur, son compilateur et exécute les programmes en mémoire en meme temps, evitant ainsi le besoin de lire ou d'écrire des fichiers sur disque, qui fait qu'un compilateur conventionnel est beaucoup plus lent qu'un interpreteur pour traduire un programme basic.
+
+LES NUMEROS DE LIGNES EN TML BASIC
+----------------------------------
+Historiquement, la gestion du basic a necessité l'utilisation de numéros de lignes dans les programmes. Toutefois, TML BASIC ne necessite pas de numéro de ligne. En fait, TML BASIC n'autorise pas l'utilisation de numéro de ligne. 
+
+Les gestions du langage basic qui utilisent un interpréteur necessitent les numéros de lignes dans le code source des programmes pour que l'interpréteur puisse localiser au moment de l'éxécution du programme, les instructions et les fonction qui ne se trouvent pas dans un ordre séquentiel. Les numéros de ligne sont également utilisés de façon fondamentale durant le processus d'edition d'un programme.
+
+TML BASIC n'a pas besoin de numéro de ligne car il utilise des labels alphanumériques pour localiser les instructions et les fonctions dans le code source d'un programme. Par exemple, au lieu d'entrer GOTO 1000, en TML BASIC, écrivez GOTO SetUpProcess, o| SetUpProcess est un label alphanumérique utilisé pour identifier la routine SetUpProcess. L'utilisation des labels alphanumériques est illustré dans la plupart des programmes exemples, dont on parle dans le chapitre trois de ce manuel, aussi bien que dans les programmes exemples contenus sur la disquette de distribution TML BASIC.
+
+Fin du chapitre 1

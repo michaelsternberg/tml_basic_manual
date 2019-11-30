@@ -1,0 +1,370 @@
+   --------APPENDICE A : LES MESSAGES D'ERREURS--------------
+
+
+Cet appendice donne la liste de toutes les  erreurs de l'editeur, du compilateur, du linker et du "runtime" qui peuvent arriver lorsqu'on utilise TMl BASIC.Toutes  les erreurs sont rapportees dans la boite de dialogue d'erreurs standard comme décrit dans le chapitre III.Chaque erreurs est également affichée avec un icone qui indique le composant de TML BASIC  qui a detecté l'erreur.Les erreurs de l'editeur sont affichés avec le signe renverse yield (??),les erreurs du compilateur sont affiches avec un insecte vert, les erreurs de linker avec 2 maillons de chaines,celles de runtime avec une bombe explosant.
+
+Des notes explicative suivent la plupart des messages erreurs pour aider à clarifier leurs contenus,et dans certains cas  des  notes apparaissent pour expliquer comment corriger l'erreur.
+
+Certains messages contiennent le caractere caret (^) qui est remplace par TML BASIC au moment o| le message d'erreur est affiche par un identificateur, un label ou certaines autres valeurs qui aident à clarifier les messages d'erreur.Par exemple l'erreur du compilateur :
+
+      Procedure "^" is not declared
+
+pourrait apparaitre dans la boite de dialogue d'erreur sous la forme:
+
+      Procedure "DrawBoxes" is not declared
+
+si TML BASIC a detecté que la procedure DrawBoxes était appelée mais pas delcarée
+
+
+            <--ERREURS D'EDITEUR DU TML BASIC-->
+
+
+--Memory is getting low .close a document window
+
+TML BASIC a detecte que vous allez bientot etre à cours de  
+mémoire.Afin d'eviter un perte de donnes potentiel on vous            recommande de redonner de la memoire en fermant une fenetre.Vous       pouvez aussi choisir l'option  "compact memory" dans le choix 
+Preferences.voir chapitre 6
+
+--Error reading file
+
+Une erreur s'est produite lors de la lecture d'un fichier sur          disk.Ceci  peut arriver si le fichier est endommagé ou si le disk      a été retire du drive.
+<page-footer>
+
+
+
+Page 384
+
+--Error saving file
+
+Cette erreur est rapporte lorsque TML BASIC  est incapable de sauver le contenu d'une fenetre document sur un disk.En general ,ceci arrive parce que le disk est verrouillé,enlevé du drive ou parce que le disk est plein.
+
+--Error deleting file
+
+cette erreur est renvoyée apres vous ayez choisi d'effacer un fichier  disk en utilisant la commande DELETE... du menu ProDOS alors que  le disk a été enlevé du lecteur de disquette ou que le disk est vérouillé.
+
+--Error renaming file
+
+cette erreur est renvoyée apres vous ayez choisi de renommer  un fichier disk en utilisant la commande RENAME... du menu ProDOS alors que vous avez donné un nom de fichier non autorisé (oh le vilain!!) ,ou que le disk a été enlevé du lecteur de disquette ou que le disk est vérouillé.
+
+--Error occured while loading Print Tools
+
+Cette erreur ne peut se produire qu'avec la version network (reseau) de TML BASIC .le message indique qu'un ou plusieurs des fichiers systemes neccessaire pour l'utilisation du Print manager n'ont pas pu etre chargés en mémoire.
+
+--Can't open that file.File already open in another window
+
+Vous n'etes pas  autorisez  à  ouvrir le  meme  fichier plus d'une fois
+
+--Unable to complete that operation.File will become too large
+
+Vous avez essayé de faire une opération d'edition qui aurait fait que la taille du fichier serait devenu plus grande que 32 Ko.
+
+--File too large to open.Maximum file size is 32Ko
+
+TML BASIC peut seulement ouvrir des fichiers dont la taille est inferieur ou égale à 32 Ko.
+<page-footer>
+
+
+
+Page 385
+--Insufficient memory available to open that file
+
+Bien que la taille du fichier que vous avez essayé  d'ouvrir soit inférieur à 32 Ko ,il n'y a pas assez de mémoire disponible pour charger le fichier en memoire...
+
+--Insufficient memory to complete taht operation
+
+Une opération a echoué à cause du manque de mémoire disponible
+
+
+           <--ERREURS  DU COMPILATEUR DU TML BASIC-->
+
+   ---->Erreurs du LEXIQUE
+
+--String constant must not exceed source line
+
+Dans l'expression d'une contanste chaine  il manque les guillemets  de fermetures
+
+--Error in numeric literal
+
+La syntaxe pour exprimer la valeur litterale numerique est incorrecte.
+
+--Illegal caracter in input
+
+on a detecte un caractere illegale dans le fichier source.Voir le chapitre 7 pour les caracteres basic autorises
+
+   ---->Erreurs de syntaxe
+
+--identifier expected
+--string constant expected
+--integer constant expected
+--")" expected
+--"(" expected
+--":" expected
+--"," expected
+--";" expected
+--"THEN" expected
+--"END PROC" or "END FN" expected
+--"END LIBRARY" expected
+--Unexpected  symbol (symbole qui n'a rien à faire ici)
+
+Ces messages d'erreurs indiquent que le programme contient des syntaxes basic non autorisées.Bien que le message d'erreurs indique le symbole attendu (expected) au moment o| l'erreur a été detectée ,il est possible que d'autres symboles puissent aider à éliminer l'erreur de syntaxe.Si vous n'etes pas familliez avec la syntaxe du Basic ,etudiez les chapitres 7 à 10.
+<page-footer>
+
+
+
+Page 386
+
+--Error in Expression
+
+On a trouve une expression contenant une syntaxe  basic non autorise pour laquelle  il n'y pas de message d'erreur spécifique.
+
+--Error in Statement
+
+On a trouve une affirmation (statement) ayant une syntaxe Basic non autorisée qui contient une erreur pour laquelle il n'y a pas de message d'erreurs spécifique
+
+--THEN without matching IF
+--ELSE without matching IF
+
+l'affirmation THEN ou ELSE apparait  sur une ligne toute seule sans qu'il y ait eu auparavant une affirmation IF
+
+--Block IF statement without matching END IF
+--ELSEIF / END IF statement without matching Block IF statement
+
+L'affirmation Block IF,ELSEIF ou END IF apparait sans l'affirmation correspondante nécessaire.Pour plus d'informations voir chapitre 10
+
+--UNTIL without matching DO or WHILE
+--WHILE without matching UNTIL
+--DO without matching UNTIL
+
+l'affirmation DO,WHILE,ou UNTIL  apparait sans l'affirmation correspondante néccessaire.POur + d'information voir chapitre 10
+
+--NEXT without matching  FOR
+--FOR without matching  NEXT
+
+l'affirmation  FOR or NEXT  apparait sans l'information correspondante néccessaire.Pour + d'information voir chapitre 10
+<page-footer>
+
+
+
+Page 387
+
+  ---->Erreurs sémantiques
+
+--Type mismatch error
+
+Le type d'une expression est non approprié pour le contexte dans lequel il est utilisé.Par exemple,l'assignation d'une expression chaine a une variable numerique ou vice-versa.
+
+--May not declare LOCAL arrays
+
+L'affirmation LOCAL peut seulement etre utilisé pour declarer des variables simples
+
+--Duplicate declaration of LOCAL variable or parameter
+
+Une affirmation LOCAL a essayé d'utiliser un  nom qui a déjà été utilisé dans une affirmation  LOCAL,ou essaye d'utiliser un nom qui est un nom de parametre.
+
+--Illegal use of the LOCAL statement
+
+Le programme essaye d'utiliser l'affirmation LOCAL dans le programme principal ou dans une procedure ou  une fonction ,mais après une affirmation executable
+
+--Illegale parameter Type
+
+il n'est pas autorisé d'utiliser un élément de tableau structuré comme type de parametre.
+
+--Procedure "^" is not declared
+
+La procedure ou la fonction utilisé par l'utilisateur référencé dans une affirmation  PROC ou FN n'est pas défini dans le programme.
+
+--Toolbox procedure "^" is not defined
+
+La procédure ou fonction de la Toolbox referencé dans un CALL ou dans un EXFN_ n'est pas défini.Assurez que le nom est écrit correctement et que le nom de librarie Toolbox neccessaire apparait dans une affirmation  LIBRARY
+<page-footer>
+
+
+
+Page 388
+
+--Number of parameters does not match declaration
+
+Le nombre de parametre dans une liste de parametre dans une procedure , une fonction  ou un appel Toolbox ne correspond pas de façon correcte à la declaration.Vérifier la declaration de la procedure ,la fonction ou la routine Toolbox.
+
+--Label "^"  is referenced but not defined
+
+Le label  specifié est referencé dans une affirmation  GOTO ,GOSUB ,EVENTDEF,ou MENUDEF ;mais n'est  defini nulle part ailleurs dans le programme
+
+--Duplicate declaration of a static array
+
+Une variable tableau ne peut apparaitre qu'une seule fois dans tout le programme  dans un DIM.Si un tableau doit etre redimensionne dans un programme,l'affirmation  DIM DYNAMIC doit etre utilisé.Voir chapitre 7
+
+--Static arrays must have constant dimensions
+
+Une variable de tableau dans un DIM doit etre dimmensionnée avec des valeurs fixes.Si un tableau  doit etre dimmensionné dynamiquement l'affirmation DIM DYNAMIC doit etre utilise .Voir chapitre 7
+
+--Arrays limited to eight dimensions
+
+le nombre maximun de dimensions d'un tableau est 8
+
+  ---->Les erreurs de Library
+
+--Unable to find/open library file
+
+Le fichier ".LIB" de la librairie nommé ne peut pas etre trouvé ni dans le préfix de l'unité en cours ni dans le repertoire de recherche de fichier library indiqué dans le dialogue Preferences
+
+--Unable to write compiled library file
+
+Le compilateur ne peut pas creer, ouvrir ou ecrire le fichier ".LIB" de la librairie. Le disk peut etre protege,soit retirer du lecteur soit plein...
+<page-footer>
+
+
+
+Page 389
+
+--Incompatible version of library file
+
+A chaque fois que vous recevez une nouvelle version de TML BASIC vous devez recompiler toutes vos librairies
+
+--Symbol Table  space exhausted
+
+Le nombre de déclaration dans cette librairie a rempli la quantité de mémoire disponible alloué pour la table des symboles de la librairies. Vous devriez ajuster la taille des tables de symboles dans le dialogue Preferences.Voir chapitre 6
+
+
+                <--ERREURS DU LINKER DE TML BASIC-->
+
+--Out of memory
+
+Le linker n'a pas suffissament de mémoire disponible pour loger la structure de données dont il a besoin pour linker le programme.Essayez de fermer une fenetre document pour liberer de la mémoire
+
+--Segment "^" specified as both CODE ans DATA
+
+Vous avez spécifié le meme nom de segment dans une directive du compilateur ($CodeSegment segname) et ($Datasegment segname)
+
+--Segement "^"  too large
+
+Un segment CODE ou DATA est devenu plus grand que 64 Ko.Vous devez resegmenter votre programme de façon que le segment ne dépasse pas cette limite.Voir appendice B
+
+--Unresolved linker reference to symbol "^" 
+
+On ne peut pas trouver dans le linker un label définit de façon externe.vouis devriez revérifier l'eppellation du symbole pour verifier qu'elle est correcte.
+
+--Unable to create/open application file
+
+Apres un Compile To Disk se soit effectué avec succès, le linker essaye d'ecrire le fichier d'application sur le disk.L'erreur est rapporté si on ne peut pas créer ou ouvrir ce fichier.En géneral ceci arrive quand le disk est protégé ou qu'il a été enlevé du drive
+<page-footer>
+
+
+
+Page 390
+
+--Error in writing to application file
+
+Cette erreur est rapportée quand TML BASIC a pu creer et/ou ouvrir le fichier application mais qu'il y a eu une erreur durant l'ecriture. Ceci est généralement causé parce que le disk est verrouillé ou parce que le disk est trop plein pour que le fichier soit entièrement ecrit sur le disk.
+
+
+          <--LES ERREURS DE RUNTIME DU TML BASIC-->
+
+
+Les erreurs de runtime arrivent pendant l'execution d'un programme. C'est à dire que le compilateur a compilé le programme avec succès sans que l'on est trouvé d'erreurs de lexique ,de syntaxe ou de sémantique et a donc génére le code machine du programme.Toutefois lorsque le programme est executé une erreur arrive .Si le programme est lancé directement depuis TML BASIC en utilisant l'option de compilations To Memory & Run,TML BASIC choisit la ligne de texte contenant l'erreur de runtime et affiche le message d'erreur dans la boite  de dialogue  d'erreurs standard.Si l'erreur est détecté dans une compilation sur disk,l'execution est aborté et le numéro d'erreurs de runtime est affiché.le numéro d'erreur devra etre comparé avec les numeros ci-dessous pour connaitre l'erreur qui s'est produite
+
+1-->Overflow error
+
+Cette erreur se produit lorsque le résultat d'un calcul numérique produit une valeur trop grande (ou trop petite) pour etre represente sous le type numérique indiqué.
+
+2-->Illegal quantity error
+
+Un paramètre d'une fonction ou affirmation n'etait pas dans la gamme de valeur spécifié pour la fonction ou l'affirmation 
+
+3-->Out of date
+
+Un READ n'a pas suffissament de valeurs DATA
+
+4-->Divide by 0
+
+On a essayé de faire une division par 0 ou d'élever 0 à une puissance négative
+
+<page-footer>
+
+
+
+Page 391
+
+5-->RETURN/POP without matching GOSUB
+
+Une affirmation  RETURN ou POP a été executé sans qu'il y ai eu un GOSUB correspondant .C'est à dire qu'il n'y a pas d'endroits vers lequel revenir
+
+6-->Program interrupted
+
+l'affirmation STOP a été executé ou le programme a été aborté quand on a tapé CTRL-C
+
+7-->Out of memory
+
+UNe grand nombre de situations peuvent provoquer cette erreur.Si votre programme a essayé de creer un tableau dynamic en utilisant l'affirmation DIM DYNAMIC pour laquelle il n'y pas suffissament de memoire ,l'erreur se produit.Ou alors il y a un dépassement dans le "string pool"  (réservoir de chaine)
+
+8-->Resume without an error
+
+Le programme a éxecute une affirmation resume alors qu'il n'etait pas en train de gerer une erreur
+
+9-->File not open
+
+le programme a essayé d'utiliser un numero de reference de fichier qui n'a pas été associé avec un fichier par le biais de l'affirmation  OPEN
+
+10-->File open
+
+Cette erreur arrive si un programme essaye d'ouvrir,de renoomer ou d'effacer un fichier qui couramment ouvert
+
+11-->File (Path) Not Found
+
+le prefix specifié  dans une affirmation d'entrée-sortie du TML BASIC  ou dans une fonction est soit inutilisé, soit le fichier n'existe pas.
+
+12--> Volume not Found
+
+Le nom du volume specifié dans un prefix d'une affirmation d'entrée-sortie ne correspond pas au nom de volume de l'unité en cours
+<page-footer>
+
+
+
+Page 392
+
+13-->File locked
+
+Le programme essaye de modifier un fichier verrouillé
+
+14-->File type error
+
+Cette erreur se produit lorsque le programme essaye de faire reference a un fichier d'une façon qui est incompatible avec son type de fichier.Voir chapitre 10  pour les affirmations d'entrée-sortie
+
+15-->Duplicate file error
+
+Cette erreur apprait lorsque l'affirmation CREATE est uitilisé pour créer un fichier deja existant
+
+16-->Write protect error
+
+Le programme a essaye de modifier un fichier sur un disk protégé...
+
+17-->Device not found
+
+cette erreur se produit lorsque le programme spécifie un nom de d'appareil (device) qui contient un caractère non autorisé...
+
+18-->Bad path error
+
+cette erreur se produit à chaque fois qu'un charactere illegale apparait dans un prefix (pathname)
+
+19-->Disk full
+
+cette erreur se produit lorsque qu'il n'y a pas assez d'espace sur le disk pour terminer l'affirmation d'entré-sortie
+
+20-->Illegal using  Specification
+
+la specification using ou l'affirmation IMAGE contient une definition de spécification non autorisée
+<page-footer>
+
+
+
+Page 393
+
+21-->Stack Overflow error
+
+Le programme contient trop d'appel à des procédures,des fonctions ou des sous-programmes;ou il y a trop de variable locales declarées pour la taille de runtime stack (pile de runtime).Cette erreur est detecté seulement si l'option Check Stack est mise en service dans le dialogue Preferences.
+
+Fin de l'appendice A
+
+
+
+Page 395

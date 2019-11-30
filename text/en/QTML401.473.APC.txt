@@ -1,0 +1,3160 @@
+APPENDIX C
+
+The libraries of the TOOLBOX (Toolbox) of the Apple IIGS
+-------------------------------------------------- -----------
+As noted in Chapters 11 through 13 of this manual, the IIGS Toolbox is a broad set of software routines developed by APPLE and included in the HARDWARE of each IIGS. The Toolbox routines run Super HiRes graphical displays and the Quickdraw graphical tool. They also play sound, menus, windows, dialogues and many other things. As noted in Chapter 11, the Toolbox is a set of TOOL SETs (or Managers). Each of these tools performs a set of procedures, functions, and data structures that are unique to it.
+
+TML BASIC gives the programmer access to the Toolbox with a set of libraries, each of which defines the interface to an individual Tool set. The libraries are delivered on the TML BASIC system disk in the LIBRARIES folder. The source code of the libraries is not provided, although the contents of each library are listed in this appendix in alphabetical order. The libraries provided with TML BASIC are shown in the following table:
+
+______________________________________________________________________
+
+Apple IIGS Tool Set TML BASIC Library Name
+(TOOL SET) (Library name)
+
+Control Manager Control
+Desk Manager Desk
+Dialog Manager Dialog
+Event Manager Event
+Font Manager Font
+Integer Math IntMath
+Line Edit LineEdit
+Memory Manager Memory
+Menu Manager Menu
+Miscellaneous Tools MiscTool
+Note Synthesizer NoteSyn
+Print Manager Print
+QuickDraw QuickDraw
+QuickDraw Auxiliary QDAux
+Scheduler Scheduler
+Scrap Manager Scrap
+Sound Sound Manager
+Standard File StdFile
+TextTools TextTool
+Tool Locator ToolLocator
+Window Manager Window
+
+______________________________________________________________________
+<Page-footer>
+<Page-break>
+
+Page 402
+The description of each Tool set is divided into four parts, introduction, special values, data structures and routines.
+The following paragraphs describe the content of these parts and the conventional notation used.
+Although this Appendix provides a thorough description of the content of each Tool Set and the data structure that each Tool Set uses, it is in no way a substitute for a good reference book on how the Toolbox works. The absolute reference is, of course, the Apple technical publication, whose title is APPLE IIGS Toolbox Reference: Volumes 1 and 2. Anyone trying to program the Toolbox beyond a simple use of QuickDraw graphics which is fully documented in Chapter 12. will get good references describing the details of the Toolbox.
+
+INTRODUCTION
+------------
+Before describing the data structure, procedures and functions of a Tool Set, a brief description of the particular functions of the Tool Set and their capabilities is given.
+
+SPECIAL VALUES
+-----------------
+This part is used to highlight different important values ​​used or returned by the Tool Set procedures and functions. For example, the Memory Manager provides the NewHandle function that is used to allocate a block of memory. One of the parameters of this function specifies the different attributes of the block to be allocated. Attributes are defined by the program with special predefined values. If you do not know the meaning of the values ​​of these parameters, you will not be able to allocate a block of memory correctly. In this part, we will not describe all the conceivable values ​​used by the procedures and functions in a Tool Set but only the most important ones and those that are used most commonly. Special values ​​are presented in a table that defines the integer value and its meaning. In some cases, a paragraph describes how the set of values ​​is used.
+
+DATA STRUCTURE
+---------------------
+Many of the Toolbox's functions and procedures manipulate data structures, rather than just a few values. Data structures are a set of values ​​grouped together into a single variable. In TML BASIC, data structures are represented in a table or variable structure. Since BASIC does not allow symbol mechanisms similar to those found in languages ​​such as Pascal or C, it is not possible to define new types of writing from which variables can be declared. Instead, the programmer must declare the arrays and / or structures of the variables in an appropriate manner and use them in a way that considers the particular meaning that the toolbox has given to a specific data structure.
+This part of the appendix provides a template that shows how a table or structured variable should be declared and used for a particular toolbox data structure. The template includes a paragraph describing the purpose of the data structure, an example of a DIM statement that a program can use to create an example of structured data, and a definition of the meaning for each element of the array or each structured variable.
+<Page-footer>
+<Page-break>
+
+Page 403
+The sample template is not necessarily the only way the data structure can be defined, but is usually the best. Following is an example of the Point data structure used by QuickDraw graphical routines. A point defines a place in the two-dimensional drawing space of the Super HiRes QuickDraw screen. As such, it includes two integer values ​​that define the horizontal and vertical position of the point.
+
+   DIM at Point% (1)
+
+Element (s) value Description
+0 Full Horizontal coordinate
+1 Full Vertical Coordinate
+
+As we saw in the definition of the data structure, a point has been described as an entire array containing two elements. The first element is the horizontal coordinate and the second element is the vertical coordinate. Data structures that do not contain elements that are all of the same type are usually defined as structures rather than tables. Some byte values ​​in the structure then constitute each element of the data structure. In this case, a simple assignment of each element to the data structure is not possible. Instead, the SET and VAL statements are used to access elements of the data structure. Follows the PenState data structure that is also used by QuickDraw
+
+   DIM aPenState! (47)
+
+Element (s) Value Description
+0 ... 3 Point Pen Location
+4 ... 7 Point Pen Size
+8 ... 39 Shape pen shape
+40 ... 47 Pen Mask Mask
+
+In this example, we see that the first two elements of the data structure are points. One point is another data structure that we stated above. A point is an array of two integer values, so point elements each occupy 4 bytes in the PenState data structure. Patterns and masks are other data structures defined by QuickDraw.
+
+THE ROUTINES
+------------
+The Toolbox is not part of the TML BASIC language, but is an integral part of the IIGS. The code that runs the Toolbox routines is written in assembler and is stored in IIGS ROMs or on the disk system and read in RAM.
+<Page-footer>
+<Page-break>
+
+Page 404
+As such, the procedures and functions in each Toolset are not defined in the usual way using the DEF PROC and DEF FN instructions, and they are also not called in the usual way using the PROC or FN statements. As discussed in Chapter 11, TML BASIC provides CALL and EXFN instructions for calling Toolbox procedures and functions. However, no TML BASIC mechanism is provided to define a Toolbox procedure or function.
+
+Since Toolbox procedures and functions can not be defined using the authorized TML BASIC statement, Toolbox libraries are created with a special tool that does not ship with the TML BASIC distribution disk. However, to define each Toolbox routine name and its parameters, we have adopted a special notation based on the familiar instructions in this Appendix DEF PROC and DEF FN. Each declaration starts with either DEF PROC or DEF FN, depending on whether the routine is a procedure or a function. Then follows the name of the Toolbox routine. These names exactly match those described in the Toolbox IIGS Reference Manual. If the routine is a function, then the name is followed by a type character that will indicate the typical result of the function. Unlike the normal basic functions, the Toolbox function can return more than one value (using R.STACK, see chapter 11). In this case square brackets are used to indicate the number of values ​​returned by the function. After, we find the parameter list in parentheses. The declaration ends with the word TOOL followed by two whole numbers separated by a comma. The word TOOL indicates that the declaration is a Toolbox routine rather than a normal procedure or function that contains code and ends with an END PROC or FN END. Follows the procedure of a function declaration or Toolbox procedure:
+
+DEF PROC ToolName <(Parameter (, parameter))> TOOL FunctionNum, ToolNum
+
+DEF FN ToolName <! I% I to I #> <<NumReturnValues>>
+    <(parameter (, parameter))> TOOL FunctionNum, ToolNum
+
+A TOOLBOX routine can be invoked using the CALL statement followed by the routine name, as defined in this appendix, or by using the CALL% statement using the function number and the tool number of the FunctionNum routine and ToolNum.
+
+
+The parameter names chosen in this Appendix have been chosen to describe the meaning of the parameter value. For example, a parameter with the name UserID% indicates that the identifier ID of the user of the Memory Manager should be used as the parameter value. The type character following the name obviously indicates the type of the parameter. In this case, UserID% is an integer parameter.
+
+Often a structured data value is sent to a TOOLBOX routine. In these cases, the name of the parameter included as part of its name is the name of the data structure in italics. For example, the TOOLBOX PtinRect% function contains the PointPtrà parameter (Point is in italic). Since TML BASIC does not allow arrays and structured parameters (at the same time), the address of the data structure must be passed as a double integer parameter (at: arobad)
+<Page-footer>
+<Page-break>
+
+Page 405
+The address of an array or structured variable is obtained by using the VARPTR (VARPOINTER) function. Whenever the address of a data structure is used as a parameter, its name usually ends with the letters PTR: Pointer. Tolbox routines sometimes require Handle values ​​for a parameter. a Handle is a pointer to a pointer. While Handles are used extensively in the Toolbox, a program will only have to create a Handle value using VARPTR very rarely since the Toolbox itself creates them and returns the Handles to the program. When a parameter value is a Handle, its name ends with the Hndl.
+<Page-footer>
+<Page-break>
+
+Page 406
+CONTROL MANAGER
+---------------
+The Control Manager consists of all the routines that handle the control. We understand by control the scroll bars, radio buttons, boxes etc ... When a control is activated or chosen, it causes the immediate implementation of an action or a change in value that affects the progress of the application or the window or
+which is controlled by the control in question.
+
+
+Special values
+No special value set for the Control Manager.
+
+Data structures
+
+ControlColorTbl
+The ControlColorTbl structure contains information used to add color to a control. Since the different controls are not all constituted in the same way, the content of this structure varies according to the type of control used. Follows the most common definition form of ControlColorTbl for a Scroll Bar. The bits in each of the integer elements of the data structure define the colors. For more details, see THE APPLE IIGS TOOLBOX REFERENCE.
+
+______________________________________________________________________
+
+   Dim aControlColorTbl% (7)
+
+Element Value Definition
+0 Integer Elevator outline color
+1 Integer Color of non-illuminated arrows
+2 Integer Color of illuminated arrows
+3 Integer Color of the inside bottom of the box
+4 Integer Color of interior marker not illuminated
+5 Reserved Whole
+6 Integer Color of the region inside page
+7 Integer Inner Color of Inactive Scroll Bar
+
+______________________________________________________________________
+<Page-footer>
+<Page-break>
+
+Page 407
+Control
+The control data structure defined is the controlled object. As with the ControlColorTbl data structure, the exact elements of this data structure depend on the control that is defined. The control listed below is that of a scrollbar. For more details, refer to the APPLE IIGS TOOLBOX REFERENCE.
+
+______________________________________________________________________
+
+   DIM Control! (46)
+
+Element Value Definition
+0 ... 3 Double Integer Manipulate the next control in the control list
+3 ... 6 Double Integer Points to the window that controls: WindowPtr
+7 ... 14 Rect Control rectangle
+15 Whole Control Flag
+16 Integral Illumination Control
+17 ... 18 Integer Value of the control
+19 ... 22 Double Integer Points to the procedure for defining control: ProcPtr
+23 ... 26 Double Integer Pointer to control the default action of the procedure: ProcPtr
+27 ... 28 Integer Data Size
+29 ... 30 Integer Size of the display (view)
+31 ... 34 Double Integer Reserved for use of the application
+35 ... 38 Double Integer Pointer to control the color table: ControlColorTblPtr
+39 ... 42 Rectangle Marker Rectangle
+43 ... 46 Rectangle of the page
+
+______________________________________________________________________
+
+ROUTINE
+--------
+HouseKeeping
+
+DEF PROC CtlStartup (UserID%, DPageAddr%) TOOL 2.16
+DEF PROC CtlShutDown TOOL 3.16
+DEF FN CtlVersion% TOOL 4.16
+DEF PROC CtlReset TOOL 5,16
+DEF FN CtlStatus% TOOL 6,16
+DEF PROC CITlNewRes TOOL 18.16
+<Page-footer>
+<Page-break>
+
+Page 408
+Creating and disposing
+------------------------
+DEF FN NewControlà
+            (TheWindowPtrà,
+             BoundsRectPtrà,
+             Titlestring $,
+             Flag%
+             Value%
+             param1%
+             Param2%
+             DefProcPtrà,
+             RefConà,
+             ControlColorTablePtrà) TOOL 9,16
+DEF PROC DisposeControl (TheControlHndlà) TOOL 10.16
+DEF PROC KillControls (TheWindowPtrà) TOOL 11.16
+
+Viewing
+---------
+DEF PROC SetCtlTitle (TitleString $, TheControlHndlà) TOOL 12.16
+DEF FN GetCtlTitleà (TheControlHndlà) TOOL 13.16
+DEF PROC HideControl (TheControlHndlà) TOOL 14.16
+DEF PROC ShowControl (TheControlHndlà) TOOL 15.16
+DEF PROC DrawControls (TheWindowPtrà) TOOL 16.16
+DEF PROC HiliteControl (HiliteState%, TheControlHndlà) TOOL 17.16
+
+Mouse coordinates
+------------------
+DEF FN FindControl%
+             (FoundControlHndlà,
+              XPoint%
+              YPoint%
+              TheWindowPtrà) TOOL 19.16
+DEF FN TestControl%
+             (XPoint%
+              YPoint%
+              TheControlHndlà) TOOL 20.16
+DEF FN TrackControl%
+             (StartX%
+              StartY%
+              ActionProcPtrà,
+              TheControlHndlà) TOOL 21.16
+
+Displacement and size
+---------------------
+DEF PROC MoveControl (NewX%, NewY%, TheControlHndlà) TOOL 22.16
+DEF PROC DragControl
+             (StartX%
+              StartY%
+              LimitRectPtrà,
+              SlopRectPtrà,
+              Axis%
+              TheControlHndlà) TOOL 23.16
+<Page-footer>
+<Page-break>
+
+Page 409
+Access control record
+-----------------------------
+DEF PROC SetCtlValue (CurValue%, TheControlHndlà) TOOL 25.16
+DEF FN GetCtlValue% (TheControlHndlà) TOOL 26.16
+DEF PROC SetCtlAction (NewActionProcPtrà, TheControlHndlà) TOOL 32.16
+DEF FN GetCtlActionà (TheControlHndlà) TOOL 33.16
+DEF PROC SetCtlRefCon (NewRefConà, TheControlHndlà) TOOL 34,16
+DEF FN GetCtlRefConà (TheControlHndlà) TOOL 35.16
+DEF PROC SetCtlParams (Param2%, Param1%, TheControlHndlà) TOOL 27.16
+DEF FN GetCtlParams% <2> (TheControlHndlà) TOOL 28.16
+
+Various
+------
+DEF FN DragRectà
+           (ActionProcPtrà,
+           DragPatternPtrà,
+           StartX%
+           StartY%
+           DragRectPtrà,
+           LimitRectPtrà,
+           SlopRectPtrà,
+           Axis%) TOOL 29.16
+
+DEF FN GetCtlDPage% TOOL 31.16
+DEF FN GrowSize to TOOL 30.16
+DEF FN SetCtlIconsà (NewFontHndlà) TOOL 24.16
+DEF PROC EraseControl (TheControlHndlà) TOOL 36.16
+DEF PROC DrawOneCtl (TheControlHndlà) TOOL 37.16
+
+<Page-footer>
+<Page-break>
+
+Page 410
+DESK MANAGER
+------------
+The Desk Manager is the set of tools that allow applications to support the use of CDAs (Classic Desktop Accessories Accessed by CTRL APP CUP) and NDAs (New Desktop Accessories Available in the APPLE Menu). CDAs are invoked with a keyboard interrupt generated by the OPEN-CONTROL ESCAPE key combination; NES can only be called by applications that support a desktop environment. NDAs are found in the APP menu of these applications.
+
+
+Special values
+-----------------
+Special values ​​are codes passed to DAActive procedures.
+
+_____________________________________________________________________________
+
+Value Definition
+1 Office accessory event
+2 Launch desktop accessory
+3 Slider desktop accessory
+4 Office Accessory Menu
+5 Cancel desktop accessory
+6 Cut office accessory
+7 Copy desktop accessory
+8 Paste desk accessory
+9 Clear desktop accessory
+
+_____________________________________________________________________________
+
+Data Structures
+---------------------
+There is no data structure defined for the Desk Manager
+
+routines
+--------
+Loading (HouseKeeping)
+
+DEF PROC DeskStartup TOOL 2.5
+DEF PROC DeskShutDown TOOL 3.5
+DEF FN DeskVersion% TOOL 4,5
+DEF PROC DeskReset TOOL 5.5
+DEF FN DeskStatus% TOOL 6.5
+
+Saved and restored state
+
+DEF PROC SaveScrn TOOL 9.5
+DEF PROC RestScrn TOOL 10.5
+DEF PROC SaveAll TOOL 11.5
+DEF PROC RestAll TOOL 12.5
+
+<Page-footer>
+<Page-break>
+
+Page 411
+Installation
+
+DEF PROC InstallNDA (IDHndlà) TOOL 14.5
+DEF PROC InstallCDA (IDHndlà) TOOL 15.5
+
+Classic office accessory
+
+DEF PROC ChooseCDA TOOL 17.5
+DEF PROC SetDAstrPtr (AltDispHndlà, StringTblPtrà) TOOL 19.5
+DEF FN GetDAstrPtrà (DAIDNum%) TOOL 20.5
+
+New office accessory
+
+DEF FN OpenNDA% (IDNum%) TOOL 21.5
+DEF PROC CloseNDA (RefNum%) TOOL 22.5
+DEF PROC CloseNDAbyWinPtr (TheWindowPtrà) TOOL 28.5
+DEF PROC CloseALLNDAs TOOL 29.5
+DEF PROC FixAppleMenu (MenuNum%) TOOL 30.5
+DEF FN GetNumAs% TOOL 27.5
+DEF PROC SystemClick
+            (TheEventRecordà,
+             TheWindowPtrà,
+             Flags%) TOOL 23.5
+DEF FN SystemEdit% (EditType%) TOOL 24.5
+DEF PROC SystemTask TOOL 25.5
+DEF FN SystemEvent%
+            (What%
+             Messageà,
+             Whenà,
+             WherePointPtrà,
+             Mods%) TOOL 26.5
+<Page-footer>
+<Page-break>
+
+Page 412
+DIALOG MANAGER
+--------------
+The Dialog Manager contains routines for handling dialogs and alert boxes. These boxes provide a way for the application to interact with the user. The dialog boxes are mainly used to request certain types of entries, while the warning boxes warn the user of situations that may affect the program.
+
+Special values
+---------------------
+The first two values ​​listed are the standard dialog elements, ie the numbers for the OK and CANCEL buttons. The other values ​​are used when creating a new dialog element to define the type of dialog element to create.
+
+_____________________________________________________________________________
+
+    Value Definition
+1 OK
+2 Cancel
+
+10 Element button
+11 Element checking
+12 Element radio
+13 Element scroll bar
+14 User Control Element
+15 static text element
+16 Element long static text
+17 Element line edition
+18 Element icon
+19 Element image
+20 User Element
+
+_____________________________________________________________________________
+
+Data structures
+--------------------------
+Dialogue
+The dialog data structure is a complex structure of variable size, containing pointers and handles for other structures in memory. The contents of the Dialogue data structures are not public. Instead, to manipulate the dialogs and their contents, the programmer uses the standard routines found in the Dialog Manager.
+<Page-footer>
+<Page-break>
+
+Page 413
+routines
+--------
+
+Loading (HouseKeeping)
+
+DEF PROC DialogStartup (UserID%) TOOL 2,21
+DEF PROC DialogShutDown TOOL 3.21
+DEF FN DialogVersion% TOOL 4,21
+DEF PROC DialogReset TOOL 5.21
+DEF FN DialogStatus% TOOL 6.21
+
+DEF PROC ErrorSound5SoundProcPtrà) TOOL 9.21
+DEF PROC SetDAFont (FontHndlà) TOOL 28.21
+
+Creation and layout
+
+DEF FN NewModalDialogà
+           (DBoundsRectPtrà,
+            dVisible%
+            dRefConà) TOOL 10.21
+DEF FN NewModelessDialogà
+           (DBoundsRectPtrà,
+            dTitleString $,
+            dBehindWindowPtrà,
+            dFlag%
+            dRefCon%
+            dFullSizeRectPtrà) TOOL 11.21
+DEF FN GetNewModalDialogà (TheDialogPtrà) TOOL 50,21
+DEF PROC CloseDialog (TheDialogPtrà) TOOL 12.21
+
+Create and remove items
+
+DEF PROC NewDItem
+           (TheDialogPtrà,
+            ItemID%
+            ItemRectPtrà,
+            ItemType%
+            ItemDescrUNIVPtrà,
+            ItemValue%
+            ItemFlag%
+            ItemColorTablePtrà) TOOL 13,21
+DEF PROC GetNewDItem (TheDialogPtrà, ItemTemplatePtrà) TOOL 51.21
+DEF PROC RemoveDItem (TheDialogPtrà, ItemID%) TOOL 14,21
+
+Manipulation of elements of dialogue
+
+DEF FN ModalDialog% (FilterProcPtrà) TOOL 15.21
+DEF FN ModalDialog2à (FilterProcPtrà) TOOL 44.21
+DEF FN IsDialogEvent% (TheEventRecordPtrà) TOOL 16,21
+DEF FN DialogSelect%
+           (TheEventRecordPtrà,
+            TheDialogPtrà,
+            ItemHit%) TOOL 17.21
+DEF PROC DlgCut (TheDialogPtrà) TOOL 18.21
+<Page-footer>
+<Page-break>
+
+Page 414
+DEF PROC DlgCopy (TheDialogPtrà) TOOL 19.21
+DEF PROC DlgPaste (TheDialogPtrà) TOOL 20.21
+DEF PROC DlgDelete (TheDialogPtrà) TOOL 21.21
+DEF PROC DrawDialog (TheDialogPtrà) TOOL 22.21
+
+Summon alerts
+
+DEF FN Alert% (AlertTemplatePtrà, FilterProcPtrà) TOOL 23.21
+DEF FN StopAlert% (AlertTemplatePtrà, FilterProcPtrà) TOOL 24.21
+DEF FN NoteAlert% (AlertTemplatePtrà, FilterProcPtrà) TOOL 25.21
+DEF FN CautionAlert% (AlertTemplatePtrà, FilterProcPtrà) TOOL 26.21
+
+Handling elements
+
+DEF PROC ParamText
+           ($ Param0String,
+            Param1String $,
+            Param2String $,
+            Param3String $,) TOOL 27.21
+DEF FN GetControlDItemà (TheDialogPtrà, ItemID%) TOOL 30,21
+DEF PROC GetIText (TheDialogPtrà, ItemID%, TextStringPtrà) TOOL 31.21
+DEF PROC SetIText (TheDialogPtrà, ItemID%, TextString $) TOOL 32,21
+DEF PROC SelItext (TheDialogPtrà, ItemID%, StartSel%, EndSel%) TOOL 33.21
+DEF FN GetDItemType% (TheDialogPtrà, ItemID%) TOOL 38.21
+DEF PROC SetDItemType (ItemType%, TheDialogPtrà, ItemID%) TOOL 39.21
+DEF PROC GetDItemBox (TheDialogPtrà, ItemID%, ItemBoxRectPtrà) TOOL 40.21
+DEF PROC SetDItemBox (TheDialogPtrà, ItemID%, ItemBoxRectPtrà) TOOL 41.21
+DEF FN GetFirstDItem% (TheDialogPtrà) TOOL 42,21
+DEF FN GetNextDItem% (TheDialogPtrà, ItemID%) TOOL 43.21
+DEF FN GetDefButton% (TheDialogPtrà) TOOL 55.21
+DEF PROC SetDefButton (ItemID%, TheDialogPtrà) TOOL 56.21
+DEF FN GetDItemValue% (TheDialogPtrà, ItemID%) TOOL 46.21
+DEF PROC SetDItemValue (ItemValue%, TheDialogPtrà, ItemID%) TOOL 47.21
+DEF FN GetAlertStage% TOOL 52.21
+DEF PROC ResetAlertStage TOOL 53.21
+<Page-footer>
+<Page-break>
+
+Page 415
+DEF FN DefaultFilter%
+           (TheDialogPtrà,
+            TheEventRecordPtrà,
+            ItemHitPtr%) TOOL 52,21
+DEF PROC HideDItem (TheDialogPtrà, ItemID%) TOOL 34.21
+DEF PROC ShowDItem (TheDialogPtrà, ItemID%) TOOL 35,21
+DEF FN FindDItem (TheDialogPtrà, ThePointPtrà) TOOL 36.21
+DEF PROC UpDateDialog (TheDialogPtrà, UpDateRgnHandleà) TOOL 37.21
+DEF PROC DisableDItem (TheDialogPtrà, ItemID%) TOOL 57.21
+DEF PROC EnableDItem (TheDialogPtrà, ItemID%) TOOL 58.21
+<Page-footer>
+<Page-break>
+
+Page 416
+EVENT MANAGER
+-------------
+The Event Manager supports the handling of possible events, which can happen either from the user or from the computer. The Event Manager takes note of all events and sends them back to the application when they request it. Since some events have a higher priority than others, the events are not reported in the same order in which they happen. Mouse movement down, mouse click, double click and inserting a disk are examples of events.
+
+Special values
+---------------------
+_____________________________________________________________________________
+
+Value Definition
+
+Event codes
+-1 Any event
+0 Null event
+1 Mouse down
+2 Mouse up
+3 key pressed
+4 Not defined
+5 Key Repetition
+6 Updating events
+7 Not defined
+8 Activate the event
+9 Contact event
+10 Event Desk Accessorie
+11 Event Driver
+12 Event Application number 1
+13 Event Application number 2
+14 Event Application number 3
+15 Event Application number 4
+
+Event masks equates
+
+2 Mouse mask down
+4 Mouse mask up
+8 Mask key pressed
+32 Repetition key mask
+64 Mask updated
+256 Activation Mask
+1024 Contact mask
+2048 Driver Mask
+4096 Application Number 1 Mask
+8192 Mask application number 2
+16384 Mask application number 3
+-32768 Mask application number 4
+<Page-footer>
+<Page-break>
+
+Page 417
+
+The modifying flags (modify flags)
+
+1 Active flag
+64 Button in state 1
+128 Button in state 0
+256 Apple touch
+512 Shift key
+1024 Capslock key
+2048 Option key
+4096 Control key
+8192 Numeric keypad
+
+_____________________________________________________________________________
+
+Data structure
+--------------------
+EventRecord
+The EventRecord is the data structure used by the EventManager to report the occurrences of an event and the relevant information related to it.
+_____________________________________________________________________________
+
+DIManEventRecord! (19)
+
+Element (s) Value Description
+
+0 ... 1 Integer Event code specifying which event happened
+2 ... 5 Double full Event message providing additional information about the event
+6 ... 9 Double integer Number of ticks since startup
+10 ... 13 Point Position of the mouse when the event has arrived
+14 ... 15 Integer Flag modifier
+16 ... 17 Double Full Task Data (task) for the Task Master
+18 ... 19 Double Integer Task Mask for the Task Master
+
+_____________________________________________________________________________
+
+routines
+--------
+
+Loading (HouseKeeping)
+
+DEF PROC EMStartup
+           (DPageAddr%
+            QueueSize%
+            XMinClamp%
+            XMaxClamp%
+            YMinClamp%
+            YMaxClamp%
+            UserID |) TOOL 3.6
+DEF FN EMVersion% TOOL 4.6
+DEF PROC EMReset TOOL 5.6
+DEF FN EMStatus% TOOL 6.6
+
+<Page-footer>
+<Page-break>
+
+Page 418
+Access to Toolbox events
+
+DEF FN GetNextEvent% (EventMask%, EventRecordPtrà) TOOL 10.6
+DEF FN EventAvail% (EventMask%, EventRecordPtrà) TOOL 11.6
+
+Reading the mouse
+
+DEF PROC GetMouse (PointPtrà) TOOL 12.6
+DEF FN Button% (ButtonNum%) TOOL 13.6
+DEF FN StillDown% (ButtonNum%) TOOL 14.6
+DEF FN WaitMouseUp% (ButtonNum%) TOOL 15.6
+
+Position and remove events
+
+DEF FN PostEvent% (EventCode%, EventMsgà) TOOL 20.6
+DEF FN FlushEvents% (EventMask%, StopMask%) TOOL 21.6
+
+Access to the events of the operational system
+
+DEF FN GetOSEvent% (EventMask%, EventRecordPtrà) TOOL 22.6
+DEF FN OSEventAvail% (EventMask%, EventRecordPtrà) TOOL 23.6
+
+Various
+
+DEF FN TickCount to TOOL 16.6
+DEF FN GetdblTime to TOOL 17.6
+DEF FN GetCaretTime to TOOL 18.6
+DEF PROC FakeMouse
+           (Changed%
+            ModLatchByte%
+            XPosition%
+            YPosition%
+            ButtonStatus%) TOOL 25.6
+DEF FN DoWindows% TOOL 9.6
+DEF PROC SetSwitch TOOL 19.6
+<Page-footer>
+<Page-break>
+
+Page 419
+FONT MANAGER
+------------
+The Font Manager allows an application to use different typefaces, different styles etc ... inside Quickdraw. The font definitions are in the SYSTEM / FONT directory of a system disk.
+
+Special values
+---------------------
+There is no special value defined for the Font Manager
+
+Data structure
+--------------------
+Melting
+A font is a complete set of characters with variants of type or style, not including their size. The fonts are stored in the SYSTEM / FONT / directory of a system disk. The handling of fonts by an application is usually carried out by means of Handles.
+
+FontID
+_____________________________________________________________________________
+
+DIM aFontID! (3)
+
+Element Value Definition
+
+0 ... 1 Integer Family number of the font
+2 Integer Style
+3 Integer Point size of the cast iron
+
+_____________________________________________________________________________
+
+FontStatRec
+_____________________________________________________________________________
+
+Dim aFontStatRec! (5)
+
+Element Value Definition
+
+0 ... 3 FontID Result of the ID
+4 ... 5 Integer Result Stats (resulting state)
+
+_____________________________________________________________________________
+
+
+<Page-footer>
+<Page-break>
+
+Page 420
+routines
+--------
+Loading (HouseKeeping)
+
+DEF PROC FMStartup (UserID%, DPageAddress%) TOOL 2.27
+DEF PROC FMShutdown TOOL 3,27
+DEF FN FMVersion% TOOL 4,27
+DEF PROC FMReset TOOL 5.27
+DEF FN RMStatus% TOOL 6.27
+
+Access to family
+
+DEF FN CountFamilies% (FamSpecs%) TOOL 9.27
+DEF FN FindFamily%
+           (FamSpecs%
+            PositionNum%
+            FamNameStringPtrà) TOOL 10.27
+DEF FN GetFamInfo% (FamNum%, FamNameStringPtrà) TOOL 11.27
+DEF FN GetFamNum% (FamNameStringPtrà) TOOL 12.27
+DEF PROC AddFamily (FamNum%, FamNameString $) TOOL 13,27
+
+Handling
+
+DEF PROC InstallFont (DesiredIDRecPtrà, ScaleWord%) TOOL 14,27
+DEF PROC SetPurgeStat (DesiredIDRecPtrà, PurgeStat%) TOOL 15.27
+DEF FN CountFonts% (DesiredIDRecPtrà, Specs%) TOOL 16.27
+DEF PROC FindFontStats
+           (DesiredIDRecPtrà,
+            Specs%
+            PositionNum%
+            FontStatRecPtrà) TOOL 17,27
+DEF PROC LoadFont
+           (DesiredIDRecPtrà,
+            Specs%
+            PositionNum%
+            FontStatRecPtrà) TOOL 18.27
+DEF PROC LoadSysFont TOOL 19,27
+DEF PROC AddFontVar (FontHndlà, NewSpecs%) TOOL 20.27
+
+Menu and font dialog
+
+DEF PROC FixFontMenu (MenuID%, StartingID%, FamSpecs%) TOOL 21,27
+DEF FN ChooseFontà (currentIDRecPtrà, FamSpecs%) TOOL 22,27
+DEF FN ItemID2FamNum% (itemID%) TOOL 23.27
+
+Various
+
+DEF PROC FMSetSysFont (TheFontIDRectPtrà) TOOL 24.27
+DEF FN FMGetSysFID to TOOL 25,27
+DEF FN FMGetCurFID to TOOL 26,27
+<Page-footer>
+<Page-break>
+
+Page 421
+INTEGER MATH
+------------
+The INTEGER MATH tool set consists of a variety of operations for integers, long integers, and rational numbers. These operations include multiplication, division, and various conversions between numerical representations and string of characters.
+
+Special values
+---------------------
+There is no special value defined for the INTEGER MATH
+
+Data structure
+--------------------
+There is no defined data structure for the INTEGER MATH
+
+routines
+--------
+
+Loading routines
+
+DEF PROC IMStartup TOOL 2.11
+DEF PROC IMShutDown TOOL 3,11
+DEF FN IMVersion% TOOL 4.11
+DEF PROC IMReset TOOL 5,11
+DEF FN IMStatus% TOOL 6,11
+
+Mathematical routines
+
+DEF FN Muliplyà (left%, Right%) TOOL 9.11
+DEF FN SDivideà (left%, Right%) TOOL 10.11
+DEF FN UDivideà (left%, Right%) TOOL 11.11
+DEF FN LongDivide <2> (left, Right) TOOL 13.11
+DEF FN FixRatioà (Numerator%, Denominator%) TOOL 14.11
+DEF FN FixMulà (left, Right) TOOL 15.11
+DEF FN FracMulà (left, Right) TOOL 16.11
+DEF FN FixDivà (Dividendà, Divisorà) TOOL 17.11
+DEF FN FracDivà (Dividendà, Divisorà) TOOL 18.11
+DEF FN FixRound% (Fixedà) TOOL 19.11
+DEF FN FracSqrtà (Fracà) TOOL 20.11
+DEF FN FracCosà (Fixedà) TOOL 21.11
+DEF FN FracSinà (Fixedà) TOOL 22.11
+DEF FN FixATan2à (Val1à, Val2à) TOOL 23.11
+DEF FN HiWord% (Long) TOOL 24.11
+DEF FN LoWord% (Long) TOOL 25.11
+<Page-footer>
+<Page-break>
+
+Page 422
+Digital conversion routines
+
+DEF FN Long2Fixà (Long) TOOL 26.11
+DEF FN Fix2 Long (Fixed) TOOL 27.11
+DEF FN Fix2Fracà (Fixedà) TOOL 28.11
+DEF FN Frac2Fixà (Fracà) TOOL 29.11
+DEF PROC Fix2X (Fixedà, ExtPtrà) TOOL 30.11
+DEF PROC Frac2X (FracÃ, ExtPtrÃ) TOOL 31.11
+DEF FN X2Fixà (ExtPtrà) TOOL 32.11
+DEF FN X2Fracà (ExtPtrà) TOOL 33.11
+
+Chain conversion routines
+
+DEF PROC Int2Hex (Int%, BufferPtrà, BufferLen%) TOOL 34.11
+DEF PROC Long2Hex (Long%, BufferPtrà, BufferLen%) TOOL 35.11
+DEF FN Hex2Int% (BufferPtrà, BufferLen%) TOOL 36.11
+DEF FN Hex2Long (BufferPtrà, BufferLen%) TOOL 37.11
+DEF PROC Int2Dec (Int%, BufferPtrà, BufferLen%, Signed%) TOOL 38.11
+DEF PROC Long2Dec (Long%, BufferPtrà, BufferLen%, Signed%) TOOL 39.11
+DEF FN Dec2Int% (BufferPtrà, BufferLen%, Signed%) TOOL 40.11
+DEF FN Declong (BufferPtrà, BufferLen%, Signed%) TOOL 41,11
+DEF FN HexItà (Int%) TOOL 42.11
+<Page-footer>
+<Page-break>
+
+Page 423
+LINE EDIT
+---------
+Line Edit is used to display a line of text on the screen and allow the user to edit text. The editing operation includes standard operations, cut, copy, and paste.
+
+Special values
+---------------------
+There is no special value set for Line Edit
+
+Data structure
+--------------------
+
+LERec
+
+The LineEditRecord (LERec) structure contains the information needed to store and manipulate a line in memory. A program must not access the LERec data structure, but only through the use of Line Edit routines.
+
+_____________________________________________________________________________
+
+DIM aLERec! (52)
+
+Element Value Definition
+
+0 ... 3 Double integer Manipulates the text to be edited
+4 ... 6 Integer Length of the text
+7 ... 14 Rectangle Rectangle of destination
+15 ... 22 Rectangle Rectangle of view (view rectangle)
+23 ... 26 Double Integer Pointer to GrafPort
+27 ... 28 Integer Used for illumination
+29 ... 30 Integer Used to draw the text
+31 ... 32 Integer Start of selection range
+33 ... 34 Integer End of selection range
+35 ... 36 Integer Used internally
+37 ... 38 Integer Used internally
+39 ... 40 Integer Used internally
+41 ... 44 Double Integer Used internally
+45 ... 48 Double Integer Pointer for Illumination Routine: ProcPtr
+49 ... 52 Double integer Pointer for the routine caret (^ = exponential?): ProcPtr
+
+_____________________________________________________________________________
+
+routines
+--------
+
+Loading
+
+DEF PROC LEStartUp (DPageAddr%, UserID%) TOOL 2.20
+DEF PROC LEShutDown TOOL 3,20
+DEF FN LEVersion% TOOL 4.20
+DEF PROC LEReset TOOL 5,20
+DEF FN LEStatus% TOOL 6.20
+
+<Page-footer>
+<Page-break>
+
+Page 424
+Creation and layout
+DEF FN LENewà (DestRectPtrà, ViewRectPtrà, MaxTextLen%) TOOL 9,20
+DEF PROC LEDispose (LERectHndlà) TOOL 10,20
+
+Change the text of an edit record
+
+DEF PROC LESetText (TextPtrà, Length%, LERecHndlà) TOOL 11.20
+
+Insertion point and selection address
+
+DEF PROC LEIdle (LERecHndlà) TOOL 12,20
+DEF PROC LEClick (EventRecordPtrà, LERecHndlà) TOOL 13,20
+DEF PROC LESetSelect (SelStart%, SelEnd |, LERecHndlà) TOOL 14,20
+DEF PROC LEActivate (LERecHndlà) TOOL 15,20
+DEF PROC LEDeactivate (LERecHndlà) TOOL 16,20
+
+Edition
+
+DEF PROC LEKey (TheKey%, Modifiers%, LERecHndlà) TOOL 17,20
+DEF PROC LECut (LERecHndlà) TOOL 18.20
+DEF PROC LECopy (LERecHndlà) TOOL 19,20
+DEF PROC LEPaste (LERecHndlà) TOOL 20.20
+DEF PROC LEDelete (LERecHndlà) TOOL 21,20
+DEF PROC LEInsert (TextPtrà, Length%, LERecHndlà) TOOL 22.20
+
+Text display
+
+DEF PROC LEUpdate (LERecHndlà) TOOL 23.20
+DEF PROC LETextBox
+           (TextPtrà,
+            Length%
+            BoxRectPtrà,
+            TextJustify%) TOOL 24.20
+
+Handling the Scrap
+
+DEF PROC LEFromScrap TOOL 25.20
+DEF PROC LEToScrap TOOL 26,20
+DEF PROC LEScrapHandle to TOOL 27.20
+DEF FN LEGetScrapLen% TOOL 28.20
+DEF PROC LESetScrapLen (NewLength%) TOOL 29.20
+
+Position the illumination and insertion hooks
+
+DEF PROC LESetHilite (HiliteProcPtrà, LERecHndlà) TOOL 30.20
+DEF PROC LESetCaret (CaretProcPtrà, LERecHndlà) TOOL 31,20
+
+<Page-footer>
+<Page-break>
+
+Page 425
+LIST MANAGER
+------------
+The List Manager is used to create, display, and allow selection of a certain amount of variables or similar data.
+
+Special values
+---------------------
+There is no special value defined for List Manager
+
+Data structure
+--------------------
+
+ListMem
+
+The ListMem structure contains the data for a member in a list. Foreign members can be defined by adding additional data at the end of the existing data. The list contains a field that contains the number of bytes in a member.
+
+_____________________________________________________________________________
+
+DIM aListMem! (N)
+
+Element Value Definition
+
+0 ... 3 Double Integer Chain Pointer for Chain Member, Anything Else for a Foreign Member
+4 ... 5 Integer Bit flags, bit 7 = 1 if selected
+                                       bit 6 = 1 if not selected
+* * *
+* * *
+* * *
+N Integer Application Data if Foreign Member
+_____________________________________________________________________________
+
+<Page-footer>
+<Page-break>
+
+Page 426
+
+ListRec
+
+The ListRec data structure is the structure containing the information about a List Manager list. Although the List Manager provides a routine for manipulating the list, the actual structure used is provided below.
+
+_____________________________________________________________________________
+
+DIM aListRec! (35)
+
+Element Value Definition
+
+0 ... 7 Rectangle Rounded Rectangle
+8 ... 9 Full Total members in the list
+10 ... 11 Integer Number of members displayed at a given time
+12 ... 13 Integer Type of the list
+14 ... 15 Integer The number of members appearing at startup
+16 ... 19 Double integer Handle of control being part of the list
+20 ... 23 Double integer Pointer to the procedure drawing the list: ProcPtr
+24 ... 25 Integer Height of each member in pixels
+26 ... 27 Integer Number of bytes in a member's record
+28 ... 31 Double Integer Pointer to the member of the list which is the record board
+32 ... 35 Double Integer Pointer to the color table of the scroll bar.
+_____________________________________________________________________________
+
+
+routines
+--------
+
+Loading
+
+DEF PROC ListStartup TOOL 2.28
+DEF PROC ListShutdown TOOL 3.28
+DEF PROC ListVersion% TOOL 4.28
+DEF PROC ListReset TOOL 5.28
+DEF PROC ListStatus% TOOL 6.28
+
+Handling
+
+DEF FN CreateListà (TheWindowPtrà, ListRecPtrà) TOOL 9.28
+DEF FN NextMemberà (ListMemPtrà, ListRecPtrà) TOOL 11,28
+DEF FN ResetMemberà (ListRecPtrà) TOOL 15,28
+DEF PROC DrawMember (ListMemPtrà, ListRecPtrà) TOOL 12.28
+DEF PROC SelectMember (ListMemPtrà, ListRecPtrà) TOOL 13,28
+DEF PROC SortList (SortProcPtrà, ListRecPtrà) TOOL 10.28
+DEF FN GetListDefProc to TOOL 14.28
+DEF PROC NewList (ListMemPtrà, ListRecPtrà) TOOL 16.28
+<Page-footer>
+<Page-break>
+
+Page 427
+MEMORY MANAGER
+--------------
+The Memory Manager is one of the toolbox's most important tool sets. This tool is fully responsible for the allocation, deallocation and repositioning of memory blocks in the IIGS. The Memory Manager takes note of the amount of free memory and which part is allocated and to whom. Whenever a program needs memory, it must ask the Memory Manager to allocate it.
+
+Special values
+
+The following values ​​are used with the NewHandleà function to specify the attribute of a memory block to be allocated.
+
+_____________________________________________________________________________
+
+Value Attribute Definition
+1 Fixed Bank Must be in a particular memory bank
+2 Fixed Address Must be allocated to a specific address
+4 aligned page Must be aligned to the beginning of a page
+8 Memory Must not use banks $ 00, $ 01, $ E0, $ E1
+           special
+16 Steps Must not overlap the dividing line
+          chauvechement several banks
+          bank
+16384 Block attached Never to be moved
+32768 Closed The same as HLock
+
+_____________________________________________________________________________
+
+Data Structures
+
+Pointer (Ptr)
+
+A TML BASIC pointer is the address of a simple array, structure, or variable. The address of a variable is obtained by using the VARPTR function. A pointer is stored as a double integer value
+
+Handle (Hndl)
+
+A handle is also a pointer in TML BASIC, but behaves in a very special way. A handle always points to another pointer that in turn points to a variable. Except for very rare cases, one should try to create a handle with the toolbox by using the VARPTR function. A program must obtain handle values ​​only by calling NewHandle functions, or other routines in the toolbox returning a handle value.
+
+Example of the translator:
+For example, we store variables in a structure at address 400
+A pointer contains the address of the structure (400) and is stored, for example, at address 100
+The Handle contains the address of the pointer (100) and is stored, for example, at address 250
+
+
+Address of a structure -------> 400 ----------
+                                      ! CHAIN!
+                                      ! -------!
+                                      ! VARIAB!
+                                      ----------
+
+Pointer address that points to the structure ----> 100 -------
+                                  Pointer content ->! 400!
+                                                          ------
+
+Address of the handle that points to the pointer ----> 250 -------
+                                 Content of the handle ->! 100!
+                                                       -------
+
+<Page-footer>
+<Page-break>
+
+Page 428
+routines
+--------
+
+Loading
+
+DEF FN MMStartup% TOOL 2,2
+DEF PROC MMShutdown (UserID%) TOOL 3.2
+DEF FN MMVersion% TOOL 4.2
+DEF PROC MMReset TOOL 5.2
+DEF FN MMStatus% TOOL 6.2
+
+Memory allocation
+
+DEF FN Newhandle (BlockSize, UserID%, Attributes%, LocationPtrà) TOOL 9.2
+DEF PROC ReAllocHandle
+          (OldHandleà,
+           BlockSizeà,
+           UserID%
+           Attributes%
+           RentPtrà) TOOL 10.2
+DEF PROC RestoreHandle (Handleà) TOOL 11.2
+DEF PROC DisposeHandle (Handleà) TOOL 16.2
+DEF PROC DisposeAll (UserID%) TOOL 17.2
+DEF PROC PurgeHandle (Handle) TOOL 18.2
+DEF PROC PurgeAll (UserID%) TOOL 19.2
+
+Size information
+
+DEF FN GetHandleSizeà (Handleà) TOOL 24.2
+DEF PROC SetHandleSize (NewSizeà, Handleà) TOOL 25.2
+DEF FN FindHandle (LocationPtrà) TOOL 26.2
+
+Lock and purge a level
+
+DEF PROC HLock (Handleà) TOOL 32.2
+DEF PROC HLockAll (UserID%) TOOL 33.2
+DEF PROC HUnLock (Handleà) TOOL 34.2
+DEF PROC HUnLockAll (UserID%) TOOL 35.2
+DEF PROC SetPurge (NewPurgeLevel%, Handle) TOOL 36.2
+DEF PROC SetPurgeAll (NewPurgeLevel%, UserID%) TOOL 37.2
+
+Free space
+
+DEF PROC CompactMem TOOL 31.2
+DEF FN FreeMemà TOOL 27.2
+DEF FN MaxBlock to TOOL 28.2
+DEF FN TotalMemà TOOL 29.2
+DEF PROC CheckHandle (Handleà) TOOL 30.2
+<Page-footer>
+<Page-break>
+
+Page 429
+Various
+DEF PROC BlockMove (SrcPtrà, DstPtrà, ByteCountà) TOOL 43.2
+DEF PROC PtrToHand (SrcPtrà, DstHandleà, ByteCountà) TOOL 40.2
+DEF PROC HandToPtr (SrcHandleà, DstPtrà, ByteCountà) TOOL 41.2
+DEF PROC HandToHand (SrcHandleà, DstHandleà, ByteCountà) TOOL 42.2
+
+<Page-footer>
+<Page-break>
+
+Page 430
+MENU MANAGER
+------------
+The Menu Manager is responsible for creating, manipulating, and arranging drop-down menus used in the desktop environment.
+
+Special values
+No special value set for the Menu Manager.
+
+Data Structures
+MenuBar
+The MenuBar data structure contains the information needed to manage the standard desktop menu bar as well as the menu contained within the menu bar. This is a private data structure and should only be manipulated by calling the Menu Manager routines.
+
+Menu
+A data structure menu contains the information needed to manage a single drop-down menu. Again, we repeat that this data structure is private and should only be manipulated by calling the Menu Manager routines
+
+routines
+--------
+
+Loading
+
+DEF PROC MenuStartUp (UserID%, DPAGEAdrr%) TOOL 2.15
+DEF PROC MenuShutDown TOOL 3.15
+DEF FN MenuVersion% TOOL 4.15
+DEF PROC MenuReset TOOL 5,15
+DEF FN MenuStatus% TOOL 6.15
+
+Creation and layout
+
+DEF FN NewMenuBarà (TheWindowPtrà) TOOL 21.15
+DEF FN NewMenuà (MenuStringPtrà) TOOL 45,15
+DEF PROC DisposeMenu (TheMenuHndlà) TOOL 46.15
+DEF FN FixMenuBar% TOOL 19.15
+DEF PROC CalcMenuSize (NewWidth%, NewHeight%, MenuNum%) TOOL 28.15
+
+User interaction
+
+DEF PROC MenuSelect (EventRecordPtrà, TheMenuBarHndlà) TOOL 43.15
+DEF PROC Menukey (EventRecordPtrà, TheMenuBarHndlà) TOOL 9,15
+DEF PROC MenuRefresh (RedrawRoutineProcPtrà) TOOL 11.15
+DEF PROC DrawMenuBar TOOL 42.15
+DEF PROC HiliteMenu (Hilit%, MenuNum%) TOOL 44.15
+<Page-footer>
+<Page-break>
+
+Page 431
+DEF PROC FlashMenuBar TOOL 12.15
+
+Handling menu and item
+
+DEF PROC InsertMenu (AddMenuHandleà, InsertAfter%) TOOL 13.15
+DEF PROC DeleteMenu (MenuNum%) TOOL 14,15
+DEF PROC InsertMItem
+          (AddItemCStringPtrà,
+           InsertAfter%
+           MenuNum%) TOOL 15.15
+DEF PROC DeleteMItem (ItemNum%) TOOL 16.15
+
+Access to the menu bar
+
+DEF PROC SetsysBar (TheMenuBarHandleà) TOOL 18.15
+DEF FN GetsysBarà TOOL 17.15
+DEF PROC SetMenuBar (TheMenuBarHandleà) TOOL 57.15
+DEF FN GetMenuBar to TOOL 10.15
+DEF PROC SetBarColors
+          (NewBarColor%
+           NewInvertColor%
+           NewOutlineColor%) TOOL 23.15
+DEF FN GetBarColors to TOOL 24.15
+DEF PROC SetMTitleStart (XStart%) TOOL 25.15
+DEF FN GetMTitleStart% TOOL 26.15
+DEF FN CountMItems TOOL 20.15
+
+Access registration menu
+
+DEF FN GetMHandleà (MenuNum%) TOOL 22.15
+DEF PROC SetMTitleWidth (NewWidth%, MenuNum%) TOOL 29.15
+DEF FN GetMTitleWidth% (MenuNum%) TOOL 30.15
+DEF PROC SetMenuFlag (NewValue%, MenuNum%) TOOL 31.15
+DEF FN GetMenuFlag% (MenuNum%) TOOL 32.15
+DEF PROC SetMenuTitleà (NewTitleStringPtrà, MenuNum%) TOOL 33.15
+DEF FN GetMenuTitleà (MenuNum%) TOOL 34.15
+DEF PROC SetMenuID (NewMenuNum%, OldMenuNum%) TOOL 55.15
+
+Access registration element
+
+DEF PROC SetMItem (NewStrgCStringPtrà, ItemNum%) TOOL 36.15
+DEF FN GetMItemà (ItemNum%) TOOL 37.15
+DEF PROC SetMItemName (ItemTitleStringPtrà, ItemNum%) TOOL 58.15
+DEF PROC EnableMItem (ItemNum%) TOOL 48.15
+DEF PROC DisableMItem (ItemNum%) TOOL 49.15
+DEF PROC CheckMItem (Checked%, ItemNum%) TOOL 50.15
+DEF PROC SetMItemMark (MarkChar%, ItemNum%) TOOL 51.15
+DEF FN GetMItemMark% (ItemNum%) TOOL 52.15
+DEF PROC SetMItemstyle (ChStyle%, ItemNum%) TOOL 53.15
+DEF FN GetMItemstyle% (ItemNum%) TOOL 54.15
+DEF PROC SetMItemFlag (NewValue%, ItemNum%) TOOL 38.15
+DEF FN GetMItemFlag% (ItemNum%) TOOL 39.15
+DEF PROC SetMItemID (NewID%, ItemNum%) TOOL 56.15
+<Page-footer>
+<Page-break>
+
+Page 432
+DEF PROC SetMItemBlink (Count%) TOOL 40.15
+
+Various
+
+DEF FN GetMenuMgrPort to TOOL 27.15
+DEF PROC MenuNewRes TOOL 41.15
+DEF PROC InitPalette TOOL 47.15
+DEF FN MenuGlobal% (chgFlag%) TOOL 35.15
+<Page-footer>
+<Page-break>
+
+Page 433
+MISCELLANEOUS TOOLS
+-------------------
+The Miscellaneous tool set consists essentially of system-level routines that must be available for most other tools. The set of tools includes IIGS clock read and write operations, read and write memory settings, low-level mouse operations, interrupts, and other operations.
+
+Special values
+No special value set for the Miscellaneous toolset
+
+Data structure
+No special data structure defined for the Miscellaneous toolset
+
+routines
+--------
+
+Loading
+
+DEF PROC MTStartup TOOL 2.3
+DEF PROC MTShutdown TOOL 3,3
+DEF FN MTversion% TOOL 4.3
+DEF PROC MTReSet TOOL 5.3
+DEF FN MTStatus% TOOL 6.3
+
+RAM saved
+
+DEF PROC WriteBram (BufferPtrà) TOOL 9.3
+DEF PROC ReadBram (BufferPtrà) TOOL 10.3
+DEF PROC WriteBParam (Data%, ParamRefNum%) TOOL 11.3
+DEF FN ReadBParam% (ParamRefNum%) TOOL 12.3
+
+Clock
+
+DEF FN ReadTimeHex% (<4> (BufferSize%) TOOL 13.3
+DEF PROC WriteTimeHex (MonthDay%, YearHour%, MinuteSecond%) TOOL 14.3
+DEF PROC ReadAsciiTime (BufferPtrà) TOOL 15.3
+
+Vector initialization
+
+DEF PROC SetVector (VectorRefNum%, VectorProcPtrà) TOOL 16.3
+DEF FN GetVectorà (VectorRefNum%) TOOL 17.3
+
+HeartBeat (heartbeat)
+
+DEF PROC SetHeartBeat (TaskProcPtrà) TOOL 18.3
+DEF PROC DelHeartBeat (TaskProcPtrà) TOOL 19.3
+DEF PROC ClrHeartBeat TOOL 20.3
+<Page-footer>
+<Page-break>
+
+Page 434
+System Crash Manager
+
+DEF PROC SysFailMgr (ErrCode%, MsgString $) TOOL 21.3
+
+Address recovery
+
+DEF FN GetAddrà (RefNum%) TOOL 22.3
+
+Mouse
+
+DEF FN ReadMouse! (6) TOOL 23.3
+DEF PROC InitMouse (MouseSlot%) TOOL 24.3
+DEF PROC SetMouse (MouseMode%) TOOL 25.3
+DEF PROC HomeMouse TOOL 26.3
+DEF PROC ClearMouse TOOL 27.3
+DEF PROC ClampMouse
+          (XMinClamp%
+           XMaxClamp%
+           YMinClamp%
+           YMaxClamp%) TOOL 28.3
+DEF FN GetMouseClamp% <41> TOOL 29.3
+DEF PROC PosMouse (XPos%, YPos%) TOOL 30.3
+DEF FN ServeMouse% TOOL 31.3
+DEF FN GetNewID% (IDTag%) TOOL 32.3
+DEF PROC DeleteID (IDTag%) TOOL 33.3
+DEF PROC StatusID (IDTag%) TOOL 34.3
+
+Interrupt control
+
+DEF PROC IntSource (ScrRefNum%) TOOL 35.3
+
+Tick ​​counter (top system)
+
+DEF FN GetTick to TOOL 37.3
+
+Compaction and decompacting of bytes
+
+DEF FN PackBytes%
+          (ScrBufferPtrà,
+           ScrSizePtrà,
+           DstBufferPtrà,
+           DstSize%) TOOL 38.3
+DEF FN UnpackBytes%
+          (ScrBufferPtrà,
+           ScrSizePtrà,
+           DstBufferPtrà,
+           DstSize%) TOOL 39.3
+
+<Page-footer>
+<Page-break>
+
+Page 435
+Munger
+
+DEF PROC Munger
+          (DestPtrà,
+           DestLenPtrà,
+           TargPtrà,
+           TargLen%
+           ReplacePtrà,
+           ReplaceLen%
+           PadCharPtrà) TOOL 40.3
+
+Interrupt state engaged
+
+DEF FN GetIRQEnable% TOOL 41.3
+DEF PROC SetAbsClamp
+          (XMinClamp%
+           XMaxClamp%
+           YMinClamp%
+           XMaxClamp%) TOOL 42.3
+DEF FN GetAbsClamp% <4> TOOL 43.3
+DEF PROC SysBeep TOOL 44.3
+
+<Page-footer>
+<Page-break>
+
+Page 436
+NOTE SYNTHESIZER
+----------------
+Note Synthesizer is a sophisticated set of tools that can generate complex musical sounds based on instrument definitions. The Ensoniq Digital Oscillator chip Chip (DOC) is the hardware part that really creates the sound.
+
+Special values
+No special value defined for the Note Synthesizer
+
+Data structure
+WaveForm
+(the shape of the wave)
+The WaveForm data structure defines a waveform that contains information about the allowed pitch and range of a wave. A wave is a component of a wave list that is necessary for the definition of an instrument data structure. A wave list consists of grouping different waves (...)
+
+_____________________________________________________________________________
+
+   DIM aWaveForm (5)
+
+Element Value Definition
+
+0 Integer The highest MIDI half tone, also TopKey.
+1 Integer Address of the wave, to be put in the records of the DOC
+2 Integer Wave Size
+3 Whole DOC Mode
+4 ... 5 Integer Relative height to tune the waveform
+
+_____________________________________________________________________________
+
+
+instruments
+
+The Instrument data structure is used with the NoteOn procedure to define the characteristics of an instrument, whose sound is created with the Note Synthesizer. This structure has a variable length, which depends on the number of waveforms, in the wave list A and in the wave list B. The notation LA and LB refer respectively to the last element in the wave A and the last element in the B wave.
+<Page-footer>
+<Page-break>
+
+Page 437
+_____________________________________________________________________________
+
+   DIM anInstrument! (LB)
+
+Element (s) Value Definition
+
+0 ... 23 Envelope! (23) Envelope
+24 Integer End of note segment (release)
+25 Integer Priority Increment
+26 Integer Range of pitch (pitch bend)
+27 Integral Tremolo Depth
+28 Integer Speed ​​of vibrato
+29 Integer Value in reserve, not used
+Integer Number of Waveform Structures in Wave List A
+31 Integer Number of Waveform Structures in Wave List B
+32 ... LA WaveA! (LA) Wave List A
+LA + 1 ... LB WaveB! (LB-LA) Wave List B
+
+_____________________________________________________________________________
+
+routines
+--------
+
+Loading
+
+DEF PROC NSStartup (UpdateRate%, UpdateProcPtrà) TOOL 2,25
+DEF PROC NSShutdown TOOL 3,25
+DEF FN NSVersion% TOOL 4.25
+DEF PROC NSReset TOOL 5.25
+DEF FN NSStatus% TOOL 6.25
+
+Allocation of an oscillator
+
+DEF FN AllocGen% (RequestPriority%) TOOL 9.25
+DEF PROC DeallocGen (GenNumber%) TOOL 10.25
+
+
+Note manipulation
+
+DEF PROC NoteOn (GenNum%, SemiTone%, Volume%, InstrumentPtrà) TOOL 11.25
+DEF PROC NoteOff (GenNum%, SemiTone%) TOOL 12.25
+DEF PROC AllNotesOff TOOL 13,25
+<Page-footer>
+<Page-break>
+
+Page 438
+PRINT MANAGER
+-------------
+The Print Manager transforms the Quickdraw representation of documents into a printed form. A special print driver is required to use the Print Manager. At the moment, Print Manager drivers exist only for Imagewriter and Laserwriter printers.
+
+Special values
+
+_____________________________________________________________________________
+
+Value Definition
+0 Specifies a draft mode print
+128 Specifies a continuous print (spool)
+
+16382 Maximum number of pages in a spool file
+
+0 The error number number (NoError) of the error code
+
+_____________________________________________________________________________
+
+
+Data structure
+
+TPrPort
+TPrPort specifies the port that Print Manager uses as the print environment. This data structure is roughly the same as the Quickdraw GrafPort data structure. In fact, the first element of the TPrPort structure is a GrafPort. Additional fields in TPrPort are private and should only be changed using the Print Manager routines.
+
+TPrinfo
+The TPrinfo data structure is the printer information record, which contains information about the composition of a page.
+
+_____________________________________________________________________________
+
+   DIM aTPrinfo% (6)
+
+Element Value Definition
+
+0 Whole Internal use
+1 Integer Vertical resolution of the printer
+2 Integer Horizontal resolution of the printer
+3 ... 6 Rectangle Page Definition Rectangle
+
+_____________________________________________________________________________
+
+<Page-footer>
+<Page-break>
+
+Page 439
+TPrStl
+The TPrStl data structure defines the information style obtained from the user through the dialog style, as well as the job dialog. The fields in this record have different meanings for different printers.
+
+_____________________________________________________________________________
+
+   DIM aTPrStl% (6)
+
+Element Value Definition
+
+0 Whole Internal use
+1 Integer Vertical resolution of the printer
+2 Integer Horizontal resolution of the printer
+3 ... 6 Rectangle Page definition
+
+_____________________________________________________________________________
+
+
+TPrXinfo
+The TPrXinfo data structure contains additional information that an application may need.
+
+_____________________________________________________________________________
+
+
+   DIM aTPrXinfo% (N)
+
+Element Value Definition
+0 Whole Internal use
+1 Integer Reserved for internal use
+2 Integer Reserved for internal use
+3 Integer Size in byte of the buffer used for Spool printing
+4 Integer Additional information for internal use
+* * *
+* * *
+* * *
+N Integer End additional information for internal use
+
+_____________________________________________________________________________
+
+<Page-footer>
+<Page-break>
+
+Page 440
+TPrJob
+The TPrJob data structure contains special information about a given job. Its content is the result of a job dialog.
+
+_____________________________________________________________________________
+
+   DIM aTPrJob! (11)
+
+Element Value Definition
+
+0 ... 1 Integer First page to print
+2 ... 3 Integer Last page to print
+4 ... 5 Integer Number of copies to print
+6 Integer Printing method (ex: 0 = draft)
+7 Integer Internal use
+8 ... 1 Double Pointer to a background process: ProcPtr
+          full
+_____________________________________________________________________________
+
+
+TPRINT
+The TPrint data structure is used primitively to group most other Print Manager data structures in one place. This data structure is of variable size, since TPxXinfo is of variable size.
+
+_____________________________________________________________________________
+
+   DIM aTPrint! (I + 29)
+
+Element Value Definition
+
+0 ... 1 Integer Version of Print Manager
+2 ... 15 TPrInfo Save printer information
+16 ... 23 Rectangle Paper Rectangle
+24 ... 37 TPrStl Information on the print style
+38 ... 51 TPrInfo Internal use
+52 ... I TPrXinfo Additional Information
+I + 1..I + 11 TPrJob Under print job registration
+I + 12.I + 29 Buffer! (18) Unused data structure
+
+_____________________________________________________________________________
+
+<Page-footer>
+<Page-break>
+
+Page 441
+TPrStatus
+
+_____________________________________________________________________________
+
+   DIM aTPrStatus! (22)
+
+Element Value Definition
+
+0 ... 1 Integer Total number of pages in a spool file
+2 ... 3 Integer Page being printed
+3 ... 4 Integer Total number of copies requested
+5 ... 6 Integer Internal use
+7 ... 8 Integer Internal use
+9 Integer True Boolean value if the page started to be printed
+10 Integer Internal use
+11 ... 14 Double Integer Handle for TPrint Print Registration
+15 ... 18 Double Integer Pointer for TPrPort
+19 ... 22 Double integer Handle for a picture: PicHndl
+
+_____________________________________________________________________________
+
+routines
+--------
+
+Loading
+
+DEF PROC PMStartup (UserID%, DPageAddr%) TOOL 2.19
+DEF PROC PMShutDown TOOL 3.19
+DEF FN PMVersion% TOOL 4.19
+DEF PROC PMReset TOOL 5,19
+DEF FN PMStatus% TOOL 6.19
+
+Recordings and print dialogs
+
+DEF PROC PrDefault (THPrintHndlà) TOOL 9,19
+DEF FN PrValidate% (THPrintHndlà) TOOL 10.19
+DEF FN PrStlDialog% (THPrintHndlà) TOOL 11.19
+DEF FN PrJobDialog% (THPrintHndlà) TOOL 12.19
+DEF FN PrChoosePrinter% (THPrintHndlà) TOOL 22.19
+
+Impression
+
+DEF FN PrOpenDocà (THPrintHndlà, TPPrPortà) TOOL 14.19
+DEF PROC PrCloseDoc (TPPrPortà) TOOL 15.19
+DEF PROC PrOpenPage (TPPrPortà, PageFrameTPRectPtrà)) TOOL 16.19
+DEF PROC PrClosePage (TPPrPortà) TOOL 17.19
+DEF PROC PrPicFile (THPrintHndlà, TPPrPorta, TPPrStatusà)) TOOL 18.19
+
+Error handling
+
+DEF FN PrError% TOOL 20.19
+DEF PROC PrSetError (iErr%) TOOL 21.19
+<Page-footer>
+<Page-break>
+
+Page 442
+QUICKDRAW
+---------
+Quickdraw is the set of tools that controls the IIGS graphical environment and draws simple objects and text in the SuperHiRes graphical display. All other tools that create graphical objects such as Menu and Window Manager, call the Quickdraw tool set.
+
+Special values
+
+Transfer modes
+
+The transfer modes determine how the bits are finally displayed when an image is placed over, or above, another image.
+
+_____________________________________________________________________________
+
+Value Description of the value
+
+0 srcCopy
+1 srcOr
+2 srcXor
+3 srcBic
+32768 notSrcCopy
+32769 notSrcOr
+32770 notSrcXor
+32771 notSrcBic
+
+_____________________________________________________________________________
+
+
+
+Special text transfer modes
+
+The following modes are exclusively reserved for text transfer.
+
+_____________________________________________________________________________
+
+Value Description of the value
+4 foreCopy
+5 foreOr
+6 foreXor
+7 foreBic
+32772 notforeCopy
+32773 notforeOr
+32774 notforeXor
+32775 notforeBic
+
+_____________________________________________________________________________
+
+<Page-footer>
+<Page-break>
+
+Page 443
+Different text styles
+
+The type of text character style is determined by the following special values. Some fonts, including the system font, may not support all the given styles, or their attributes.
+
+_____________________________________________________________________________
+
+Value Description of the value
+
+0 Plain (full = normal)
+1 Bold (bold)
+2 Italic
+4 Underline (exhibiting)
+8 Outline (in index)
+16 Shadow (shaded)
+
+_____________________________________________________________________________
+
+Data structure
+
+BufSizeRec
+
+The BufSizeRec data structure is used to store information that Quickdraw uses to manipulate its internal text buffers.
+
+_____________________________________________________________________________
+
+   DIM BufSizeRec% (3)
+
+Element (s) Value Description
+
+0 Integer Maximum width
+1 Integer Height of the text buffer
+2 Integer Row of words in the text buffer
+3 Integer Width of the cast iron
+
+_____________________________________________________________________________
+
+
+ColorTable
+
+The ColorTable data structure is used to hold information that specifies the intensities of the color. The table consists of 16 double-byte entries. The two bytes of an input are divided into 4 nibbles (half byte) of 4 bits, of which only the three lowest nibbles are used. The lowest nibble contains the intensity of the blue color, the next nibble specifies the intensity of the green color, and the last nibble specifies the intensity of the red runner. Apple has reserved the highest nibble of the highest byte for future use. Really realized colors depend on the resolution mode (320 or 640) as well as the dithering techniques used (see chapter 12 Quickdraw for more information).
+<Page-footer>
+<Page-break>
+
+Page 444
+_____________________________________________________________________________
+
+   Dim aColorTable! (31)
+
+Element (s) Value Description
+
+0 ... 1 Integer Entry number 1
+2 ... 3 Integer Entry number 2
+4 ... 5 Integer Entry number 3
+* * *
+* * *
+* * *
+30 ... 31 Integer Entry number 16
+_____________________________________________________________________________
+
+
+CString
+
+The CString data structure refers to how the C language specifies a string in memory. A CString is different from a counted Pascal string, in that the CString has no byte length and thus does not indicate the number of characters in the string. Instead of the length byte, the CString has an end character to specify o | the last character of the string is stored. The ending character is a zero. Whenever Quickdraw, or any other toolbox routine, refers to this chain convention, it will clearly speak in its documentation of "CString".
+
+_____________________________________________________________________________
+
+   DIM aCString! (N)
+
+Element (s) Value Description
+
+0 Integer ASCII value of character number 1 in the string
+1 Integer ASCII value of character number 2 in the string
+* * *
+* * *
+* * *
+N-1 Integer ASCII value of the LAST character of the string
+N Integer End character of the string, must be zero (0)
+
+_____________________________________________________________________________
+
+
+Cursor (slider)
+
+The Cursor data structure is a variable length structure that defines a Quickdraw cursor used to indicate the current position of the mouse. The Cursor definition bytes, and the cursor mask must be specified rank by rank. The Hot Spot coordinates indicate the position in the rectangle that is aligned with the mouse position, for example, the hot spot of the arrow cursor slider, is the tip of the arrow.
+<Page-footer>
+<Page-break>
+
+Page 445
+_____________________________________________________________________________
+
+   DIM aCursor! (P + 3)
+
+Element (s) Value Description
+
+0 ... 1 Integer Height (in rows) of the rectangle enclosing the cursor
+2 ... 3 Integer Width (in rows) of the rectangle enclosing the cursor
+4 Integer Byte Number 1 of the slider definition
+5 Integer Byte number 2 of the cursor definition
+* * *
+* * *
+* * *
+R Integer Byte number R for cursor definition
+R + 1 Integer Byte number 1 of the cursor mask
+R + 2 Integer Byte number 2 of the cursor mask
+* * *
+* * *
+* * *
+P ... P + 1 Integer Vertical position of hot spot (hot spot) mouse
+P + 2 ... P + 3 Integer Horizontal position of the hot spot of the mouse
+_____________________________________________________________________________
+
+
+FontInfoRec
+
+The FontInfoRec data structure is used to hold information about the current font.
+
+_____________________________________________________________________________
+
+   DIM aFontInfoRec% (3)
+
+Element (s) Value Description
+
+0 Ascending Integer (Ascent): The number of rows of pixels above the baseline
+1 Integer Descendant (Descent): The number of rows of pixels below the baseline
+
+2 Integer Maximum character width of all characters
+3 Leading Leading: recommended number of rank between Ascent and
+                                   Descent
+
+_____________________________________________________________________________
+
+
+FontGlobalsRec
+
+The FontGlobalsRec data structure is a variable length structure that contains information about the current font. The data structure has a dynamic size to allow future expansion. The size is returned by the Quickdraw GetFGSize routine. The current elements of this data structure are defined as integers, although their management may change in the future.
+<Page-footer>
+<Page-break>
+
+Page 446
+_____________________________________________________________________________
+
+   DIM aFontGlobalsRec% (N)
+
+Element (s) Value Description
+
+0 Whole Family Number
+1 Integer Style
+2 Whole Size
+3 Integer Version
+4 Integer Maximum width
+5 Integer Extension of the rectangle bounds of the font
+* * *
+* * *
+* * *
+N Integer Additional fields that Apple can add.
+
+_____________________________________________________________________________
+
+
+GrafPort
+
+The current definition of the drawing environment is stored in the GrafPort data structure. Although the content of the structure is defined here, the use of Quickdraw routines to handle the GrafPort is very strongly recommended. A GrafPort is analogous to an artist's palette, or draftsman's draft. There can be more than one GrafPort on the desktop at the same time, each with its own environment settings.
+
+_____________________________________________________________________________
+
+   DIM aGrafPort! (169)
+
+Element (s) Value Description
+
+0 ... 15 LocInfoRec Characterizes where o | Quickdraw must draw
+16 ... 23 Rect Rectangular Port
+24 ... 27 Double Whole Handle Area Clip
+28 ... 31 Double integer Handle visible region
+32 ... 63 Pattern Pattern (Pattern) Bottom
+64 ... 67 Who Location of the pen
+68 ... 71 Dot Feather Size
+72 ... 73 Full Feather Mode
+74 ... 105 Pattern Pattern of the Pen
+106 ... 113 Mask Mask of the feather
+114 ... 115 Integer Code visible from the pen
+116 ... 119 Double integer Handle of cast iron
+120 ... 123 Double integer The identifier of the font
+124 ... 125 Integer Flag of the cast iron
+126 ... 127 Integer Text size
+128 ... 129 Integer Face of the text
+130 ... 131 Integer Text mode
+132 ... 135 Double whole Extra space
+<Page-footer>
+<Page-break>
+
+Page 447
+136 ... 139 Double integer Additional character
+140 ... 141 Integer Foreground color
+142 ... 143 Integer Background color
+144 ... 147 Double Integer Image Backup Handle
+148 ... 151 Double Whole Area Backup Handle
+152 ... 155 Double Integer Polygon Backup Handle
+156 ... 159 Double Integer QDProcs Pointer
+160 ... 161 Integer Arc rotation
+162 ... 165 Double integer User field
+166 ... 169 Double integer System field
+
+_____________________________________________________________________________
+
+
+LocInfoRec
+
+The LocInfoRec data structure contains the characteristic information of a specific area of ​​memory that Quickdraw can use as its drawing area.
+
+_____________________________________________________________________________
+
+   DIM aLocInfoRec! (15)
+
+Element (s) Value Description
+
+0 Integer Sweep Control Byte (SCB)
+1 Integer Reserved for future use
+2 ... 5 Double integer Pointer to a pixel image
+6 ... 7 Integer Width
+8 ... 15 Rectangle bounds
+_____________________________________________________________________________
+
+
+Mask
+
+A mask is a data structure that determines how pixels in an image are actually displayed. Only the pixels in the display of the desired image corresponding to the ON bits (equal to 1) in the mask are drawn. If the mask with all its bits set to 1, then the entire original image is drawn. A mask is simply an array of integers, o | each element represents a certain layout of BIT.
+
+   DIM aMask% (3)
+<Page-footer>
+<Page-break>
+
+Page 448
+PaintParam
+
+The PaintParam data structure is only used for PaintPixels Quickdraw routines. This data structure contains the information necessary to transfer a region of pixels, without reference to the current GrafPort.
+
+_____________________________________________________________________________
+
+   DIM aPaintParam! (21)
+
+Element (s) Value Description
+
+0 ... 3 Double integer Pointer on the information giving the location of the source
+4 ... 7 Double integer Pointer on the information giving the
+                              location of the destination
+8 ... 11 Double integer Pointer to source rectangle
+12 ... 15 Double integer Pointer to destination rectangle
+16 ... 17 Full Mode
+18 ... 21 Double Whole Mask Handle (ClipRgn)
+
+_____________________________________________________________________________
+
+
+pattern
+
+A pattern is an array of integers that represent certain bit patterns used by the Quickdraw pen to draw. The pattern of the pen is aligned according to the pixels so that they form a continuous pattern in the place where | it appears on the screen. The IIGS patterns have a certain thickness which means that each pixel is associated with 2 or 4 color bits in the pattern following the current graphics mode. A pattern is defined as an array of 16 integers.
+
+   DIM aPattern% (15)
+
+PenState
+
+The PenState data structure is used to manipulate the current state of the Quickdraw pen. This is useful for routines that must briefly change the state of the pen, then reset the feather values ​​as they were.
+
+_____________________________________________________________________________
+
+   DIM aPenState! (47)
+
+Element (s) Value Description
+
+0 ... 3 Point Location of the pen
+4 ... 7 Point Feather Size
+8 ... 39 Pattern Pattern (pattern or shape) of the feather
+40 ... 47 Mask Mask of the feather
+
+_____________________________________________________________________________
+<Page-footer>
+<Page-break>
+
+Page 449
+Picture (Pic)
+-------------
+The Pic data structure is a private data structure that defines a QuickDraw picture. A picture is a graphic object consisting of one or more primitive QuickDraw objects (lines, rectangles, ovals, etc.). The picture data structure should only be manipulated using the appropriate QuickDraw routines.
+
+Point
+-----
+The dot data structure defines a location in the two-dimensional drawing space of QuickDraw.
+_____________________________________________________________________________
+
+     DIM at Point% (1)
+
+     Elements (s) Value Description
+
+     0 integer Horizontal coordinate
+     1 integer Vertical coordinate
+_____________________________________________________________________________
+
+Polygon (Poly)
+--------
+
+The Poly data structure is a private data structure that defines a Quickdraw polygon. A polygon is a graphic object composed of one or more lines that together constitute a closed figure. The polygon data structure should only be manipulated using the appropriate QuickDraw routines.
+
+QDProcs
+-------
+It is possible to customize QuickDraw using the QDProcs data structure. The QDProcs data structure is composed of pointers to low-level routines that other QuickDraw routines will call to perform their particular tasks. For example, FrameRect, PaintRect, FillRect, InvertRect all call the same low-level routine at the same point to draw the rectangle.
+<Page-footer>
+<Page-break>
+
+Page 450
+_____________________________________________________________________________
+     
+     DIM aQDProcsà (12)
+
+     Elements Value Description
+
+                                   Pointer to procedure ...
+     0 Double integer ... trace text
+     1 Double integer ... trace line
+     2 Double whole ... trace rectangle
+     3 Double integer ... trace rectangle rounded corners
+     4 Double whole ... oval trace
+     5 Double whole ... trace arc or portion of camembert
+     6 Double integer ... polygon trace
+     7 Double integer ... trace region
+     8 Double integer ... bit transfer
+     9 Double integer ... image comment processing
+     10 Double integer ... to measure the width of the text
+     11 Double whole ... of recovery of an image
+     12 Double integer ... image backup
+_____________________________________________________________________________
+
+
+Rectangle (Rect)
+----------------
+The Rect data structure defines a rectangle by giving the coordinate of the top, left and bottom corner of the rectangle.
+
+_____________________________________________________________________________
+
+     DIM aRect% (3)
+
+     Element (s) Value Description
+
+     0 integer Summit Coordinates
+     1 integer Coordinate left side
+     2 integer Bottom coordinate
+     3 integer Coordinate right side
+_____________________________________________________________________________
+
+
+Region (Rgn)
+------------
+The Rgn data structure is a private data structure that defines a QuickDraw region. A region is an arbitrary zone or set of zones in the Quickdraw drawing space. The perimeter of an area must be one or more closed loops. The region data structure should only be manipulated with the appropriate QuickDraw routines.
+
+<Page-footer>
+<Page-break>
+
+Page 451
+SCB
+---
+The SCB or scan control byte determines the pixel width and color palette for a specific horizontal line. QuickDraw also defines a Master SCB that is used by routines like InitPort to decide which standard values ​​should be assigned in a GrafPort.
+String
+------
+A string is a sequence of zero or more ASCII characters. The string also contains a byte of length, which contains the number of common characters in the string. This byte precedes the first character of the string. The string data structure is sometimes called count string or Pascal string. TML BASIC automatically converts BASIC strings into strings that can be used by the Toolbox.
+
+ROUTINE
+--------
+
+Stewardship (HouseKeeping)
+---------------------------
+DEF PROC QDStartUp (DPageAddr%, MasterSCB%, MaxWidt%, UserID%) TOOL 2.4
+DEF PROC QDShutDown TOOL 3,4
+DEF FN QDVersion% TOOL 4.4
+DEF PROC QDReset TOOL 5.4
+DEF FN QDStatus% TOOL 6.4
+
+Global Environment
+--------------------
+DEF FN GetStandardSCB% TOOL 12.4
+DEF PROC SetMasterSCB (MasterSCB *) TOOL 22.4
+DEF FN GetMasterSCB% TOOL 23.4
+DEF PROC InitColorTable (ColorTablePtrà) TOOL 13.4
+DEF PROC SetColorTable (TableNumber%, SrcColorTablePtrà) TOOL 14.4
+DEF PROC GetColorTable (TableNumber%, DestColorTablePtrà) TOOL 15.4
+DEF PROC SetColorentry (TableNumber%, EntryNumber%, NewColor%) TOOL 16.4
+DEF FN GetColorentry% (TableNumber%, EntryNumber%) TOOL 17.4
+DEF PROC SetSCB (ScanLine%, NewSCB%) TOOL 18.4
+DEF FN GetSCB% (ScanLine%) TOOL 19.4
+DEF PROC SetAllSCBs (NewSCB%) TOOL 20.4
+DEF PROC SetSysFont (FontHndlà) TOOL 178.4
+DEF FN GetSysFont to TOOL 179.4
+DEF PROC ClearScreen (Color%) TOOL 21.4
+DEF PROC GrafOn TOOL 10.4
+DEF PROC GrafOff TOOL 11.4
+
+Manipulation of GrafPort
+------------------------
+DEF PROC OpenPort (GrafPortPtrà) TOOL 24.4
+DEF PROC InitPort (GrafPortPtrà) TOOL 25.4
+DEF PROC ClosePort (GrafPortPtrà) TOOL 26.4
+<Page-footer>
+<Page-break>
+
+Page 452
+DEF PROC SetPort (GrafPortPtrà) TOOL 27.4
+DEF FN GetPort to TOOL 28.4
+DEF PROC SetPortLoc (LocInfoRecPtrà) TOOL 29.4
+DEF PROC GetPortLoc (LocInfoRectPtrà) TOOL 30.4
+DEF PROC SetPortRect (RectPtrà) TOOL 31.4
+DEF PROC GetPortRect (RectPtrà) TOOL 32.4
+DEF PROC SetPortSize (Width%, Height%) TOOL 33.4
+DEF PROC MovePortTo (H%, V%) TOOL 34.4
+DEF PROC SetOrigin (H%, V%) TOOL 35.4
+DEF PROC SetClip (RgnHndlà) TOOL 36.4
+DEF PROC GetClip (RgnHndlà) TOOL 37.4
+DEF PROC ClipRect (RectPtrà) TOOL 38.4
+
+Pen, Pattern and Drawing (Feather, Pattern and Tracing)
+-------------------------------------------------
+DEF PROC HidePen TOOL 39.4
+DEF PROC ShowPen TOOL 40.4
+DEF PROC GetPen (PointPtrà) TOOL 41.4
+DEF PROC SetPenState (PenStatePtrà) TOOL 42.4
+DEF PROC GetPenStatePtrà) TOOL 43.4
+DEF PROC SetPenSize (Width%, Height%) TOOL 44.4
+DEF PROC GetPensize (PointPtr) TOOL 45.4
+DEF PROC SetPenMode (PenMode%) TOOL 46.4
+DEF FN GetPenMode% TOOL 47.4
+DEF PROC SetPenPat (PatternPtrà) TOOL 48.4
+DEF PROC GetPenPat (PatternPtrà) TOOL 49.4
+DEF PROC SetPenMask (MaskPtrà) TOOL 50.4
+DEF PROC GetPenMask (MaskPtrà) TOOL 51.4
+DEF PROC SetBackPat (PatternPtrà) TOOL 52.4
+DEF PROC GetBackPat (PatternPtrà) TOOL 53.4
+DEF PROC SetSolidPattern (PaternPtrà, ColorNum%) TOOL 56.4
+DEF PROC PenNormal TOOL 54.4
+DEF PROC MoveTo (H%, V%) TOOL 58.4
+DEF PROC Move (DH%, DV%) TOOL 59.4
+
+DEF PROC SetFont (NewFontHndlà) TOOL 148.4
+DEF FN GetFont to TOOL 149.4
+DEF PROC SetFontID (FontIDHndlà) TOOL 208.4
+DEF FN GetFontID to TOOL 209.4
+DEF PROC GetFontInfo (FontInfoRecHndl) TOOL 150.4
+DEF FN GetFGSize% TOOL 207.4
+DEF PROC GetFontGlobals (FontGlobalsRecà) TOOL 151.4
+DEF PROC SetFontFlags (Flags%) TOOL 152.4
+DEF FN GetFontFlags% TOOL 153.4
+
+DEF PROC SetTextFace (TextFace%) TOOL 154.4
+DEF FN GetTextFace% TOOL 155.4
+DEF PROC SetTextMode (TextMode%) TOOL 156.4
+DEF FN GetTextMode% TOOL 157.4
+DEF PROC SetSpaceextra (SpaceextraPtrà) TOOL 158.4
+DEF FN SpaceextraPtrà TOOL 159.4
+<Page-footer>
+<Page-break>
+
+Page 453
+DEF PROC SetTextSize (Size%) TOOL 210.4
+DEF FN GetTextSize% TOOL 211.4
+
+DEF PROC SetCharextra (ChextraPtrà) TOOL 212.4
+DEF FN GetCharextra to TOOL 213.4
+DEF PROC SetForeColor (ForeColor%) TOOL 160.4
+DEF FN GetForeColor% TOOL 161.4
+DEF PROC SetBackColor (BackColor%) TOOL 162.4
+DEF FN GetBackColor% TOOL 163.4
+DEF PROC SetBufDims (MaxWidth%, MaxFontHeight%, MaxFBRextent%) TOOL 203.4
+DEF PROC ForceBufDims (MaxWidth%, MaxFontHeight%, MaxFBRextent%) TOOL 204.4
+DEF PROC SaveBufDims (SizeInfoPtrà) TOOL 205.4
+DEF PROC RestoreBufDims (MaxWidth%, MaxFontHeight%, MaxFBRextent%) TOOL 206.4
+DEF PROC SetClipHandle (ClipRgnHndlà) TOOL 198.4
+DEF FN GetClipHandle to TOOL 199.4
+DEF PROC SetVisRgn (VisRgnHndlà) TOOL 180.4
+DEF PROC GetVisRgn (VisRgnHndlà) TOOL 181.4
+DEF PROC SetVisHandle (VisRgnHndlà) TOOL 200.4
+DEF PROC GetVisHandle (VisRgnHndlà) TOOL 201.4
+DEF FN GetPicSave to TOOL 63.4
+DEF FN GetRgnSave to TOOL 65.4
+DEF FN GetPolySave to TOOL 67.4
+
+DEF PROC SetGrafProcs (GrafProcsPtrà) TOOL 68.4
+Def FN GetGrafProcsPtrà TOOL 69.4
+DEF PROC SetUserField (UserfieldPtrà) TOOL 70.4
+DEF FN GetUserFieldPtrà TOOL 71.4
+DEF FN GetSysFieldPtrà TOOL 73.4
+
+Tracing Lines
+-----------------
+DEF PROC LineTo (H%, V%) TOOL 60.4
+DEF PROC Line (DH%, DV%) TOOL 61.4
+
+Rectangles Tracing
+---------------------
+DEF PROC FrameRect (RectPtrà) TOOL 83.4
+DEF PROC PaintRect (RectPtrà) TOOL 84.4
+DEF PROC EraseRect (RectPtrà) TOOL 85.4
+DEF PROC InvertRect (RectPtrà) TOOL 86.4
+DEF PROC FillRect (RectPtrà) TOOL 87.4
+
+Region tracing
+-----------------
+DEF PROC FrameRgn (RgnHndlà) TOOL 121.4
+DEF PROC PaintRgn (RgnHndlà) TOOL 122.4
+DEF PROC EraseRgn (RgnHndlà) TOOL 123.4
+DEF PROC InvertRgn (RgnHndlà) TOOL 124.4
+DEF PROC FillRgn (RgnHndlà, PatternPtrà) TOOL 125.4
+<Page-footer>
+<Page-break>
+
+Page 454
+Tracing polygons
+--------------------
+DEF PROC FramePoly (PolyHndlà) TOOL 188.4
+DEF PROC PaintPoly'PolyHndlà) TOOL 189.4
+DEF PROC ErasePoly (PolyHndlà) TOOL 190.4
+DEF PROC InvertPoly (PolyHndlà) TOOL 191.4
+DEF PROC FillPoly (PolyHndlà, PatternPtrà) TOOL 192.4
+
+Oval tracing
+----------------
+DEF PROC FrameOval (RectPtrà) TOOL 88.4
+DEF PROC PaintOval (RectPtrà) TOOL 89.4
+DEF PROC EraseOval (RectPtrà) TOOL 90.4
+DEF PROC InvertOval (RectPtrà) TOOL 91.4
+DEF PROC FillOval (RectPtrà, PatternPtrà) TOOL 92.4
+
+Tracing Rectangles with Rounded Corners
+----------------------------------------
+DEF PROC FrameRRect (RectPtr, OvalWidth%, OvalHeight%) TOOL 93.4
+DEF PROC PaintRREct (RectPtr, OvalWidth%, OvalHeight%) TOOL 94.4
+DEF PROC EraseRRect (RectPtra, OvalWidth%, OvalHeight%) TOOL 95.4
+DEF PROC InvertRRect (RectPtr, OvalWidth%, OvalHeight%) TOOL 96.4
+DEF PROC FillRRect (RectPtrà, OvalWidth%, OvalHeight%, PatternPtrà) TOOL 97.4
+
+Bow Tracing
+--------------
+DEF PROC FrameArc (RectPtrà, StartAngle%, ArcAngle%) TOOL 98.4
+DEF PROC PaintArc (RectPtrà, StartAngle%, ArcAngle%) TOOL 99.4
+DEF PROC EraseArc (RectPtrà, StartAngle%, ArcAngle%) TOOL 100.4
+DEF PROC InvertArc (RectPtrà, StartAngle%, ArcAngle%) TOOL 101.4
+DEF PROC FillArc (RectPtrà, StartAngle%, ArcAngle%, PatternPtrà) TOOL 102.4
+
+Pixel Transfer
+-------------------
+DEF PROC ScrollRect (DstRectPtrd, DH%, DV% .UpdateRgnHndlà) TOOL 126.4
+DEF PROC PaintPixels (PaintParamPtrà) TOOL 127.4
+DEF PROC PPToPort
+                (SrcLocInfoRectPtrà,
+                SrcRectPtrà,
+                DestX%
+                DestY%, mode to) TOOL 214.4
+
+Tracing and Measuring Texts
+---------------------------
+DEF PROC DrawChar (Char%) TOOL 164.4
+DEF PROC DrawText (TextPtrà, TextLength%) TOOL 167.4
+DEF PROC DrawString (Strings $) TOOL 165.4
+DEF PROC DrawCString (CStringPtrà) TOOL 166.4
+
+DEF FN CharWidth% (Char%) TOOL 168.4
+DEF FN TextWidth% (TextPtrà, TextLength%) TOOL 171.4
+DEF FN StringWidth% (String $) TOOL 169.4
+DEF FN CStringWidth% (CStringPtrà) TOOL 170.4
+<Page-break> <page-footer>
+<Page-break>
+
+Page 455
+DEF PROC CharBounds (Char%, RectPtrà) TOOL 172.4
+DEF PROC TextBounds (TextPtrà, TextLength%, RectPtrà) TOOL 175.4
+DEF PROC StringBounds (String $, RectPtrà) TOOL 173.4
+DEF PROC CStringBounds (StringPtrà, RectPtrà) TOOL 174.4
+
+Calculations with Rectangles
+---------------------------
+DEF PROC SetRect (RectPtrà, Left%, Top%, Right%, Bottom%) TOOL 74.4
+DEF PROC OffsetRect (RectPtrà, DH%, DV%) TOOL 75.4
+DEF PROC InsetRect (RectPtrà, DH%, DV%) TOOL 76.4
+DEF FN SectRect% (ScrlRectPtrà, Src2RectPtrà, DstRectPtrà) TOOL 77.4
+DEF PROC UnionRect% (ScrlRectPtrà, Src2RectPtrà, DstRectPtrà) TOOL 78.4
+DEF FN PtInRect% (PointPtrà, RectPtrà) TOOL 79.4
+DEF PROC Pt2Rect (Point1Ptrà, Point2Ptrà, DstRectPtrà) TOOL 80.4
+DEF FN EqualRect% (Rect1Ptrà, Rect2Ptrà) TOOL 81.4
+DEF FN EmptyRect% (RectPtrà) TOOL 82.4
+
+Calculations with Points
+-----------------------
+DEF PROC AddPt (SrcPointPtrà, DstPointPtrà) TOOL 128.4
+DEF PROC SubPt (SrcPointPtrà, DstPointPtrà) TOOL 129.4
+DEF PROC SetPT (PointPtrà, H%, V%) TOOL 130.4
+DEF FN EqualPt% (Point1Ptrà, Point2Ptrà) TOOL 131.4
+DEF PROC LocalToGlobal (PointPtrà) TOOL 132.4
+DEF PROC GlobalToLocal (PointPtrà) TOOL 133.4
+
+Calculations with regions
+------------------------
+DEF FN NewRgn to TOOL 103.4
+DEF PROC DisposeRgn (RgnHndl%) TOOL 104.4
+DEF PROC CopyRgn (SrcRgnHndlà, DstRgnHndlà) TOOL 105.4
+DEF PROC SetEmptyRgn (RgnHndlà) TOOL 106.4
+DEF PROC SetRectRgn (RgnHndlà, Left%, Top%, Right%, Bottom%) TOOL 107.4
+DEF PROC RectRgn (RgnHandle, RectPtrà) TOOL 108.4
+DEF PROC OpenRgn TOOL 109.4
+DEF PROC CloseRgn (DstRgnHndlà) TOOL 110.4
+DEF PROC OffsetRgn (RgnHndlà, DH%, DV%) TOOL 111.4
+DEF PROC InsetRgn (RgnHndlà, DH%, DV%) TOOL 112.4
+DEF PROC SectRgn (SrcRgn1Hndlà, SrcRgn2Hndlà, DstRgnHndlà) TOOL 113.4
+DEF PROC UnionRgn (SrcRgn1Hndlà, SrcRgn2Hndlà, DstRgnHndlà) TOOL 114.4
+DEF PROC DiffRgn (SrcRgn1Hndlà, SrcRgn2Hndlà, DstRgnHndlà) TOOL 115.4
+DEF PROC XorRgn (SrcRgn1Hndlà, SrcRgn2Hndlà, DstRgnHndlà) TOOL 116.4
+DEF PROC PtInRgn% (PointPtrà, RgnHndlà) TOOL 117.4
+DEF PROC RectInRgn% (RectPtrà, RgnHndlà) TOOL 118.4
+DEF PROC EqualRgn% (Rgn1Handleà, Rgn2Hndlà) TOOL 119.4
+DEF PROC EmptyRgn% (RgnHndlà) TOOL 120.4
+
+Calculations with Polygons
+--------------------------
+DEF FN OpenPoly to TOOL 193.4
+DEF PROC ClosePoly TOOL 194.4
+DEF PROC KillPoly (PolyHndlà) TOOL 195.4
+<Page-footer>
+<Page-break>
+
+Page 456
+DEF PROC OffsetPoly (PolyHndl, DH%, DV%) TOOL 196.4
+
+Operations with Images
+--------------------------
+DEF FN OpenPictureà (picFrameRectPtrà) TOOL 183.4
+DEF PROC PicComment (kind%, dataSize%, dataHndlà) TOOL 184.4
+DEF PROC ClosePicture TOOL 185.4
+DEF PROC DrawPicture (myPictureHndlà, dstRcetPtrà) TOOL 186.4
+DEF PROC KillPicture (myPictureHndlà) TOOL 187.4
+
+Scaling utilities
+-------------------------------
+DEF PROC MapPt (PointPtrà, fromSrcRectPtrà, toDestRectPtrà) TOOL 138.4
+DEF PROC MapRect (RectPtrà, fromSrcRectPtrà, toDestRectPtrà) TOOL 139.4
+DEF PROC MapRgn (RgnHndlà, fromSrcRectPtrà, toDestRectPtrà) TOOL 140.4
+DEF PROC MapPoly (PolyHndlà, fromSrcRectPtrà, toDestRectPtrà) TOOL 197.4
+DEF PROC ScalePt (PointPtrà ,, fromSrcRectPtrà, toDestRectPtrà) TOOL 137.4
+
+Various
+------
+DEF FN Random% TOOL 134.4
+DEF PROC SetRandSeed (Seedà) TOOL 135.4
+DEF FN GetPixel% (H%, V%) TOOL 136.4
+
+Customizing QuickDraw
+-----------------------------
+DEF PROC SetStdProcs (QDProcsPtrà) TOOL 141.4
+DEF FN GetAddress% TOOL 9.4
+
+Handling the Cursor
+--------------------
+DEF PROC SetCursor (CursorPtrà) TOOL 142.4
+DEF FN GetCursorAdrà TOOL 143.4
+DEF PROC HideCursor TOOL 144.4
+DEF PROC ShowCursor TOOL 145.4
+DEF PROC ObscureCursor TOOL 146.4
+DEF PROC InitCursor TOOL 202.4
+
+DEF PROC InflateTextBuffer (NewWidth%, NewHeight%) TOOL 215.4
+DEF PROC GetROMFont (ROMFontInfoRectPtrà) TOOL 216.4
+DEF FN GetFontLore (GlobalsPtrà, GlobalsSz%) TOOL 217.4
+<Page-footer>
+<Page-break>
+
+Page 457
+QUICKDRAW AUXILIARY
+===================
+The QuickDraw Auxiliary toolset contains additional graphical routines that complement the QuickDraw tool set. QuickDraw Auxiliary routines are essential for using the Print Manager.
+
+Special values
+-----------------
+No special value defined for QuickDraw Auxiliary.
+
+Data Structures
+---------------------
+No data structure defined for QuickDraw Auxiliary
+
+ROUTINE
+--------
+
+Stewardship (HouseKeeping)
+---------------------------
+DEF PROC QDAuxStartUp TOOL 2.18
+DEF PROC QDAuxShutDown TOOL 3.18
+DEF FN QDAuxVersion% TOOL 4.18
+DEF PROC QDAuxReset TOOL 5,18
+DEF FN QDAuxStatus% TOOL 6.18
+
+Various
+------
+DEF PROC CopyPixels
+                (SrcLocInfoRectPtrà,
+                DstLocInfoRectPtrà,
+                SrcRectPtrà,
+                DstRectPtrà,
+                Fashion%,
+                ClipRgnHndlà) TOOL 9,18
+DEF PROC WaitCursor TOOL 10.18
+DEF PROC DrawIcon (IconPtrà, DisplayMode%, Xpos%, Ypos%) TOOL 11.18
+<Page-footer>
+<Page-break>
+
+Page 458
+SCHEDULER (Tool that manages the schedule)
+=============================================
+The Scheduler toolkit supports timing of system tasks and desktop accessories until resources for the task or accessory become available. This library is needed to write applications that handle interrupts that have access to ProDos16 or tool set routines. An example of an interrupt handler is an application that executes background printouts. This library gives access to the Scheduler's low-level system operations.
+
+Special values
+-----------------
+No special value defined for the Scheduler.
+
+Data Structures
+---------------------
+No data structure defined for the Scheduler
+
+ROUTINE
+--------
+
+Stewardship (HouseKeeping)
+-------------------------
+DEF PROC SchStartUp TOOL 2.7
+DEF PROC SchShutDown TOOL 3.7
+DEF FN SchVersion% TOOL 4.7
+DEF PROC SchRest TOOL 5.7
+DEF PROC SchStatus% TOOL 6.7
+
+Queue (Queue Access)
+-----------------------------
+DEF FN SchAddTask% (TaskProcPtrà) TOOL 9.7
+DEF PROC SchFlush TOOL 10.7
+<Page-footer>
+<Page-break>
+
+Page 459
+SCRAP MANAGER (Clipboard Manager)
+=============================================
+The Scrap Manager allows the transfer of data between an application and a data storage area called the clipboard. These routines are used to implement the standard Cut, Copy, Paste options in the conventional Edit menu.
+
+Special Value
+----------------
+No special value defined for the Scrap Manager.
+
+Data structure
+--------------------
+No structure defined for the Scrap Manager.
+
+ROUTINE
+--------
+
+Stewardship (HouseKeeping)
+-------------------------
+DEF PROC ScrapStartup TOOL 2,22
+DEF PROC ScrapShutDown TOOL 3,22
+DEF FN ScrapVersion% TOOL 4,22
+DEF PROC ScrapReset TOOL 5.22
+DEF FN ScrapStatus% TOOL 6.22
+
+Miscellaneous
+-------------
+DEF PROC UnloadScrap TOOL 9.22
+DEF PROC LoadScrap TOOL 10.22
+DEF PROC ZeroScrap TOOL 11.22
+DEF PROC PutScrap (Numbyteà, ScrapType%, SCRPtrà) TOOL 12.22
+DEF PROC GetScrap (DestHndlà, ScrapType%) TOOL 13,22
+DEF FN GetScrapCount% TOOL 18.22
+DEF FN GetScrapState% TOOL 19.22
+DEF FN GetScrapHandleà (ScrapType%) TOOL 14,22
+DEF FN GetScrapSizeà (ScrapType%) TOOL 15,22
+DEF FN GetScrapPath to TOOL 16.22
+DEF PROC SetScrapPath (PathString $) TOOL 17,22
+<Page-footer>
+<Page-break>
+
+Page 460
+SOUND MANAGER (Sound Manager)
+===================================
+The Sound Manager allows access to sound circuits without knowledge of the specific input / output addresses of the circuits. Since the Sound Manager routines can create basic sounds, other tool sets use it to create sound. more complex sounds.
+
+Special values
+-----------------
+No special value defined for Sound manager
+
+Data Structures
+---------------------
+The ParamBlkSoundRec Data Structure contains all the necessary information defining a sound that the Sound Manager will communicate to the Ensoniq circuit (DOC). The frequency of the sound wave used in structure elements 5 and 6 can be calculated by the following formula:
+
+     FREQUENCY = ((32 * Frequency of broadcasting in hertz) / 1645)
+
+The sound waves are defined later in the Note Synthesizer library.
+_____________________________________________________________________________
+
+DIM ParamBlkSoundRec! (13)
+
+     Elements Values ​​Description
+
+     0..1 Integer Start address of the sound wave
+     2 Integer Bank starting the sound wave
+     3..4 Integer Size of the sound wave in pages, from 1 to $ FFFF
+     5..6 Integer Frequency of diffusion of the sound wave
+     7..8 Integer Starting Address of the DOC Buffer
+     9 Integer Code to specify the size of the DOC buffer
+     10..11 Integer Start address of the next sound wave
+                              = 0 if last
+     12 Integer Bank starting the next sound wave
+                              = 0 if last
+     13 Integer Adjusting the volume of the sound wave
+_____________________________________________________________________________
+
+
+ROUTINE
+--------
+
+Housekeeping
+-------------------------
+DEF PROC SoundStartUp (DPageAddr%) TOOL 2.8
+DEF PROC SoundShutDown TOOL 3.8
+DEF FN SoundVersion% TOOL 4.8
+DEF PROC SoundReset TOOL 5.8
+DEF FN SoundStatus% TOOL 6.8
+<Page-footer>
+<Page-break>
+
+Page 461
+RAM and Volume
+-------------
+DEF PROC WriteRamBlock (SrcPtrà, DOCstart%, ByteCount%) TOOL 9.8
+DEF PROC ReadRamBock (DsPtrà, DOCstart%, ByteCount%) TOOL 10.8
+DEF FN GetTableAddress to TOOL 11.8
+DEF FN GetSoundVolume% (Generator%) TOOL 12.8
+DEF PROC SetSoundVolume (Volume%, Generator%) TOOL 13.8
+
+Free-Form Synthesizer
+---------------------
+DEF PROC FFStartSound (DOCGenMode%, ParamBlkSoundRectPtrà) TOOL 14.8
+DEF PROC FFStopSound (Generator%) TOOL 15.8
+DEF FN FFSoundStatus% TOOL 16.8
+DEF FN FFGeneratorStatus% (Generator%) TOOL 17.8
+DEF PROC SetSoundMIRQV (IRQVProcPtrà) TOOL 18.8
+DEF FN SetUserSoundIRQVà (newUserIRQVProcPtrà) TOOL 19.8
+DEF FN FFSounDoneStatus% (Generator%) TOOL 20.8
+<Page-footer>
+<Page-break>
+
+Page 462
+STANDARD FILE (Standard File)
+================================
+The Standard Files Operations toolkit provides a standard user interface for opening and saving files, offering standard dialogs and routines for manipulating them.
+
+Special values
+-----------------
+No special value defined for Standard File
+
+Data Structures
+---------------------
+
+List of Types (TypeList)
+--------------------------
+The TypeList data structure defines the set of file types that will be used to determine the types of files that will be displayed by Operations on the Standard Files. If the file type is set to zero, all file types will be displayed.
+_____________________________________________________________________________
+
+DIM aTypeList! (8)
+
+     Element (s) Value Description
+
+     0 Integer Number of File Types in this Stucture
+     1 Integer File Type 1
+     2 Integer File type 2
+     3 Integer File Type 3
+     4 Integer File Type 4
+     5 Integer File Type 5
+     6 Integer File Type 6
+     7 Integer File Type 7
+     8 Integer File type 8
+_____________________________________________________________________________
+
+Reply Record (ReplyRecord)
+---------------------------------------
+The ReplyRecord data structure defines the information returned by Operations on the Standard Files to indicate which file was chosen. If the zero element contains a zero (0), then the following elements have no meaning.
+<Page-footer>
+<Page-break>
+
+Page 463
+_____________________________________________________________________________
+     
+     DIM AReplyRecord! (149)
+
+     Element (s) Value Description
+     
+     0 Integer <> 0 if Open Apple button is pressed
+                                  0 if Cancel
+     1 Integer Unused field
+     2..3 Integer File type of the chosen file
+     4..5 Integer Auxiliary type of the selected file
+     6..31 String! (15) Name of the range file as Pascal string
+     32..159 String! (127) Full path range as Pascal string
+_____________________________________________________________________________
+
+ROUTINE
+--------
+
+Housekeeping
+-------------------------
+DEF PROC SFStartUp (UserID%, DPageAddr%) TOOL 2.23
+DEF PROC SFShutDown TOOL 3,23
+DEF FN SFVersion% TOOL 4,23
+DEF PROC SFRest TOOL 5,23
+DEF FN SFStatus% TOOL 6.23
+
+Take and Ranger Standard (Standard Get and Put)
+-------------------------------------------------
+
+DEF PROC SFGetFile
+                   (WhereX%
+                   WhereY%
+                   PromptString $,
+                   FilterProcPtrà,
+                   ReplyRecordPtrà) TOOL 9.23
+
+DEF PROC SFPutFile
+                   (WhereX%
+                   WhereY%
+                   PromptString $,
+                   OrigNameStringPtrà,
+                   MaxLen%
+                   ReplyRecordPtrà) TOOL 10,23
+<Page-footer>
+<Page-break>
+
+Page 464
+Take and Ranger Customize (Custom Get and Put
+-------------------------------------------------- -
+DEF PROC SFPGetFile
+                   (WhereX%
+                   WhereY%
+                   PromptString $,
+                   FilterProcPtrà,
+                   TypeListPtrà,
+                   TheDialogPtrà,
+                   DialogHookProcPtrà,
+                   ReplyRecordPtrà) TOOL 11,23
+
+DEF PROC SFPPutFile
+                   (WhereX%
+                   WhereY%
+                   PromptString $,
+                   OrigNameString $,
+                   MaxLen%
+                   TheDialogPtrà,
+                   DialogHookProcPtrà,
+                   ReplyRecordPtrà) TOOL 12,23
+
+DEF PROC SFAllCaps (AllCaps%) TOOL 13.23
+<Page-footer>
+<Page-break>
+
+Page 465
+TEXT TOOLS (Text Tools)
+-------------------------
+The Texts toolkit provides an interface between the drivers of the Apple II character management mechanisms (Screen, keyboard, printer ...), which must be executed in emulation mode, and the new applications running in native mode. The tool set also supports I / O redirections to the Apple II GS ports as well as exchanges with the text screen without switching the operating modes of the 65816 processor.
+
+Special values
+-----------------
+No special value for Text Tools
+
+Data Structures
+---------------------
+No data structure for Text Tools
+
+ROUTINE
+--------
+
+Stewardship (HouseKeeping)
+-------------------------
+DEF PROC TextStartUp TOOL 2.12
+DEF PROC TextShutDown TOOL 3,12
+DEF FN TextVersion% TOOL 4.12
+DEF PROC TextReset TOOL 5,12
+DEF PROC TextStatus% TOOL 6,12
+
+Global Manipulations (Globals Manipulation)
+---------------------------------------------
+DEF PROC SetInGlobals (ANDMask%, ORMask%) TOOL 9.12
+DEF PROC SetOutGlobals (ANDMask%, ORMask%) TOOL 10.12
+DEF PROC SetErrGlobals (ANDMask%, ORMask%) TOOL 11.12
+DEF FN GetInGlobals% [2] TOOL 12.12
+DEF FN GetOutGlobals% [2] TOOL 13.12
+DEF FN GetErrGlobals% [2] TOOL 14.12
+
+Entry / Exit Direction (I / O Direction)
+---------------------------------------------
+DEF PROC SetInputDevice (DeviceType%, SlotOrInitProcPtrà) TOOL 15.12
+DEF PROC SetOutputDevice (DeviceType%, SlotOrInitProcPtrà) TOOL 16.12
+DEF PROC SetInputDevice (DeviceType%, SlotOrInitProcPtrà) TOOL 17.12
+DEF FN GetInputDevice! [6] TOOL 18.12
+DEF FN GetOutputDevice! [6] TOOL 19,12
+DEF FN GetErrorDevice! [6] TOOL 20,12
+
+Entry / Exit of Texts (Text I / O)
+-------------------------------------
+DEF PROC InitTextDev (DeviceNumber%) TOOL 21.12
+DEF PROC CtrlTextDev (DeviceNumber%, ControlCode%) TOOL 22.12
+DEF PROC StatusTDev (DeviceNumber%, RequestCode%) TOOL 23.12
+DEF PROC WriteChar (Char%) TOOL 24.12
+DEF PROC ErrWriteChar (Char%) TOOL 25.12
+DEF PROC WriteLine (Strings $) TOOL 26.12
+<Page-footer>
+<Page-break>
+
+Page 466
+DEF PROC ErrWriteLine (String $) TOOL 27.12
+DEF PROC WriteString (String $) TOOL 28.12
+DEF PROC ErrWriteString (String $) TOOL 29.12
+DEF PROC TextWriteBlock (TextPtrà, Offset%, ByteCount%) TOOL 30.12
+DEF PROC ErrWriteBlock (TextPtrà, Offset%, ByteCount%) TOOL 31.12
+DEF PROC WriteCString (CStringPtrà) TOOL 32.12
+DEF PROC ErrWriteCString (CStringPtrà) TOOL 33.12
+DEF FN ReadChar% (Echo%) TOOL 34.12
+DEF PROC TextReadBlock (TextPtrd, Offset%, ByteCount%, Echo%) TOOL 35.12
+DEF FN ReadLine% (TextPtra, ByteCount%, EOLChar%, Echo%) TOOL 36.12
+<Page-footer>
+<Page-break>
+
+Page 467
+DEF PROC CharBounds (Char%, RectPtrà) TOOL 172.4
+DEF PROC TextBounds (TextPtrà, TextLength%, RectPtrà) TOOL 175.4
+DEF PROC StringBounds (String $, RectPtrà) TOOL 173.4
+DEF PROC CStringBounds (StringPtrà, RectPtrà) TOOL 174.4
+
+Calculations with Rectangles
+---------------------------
+DEF PROC SetRect (RectPtrà, Left%, Top%, Right%, Bottom%) TOOL 74.4
+DEF PROC OffsetRect (RectPtrà, DH%, DV%) TOOL 75.4
+DEF PROC InsetRect (RectPtrà, DH%, DV%) TOOL 76.4
+DEF FN SectRect% (ScrlRectPtrà, Src2RectPtrà, DstRectPtrà) TOOL 77.4
+DEF PROC UnionRect% (ScrlRectPtrà, Src2RectPtrà, DstRectPtrà) TOOL 78.4
+DEF FN PtInRect% (PointPtrà, RectPtrà) TOOL 79.4
+DEF PROC Pt2Rect (Point1Ptrà, Point2Ptrà, DstRectPtrà) TOOL 80.4
+DEF FN EqualRect% (Rect1Ptrà, Rect2Ptrà) TOOL 81.4
+DEF FN EmptyRect% (RectPtrà) TOOL 82.4
+
+Calculations with Points
+-----------------------
+DEF PROC AddPt (SrcPointPtrà, DstPointPtrà) TOOL 128.4
+DEF PROC SubPt (SrcPointPtrà, DstPointPtrà) TOOL 129.4
+DEF PROC SetPT (PointPtrà, H%, V%) TOOL 130.4
+DEF FN EqualPt% (Point1Ptrà, Point2Ptrà) TOOL 131.4
+DEF PROC LocalToGlobal (PointPtrà) TOOL 132.4
+DEF PROC GlobalToLocal (PointPtrà) TOOL 133.4
+
+Calculations with regions
+------------------------
+DEF FN NewRgn to TOOL 103.4
+DEF PROC DisposeRgn (RgnHndl%) TOOL 104.4
+DEF PROC CopyRgn (SrcRgnHndlà, DstRgnHndlà) TOOL 105.4
+DEF PROC SetEmptyRgn (RgnHndlà) TOOL 106.4
+DEF PROC SetRectRgn (RgnHndlà, Left%, Top%, Right%, Bottom%) TOOL 107.4
+DEF PROC RectRgn (RgnHandle, RectPtrà) TOOL 108.4
+DEF PROC OpenRgn TOOL 109.4
+DEF PROC CloseRgn (DstRgnHndlà) TOOL 110.4
+DEF PROC OffsetRgn (RgnHndlà, DH%, DV%) TOOL 111.4
+DEF PROC InsetRgn (RgnHndlà, DH%, DV%) TOOL 112.4
+DEF PROC SectRgn (SrcRgn1Hndlà, SrcRgn2Hndlà, DstRgnHndlà) TOOL 113.4
+DEF PROC UnionRgn (SrcRgn1Hndlà, SrcRgn2Hndlà, DstRgnHndlà) TOOL 114.4
+DEF PROC DiffRgn (SrcRgn1Hndlà, SrcRgn2Hndlà, DstRgnHndlà) TOOL 115.4
+DEF PROC XorRgn (SrcRgn1Hndlà, SrcRgn2Hndlà, DstRgnHndlà) TOOL 116.4
+DEF PROC PtInRgn% (PointPtrà, RgnHndlà) TOOL 117.4
+DEF PROC RectInRgn% (RectPtrà, RgnHndlà) TOOL 118.4
+DEF PROC EqualRgn% (Rgn1Handleà, Rgn2Hndlà) TOOL 119.4
+DEF PROC EmptyRgn% (RgnHndlà) TOOL 120.4
+
+Calculations with Polygons
+--------------------------
+DEF FN OpenPoly to TOOL 193.4
+DEF PROC ClosePoly TOOL 194.4
+DEF PROC KillPoly (PolyHndlà) TOOL 195.4
+<Page-footer>
+<Page-break>
+
+Page 456
+DEF PROC OffsetPoly (PolyHndl, DH%, DV%) TOOL 196.4
+
+Operations with Images
+--------------------------
+DEF FN OpenPictureà (picFrameRectPtrà) TOOL 183.4
+DEF PROC PicComment (kind%, dataSize%, dataHndlà) TOOL 184.4
+DEF PROC ClosePicture TOOL 185.4
+DEF PROC DrawPicture (myPictureHndlà, dstRcetPtrà) TOOL 186.4
+DEF PROC KillPicture (myPictureHndlà) TOOL 187.4
+
+Scaling utilities
+-------------------------------
+DEF PROC MapPt (PointPtrà, fromSrcRectPtrà, toDestRectPtrà) TOOL 138.4
+DEF PROC MapRect (RectPtrà, fromSrcRectPtrà, toDestRectPtrà) TOOL 139.4
+DEF PROC MapRgn (RgnHndlà, fromSrcRectPtrà, toDestRectPtrà) TOOL 140.4
+DEF PROC MapPoly (PolyHndlà, fromSrcRectPtrà, toDestRectPtrà) TOOL 197.4
+DEF PROC ScalePt (PointPtrà ,, fromSrcRectPtrà, toDestRectPtrà) TOOL 137.4
+
+Various
+------
+DEF FN Random% TOOL 134.4
+DEF PROC SetRandSeed (Seedà) TOOL 135.4
+DEF FN GetPixel% (H%, V%) TOOL 136.4
+
+Customizing QuickDraw
+-----------------------------
+DEF PROC SetStdProcs (QDProcsPtrà) TOOL 141.4
+DEF FN GetAddress% TOOL 9.4
+
+Handling the Cursor
+--------------------
+DEF PROC SetCursor (CursorPtrà) TOOL 142.4
+DEF FN GetCursorAdrà TOOL 143.4
+DEF PROC HideCursor TOOL 144.4
+DEF PROC ShowCursor TOOL 145.4
+DEF PROC ObscureCursor TOOL 146.4
+DEF PROC InitCursor TOOL 202.4
+
+DEF PROC InflateTextBuffer (NewWidth%, NewHeight%) TOOL 215.4
+DEF PROC GetROMFont (ROMFontInfoRectPtrà) TOOL 216.4
+DEF FN GetFontLore (GlobalsPtrà, GlobalsSz%) TOOL 217.4
+<Page-footer>
+<Page-break>
+
+Page 457
+QUICKDRAW AUXILIARY
+===================
+The QuickDraw Auxiliary toolset contains additional graphical routines that complement the QuickDraw tool set. QuickDraw Auxiliary routines are essential for using the Print Manager.
+
+Special values
+-----------------
+No special value defined for QuickDraw Auxiliary.
+
+Data Structures
+---------------------
+No data structure defined for QuickDraw Auxiliary
+
+ROUTINE
+--------
+
+Stewardship (HouseKeeping)
+---------------------------
+DEF PROC QDAuxStartUp TOOL 2.18
+DEF PROC QDAuxShutDown TOOL 3.18
+DEF FN QDAuxVersion% TOOL 4.18
+DEF PROC QDAuxReset TOOL 5,18
+DEF FN QDAuxStatus% TOOL 6.18
+
+Various
+------
+DEF PROC CopyPixels
+                (SrcLocInfoRectPtrà,
+                DstLocInfoRectPtrà,
+                SrcRectPtrà,
+                DstRectPtrà,
+                Fashion%,
+                ClipRgnHndlà) TOOL 9,18
+DEF PROC WaitCursor TOOL 10.18
+DEF PROC DrawIcon (IconPtrà, DisplayMode%, Xpos%, Ypos%) TOOL 11.18
+<Page-footer>
+<Page-break>
+
+Page 458
+SCHEDULER (Tool that manages the schedule)
+=============================================
+The Scheduler toolkit supports timing of system tasks and desktop accessories until resources for the task or accessory become available. This library is needed to write applications that handle interrupts that have access to ProDos16 or tool set routines. An example of an interrupt handler is an application that executes background printouts. This library gives access to the Scheduler's low-level system operations.
+
+Special values
+-----------------
+No special value defined for the Scheduler.
+
+Data Structures
+---------------------
+No data structure defined for the Scheduler
+
+ROUTINE
+--------
+
+Stewardship (HouseKeeping)
+-------------------------
+DEF PROC SchStartUp TOOL 2.7
+DEF PROC SchShutDown TOOL 3.7
+DEF FN SchVersion% TOOL 4.7
+DEF PROC SchRest TOOL 5.7
+DEF PROC SchStatus% TOOL 6.7
+
+Queue (Queue Access)
+-----------------------------
+DEF FN SchAddTask% (TaskProcPtrà) TOOL 9.7
+DEF PROC SchFlush TOOL 10.7
+<Page-footer>
+<Page-break>
+
+Page 459
+SCRAP MANAGER (Clipboard Manager)
+=============================================
+The Scrap Manager allows the transfer of data between an application and a data storage area called the clipboard. These routines are used to implement the standard Cut, Copy, Paste options in the conventional Edit menu.
+
+Special Value
+----------------
+No special value defined for the Scrap Manager.
+
+Data structure
+--------------------
+No structure defined for the Scrap Manager.
+
+ROUTINE
+--------
+
+Stewardship (HouseKeeping)
+-------------------------
+DEF PROC ScrapStartup TOOL 2,22
+DEF PROC ScrapShutDown TOOL 3,22
+DEF FN ScrapVersion% TOOL 4,22
+DEF PROC ScrapReset TOOL 5.22
+DEF FN ScrapStatus% TOOL 6.22
+
+Miscellaneous
+-------------
+DEF PROC UnloadScrap TOOL 9.22
+DEF PROC LoadScrap TOOL 10.22
+DEF PROC ZeroScrap TOOL 11.22
+DEF PROC PutScrap (Numbyteà, ScrapType%, SCRPtrà) TOOL 12.22
+DEF PROC GetScrap (DestHndlà, ScrapType%) TOOL 13,22
+DEF FN GetScrapCount% TOOL 18.22
+DEF FN GetScrapState% TOOL 19.22
+DEF FN GetScrapHandleà (ScrapType%) TOOL 14,22
+DEF FN GetScrapSizeà (ScrapType%) TOOL 15,22
+DEF FN GetScrapPath to TOOL 16.22
+DEF PROC SetScrapPath (PathString $) TOOL 17,22
+<Page-footer>
+<Page-break>
+
+Page 460
+SOUND MANAGER (Sound Manager)
+===================================
+The Sound Manager allows access to sound circuits without knowledge of the specific input / output addresses of the circuits. Since the Sound Manager routines can create basic sounds, other tool sets use it to create sound. more complex sounds.
+
+Special values
+-----------------
+No special value defined for Sound manager
+
+Data Structures
+---------------------
+The ParamBlkSoundRec Data Structure contains all the necessary information defining a sound that the Sound Manager will communicate to the Ensoniq circuit (DOC). The frequency of the sound wave used in structure elements 5 and 6 can be calculated by the following formula:
+
+     FREQUENCY = ((32 * Frequency of broadcasting in hertz) / 1645)
+
+The sound waves are defined later in the Note Synthesizer library.
+_____________________________________________________________________________
+
+DIM ParamBlkSoundRec! (13)
+
+     Elements Values ​​Description
+
+     0..1 Integer Start address of the sound wave
+     2 Integer Bank starting the sound wave
+     3..4 Integer Size of the sound wave in pages, from 1 to $ FFFF
+     5..6 Integer Frequency of diffusion of the sound wave
+     7..8 Integer Starting Address of the DOC Buffer
+     9 Integer Code to specify the size of the DOC buffer
+     10..11 Integer Start address of the next sound wave
+                              = 0 if last
+     12 Integer Bank starting the next sound wave
+                              = 0 if last
+     13 Integer Adjusting the volume of the sound wave
+_____________________________________________________________________________
+
+
+ROUTINE
+--------
+
+Housekeeping
+-------------------------
+DEF PROC SoundStartUp (DPageAddr%) TOOL 2.8
+DEF PROC SoundShutDown TOOL 3.8
+DEF FN SoundVersion% TOOL 4.8
+DEF PROC SoundReset TOOL 5.8
+DEF FN SoundStatus% TOOL 6.8
+<Page-footer>
+<Page-break>
+
+Page 461
+RAM and Volume
+-------------
+DEF PROC WriteRamBlock (SrcPtrà, DOCstart%, ByteCount%) TOOL 9.8
+DEF PROC ReadRamBock (DsPtrà, DOCstart%, ByteCount%) TOOL 10.8
+DEF FN GetTableAddress to TOOL 11.8
+DEF FN GetSoundVolume% (Generator%) TOOL 12.8
+DEF PROC SetSoundVolume (Volume%, Generator%) TOOL 13.8
+
+Free-Form Synthesizer
+---------------------
+DEF PROC FFStartSound (DOCGenMode%, ParamBlkSoundRectPtrà) TOOL 14.8
+DEF PROC FFStopSound (Generator%) TOOL 15.8
+DEF FN FFSoundStatus% TOOL 16.8
+DEF FN FFGeneratorStatus% (Generator%) TOOL 17.8
+DEF PROC SetSoundMIRQV (IRQVProcPtrà) TOOL 18.8
+DEF FN SetUserSoundIRQVà (newUserIRQVProcPtrà) TOOL 19.8
+DEF FN FFSounDoneStatus% (Generator%) TOOL 20.8
+<Page-footer>
+<Page-break>
+
+Page 462
+STANDARD FILE (Standard File)
+================================
+The Standard Files Operations toolkit provides a standard user interface for opening and saving files, offering standard dialogs and routines for manipulating them.
+
+Special values
+-----------------
+No special value defined for Standard File
+
+Data Structures
+---------------------
+
+List of Types (TypeList)
+--------------------------
+The TypeList data structure defines the set of file types that will be used to determine the types of files that will be displayed by Operations on the Standard Files. If the file type is set to zero, all file types will be displayed.
+_____________________________________________________________________________
+
+DIM aTypeList! (8)
+
+     Element (s) Value Description
+
+     0 Integer Number of File Types in this Stucture
+     1 Integer File Type 1
+     2 Integer File type 2
+     3 Integer File Type 3
+     4 Integer File Type 4
+     5 Integer File Type 5
+     6 Integer File Type 6
+     7 Integer File Type 7
+     8 Integer File type 8
+_____________________________________________________________________________
+
+Reply Record (ReplyRecord)
+---------------------------------------
+The ReplyRecord data structure defines the information returned by Operations on the Standard Files to indicate which file was chosen. If the zero element contains a zero (0), then the following elements have no meaning.
+<Page-footer>
+<Page-break>
+
+Page 463
+_____________________________________________________________________________
+     
+     DIM AReplyRecord! (149)
+
+     Element (s) Value Description
+     
+     0 Integer <> 0 if Open Apple button is pressed
+                                  0 if Cancel
+     1 Integer Unused field
+     2..3 Integer File type of the chosen file
+     4..5 Integer Auxiliary type of the selected file
+     6..31 String! (15) Name of the range file as Pascal string
+     32..159 String! (127) Full path range as Pascal string
+_____________________________________________________________________________
+
+ROUTINE
+--------
+
+Housekeeping
+-------------------------
+DEF PROC SFStartUp (UserID%, DPageAddr%) TOOL 2.23
+DEF PROC SFShutDown TOOL 3,23
+DEF FN SFVersion% TOOL 4,23
+DEF PROC SFRest TOOL 5,23
+DEF FN SFStatus% TOOL 6.23
+
+Take and Ranger Standard (Standard Get and Put)
+-------------------------------------------------
+
+DEF PROC SFGetFile
+                   (WhereX%
+                   WhereY%
+                   PromptString $,
+                   FilterProcPtrà,
+                   ReplyRecordPtrà) TOOL 9.23
+
+DEF PROC SFPutFile
+                   (WhereX%
+                   WhereY%
+                   PromptString $,
+                   OrigNameStringPtrà,
+                   MaxLen%
+                   ReplyRecordPtrà) TOOL 10,23
+<Page-footer>
+<Page-break>
+
+Page 464
+Take and Ranger Customize (Custom Get and Put
+-------------------------------------------------- -
+DEF PROC SFPGetFile
+                   (WhereX%
+                   WhereY%
+                   PromptString $,
+                   FilterProcPtrà,
+                   TypeListPtrà,
+                   TheDialogPtrà,
+                   DialogHookProcPtrà,
+                   ReplyRecordPtrà) TOOL 11,23
+
+DEF PROC SFPPutFile
+                   (WhereX%
+                   WhereY%
+                   PromptString $,
+                   OrigNameString $,
+                   MaxLen%
+                   TheDialogPtrà,
+                   DialogHookProcPtrà,
+                   ReplyRecordPtrà) TOOL 12,23
+
+DEF PROC SFAllCaps (AllCaps%) TOOL 13.23
+<Page-footer>
+<Page-break>
+
+Page 465
+TEXT TOOLS (Text Tools)
+-------------------------
+The Texts toolkit provides an interface between the drivers of the Apple II character management mechanisms (Screen, keyboard, printer ...), which must be executed in emulation mode, and the new applications running in native mode. The tool set also supports I / O redirections to the Apple II GS ports as well as exchanges with the text screen without switching the operating modes of the 65816 processor.
+
+Special values
+-----------------
+No special value for Text Tools
+
+Data Structures
+---------------------
+No data structure for Text Tools
+
+ROUTINE
+--------
+
+Stewardship (HouseKeeping)
+-------------------------
+DEF PROC TextStartUp TOOL 2.12
+DEF PROC TextShutDown TOOL 3,12
+DEF FN TextVersion% TOOL 4.12
+DEF PROC TextReset TOOL 5,12
+DEF PROC TextStatus% TOOL 6,12
+
+Global Manipulations (Globals Manipulation)
+---------------------------------------------
+DEF PROC SetInGlobals (ANDMask%, ORMask%) TOOL 9.12
+DEF PROC SetOutGlobals (ANDMask%, ORMask%) TOOL 10.12
+DEF PROC SetErrGlobals (ANDMask%, ORMask%) TOOL 11.12
+DEF FN GetInGlobals% [2] TOOL 12.12
+DEF FN GetOutGlobals% [2] TOOL 13.12
+DEF FN GetErrGlobals% [2] TOOL 14.12
+
+Entry / Exit Direction (I / O Direction)
+---------------------------------------------
+DEF PROC SetInputDevice (DeviceType%, SlotOrInitProcPtrà) TOOL 15.12
+DEF PROC SetOutputDevice (DeviceType%, SlotOrInitProcPtrà) TOOL 16.12
+DEF PROC SetInputDevice (DeviceType%, SlotOrInitProcPtrà) TOOL 17.12
+DEF FN GetInputDevice! [6] TOOL 18.12
+DEF FN GetOutputDevice! [6] TOOL 19,12
+DEF FN GetErrorDevice! [6] TOOL 20,12
+
+Entry / Exit of Texts (Text I / O)
+-------------------------------------
+DEF PROC InitTextDev (DeviceNumber%) TOOL 21.12
+DEF PROC CtrlTextDev (DeviceNumber%, ControlCode%) TOOL 22.12
+DEF PROC StatusTDev (DeviceNumber%, RequestCode%) TOOL 23.12
+DEF PROC WriteChar (Char%) TOOL 24.12
+DEF PROC ErrWriteChar (Char%) TOOL 25.12
+DEF PROC WriteLine (Strings $) TOOL 26.12
+<Page-footer>
+<Page-break>
+
+Page 466
+DEF PROC ErrWriteLine (String $) TOOL 27.12
+DEF PROC WriteString (String $) TOOL 28.12
+DEF PROC ErrWriteString (String $) TOOL 29.12
+DEF PROC TextWriteBlock (TextPtrà, Offset%, ByteCount%) TOOL 30.12
+DEF PROC ErrWriteBlock (TextPtrà, Offset%, ByteCount%) TOOL 31.12
+DEF PROC WriteCString (CStringPtrà) TOOL 32.12
+DEF PROC ErrWriteCString (CStringPtrà) TOOL 33.12
+DEF FN ReadChar% (Echo%) TOOL 34.12
+DEF PROC TextReadBlock (TextPtrd, Offset%, ByteCount%, Echo%) TOOL 35.12
+DEF FN ReadLine% (TextPtra, ByteCount%, EOLChar%, Echo%) TOOL 36.12
+<Page-footer>
+<Page-break>
+
+Page 467
